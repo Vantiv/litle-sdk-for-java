@@ -2,10 +2,14 @@ package com.litle.sdk;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.methods.InputStreamRequestEntity;
 import org.apache.commons.httpclient.methods.PostMethod;
+import org.apache.commons.httpclient.methods.StringRequestEntity;
 
 public class Communication {
 
@@ -18,89 +22,161 @@ public class Communication {
 	private String default_report_group;
 	private String version;
 	private String timeout;
-	
-	
-	public Communication(){
-		
+	private String printxml;
+
+	public Communication() {
+		this.user = "";
+		this.password = "";
+		this.merchantId[0][0] = "";
+		this.merchantId[0][1] = "";
+		this.proxy_addr = "";
+		this.proxy_port = "";
+		this.litle_url = "https://www.testlitle.com/sandbox/communicator/online";
+		this.default_report_group = "";
+		this.version = "";
+		this.timeout = "65";
+		this.printxml = "false";
 	}
-	
-	public void loadConfig(){
-		
+
+	public String getUser() {
+		return user;
 	}
-    /**
-     *
-     * Usage:
-     * java PostXML http://mywebserver:80/ c:\foo.xml
-     *
-     * @param args command line arguments
-     * Argument 0 is a URL to a web server
-     * Argument 1 is a local filename
-     *
-     */
-    public static void main(String[] args) throws Exception {
 
-        if (args.length != 2) {
-            System.out.println(
-                "Usage: java -classpath <classpath> [-Dorg.apache.commons."+
-                "logging.simplelog.defaultlog=<loglevel>]" +
-                " PostXML <url> <filename>]");
+	public void setUser(String user) {
+		this.user = user;
+	}
 
-            System.out.println("<classpath> - must contain the "+
-                "commons-httpclient.jar and commons-logging.jar");
+	public String getPassword() {
+		return password;
+	}
 
-            System.out.println("<loglevel> - one of error, "+
-                    "warn, info, debug, trace");
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
-            System.out.println("<url> - the URL to post the file to");
-            System.out.println("<filename> - file to post to the URL");
-            System.out.println();
-            System.exit(1);
-        }
+	public String[][] getMerchantId() {
+		return merchantId;
+	}
 
-        // Get target URL
-        String strURL = args[0];
+	public void setMerchantId(String[][] merchantId) {
+		this.merchantId = merchantId;
+	}
 
-        // Get file to be posted
-        String strXMLFilename = args[1];
-        File input = new File(strXMLFilename);
+	public String getProxy_addr() {
+		return proxy_addr;
+	}
 
-        // Prepare HTTP post
-        PostMethod post = new PostMethod(strURL);
+	public void setProxy_addr(String proxy_addr) {
+		this.proxy_addr = proxy_addr;
+	}
 
-        // Request content will be retrieved directly
-        // from the input stream
-        // Per default, the request content needs to be buffered
-        // in order to determine its length.
-        // Request body buffering can be avoided when
-        // content length is explicitly specified
-        post.setRequestEntity(new InputStreamRequestEntity(
-                new FileInputStream(input), input.length()));
+	public String getProxy_port() {
+		return proxy_port;
+	}
 
-        // Specify content type and encoding
-        // If content encoding is not explicitly specified
-        // ISO-8859-1 is assumed
-        post.setRequestHeader(
-                "Content-type", "text/xml; charset=ISO-8859-1");
+	public void setProxy_port(String proxy_port) {
+		this.proxy_port = proxy_port;
+	}
 
-        // Get HTTP client
-        HttpClient httpclient = new HttpClient();
+	public String getLitle_url() {
+		return litle_url;
+	}
 
-        // Execute request
-        try {
+	public void setLitle_url(String litle_url) {
+		this.litle_url = litle_url;
+	}
 
-            int result = httpclient.executeMethod(post);
+	public String getDefault_report_group() {
+		return default_report_group;
+	}
 
-            // Display status code
-            System.out.println("Response status code: " + result);
+	public void setDefault_report_group(String default_report_group) {
+		this.default_report_group = default_report_group;
+	}
 
-            // Display response
-            System.out.println("Response body: ");
-            System.out.println(post.getResponseBodyAsString());
+	public String getVersion() {
+		return version;
+	}
 
-        } finally {
-            // Release current connection to the connection pool 
-            // once you are done
-            post.releaseConnection();
-        }
-    }
+	public void setVersion(String version) {
+		this.version = version;
+	}
+
+	public String getTimeout() {
+		return timeout;
+	}
+
+	public void setTimeout(String timeout) {
+		this.timeout = timeout;
+	}
+
+	public String getPrintxml() {
+		return printxml;
+	}
+
+	public void setPrintxml(String printxml) {
+		this.printxml = printxml;
+	}
+
+	public void loadConfig() {
+		// read from the config file -- hard coded for now
+		this.user = "ding";
+		this.password = "something";
+		this.merchantId[0][0] = "DEFAULT";
+		this.merchantId[0][1] = "101";
+		this.proxy_addr = "smoothproxy";
+		this.proxy_port = "8080";
+		this.litle_url = "https://www.testlitle.com/sandbox/communicator/online";
+		this.default_report_group = "Default Report Group";
+		this.version = "8.10";
+		this.timeout = "65";
+		this.printxml = "false";
+	}
+
+	public String requestToServer(String xmlRequest) {
+		String retVal = "";
+
+		if( this.printxml == "true" ){
+			System.out.println("xmlRequest: " + xmlRequest);
+		}
+		// Prepare HTTP post
+		PostMethod post = new PostMethod(this.litle_url);
+		try {
+			post.setRequestEntity(new StringRequestEntity(xmlRequest,
+					"text/xml", "UTF-8"));
+			post.setRequestHeader("Content-type", "text/xml; charset=UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			// e.printStackTrace();
+			retVal = "Encountered an unsupported encoding exception: "
+					+ e.toString();
+		}
+
+		if (retVal == "") {
+			HttpClient httpclient = new HttpClient();
+			try {
+
+				int result = 0;
+				try {
+					result = httpclient.executeMethod(post);
+					retVal = post.getResponseBodyAsString();
+					if( retVal == "" ){
+						retVal = Integer.toString(result);
+					}
+				} catch (HttpException e) {
+					//e.printStackTrace();
+					retVal = "Encountered an httpexception: " + e.toString();
+				} catch (IOException e) {
+					//e.printStackTrace();
+					retVal = "Encountered an IOException: " + e.toString();
+				}
+			} finally {
+				post.releaseConnection();
+			}
+		}
+
+		if( this.printxml == "true" ){
+			System.out.println("retVal: " + retVal);
+		}
+		return retVal;
+	}
 }
