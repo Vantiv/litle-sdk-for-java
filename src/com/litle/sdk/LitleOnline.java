@@ -15,6 +15,8 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.UnmarshalException;
 import javax.xml.bind.Unmarshaller;
 
+import com.litle.sdk.generate.AuthReversal;
+import com.litle.sdk.generate.AuthReversalResponse;
 import com.litle.sdk.generate.Authentication;
 import com.litle.sdk.generate.Authorization;
 import com.litle.sdk.generate.AuthorizationResponse;
@@ -75,6 +77,11 @@ public class LitleOnline {
 			response.setMessage("Error validating xml data against the schema: " + ume.getMessage());
 			return response;
 		}
+	}
+
+	public AuthReversalResponse authReversal(AuthReversal reversal) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
