@@ -7,6 +7,7 @@ import java.io.UnsupportedEncodingException;
 
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpException;
+import org.apache.commons.httpclient.HttpHost;
 import org.apache.commons.httpclient.methods.InputStreamRequestEntity;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.StringRequestEntity;
@@ -58,6 +59,8 @@ public class Communication {
 		return merchantId;
 	}
 
+	// To set merchantId array, you need to get the existing array first by calling 'getMerchantId()',
+	// and then append to that array. You will lose configured merchantIds if these instructions are ignored.
 	public void setMerchantId(String[][] merchantId) {
 		this.merchantId = merchantId;
 	}
@@ -151,8 +154,14 @@ public class Communication {
 					+ e.toString();
 		}
 
-		if (retVal == "") {
+		if (retVal.isEmpty()) {
 			HttpClient httpclient = new HttpClient();
+			// Add proxy information if available
+			if(!this.proxy_addr.isEmpty()){
+				HttpHost proxy = new HttpHost(this.proxy_addr, Integer.parseInt(this.proxy_port));
+				httpclient.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY, proxy);
+			}
+			
 			try {
 
 				int result = 0;
