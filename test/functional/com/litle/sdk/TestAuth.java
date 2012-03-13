@@ -7,6 +7,7 @@ import java.math.BigInteger;
 import org.junit.Test;
 
 import com.litle.sdk.generate.Authorization;
+import com.litle.sdk.generate.AuthorizationResponse;
 import com.litle.sdk.generate.CardType;
 import com.litle.sdk.generate.LitleOnlineResponse;
 
@@ -25,7 +26,7 @@ public class TestAuth {
 		card.setExpDate("1210");
 		authorization.setCard(card);
 		
-		LitleOnlineResponse response = new LitleOnline().authorize(authorization);
+		AuthorizationResponse response = new LitleOnline().authorize(authorization);
 		assertEquals("000",response.getResponse());
 	}
 

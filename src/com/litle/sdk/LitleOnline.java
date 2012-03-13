@@ -4,15 +4,18 @@ import java.io.StringReader;
 import java.io.StringWriter;
 
 import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
 import com.litle.sdk.generate.Authentication;
 import com.litle.sdk.generate.Authorization;
+import com.litle.sdk.generate.AuthorizationResponse;
 import com.litle.sdk.generate.LitleOnlineRequest;
 import com.litle.sdk.generate.LitleOnlineResponse;
 import com.litle.sdk.generate.ObjectFactory;
+import com.litle.sdk.generate.TransactionTypeWithReportGroup;
 
 public class LitleOnline {
 	
@@ -27,7 +30,7 @@ public class LitleOnline {
 	}
 	
 	//TODO This shouldn't throw "Exception"
-	public LitleOnlineResponse authorize(Authorization auth) throws Exception {
+	public AuthorizationResponse authorize(Authorization auth) throws Exception {
 		LitleOnlineRequest request = new LitleOnlineRequest();
 		request.setMerchantId("101");
 		request.setVersion("8.10");
@@ -50,7 +53,8 @@ public class LitleOnline {
 		Unmarshaller u = jc.createUnmarshaller();
 		LitleOnlineResponse response = (LitleOnlineResponse)u.unmarshal(new StringReader(xmlResponse));
 		System.out.println(response.getMessage());
-		return response;
+		JAXBElement<? extends TransactionTypeWithReportGroup> newresponse = response.getTransactionResponse();
+		return (AuthorizationResponse)newresponse.getValue();
 	}
 
 }

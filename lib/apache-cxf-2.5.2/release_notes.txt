@@ -1,0 +1,122 @@
+Apache CXF 2.5.2 Release Notes
+
+1. Overview
+
+The 2.5.x versions of Apache CXF are significant new versions of CXF 
+that provides several new features and enhancements.  
+
+New features include: 
+ * New enterprise ready Security Token Service (see sts sample)
+ * New WS-Notification service (see ws_notification sample)
+ * Initial WS-MedadataExchange support
+ * WS-RM 1.1 support
+ * Initial OAuth support for JAX-RS (see oauth sample)
+ * New karaf command
+ * Enhanced OSGi support include workqueue and JMX configurations
+
+
+Users are encourage to review the migration guide at:
+http://cxf.apache.org/docs/25-migration-guide.html
+for further information and requirements for upgrading to 2.5.x.
+
+
+
+2.5.2 fixes over 45 JIRA issues reported by users and the community.
+
+
+2. Installation Prerequisites 
+
+Before installing Apache CXF, make sure the following products,
+with the specified versions, are installed on your system:
+
+    * Java 5 Development Kit
+    * Apache Maven 2.2.1 or 3.x to build the samples
+
+
+3.  Integrating CXF Into You Application
+
+If you use Maven to build your application, you need merely add
+appropriate dependencies. See the pom.xml files in the samples.
+
+If you don't use Maven, you'll need to add one or more jars to your
+classpath. The file lib/WHICH_JARS should help you decide which 
+jars you need.
+
+4. Building the Samples
+
+Building the samples included in the binary distribution is easy. Change to
+the samples directory and follow the build instructions in the README.txt file 
+included with each sample.
+
+5. Reporting Problems
+
+If you have any problems or want to send feedback of any kind, please e-mail the
+CXF dev list, dev@cxf.apache.org.  You can also file issues in JIRA at:
+
+http://issues.apache.org/jira/browse/CXF
+
+6. Migration notes:
+
+See the migration guide at:
+http://cxf.apache.org/docs/25-migration-guide.html
+for caveats when upgrading from CXF 2.4.x to 2.5.x.
+
+7. Specific issues, features, and improvements fixed in this version
+
+** Bug
+    * [CXF-3981] - WS-Addressing related faults do not contain addressing headers
+    * [CXF-3984] - Impossible to handle Locale parameters with country qualifiers 
+    * [CXF-3986] - Update MessageContext.getContextualProperty to check Exchange if the property is of type Class 
+    * [CXF-3989] - messageConetxt.setScope(MessageContext.HTTP_REQUEST_HEADERS, Scope.APPLICATION) leads to  java.lang.IllegalArgumentException
+    * [CXF-3991] - Address information should be added to error message if conduit is not found
+    * [CXF-3993] - WS-RM's blueprint configuration fails to parse RMAssertion entries
+    * [CXF-3995] - CORS filter fails to fall back to annotations on entire class when it fails to find one for the specific method
+    * [CXF-4001] - OAuthUtils should use InputStream available on the current message instead of the one from HttpServletRequest
+    * [CXF-4004] - 2.5.1 regression: Duplicate code generation with fluent plugin
+    * [CXF-4005] - Regression: Duplicated option: verbose
+    * [CXF-4007] - Jetty threading parameters doesn't setup threadpool properly
+    * [CXF-4008] - Should also check javax.net.ssl.keyStore* properties....
+    * [CXF-4011] - The STS SAML DefaultSubjectProvider does not set the encryption algorithm when building an EncryptedKey
+    * [CXF-4012] - The AlgorithmSuite class does not use the WS-SP standard maximum symmetric key size
+    * [CXF-4015] - wadl2java: xs:integer param is generated as invalid type
+    * [CXF-4016] - JAX-WS schema generation of an Exception annoted with @WebFault that contains a property of a class annotated with @XmlRootElement causes the schema of the WSDL to generate the incorrectly
+    * [CXF-4017] - SchemaCollection.addCrossImports handles only XmlSchemaSequence instead of all XmlSchemaGroupParticle
+    * [CXF-4018] - JAX-WS Providers created from class (instead of an actual instance bean) do not get the JAXWSMethodInvoker
+    * [CXF-4027] - Aegis BeanType does not ignore super type of java.lang.Enum
+    * [CXF-4029] - cxf-codegen-plugin doesn't generate any code code when the wsdl parameter is an url
+    * [CXF-4031] - NullPoint Exception Raised when input is nothing  and using Holder to return response
+    * [CXF-4036] - JAXBContextInitializer ignores some javax.xml.bind Annotations
+    * [CXF-4037] - Problem creating dynamic client when WSDL is hosted with secured transport (https)
+    * [CXF-4042] - When generating schema/wsdl, schemaLocations provided via @XmlSchema are dropped
+    * [CXF-4043] - JSONProvider can not get a custom prefix set for a collection wrapper element
+    * [CXF-4044] - ensure publishedEndpointUrl property could be set to endpoint
+    * [CXF-4045] - BusFactory does not catch NoClassDefFoundError
+
+** Improvement
+    * [CXF-3859] - Sample which illustrates how to use CXF JAX-RS OSGI bundle
+    * [CXF-3979] - specify cxf-bundle start-level less than 60
+    * [CXF-3982] - Add metatype files for CXF config admin service pids
+    * [CXF-3983] - OSGi configs for WorkQueues should use the ManagedServiceFactory pattern
+    * [CXF-3985] - Support for attributes with multiple values in LdapClaimsHandler
+    * [CXF-3988] - org.apache.cxf.jaxrs.ext.multipart.Attachment object should be mutable
+    * [CXF-3990] - Change scope for EffectivePolicyImpl.initilise() and EndpointPolicyImpl.initilise() to more permissive
+    * [CXF-3992] - Making JMX instrumentation manager configurable using some bus properties
+    * [CXF-3996] - Extend POLICY_OVERRIDE property to service IN
+    * [CXF-3998] - CORS filter should allow 'any' header on preflights if asked
+    * [CXF-4000] - Update JSONProvider to get the response optionally formatted
+    * [CXF-4003] - XmlSchemaPrimitiveUtils covers date/time types
+    * [CXF-4010] - Add ability to specific EncryptionProperties per STS instance
+    * [CXF-4013] - Enhancing the element-append and drop options of OutTransformWriter
+    * [CXF-4014] - Refactor OSGi classes for better readability
+    * [CXF-4024] - Update to Jetty 7.5.4 or implement workraound from JETTY-1444
+    * [CXF-4033] - Interceptor and Features annotations require context classloader
+    * [CXF-4038] - Support XML Signatures on the server to the client path
+    * [CXF-4039] - If the wsdlLocation is not a valid URL, you class.getResource(...)
+
+** New Feature
+    * [CXF-4021] - Claims element support in RST for validate binding
+
+** Task
+    * [CXF-3999] - Update Jettison version to 1.3.1
+
+

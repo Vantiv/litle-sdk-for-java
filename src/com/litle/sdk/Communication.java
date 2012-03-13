@@ -1,9 +1,21 @@
 package com.litle.sdk;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import java.io.InputStream;
+
+import org.apache.cxf.helpers.IOUtils;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpHost;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.conn.params.ConnRoutePNames;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.protocol.BasicHttpContext;
+import org.apache.http.protocol.ExecutionContext;
+import org.apache.http.protocol.HttpContext;
 
 //import org.apache.commons.httpclient.HttpClient;
 //import org.apache.commons.httpclient.HttpException;
@@ -137,7 +149,34 @@ public class Communication {
 //	}
 
 	public String requestToServer(String xmlRequest) {
-		String hardCodedResponse = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><litleOnlineRequest merchantId=\"101\" version=\"8.10\" xmlns=\"http://www.litle.com/schema\"><authentication><user>user</user><password>password</password></authentication><authorization reportGroup=\"Planets\"><orderId>12344</orderId><amount>106</amount><orderSource>ecommerce</orderSource><card><type>VI</type><number>4100000000000002</number><expDate>1210</expDate></card></authorization></litleOnlineRequest>";
-		return "xml";
+		String responseString = null;
+		//HttpContext localContext = new BasicHttpContext();
+		//HttpHost proxy = new HttpHost("smoothproxy", 8080);
+	
+		HttpClient httpclient = new DefaultHttpClient();
+		
+		//httpclient.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY, proxy);
+		HttpPost httppost = new HttpPost("http://l-gdake-t5500:8081/sandbox/communicator/online");
+		httppost.setHeader("contenttype", "text/xml");
+
+		try {
+			HttpEntity content = new StringEntity(xmlRequest); 
+			httppost.setEntity(content);
+			HttpResponse httpResponse = httpclient.execute(httppost);
+			HttpEntity httpEntity = httpResponse.getEntity();
+			responseString = IOUtils.readStringFromStream(httpResponse.getEntity().getContent());
+
+		} catch (ClientProtocolException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//String hardCodedResponse = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><litleOnlineRequest merchantId=\"101\" version=\"8.10\" xmlns=\"http://www.litle.com/schema\"><authentication><user>user</user><password>password</password></authentication><authorization reportGroup=\"Planets\"><orderId>12344</orderId><amount>106</amount><orderSource>ecommerce</orderSource><card><type>VI</type><number>4100000000000002</number><expDate>1210</expDate></card></authorization></litleOnlineRequest>";
+		//return "xml";
+		return responseString;
 	}
+	
+	
 }
