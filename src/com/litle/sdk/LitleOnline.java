@@ -1,12 +1,18 @@
 package com.litle.sdk;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.util.Properties;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import javax.xml.bind.UnmarshalException;
 import javax.xml.bind.Unmarshaller;
 
 import com.litle.sdk.generate.Authentication;
@@ -20,10 +26,21 @@ import com.litle.sdk.generate.TransactionTypeWithReportGroup;
 public class LitleOnline {
 	
 	private static JAXBContext jc;
+	private static Properties config;
 	static {
 		try {
 			jc = JAXBContext.newInstance("com.litle.sdk.generate");
 		} catch (JAXBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			config = new Properties();
+			config.load(new FileInputStream(Configuration.location()));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -32,11 +49,11 @@ public class LitleOnline {
 	//TODO This shouldn't throw "Exception"
 	public AuthorizationResponse authorize(Authorization auth) throws Exception {
 		LitleOnlineRequest request = new LitleOnlineRequest();
-		request.setMerchantId("101");
-		request.setVersion("8.10");
+		request.setMerchantId(config.getProperty("merchantId"));
+		request.setVersion(config.getProperty("version"));
 		Authentication authentication = new Authentication();
-		authentication.setPassword("password");
-		authentication.setUser("user");
+		authentication.setPassword(config.getProperty("password"));
+		authentication.setUser(config.getProperty("username"));
 		request.setAuthentication(authentication);
 		
 		ObjectFactory o = new ObjectFactory();
@@ -46,15 +63,18 @@ public class LitleOnline {
 		StringWriter sw = new StringWriter();
 		m.marshal(request, sw);
 		String xmlRequest = sw.toString();
-		System.out.println(xmlRequest);
 		
-		String xmlResponse = new Communication().requestToServer(xmlRequest);
-		System.out.println(xmlResponse);
+		String xmlResponse = new Communication().requestToServer(xmlRequest, config);
 		Unmarshaller u = jc.createUnmarshaller();
-		LitleOnlineResponse response = (LitleOnlineResponse)u.unmarshal(new StringReader(xmlResponse));
-		System.out.println(response.getMessage());
-		JAXBElement<? extends TransactionTypeWithReportGroup> newresponse = response.getTransactionResponse();
-		return (AuthorizationResponse)newresponse.getValue();
+		try {
+			LitleOnlineResponse response = (LitleOnlineResponse)u.unmarshal(new StringReader(xmlResponse));
+			JAXBElement<? extends TransactionTypeWithReportGroup> newresponse = response.getTransactionResponse();
+			return (AuthorizationResponse)newresponse.getValue();
+		} catch(UnmarshalException ume) {
+			AuthorizationResponse response = new AuthorizationResponse();
+			response.setMessage("Error validating xml data against the schema: " + ume.getMessage());
+			return response;
+		}
 	}
 
 }
