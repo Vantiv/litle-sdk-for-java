@@ -13,7 +13,7 @@ import com.litle.sdk.generate.AuthReversalResponse;
 public class TestAuthReversal {
 
 	@Test
-	public void simpleAuthReversal() {
+	public void simpleAuthReversal() throws Exception{
 		AuthReversal reversal = new AuthReversal();
 		reversal.setLitleTxnId(12345678000L);
 		reversal.setAmount(BigInteger.valueOf(106L));
