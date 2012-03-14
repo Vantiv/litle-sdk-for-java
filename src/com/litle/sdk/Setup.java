@@ -54,6 +54,7 @@ public class Setup {
 		config.put("version", "8.10");
 		config.put("timeout", "65");
 		config.put("reportGroup", "Default Report Group");
+		config.put("printxml", "true");
 
 		config.store(configFile, "");
 		System.out.println("The Litle configuration file has been generated, the file is located at " + file.getAbsolutePath());
