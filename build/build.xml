@@ -41,7 +41,7 @@
 		<mkdir dir="${generated}" />
 	</target>
 
-	<target name="generate">
+	<target name="generate" depends="init">
 		<xjc schema="xsd/litleOnline_v8.10.xsd" package="com.litle.sdk.generate" destdir="${generated}" />
 	</target>
 
