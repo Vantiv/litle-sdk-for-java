@@ -5,10 +5,6 @@ import static org.junit.Assert.assertEquals;
 import java.math.BigInteger;
 import java.util.Calendar;
 
-import javax.xml.datatype.DatatypeConstants;
-import javax.xml.datatype.DatatypeFactory;
-import javax.xml.datatype.XMLGregorianCalendar;
-
 import org.junit.Test;
 
 import com.litle.sdk.generate.AuthInformation;
@@ -25,8 +21,9 @@ public class TestCaptureGivenAuth {
 		capturegivenauth.setAmount(BigInteger.valueOf(106L));
 		capturegivenauth.setOrderId("12344");
 		AuthInformation authInfo = new AuthInformation();
-		XMLGregorianCalendar xmlauthdate = DatatypeFactory.newInstance().newXMLGregorianCalendar("2002-10-09");  
-		authInfo.setAuthDate(xmlauthdate);
+		Calendar authDate = Calendar.getInstance();
+		authDate.set(2002, Calendar.OCTOBER, 9);
+		authInfo.setAuthDate(authDate);
 		authInfo.setAuthCode("543216");
 		authInfo.setAuthAmount(BigInteger.valueOf(12345L));
 		capturegivenauth.setAuthInformation(authInfo);

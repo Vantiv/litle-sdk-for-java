@@ -42,7 +42,7 @@
 	</target>
 
 	<target name="generate" depends="init">
-		<xjc schema="xsd/litleOnline_v8.10.xsd" package="com.litle.sdk.generate" destdir="${generated}" />
+		<xjc schema="xsd/litleOnline_v8.10.xsd" package="com.litle.sdk.generate" destdir="${generated}" binding="xsd/bindings.xml"/>
 	</target>
 
 	<target name="compile" depends="clean,init,generate" description="compile the source ">
