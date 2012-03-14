@@ -30,7 +30,7 @@ public class TestAuth {
 		authorization.setCard(card);
 		
 		AuthorizationResponse response = new LitleOnline().authorize(authorization);
-		assertEquals("000",response.getResponse());
+		assertEquals(response.getMessage(), "000",response.getResponse());
 	}
 	
 	@Test
@@ -47,7 +47,7 @@ public class TestAuth {
 		authorization.setPaypal(paypal);
 		
 		AuthorizationResponse response = new LitleOnline().authorize(authorization);
-		assertEquals("Approved",response.getMessage());
+		assertEquals(response.getMessage(), "Approved",response.getMessage());
 	}
 	
 	@Test
@@ -64,7 +64,7 @@ public class TestAuth {
 		authorization.setCard(card);
 		
 		AuthorizationResponse response = new LitleOnline().authorize(authorization);
-		assertTrue(response.getMessage().matches(".*Error validating xml data against the schema.*"));
+		assertTrue(response.getMessage(), response.getMessage().matches(".*Error validating xml data against the schema.*"));
 	}
 	
 	@Test
@@ -84,7 +84,7 @@ public class TestAuth {
 		authorization.setCard(card);
 		
 		AuthorizationResponse response = new LitleOnline().authorize(authorization);
-		assertTrue(response.getMessage().matches(".*Error validating xml data against the schema.*"));
+		assertTrue(response.getMessage(), response.getMessage().matches(".*Error validating xml data against the schema.*"));
 	}
 
 }
