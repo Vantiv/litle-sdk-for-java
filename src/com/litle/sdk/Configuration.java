@@ -4,7 +4,7 @@ import java.io.File;
 
 public class Configuration {
 	
-	private static final String LITLE_SDK_CONFIG = ".litle_sdk_config.properties";
+	private static final String LITLE_SDK_CONFIG = ".litle_SDK_config.properties";
 
 	public static File location() {
 		File file = new File(System.getenv("HOME") + File.separator + LITLE_SDK_CONFIG);
