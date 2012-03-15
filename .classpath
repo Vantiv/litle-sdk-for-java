@@ -14,7 +14,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/jaxb/lib/activation.jar"/>
-	<classpathentry kind="lib" path="lib/jaxb/lib/jaxb-api.jar"/>
+	<classpathentry kind="lib" path="lib/jaxb/lib/jaxb-api.jar" sourcepath="lib/jaxb/lib/jaxb-api-src.zip"/>
 	<classpathentry kind="lib" path="lib/jaxb/lib/jaxb-impl.jar"/>
 	<classpathentry kind="lib" path="lib/jaxb/lib/jsr173_1.0_api.jar"/>
 	<classpathentry kind="lib" path="lib/apache-cxf-2.5.2/lib/cxf-2.5.2.jar"/>

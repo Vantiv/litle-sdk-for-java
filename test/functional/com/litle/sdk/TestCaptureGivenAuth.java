@@ -33,7 +33,7 @@ public class TestCaptureGivenAuth {
 		card.setNumber("4100000000000001");
 		card.setExpDate("1210");
 		capturegivenauth.setCard(card);
-		CaptureGivenAuthResponse response = new LitleOnline().capturegivenauth(capturegivenauth);
+		CaptureGivenAuthResponse response = new LitleOnline().captureGivenAuth(capturegivenauth);
 		assertEquals("Approved", response.getMessage());
 	}
 
