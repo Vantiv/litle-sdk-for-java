@@ -81,26 +81,6 @@ public class LitleOnline {
 		JAXBElement<? extends TransactionTypeWithReportGroup> newresponse = response.getTransactionResponse();
 		return (AuthorizationResponse)newresponse.getValue();
 	}
-	
-	private LitleOnlineResponse sendToLitle(LitleOnlineRequest request) throws Exception {
-		Marshaller m = jc.createMarshaller();
-		Unmarshaller u = jc.createUnmarshaller();
-		StringWriter sw = new StringWriter();
-		m.marshal(request, sw);
-		String xmlRequest = sw.toString();
-		
-		String xmlResponse = new Communication().requestToServer(xmlRequest, config);
-		try {
-			LitleOnlineResponse response = (LitleOnlineResponse)u.unmarshal(new StringReader(xmlResponse));
-			if("1".equals(response.getResponse())) {
-				throw new LitleOnlineException(response.getResponse());
-			}
-			return response;
-		} catch(UnmarshalException ume) {
-			throw new LitleOnlineException("Error validating xml data against the schema", ume);
-		}
-		
-	}
 
 	public AuthReversalResponse authReversal(AuthReversal reversal) throws Exception {
 		LitleOnlineRequest request = createLitleOnlineRequest();
@@ -244,37 +224,14 @@ public class LitleOnline {
 		}
 	}
 	
-	public EcheckRedepositResponse echeckredeposit(EcheckRedeposit echeckredeposit) throws Exception {
-		LitleOnlineRequest request = new LitleOnlineRequest();
-		request.setMerchantId(config.getProperty("merchantId"));
-		request.setVersion(config.getProperty("version"));
-		Authentication authentication = new Authentication();
-		authentication.setPassword(config.getProperty("password"));
-		authentication.setUser(config.getProperty("username"));
-		if(echeckredeposit.getReportGroup() == null) {
-			echeckredeposit.setReportGroup(config.getProperty("reportGroup")); 
-		}
-		request.setAuthentication(authentication);
+	public EcheckRedepositResponse echeckRedeposit(EcheckRedeposit echeckRedeposit) throws Exception {
+		LitleOnlineRequest request = createLitleOnlineRequest();
+		fillInReportGroup(echeckRedeposit);
 		
-		ObjectFactory o = new ObjectFactory();
-		request.setTransaction(o.createEcheckRedeposit(echeckredeposit));
-		
-		Marshaller m = jc.createMarshaller();
-		StringWriter sw = new StringWriter();
-		m.marshal(request, sw);
-		String xmlRequest = sw.toString();
-		
-		String xmlResponse = new Communication().requestToServer(xmlRequest, config);
-		Unmarshaller u = jc.createUnmarshaller();
-		try {
-			LitleOnlineResponse response = (LitleOnlineResponse)u.unmarshal(new StringReader(xmlResponse));
-			JAXBElement<? extends TransactionTypeWithReportGroup> newresponse = response.getTransactionResponse();
-			return (EcheckRedepositResponse)newresponse.getValue();
-		} catch(UnmarshalException ume) {
-			EcheckRedepositResponse response = new EcheckRedepositResponse();
-			response.setMessage("Error validating xml data against the schema: " + ume.getMessage());
-			return response;
-		}
+		request.setTransaction(objectFactory.createEcheckRedeposit(echeckRedeposit));
+		LitleOnlineResponse response = sendToLitle(request);
+		JAXBElement<? extends TransactionTypeWithReportGroup> newresponse = response.getTransactionResponse();
+		return (EcheckRedepositResponse)newresponse.getValue();
 	}
 	
 	public EcheckSalesResponse echeckSale(EcheckSale echeckSale) throws Exception {
@@ -326,8 +283,6 @@ public class LitleOnline {
 		JAXBElement<? extends TransactionTypeWithReportGroup> newresponse = response.getTransactionResponse();
 		return (RegisterTokenResponse)newresponse.getValue();
 	}
-	
-
 
 	private LitleOnlineRequest createLitleOnlineRequest() {
 		LitleOnlineRequest request = new LitleOnlineRequest();
@@ -339,6 +294,27 @@ public class LitleOnline {
 		request.setAuthentication(authentication);
 		return request;
 	}
+	
+	private LitleOnlineResponse sendToLitle(LitleOnlineRequest request) throws Exception {
+		Marshaller m = jc.createMarshaller();
+		Unmarshaller u = jc.createUnmarshaller();
+		StringWriter sw = new StringWriter();
+		m.marshal(request, sw);
+		String xmlRequest = sw.toString();
+		
+		String xmlResponse = new Communication().requestToServer(xmlRequest, config);
+		try {
+			LitleOnlineResponse response = (LitleOnlineResponse)u.unmarshal(new StringReader(xmlResponse));
+			if("1".equals(response.getResponse())) {
+				throw new LitleOnlineException(response.getResponse());
+			}
+			return response;
+		} catch(UnmarshalException ume) {
+			throw new LitleOnlineException("Error validating xml data against the schema", ume);
+		}
+		
+	}
+
 
 	private void fillInReportGroup(TransactionTypeWithReportGroup txn) {
 		if(txn.getReportGroup() == null) {
