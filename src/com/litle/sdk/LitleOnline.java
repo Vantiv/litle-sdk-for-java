@@ -310,37 +310,14 @@ public class LitleOnline {
 		}
 	}
 	
-	public EcheckVerificationResponse echeckverification(EcheckVerification echeckverification) throws Exception {
-		LitleOnlineRequest request = new LitleOnlineRequest();
-		request.setMerchantId(config.getProperty("merchantId"));
-		request.setVersion(config.getProperty("version"));
-		Authentication authentication = new Authentication();
-		authentication.setPassword(config.getProperty("password"));
-		authentication.setUser(config.getProperty("username"));
-		if(echeckverification.getReportGroup() == null) {
-			echeckverification.setReportGroup(config.getProperty("reportGroup")); 
-		}
-		request.setAuthentication(authentication);
+	public EcheckVerificationResponse echeckVerification(EcheckVerification echeckVerification) throws Exception {
+		LitleOnlineRequest request = createLitleOnlineRequest();
+		fillInReportGroup(echeckVerification);
 		
-		ObjectFactory o = new ObjectFactory();
-		request.setTransaction(o.createEcheckVerification(echeckverification));
-		
-		Marshaller m = jc.createMarshaller();
-		StringWriter sw = new StringWriter();
-		m.marshal(request, sw);
-		String xmlRequest = sw.toString();
-		
-		String xmlResponse = new Communication().requestToServer(xmlRequest, config);
-		Unmarshaller u = jc.createUnmarshaller();
-		try {
-			LitleOnlineResponse response = (LitleOnlineResponse)u.unmarshal(new StringReader(xmlResponse));
-			JAXBElement<? extends TransactionTypeWithReportGroup> newresponse = response.getTransactionResponse();
-			return (EcheckVerificationResponse)newresponse.getValue();
-		} catch(UnmarshalException ume) {
-			EcheckVerificationResponse response = new EcheckVerificationResponse();
-			response.setMessage("Error validating xml data against the schema: " + ume.getMessage());
-			return response;
-		}
+		request.setTransaction(objectFactory.createEcheckVerification(echeckVerification));
+		LitleOnlineResponse response = sendToLitle(request);
+		JAXBElement<? extends TransactionTypeWithReportGroup> newresponse = response.getTransactionResponse();
+		return (EcheckVerificationResponse)newresponse.getValue();
 	}
 	
 	public ForceCaptureResponse forceCapture(ForceCapture forceCapture) throws Exception {
