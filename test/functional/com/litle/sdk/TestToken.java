@@ -1,19 +1,13 @@
 package com.litle.sdk;
 
 import static org.junit.Assert.*;
-
-import java.math.BigInteger;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import com.litle.sdk.generate.AuthReversal;
-import com.litle.sdk.generate.AuthReversalResponse;
-import com.litle.sdk.generate.AuthorizationResponse;
-import com.litle.sdk.generate.CardType;
+import com.litle.sdk.generate.EcheckForTokenType;
 import com.litle.sdk.generate.RegisterTokenRequestType;
 import com.litle.sdk.generate.RegisterTokenResponse;
-import com.litle.sdk.generate.Sale;
-import com.litle.sdk.generate.SaleResponse;
 
 public class TestToken {
 
@@ -24,6 +18,42 @@ public class TestToken {
 		token.setAccountNumber("1233456789103801");
 		RegisterTokenResponse response = new LitleOnline().registertoken(token);
 		assertEquals("Account number was successfully registered", response.getMessage());
+	}
+	
+	@Test
+	public void simpleTokenWithPaypage() throws Exception{
+		RegisterTokenRequestType token = new RegisterTokenRequestType();
+		token.setOrderId("12344");
+		token.setPaypageRegistrationId("1233456789101112");
+		RegisterTokenResponse response = new LitleOnline().registertoken(token);
+		assertEquals("Account number was successfully registered", response.getMessage());
+	}
+	
+	@Test
+	public void simpleTokenWithEcheck() throws Exception{
+		RegisterTokenRequestType token = new RegisterTokenRequestType();
+		token.setOrderId("12344");
+		EcheckForTokenType echeck = new EcheckForTokenType();
+		echeck.setAccNum("12344565");
+		echeck.setRoutingNum("123476545");
+		token.setEcheckForToken(echeck);
+		RegisterTokenResponse response = new LitleOnline().registertoken(token);
+		assertEquals("Account number was successfully registered", response.getMessage());
+	}
+	
+	@Test
+	public void tokenEcheckMissingRequiredField() throws Exception{
+		RegisterTokenRequestType token = new RegisterTokenRequestType();
+		token.setOrderId("12344");
+		EcheckForTokenType echeck = new EcheckForTokenType();
+		echeck.setRoutingNum("123476545");
+		token.setEcheckForToken(echeck);
+		try {
+			new LitleOnline().registertoken(token);
+			fail("expected exception");
+		} catch(LitleOnlineException e) {
+			assertEquals("Error validating xml data against the schema", e.getMessage());
+		}
 	}
 
 }

@@ -92,6 +92,9 @@ public class LitleOnline {
 		String xmlResponse = new Communication().requestToServer(xmlRequest, config);
 		try {
 			LitleOnlineResponse response = (LitleOnlineResponse)u.unmarshal(new StringReader(xmlResponse));
+			if("1".equals(response.getResponse())) {
+				throw new LitleOnlineException(response.getResponse());
+			}
 			return response;
 		} catch(UnmarshalException ume) {
 			throw new LitleOnlineException("Error validating xml data against the schema", ume);
@@ -406,37 +409,14 @@ public class LitleOnline {
 		}
 	}
 	
-	public RegisterTokenResponse registertoken(RegisterTokenRequestType token) throws Exception {
-		LitleOnlineRequest request = new LitleOnlineRequest();
-		request.setMerchantId(config.getProperty("merchantId"));
-		request.setVersion(config.getProperty("version"));
-		Authentication authentication = new Authentication();
-		authentication.setPassword(config.getProperty("password"));
-		authentication.setUser(config.getProperty("username"));
-		if(token.getReportGroup() == null) {
-			token.setReportGroup(config.getProperty("reportGroup")); 
-		}
-		request.setAuthentication(authentication);
+	public RegisterTokenResponse registertoken(RegisterTokenRequestType tokenRequest) throws Exception {
+		LitleOnlineRequest request = createLitleOnlineRequest();
+		fillInReportGroup(tokenRequest);
 		
-		ObjectFactory o = new ObjectFactory();
-		request.setTransaction(o.createRegisterTokenRequest(token));
-		
-		Marshaller m = jc.createMarshaller();
-		StringWriter sw = new StringWriter();
-		m.marshal(request, sw);
-		String xmlRequest = sw.toString();
-		
-		String xmlResponse = new Communication().requestToServer(xmlRequest, config);
-		Unmarshaller u = jc.createUnmarshaller();
-		try {
-			LitleOnlineResponse response = (LitleOnlineResponse)u.unmarshal(new StringReader(xmlResponse));
-			JAXBElement<? extends TransactionTypeWithReportGroup> newresponse = response.getTransactionResponse();
-			return (RegisterTokenResponse)newresponse.getValue();
-		} catch(UnmarshalException ume) {
-			RegisterTokenResponse response = new RegisterTokenResponse();
-			response.setMessage("Error validating xml data against the schema: " + ume.getMessage());
-			return response;
-		}
+		request.setTransaction(objectFactory.createRegisterTokenRequest(tokenRequest));
+		LitleOnlineResponse response = sendToLitle(request);
+		JAXBElement<? extends TransactionTypeWithReportGroup> newresponse = response.getTransactionResponse();
+		return (RegisterTokenResponse)newresponse.getValue();
 	}
 	
 
