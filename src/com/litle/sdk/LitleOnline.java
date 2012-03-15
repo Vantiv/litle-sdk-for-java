@@ -377,36 +377,13 @@ public class LitleOnline {
 	}
 	
 	public SaleResponse sale(Sale sale) throws Exception {
-		LitleOnlineRequest request = new LitleOnlineRequest();
-		request.setMerchantId(config.getProperty("merchantId"));
-		request.setVersion(config.getProperty("version"));
-		Authentication authentication = new Authentication();
-		authentication.setPassword(config.getProperty("password"));
-		authentication.setUser(config.getProperty("username"));
-		if(sale.getReportGroup() == null) {
-			sale.setReportGroup(config.getProperty("reportGroup")); 
-		}
-		request.setAuthentication(authentication);
+		LitleOnlineRequest request = createLitleOnlineRequest();
+		fillInReportGroup(sale);
 		
-		ObjectFactory o = new ObjectFactory();
-		request.setTransaction(o.createSale(sale));
-		
-		Marshaller m = jc.createMarshaller();
-		StringWriter sw = new StringWriter();
-		m.marshal(request, sw);
-		String xmlRequest = sw.toString();
-		
-		String xmlResponse = new Communication().requestToServer(xmlRequest, config);
-		Unmarshaller u = jc.createUnmarshaller();
-		try {
-			LitleOnlineResponse response = (LitleOnlineResponse)u.unmarshal(new StringReader(xmlResponse));
-			JAXBElement<? extends TransactionTypeWithReportGroup> newresponse = response.getTransactionResponse();
-			return (SaleResponse)newresponse.getValue();
-		} catch(UnmarshalException ume) {
-			SaleResponse response = new SaleResponse();
-			response.setMessage("Error validating xml data against the schema: " + ume.getMessage());
-			return response;
-		}
+		request.setTransaction(objectFactory.createSale(sale));
+		LitleOnlineResponse response = sendToLitle(request);
+		JAXBElement<? extends TransactionTypeWithReportGroup> newresponse = response.getTransactionResponse();
+		return (SaleResponse)newresponse.getValue();
 	}
 	
 	public RegisterTokenResponse registertoken(RegisterTokenRequestType tokenRequest) throws Exception {
