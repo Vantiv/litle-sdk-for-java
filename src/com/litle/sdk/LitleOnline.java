@@ -277,37 +277,14 @@ public class LitleOnline {
 		}
 	}
 	
-	public EcheckSalesResponse echecksale(EcheckSale echecksale) throws Exception {
-		LitleOnlineRequest request = new LitleOnlineRequest();
-		request.setMerchantId(config.getProperty("merchantId"));
-		request.setVersion(config.getProperty("version"));
-		Authentication authentication = new Authentication();
-		authentication.setPassword(config.getProperty("password"));
-		authentication.setUser(config.getProperty("username"));
-		if(echecksale.getReportGroup() == null) {
-			echecksale.setReportGroup(config.getProperty("reportGroup")); 
-		}
-		request.setAuthentication(authentication);
+	public EcheckSalesResponse echeckSale(EcheckSale echeckSale) throws Exception {
+		LitleOnlineRequest request = createLitleOnlineRequest();
+		fillInReportGroup(echeckSale);
 		
-		ObjectFactory o = new ObjectFactory();
-		request.setTransaction(o.createEcheckSale(echecksale));
-		
-		Marshaller m = jc.createMarshaller();
-		StringWriter sw = new StringWriter();
-		m.marshal(request, sw);
-		String xmlRequest = sw.toString();
-		
-		String xmlResponse = new Communication().requestToServer(xmlRequest, config);
-		Unmarshaller u = jc.createUnmarshaller();
-		try {
-			LitleOnlineResponse response = (LitleOnlineResponse)u.unmarshal(new StringReader(xmlResponse));
-			JAXBElement<? extends TransactionTypeWithReportGroup> newresponse = response.getTransactionResponse();
-			return (EcheckSalesResponse)newresponse.getValue();
-		} catch(UnmarshalException ume) {
-			EcheckSalesResponse response = new EcheckSalesResponse();
-			response.setMessage("Error validating xml data against the schema: " + ume.getMessage());
-			return response;
-		}
+		request.setTransaction(objectFactory.createEcheckSale(echeckSale));
+		LitleOnlineResponse response = sendToLitle(request);
+		JAXBElement<? extends TransactionTypeWithReportGroup> newresponse = response.getTransactionResponse();
+		return (EcheckSalesResponse)newresponse.getValue();
 	}
 	
 	public EcheckVerificationResponse echeckVerification(EcheckVerification echeckVerification) throws Exception {
