@@ -343,37 +343,14 @@ public class LitleOnline {
 		}
 	}
 	
-	public ForceCaptureResponse forcecapture(ForceCapture forcecapture) throws Exception {
-		LitleOnlineRequest request = new LitleOnlineRequest();
-		request.setMerchantId(config.getProperty("merchantId"));
-		request.setVersion(config.getProperty("version"));
-		Authentication authentication = new Authentication();
-		authentication.setPassword(config.getProperty("password"));
-		authentication.setUser(config.getProperty("username"));
-		if(forcecapture.getReportGroup() == null) {
-			forcecapture.setReportGroup(config.getProperty("reportGroup")); 
-		}
-		request.setAuthentication(authentication);
+	public ForceCaptureResponse forceCapture(ForceCapture forceCapture) throws Exception {
+		LitleOnlineRequest request = createLitleOnlineRequest();
+		fillInReportGroup(forceCapture);
 		
-		ObjectFactory o = new ObjectFactory();
-		request.setTransaction(o.createForceCapture(forcecapture));
-		
-		Marshaller m = jc.createMarshaller();
-		StringWriter sw = new StringWriter();
-		m.marshal(request, sw);
-		String xmlRequest = sw.toString();
-		
-		String xmlResponse = new Communication().requestToServer(xmlRequest, config);
-		Unmarshaller u = jc.createUnmarshaller();
-		try {
-			LitleOnlineResponse response = (LitleOnlineResponse)u.unmarshal(new StringReader(xmlResponse));
-			JAXBElement<? extends TransactionTypeWithReportGroup> newresponse = response.getTransactionResponse();
-			return (ForceCaptureResponse)newresponse.getValue();
-		} catch(UnmarshalException ume) {
-			ForceCaptureResponse response = new ForceCaptureResponse();
-			response.setMessage("Error validating xml data against the schema: " + ume.getMessage());
-			return response;
-		}
+		request.setTransaction(objectFactory.createForceCapture(forceCapture));
+		LitleOnlineResponse response = sendToLitle(request);
+		JAXBElement<? extends TransactionTypeWithReportGroup> newresponse = response.getTransactionResponse();
+		return (ForceCaptureResponse)newresponse.getValue();
 	}
 	
 	public SaleResponse sale(Sale sale) throws Exception {
