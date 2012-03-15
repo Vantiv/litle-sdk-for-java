@@ -63,8 +63,12 @@ public class TestAuth {
 		card.setExpDate("1210");
 		authorization.setCard(card);
 		
-		AuthorizationResponse response = new LitleOnline().authorize(authorization);
-		assertTrue(response.getMessage(), response.getMessage().matches(".*Error validating xml data against the schema.*"));
+		try {
+			new LitleOnline().authorize(authorization);
+			fail("expected exception");
+		} catch(LitleOnlineException e) {
+			assertEquals("Error validating xml data against the schema", e.getMessage());
+		}
 	}
 	
 	@Test
@@ -83,8 +87,12 @@ public class TestAuth {
 		card.setExpDate("1210");
 		authorization.setCard(card);
 		
-		AuthorizationResponse response = new LitleOnline().authorize(authorization);
-		assertTrue(response.getMessage(), response.getMessage().matches(".*Error validating xml data against the schema.*"));
+		try {
+			new LitleOnline().authorize(authorization);
+			fail("expected exception");
+		} catch(LitleOnlineException e) {
+			assertEquals("Error validating xml data against the schema", e.getMessage());
+		}
 	}
 
 }

@@ -3,7 +3,6 @@ package com.litle.sdk;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.Properties;
@@ -14,9 +13,6 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.UnmarshalException;
 import javax.xml.bind.Unmarshaller;
-
-import org.apache.http.HttpHost;
-import org.apache.http.conn.params.ConnRoutePNames;
 
 import com.litle.sdk.generate.AuthReversal;
 import com.litle.sdk.generate.AuthReversalResponse;
@@ -31,12 +27,15 @@ import com.litle.sdk.generate.LitleOnlineRequest;
 import com.litle.sdk.generate.LitleOnlineResponse;
 import com.litle.sdk.generate.ObjectFactory;
 import com.litle.sdk.generate.TransactionTypeWithReportGroup;
+import com.litle.sdk.generate.TransactionTypeWithReportGroupAndPartial;
 
 public class LitleOnline {
 	
-	private static JAXBContext jc;
-	private static Properties config;
-	static {
+	private JAXBContext jc;
+	private Properties config;
+	private ObjectFactory objectFactory;
+	
+	public LitleOnline() {
 		try {
 			jc = JAXBContext.newInstance("com.litle.sdk.generate");
 		} catch (JAXBException e) {
@@ -53,53 +52,40 @@ public class LitleOnline {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		objectFactory = new ObjectFactory();
 	}
-	
+
 	//TODO This shouldn't throw "Exception"
 	public AuthorizationResponse authorize(Authorization auth) throws Exception {
-		LitleOnlineRequest request = new LitleOnlineRequest();
-		request.setMerchantId(config.getProperty("merchantId"));
-		request.setVersion(config.getProperty("version"));
-		Authentication authentication = new Authentication();
-		authentication.setPassword(config.getProperty("password"));
-		authentication.setUser(config.getProperty("username"));
-		if(auth.getReportGroup() == null) {
-			auth.setReportGroup(config.getProperty("reportGroup")); 
-		}
-		request.setAuthentication(authentication);
+		LitleOnlineRequest request = createLitleOnlineRequest();
+		fillInReportGroup(auth);
 		
-		ObjectFactory o = new ObjectFactory();
-		request.setTransaction(o.createAuthorization(auth));
-		
+		request.setTransaction(objectFactory.createAuthorization(auth));
+		LitleOnlineResponse response = sendToLitle(request, AuthorizationResponse.class);
+		JAXBElement<? extends TransactionTypeWithReportGroup> newresponse = response.getTransactionResponse();
+		return (AuthorizationResponse)newresponse.getValue();
+	}
+	
+	private LitleOnlineResponse sendToLitle(LitleOnlineRequest request, Class<?> clazz) throws Exception {
 		Marshaller m = jc.createMarshaller();
+		Unmarshaller u = jc.createUnmarshaller();
 		StringWriter sw = new StringWriter();
 		m.marshal(request, sw);
 		String xmlRequest = sw.toString();
 		
 		String xmlResponse = new Communication().requestToServer(xmlRequest, config);
-		Unmarshaller u = jc.createUnmarshaller();
 		try {
 			LitleOnlineResponse response = (LitleOnlineResponse)u.unmarshal(new StringReader(xmlResponse));
-			JAXBElement<? extends TransactionTypeWithReportGroup> newresponse = response.getTransactionResponse();
-			return (AuthorizationResponse)newresponse.getValue();
-		} catch(UnmarshalException ume) {
-			AuthorizationResponse response = new AuthorizationResponse();
-			response.setMessage("Error validating xml data against the schema: " + ume.getMessage());
 			return response;
+		} catch(UnmarshalException ume) {
+			throw new LitleOnlineException("Error validating xml data against the schema", ume);
 		}
+		
 	}
 
 	public AuthReversalResponse authReversal(AuthReversal reversal) throws Exception {
-		LitleOnlineRequest request = new LitleOnlineRequest();
-		request.setMerchantId(config.getProperty("merchantId"));
-		request.setVersion(config.getProperty("version"));
-		Authentication authentication = new Authentication();
-		authentication.setPassword(config.getProperty("password"));
-		authentication.setUser(config.getProperty("username"));
-		if(reversal.getReportGroup() == null) {
-			reversal.setReportGroup(config.getProperty("reportGroup")); 
-		}
-		request.setAuthentication(authentication);
+		LitleOnlineRequest request = createLitleOnlineRequest();
+		fillInReportGroup(reversal);
 		
 		ObjectFactory o = new ObjectFactory();
 		request.setTransaction(o.createAuthReversal(reversal));
@@ -123,16 +109,8 @@ public class LitleOnline {
 	}
 	
 	public CaptureResponse capture(Capture capture) throws Exception {
-		LitleOnlineRequest request = new LitleOnlineRequest();
-		request.setMerchantId(config.getProperty("merchantId"));
-		request.setVersion(config.getProperty("version"));
-		Authentication authentication = new Authentication();
-		authentication.setPassword(config.getProperty("password"));
-		authentication.setUser(config.getProperty("username"));
-		if(capture.getReportGroup() == null) {
-			capture.setReportGroup(config.getProperty("reportGroup")); 
-		}
-		request.setAuthentication(authentication);
+		LitleOnlineRequest request = createLitleOnlineRequest();
+		fillInReportGroup(capture);
 		
 		ObjectFactory o = new ObjectFactory();
 		request.setTransaction(o.createCapture(capture));
@@ -155,20 +133,12 @@ public class LitleOnline {
 		}
 	}
 	
-	public CaptureGivenAuthResponse capturegivenauth(CaptureGivenAuth capturegivenauth) throws Exception {
-		LitleOnlineRequest request = new LitleOnlineRequest();
-		request.setMerchantId(config.getProperty("merchantId"));
-		request.setVersion(config.getProperty("version"));
-		Authentication authentication = new Authentication();
-		authentication.setPassword(config.getProperty("password"));
-		authentication.setUser(config.getProperty("username"));
-		if(capturegivenauth.getReportGroup() == null) {
-			capturegivenauth.setReportGroup(config.getProperty("reportGroup")); 
-		}
-		request.setAuthentication(authentication);
+	public CaptureGivenAuthResponse captureGivenAuth(CaptureGivenAuth captureGivenAuth) throws Exception {
+		LitleOnlineRequest request = createLitleOnlineRequest();
+		fillInReportGroup(captureGivenAuth);
 		
 		ObjectFactory o = new ObjectFactory();
-		request.setTransaction(o.createCaptureGivenAuth(capturegivenauth));
+		request.setTransaction(o.createCaptureGivenAuth(captureGivenAuth));
 		
 		Marshaller m = jc.createMarshaller();
 		StringWriter sw = new StringWriter();
@@ -187,6 +157,27 @@ public class LitleOnline {
 			return response;
 		}
 	}
-	
 
+	private LitleOnlineRequest createLitleOnlineRequest() {
+		LitleOnlineRequest request = new LitleOnlineRequest();
+		request.setMerchantId(config.getProperty("merchantId"));
+		request.setVersion(config.getProperty("version"));
+		Authentication authentication = new Authentication();
+		authentication.setPassword(config.getProperty("password"));
+		authentication.setUser(config.getProperty("username"));
+		request.setAuthentication(authentication);
+		return request;
+	}
+
+	private void fillInReportGroup(TransactionTypeWithReportGroup txn) {
+		if(txn.getReportGroup() == null) {
+			txn.setReportGroup(config.getProperty("reportGroup")); 
+		}
+	}
+	
+	private void fillInReportGroup(TransactionTypeWithReportGroupAndPartial txn) {
+		if(txn.getReportGroup() == null) {
+			txn.setReportGroup(config.getProperty("reportGroup")); 
+		}
+	}
 }
