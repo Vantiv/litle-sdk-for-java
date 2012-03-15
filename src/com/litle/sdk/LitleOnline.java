@@ -3,7 +3,6 @@ package com.litle.sdk;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.Properties;
@@ -15,9 +14,6 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.UnmarshalException;
 import javax.xml.bind.Unmarshaller;
 
-import org.apache.http.HttpHost;
-import org.apache.http.conn.params.ConnRoutePNames;
-
 import com.litle.sdk.generate.AuthReversal;
 import com.litle.sdk.generate.AuthReversalResponse;
 import com.litle.sdk.generate.Authentication;
@@ -27,6 +23,10 @@ import com.litle.sdk.generate.Capture;
 import com.litle.sdk.generate.CaptureGivenAuth;
 import com.litle.sdk.generate.CaptureGivenAuthResponse;
 import com.litle.sdk.generate.CaptureResponse;
+import com.litle.sdk.generate.Credit;
+import com.litle.sdk.generate.CreditResponse;
+import com.litle.sdk.generate.EcheckRedeposit;
+import com.litle.sdk.generate.EcheckRedepositResponse;
 import com.litle.sdk.generate.LitleOnlineRequest;
 import com.litle.sdk.generate.LitleOnlineResponse;
 import com.litle.sdk.generate.ObjectFactory;
@@ -183,6 +183,72 @@ public class LitleOnline {
 			return (CaptureGivenAuthResponse)newresponse.getValue();
 		} catch(UnmarshalException ume) {
 			CaptureGivenAuthResponse response = new CaptureGivenAuthResponse();
+			response.setMessage("Error validating xml data against the schema: " + ume.getMessage());
+			return response;
+		}
+	}
+	
+	public CreditResponse credit(Credit credit) throws Exception {
+		LitleOnlineRequest request = new LitleOnlineRequest();
+		request.setMerchantId(config.getProperty("merchantId"));
+		request.setVersion(config.getProperty("version"));
+		Authentication authentication = new Authentication();
+		authentication.setPassword(config.getProperty("password"));
+		authentication.setUser(config.getProperty("username"));
+		if(credit.getReportGroup() == null) {
+			credit.setReportGroup(config.getProperty("reportGroup")); 
+		}
+		request.setAuthentication(authentication);
+		
+		ObjectFactory o = new ObjectFactory();
+		request.setTransaction(o.createCredit(credit));
+		
+		Marshaller m = jc.createMarshaller();
+		StringWriter sw = new StringWriter();
+		m.marshal(request, sw);
+		String xmlRequest = sw.toString();
+		
+		String xmlResponse = new Communication().requestToServer(xmlRequest, config);
+		Unmarshaller u = jc.createUnmarshaller();
+		try {
+			LitleOnlineResponse response = (LitleOnlineResponse)u.unmarshal(new StringReader(xmlResponse));
+			JAXBElement<? extends TransactionTypeWithReportGroup> newresponse = response.getTransactionResponse();
+			return (CreditResponse)newresponse.getValue();
+		} catch(UnmarshalException ume) {
+			CreditResponse response = new CreditResponse();
+			response.setMessage("Error validating xml data against the schema: " + ume.getMessage());
+			return response;
+		}
+	}
+	
+	public EcheckRedepositResponse echeckredeposit(EcheckRedeposit echeckredeposit) throws Exception {
+		LitleOnlineRequest request = new LitleOnlineRequest();
+		request.setMerchantId(config.getProperty("merchantId"));
+		request.setVersion(config.getProperty("version"));
+		Authentication authentication = new Authentication();
+		authentication.setPassword(config.getProperty("password"));
+		authentication.setUser(config.getProperty("username"));
+		if(echeckredeposit.getReportGroup() == null) {
+			echeckredeposit.setReportGroup(config.getProperty("reportGroup")); 
+		}
+		request.setAuthentication(authentication);
+		
+		ObjectFactory o = new ObjectFactory();
+		request.setTransaction(o.createEcheckRedeposit(echeckredeposit));
+		
+		Marshaller m = jc.createMarshaller();
+		StringWriter sw = new StringWriter();
+		m.marshal(request, sw);
+		String xmlRequest = sw.toString();
+		
+		String xmlResponse = new Communication().requestToServer(xmlRequest, config);
+		Unmarshaller u = jc.createUnmarshaller();
+		try {
+			LitleOnlineResponse response = (LitleOnlineResponse)u.unmarshal(new StringReader(xmlResponse));
+			JAXBElement<? extends TransactionTypeWithReportGroup> newresponse = response.getTransactionResponse();
+			return (EcheckRedepositResponse)newresponse.getValue();
+		} catch(UnmarshalException ume) {
+			EcheckRedepositResponse response = new EcheckRedepositResponse();
 			response.setMessage("Error validating xml data against the schema: " + ume.getMessage());
 			return response;
 		}
