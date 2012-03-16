@@ -50,10 +50,14 @@ public class LitleOnline {
 	private JAXBContext jc;
 	private Properties config;
 	private ObjectFactory objectFactory;
+	private Marshaller marshaller;
+	private Unmarshaller unmarshaller;
 	
 	public LitleOnline() {
 		try {
 			jc = JAXBContext.newInstance("com.litle.sdk.generate");
+			marshaller = jc.createMarshaller();
+			unmarshaller = jc.createUnmarshaller();
 		} catch (JAXBException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -72,7 +76,7 @@ public class LitleOnline {
 	}
 
 	//TODO This shouldn't throw "Exception"
-	public AuthorizationResponse authorize(Authorization auth) throws Exception {
+	public AuthorizationResponse authorize(Authorization auth) throws LitleOnlineException {
 		LitleOnlineRequest request = createLitleOnlineRequest();
 		fillInReportGroup(auth);
 		
@@ -203,21 +207,19 @@ public class LitleOnline {
 		return request;
 	}
 	
-	private LitleOnlineResponse sendToLitle(LitleOnlineRequest request) throws Exception {
-		Marshaller m = jc.createMarshaller();
-		Unmarshaller u = jc.createUnmarshaller();
-		StringWriter sw = new StringWriter();
-		m.marshal(request, sw);
-		String xmlRequest = sw.toString();
-		
-		String xmlResponse = new Communication().requestToServer(xmlRequest, config);
+	private LitleOnlineResponse sendToLitle(LitleOnlineRequest request) throws LitleOnlineException {
 		try {
-			LitleOnlineResponse response = (LitleOnlineResponse)u.unmarshal(new StringReader(xmlResponse));
+			StringWriter sw = new StringWriter();
+			marshaller.marshal(request, sw);
+			String xmlRequest = sw.toString();
+			
+			String xmlResponse = new Communication().requestToServer(xmlRequest, config);
+			LitleOnlineResponse response = (LitleOnlineResponse)unmarshaller.unmarshal(new StringReader(xmlResponse));
 			if("1".equals(response.getResponse())) {
 				throw new LitleOnlineException(response.getResponse());
 			}
 			return response;
-		} catch(UnmarshalException ume) {
+		} catch(JAXBException ume) {
 			throw new LitleOnlineException("Error validating xml data against the schema", ume);
 		}
 	}
