@@ -58,6 +58,7 @@
 		<javac destdir="${bin}/test" includeantruntime="false" source="1.5" target="1.5" classpathref="classpath.ref">
 			<compilerarg value="-Xbootclasspath/p:${toString:lib.path.ref}" />
 			<src path="test/functional" />
+			<src path="test/certification" />
 			<classpath>
 				<pathelement location="${dist}/lib/litle-sdk-for-java.jar"/>
 				<pathelement location="${junit}/junit-4.8.2.jar"/>
@@ -80,7 +81,13 @@
 					<include name="**/Test*.java" />
 				</fileset>
 			</batchtest>
-	
+
+			<batchtest>
+				<fileset dir="test/certification">
+					<include name="**/Test*.java" />
+				</fileset>
+			</batchtest>
+
 		</junit>
 	</target>
 
