@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.math.BigInteger;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.litle.sdk.generate.AuthReversal;
@@ -11,6 +12,13 @@ import com.litle.sdk.generate.AuthReversalResponse;
 
 public class TestAuthReversal {
 
+	private static LitleOnline litle;
+
+	@BeforeClass
+	public static void beforeClass() throws Exception {
+		litle = new LitleOnline();
+	}
+	
 	@Test
 	public void simpleAuthReversal() throws Exception{
 		AuthReversal reversal = new AuthReversal();
@@ -18,7 +26,7 @@ public class TestAuthReversal {
 		reversal.setAmount(BigInteger.valueOf(106L));
 		reversal.setPayPalNotes("Notes");
 		
-		AuthReversalResponse response = new LitleOnline().authReversal(reversal);
+		AuthReversalResponse response = litle.authReversal(reversal);
 		assertEquals("Approved", response.getMessage());
 	}
 

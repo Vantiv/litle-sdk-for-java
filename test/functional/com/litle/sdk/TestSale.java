@@ -5,9 +5,9 @@ import static org.junit.Assert.fail;
 
 import java.math.BigInteger;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.litle.sdk.generate.Authorization;
 import com.litle.sdk.generate.CardType;
 import com.litle.sdk.generate.PayPal;
 import com.litle.sdk.generate.Sale;
@@ -15,6 +15,13 @@ import com.litle.sdk.generate.SaleResponse;
 
 public class TestSale {
 
+	private static LitleOnline litle;
+
+	@BeforeClass
+	public static void beforeClass() throws Exception {
+		litle = new LitleOnline();
+	}
+	
 	@Test
 	public void simpleSaleWithCard() throws Exception{
 		Sale sale = new Sale();
@@ -27,7 +34,7 @@ public class TestSale {
 		card.setNumber("4100000000000002");
 		card.setExpDate("1210");
 		sale.setCard(card);
-		SaleResponse response = new LitleOnline().sale(sale);
+		SaleResponse response = litle.sale(sale);
 		assertEquals("Approved", response.getMessage());
 	}
 	
@@ -43,7 +50,7 @@ public class TestSale {
 		paypal.setToken("1234");
 		paypal.setTransactionId("123456");
 		sale.setPaypal(paypal);
-		SaleResponse response = new LitleOnline().sale(sale);
+		SaleResponse response = litle.sale(sale);
 		assertEquals("Approved", response.getMessage());
 	}
 
@@ -61,7 +68,7 @@ public class TestSale {
 		sale.setCard(card);
 		
 		try {
-			new LitleOnline().sale(sale);
+			litle.sale(sale);
 			fail("expected exception");
 		} catch(LitleOnlineException e) {
 			assertEquals("Error validating xml data against the schema", e.getMessage());
@@ -83,7 +90,7 @@ public class TestSale {
 		sale.setCard(card);
 		
 		try {
-			new LitleOnline().sale(sale);
+			litle.sale(sale);
 			fail("expected exception");
 		} catch(LitleOnlineException e) {
 			assertEquals("Error validating xml data against the schema", e.getMessage());

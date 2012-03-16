@@ -1,10 +1,11 @@
 package com.litle.sdk;
 
-import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import java.math.BigInteger;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.litle.sdk.generate.Authorization;
@@ -16,6 +17,13 @@ import com.litle.sdk.generate.PosCardholderIdTypeEnum;
 
 public class TestAuth {
 
+	private static LitleOnline litle;
+
+	@BeforeClass
+	public static void beforeClass() throws Exception {
+		litle = new LitleOnline();
+	}
+	
 	@Test
 	public void simpleAuthWithCard() throws Exception {
 		Authorization authorization = new Authorization();
@@ -29,7 +37,7 @@ public class TestAuth {
 		card.setExpDate("1210");
 		authorization.setCard(card);
 		
-		AuthorizationResponse response = new LitleOnline().authorize(authorization);
+		AuthorizationResponse response = litle.authorize(authorization);
 		assertEquals(response.getMessage(), "000",response.getResponse());
 	}
 	
@@ -46,7 +54,7 @@ public class TestAuth {
 		paypal.setTransactionId("123456");
 		authorization.setPaypal(paypal);
 		
-		AuthorizationResponse response = new LitleOnline().authorize(authorization);
+		AuthorizationResponse response = litle.authorize(authorization);
 		assertEquals(response.getMessage(), "Approved",response.getMessage());
 	}
 	
@@ -64,7 +72,7 @@ public class TestAuth {
 		authorization.setCard(card);
 		
 		try {
-			new LitleOnline().authorize(authorization);
+			litle.authorize(authorization);
 			fail("expected exception");
 		} catch(LitleOnlineException e) {
 			assertEquals("Error validating xml data against the schema", e.getMessage());
@@ -88,7 +96,7 @@ public class TestAuth {
 		authorization.setCard(card);
 		
 		try {
-			new LitleOnline().authorize(authorization);
+			litle.authorize(authorization);
 			fail("expected exception");
 		} catch(LitleOnlineException e) {
 			assertEquals("Error validating xml data against the schema", e.getMessage());

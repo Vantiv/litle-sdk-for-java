@@ -7,6 +7,7 @@ import java.math.BigInteger;
 
 import javax.xml.bind.JAXBElement;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.litle.sdk.generate.Contact;
@@ -20,6 +21,13 @@ import com.litle.sdk.generate.ObjectFactory;
 
 public class TestEcheckSale {
 
+	private static LitleOnline litle;
+
+	@BeforeClass
+	public static void beforeClass() throws Exception {
+		litle = new LitleOnline();
+	}
+	
 	@Test
 	public void simpleEcheckSaleWithEcheck() throws Exception{
 		EcheckSale echecksale = new EcheckSale();
@@ -39,7 +47,7 @@ public class TestEcheckSale {
 		contact.setState("MA");
 		contact.setEmail("litle.com");
 		echecksale.setBillToAddress(contact);
-		EcheckSalesResponse response = new LitleOnline().echeckSale(echecksale);
+		EcheckSalesResponse response = litle.echeckSale(echecksale);
 		assertEquals("Approved", response.getMessage());
 	}
 	
@@ -48,7 +56,7 @@ public class TestEcheckSale {
 		EcheckSale echeckSale = new EcheckSale();
 		echeckSale.setReportGroup("Planets");
 		try {
-			new LitleOnline().echeckSale(echeckSale);
+			litle.echeckSale(echeckSale);
 			fail("Expected exception");
 		} catch(LitleOnlineException e) {
 			assertEquals("Error validating xml data against the schema", e.getMessage());
@@ -77,7 +85,7 @@ public class TestEcheckSale {
 		contact.setEmail("litle.com");
 		echecksale.setBillToAddress(contact);
 		echecksale.setShipToAddress(contact);
-		EcheckSalesResponse response = new LitleOnline().echeckSale(echecksale);
+		EcheckSalesResponse response = litle.echeckSale(echecksale);
 		assertEquals("Approved", response.getMessage());
 	}
 	
@@ -106,7 +114,7 @@ public class TestEcheckSale {
 		contact.setState("MA");
 		contact.setEmail("litle.com");
 		echecksale.setBillToAddress(contact);
-		EcheckSalesResponse response = new LitleOnline().echeckSale(echecksale);
+		EcheckSalesResponse response = litle.echeckSale(echecksale);
 		assertEquals("Approved", response.getMessage());
 	}
 	
@@ -127,7 +135,7 @@ public class TestEcheckSale {
 		echecksale.setOrderSource("ecommerce");
 		
 		try {
-			new LitleOnline().echeckSale(echecksale);
+			litle.echeckSale(echecksale);
 			fail("Expected exception");
 		} catch(LitleOnlineException e) {
 			assertEquals("Error validating xml data against the schema", e.getMessage());
@@ -140,7 +148,7 @@ public class TestEcheckSale {
 		echecksale.setReportGroup("Planets");
 		echecksale.setLitleTxnId(123456789101112L);
 		echecksale.setAmount(BigInteger.valueOf(12L));
-		EcheckSalesResponse response = new LitleOnline().echeckSale(echecksale);
+		EcheckSalesResponse response = litle.echeckSale(echecksale);
 		assertEquals("Approved", response.getMessage());
 	}
 

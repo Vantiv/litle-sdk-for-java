@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import java.math.BigInteger;
 import java.util.Calendar;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.litle.sdk.generate.AuthInformation;
@@ -15,13 +16,17 @@ import com.litle.sdk.generate.CardType;
 import com.litle.sdk.generate.Contact;
 import com.litle.sdk.generate.FraudResult;
 import com.litle.sdk.generate.ProcessingInstructions;
-import com.sun.msv.datatype.xsd.ConcreteType;
-import com.sun.msv.datatype.xsd.TokenType;
-import com.sun.xml.xsom.impl.scd.Token;
 
 
 public class TestCaptureGivenAuth {
 
+	private static LitleOnline litle;
+
+	@BeforeClass
+	public static void beforeClass() throws Exception {
+		litle = new LitleOnline();
+	}
+	
 	@Test
 	public void simpleCaptureGivenAuthWithCard() throws Exception{
 		CaptureGivenAuth capturegivenauth = new CaptureGivenAuth();
@@ -40,7 +45,7 @@ public class TestCaptureGivenAuth {
 		card.setNumber("4100000000000001");
 		card.setExpDate("1210");
 		capturegivenauth.setCard(card);
-		CaptureGivenAuthResponse response = new LitleOnline().captureGivenAuth(capturegivenauth);
+		CaptureGivenAuthResponse response = litle.captureGivenAuth(capturegivenauth);
 		assertEquals("Approved", response.getMessage());
 	}
 	
@@ -63,7 +68,7 @@ public class TestCaptureGivenAuth {
 		cardtoken.setCardValidationNum("555");
 		cardtoken.setType("VI");
 		capturegivenauth.setToken(cardtoken);
-		CaptureGivenAuthResponse response = new LitleOnline().captureGivenAuth(capturegivenauth);
+		CaptureGivenAuthResponse response = litle.captureGivenAuth(capturegivenauth);
 		assertEquals("Approved", response.getMessage());
 	}
 	
@@ -94,7 +99,7 @@ public class TestCaptureGivenAuth {
 		card.setNumber("4100000000000001");
 		card.setExpDate("1210");
 		capturegivenauth.setCard(card);
-		CaptureGivenAuthResponse response = new LitleOnline().captureGivenAuth(capturegivenauth);
+		CaptureGivenAuthResponse response = litle.captureGivenAuth(capturegivenauth);
 		assertEquals("Approved", response.getMessage());
 	}
 	@Test
@@ -121,7 +126,7 @@ public class TestCaptureGivenAuth {
 		card.setNumber("4100000000000001");
 		card.setExpDate("1210");
 		capturegivenauth.setCard(card);
-		CaptureGivenAuthResponse response = new LitleOnline().captureGivenAuth(capturegivenauth);
+		CaptureGivenAuthResponse response = litle.captureGivenAuth(capturegivenauth);
 		assertEquals("Approved", response.getMessage());
 	}
 

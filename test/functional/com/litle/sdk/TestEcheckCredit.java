@@ -5,6 +5,7 @@ import static org.junit.Assert.fail;
 
 import java.math.BigInteger;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.litle.sdk.generate.Contact;
@@ -17,12 +18,19 @@ import com.litle.sdk.generate.ObjectFactory;
 
 public class TestEcheckCredit {
 
+	private static LitleOnline litle;
+
+	@BeforeClass
+	public static void beforeClass() throws Exception {
+		litle = new LitleOnline();
+	}
+
 	@Test
 	public void simpleEcheckCredit() throws Exception{
 		EcheckCredit echeckcredit = new EcheckCredit();
 		echeckcredit.setAmount(BigInteger.valueOf(12L));
 		echeckcredit.setLitleTxnId(123456789101112L);
-		EcheckCreditResponse response = new LitleOnline().echeckCredit(echeckcredit);
+		EcheckCreditResponse response = litle.echeckCredit(echeckcredit);
 		assertEquals("Approved", response.getMessage());
 	}
 	
@@ -30,7 +38,7 @@ public class TestEcheckCredit {
 	public void noLitleTxnId() throws Exception{
 		EcheckCredit echeckcredit = new EcheckCredit();
 		try {
-			new LitleOnline().echeckCredit(echeckcredit);
+			litle.echeckCredit(echeckcredit);
 			fail("Expected exception");
 		} catch(LitleOnlineException e) {
 			assertEquals("Error validating xml data against the schema", e.getMessage());
@@ -55,7 +63,7 @@ public class TestEcheckCredit {
 		billToAddress.setState("MA");
 		billToAddress.setEmail("litle.com");
 		echeckcredit.setBillToAddress(billToAddress);
-		EcheckCreditResponse response = new LitleOnline().echeckCredit(echeckcredit);
+		EcheckCreditResponse response = litle.echeckCredit(echeckcredit);
 		assertEquals("Approved", response.getMessage());
 	}
 	
@@ -77,7 +85,7 @@ public class TestEcheckCredit {
 		billToAddress.setState("MA");
 		billToAddress.setEmail("litle.com");
 		echeckcredit.setBillToAddress(billToAddress);
-		EcheckCreditResponse response = new LitleOnline().echeckCredit(echeckcredit);
+		EcheckCreditResponse response = litle.echeckCredit(echeckcredit);
 		assertEquals("Approved", response.getMessage());
 	}
 	
@@ -94,7 +102,7 @@ public class TestEcheckCredit {
 		echeck.setCheckNum("123455");
 		echeckcredit.setEcheckOrEcheckToken(new ObjectFactory().createEcheck(echeck));
 		try {
-			new LitleOnline().echeckCredit(echeckcredit);
+			litle.echeckCredit(echeckcredit);
 			fail("Expected exception");
 		} catch(LitleOnlineException e) {
 			assertEquals("Error validating xml data against the schema", e.getMessage());

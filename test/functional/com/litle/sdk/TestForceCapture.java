@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.math.BigInteger;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.litle.sdk.generate.CardTokenType;
@@ -12,7 +13,14 @@ import com.litle.sdk.generate.ForceCapture;
 import com.litle.sdk.generate.ForceCaptureResponse;
 
 public class TestForceCapture {
+	
+	private static LitleOnline litle;
 
+	@BeforeClass
+	public static void beforeClass() throws Exception {
+		litle = new LitleOnline();
+	}
+	
 	@Test
 	public void simpleForceCaptureWithCard() throws Exception{
 		ForceCapture forcecapture = new ForceCapture();
@@ -24,7 +32,7 @@ public class TestForceCapture {
 		card.setNumber("4100000000000001");
 		card.setExpDate("1210");
 		forcecapture.setCard(card);
-		ForceCaptureResponse response = new LitleOnline().forceCapture(forcecapture);
+		ForceCaptureResponse response = litle.forceCapture(forcecapture);
 		assertEquals("Approved", response.getMessage());
 	}
 	
@@ -40,7 +48,7 @@ public class TestForceCapture {
 		token.setCardValidationNum("555");
 		token.setType("VI");
 		forcecapture.setToken(token);
-		ForceCaptureResponse response = new LitleOnline().forceCapture(forcecapture);
+		ForceCaptureResponse response = litle.forceCapture(forcecapture);
 		assertEquals("Approved", response.getMessage());
 	}
 

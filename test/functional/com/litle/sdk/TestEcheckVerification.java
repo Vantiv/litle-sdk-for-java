@@ -7,6 +7,7 @@ import java.math.BigInteger;
 
 import javax.xml.bind.JAXBElement;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.litle.sdk.generate.Contact;
@@ -19,6 +20,13 @@ import com.litle.sdk.generate.ObjectFactory;
 
 public class TestEcheckVerification {
 
+	private static LitleOnline litle;
+
+	@BeforeClass
+	public static void beforeClass() throws Exception {
+		litle = new LitleOnline();
+	}
+	
 	@Test
 	public void simpleEcheckVerification() throws Exception{
 		EcheckVerification echeckverification = new EcheckVerification();
@@ -38,7 +46,7 @@ public class TestEcheckVerification {
 		contact.setState("MA");
 		contact.setEmail("litle.com");
 		echeckverification.setBillToAddress(contact);
-		EcheckVerificationResponse response = new LitleOnline().echeckVerification(echeckverification);
+		EcheckVerificationResponse response = litle.echeckVerification(echeckverification);
 		assertEquals("Approved", response.getMessage());
 	}
 	
@@ -61,7 +69,7 @@ public class TestEcheckVerification {
 		contact.setState("MA");
 		contact.setEmail("litle.com");
 		echeckverification.setBillToAddress(contact);
-		EcheckVerificationResponse response = new LitleOnline().echeckVerification(echeckverification);
+		EcheckVerificationResponse response = litle.echeckVerification(echeckverification);
 		assertEquals("Approved", response.getMessage());
 	}
 	
@@ -80,7 +88,7 @@ public class TestEcheckVerification {
 		echeckVerification.setOrderId("12345");
 		echeckVerification.setOrderSource("ecommerce");
 		try {
-			new LitleOnline().echeckVerification(echeckVerification);
+			litle.echeckVerification(echeckVerification);
 			fail("Expected exception");
 		} catch(LitleOnlineException e) {
 			assertEquals("Error validating xml data against the schema", e.getMessage());

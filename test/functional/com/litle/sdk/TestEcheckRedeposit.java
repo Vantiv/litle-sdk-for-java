@@ -2,6 +2,7 @@ package com.litle.sdk;
 
 import static org.junit.Assert.assertEquals;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.litle.sdk.generate.EcheckAccountTypeEnum;
@@ -13,11 +14,18 @@ import com.litle.sdk.generate.ObjectFactory;
 
 public class TestEcheckRedeposit {
 
+	private static LitleOnline litle;
+
+	@BeforeClass
+	public static void beforeClass() throws Exception {
+		litle = new LitleOnline();
+	}
+	
 	@Test
 	public void simpleEcheckRedeposit() throws Exception{
 		EcheckRedeposit echeckredeposit = new EcheckRedeposit();
 		echeckredeposit.setLitleTxnId(123456L);
-		EcheckRedepositResponse response = new LitleOnline().echeckRedeposit(echeckredeposit);
+		EcheckRedepositResponse response = litle.echeckRedeposit(echeckredeposit);
 		assertEquals("Approved", response.getMessage());
 	}
 	
@@ -32,7 +40,7 @@ public class TestEcheckRedeposit {
 		echeck.setCheckNum("123455");
 		
 		echeckredeposit.setEcheckOrEcheckToken(new ObjectFactory().createEcheck(echeck));
-		EcheckRedepositResponse response = new LitleOnline().echeckRedeposit(echeckredeposit);
+		EcheckRedepositResponse response = litle.echeckRedeposit(echeckredeposit);
 		assertEquals("Approved", response.getMessage());
 	}
 	
@@ -47,7 +55,7 @@ public class TestEcheckRedeposit {
 		echeckToken.setCheckNum("123455");
 		
 		echeckredeposit.setEcheckOrEcheckToken(new ObjectFactory().createEcheckToken(echeckToken));
-		EcheckRedepositResponse response = new LitleOnline().echeckRedeposit(echeckredeposit);
+		EcheckRedepositResponse response = litle.echeckRedeposit(echeckredeposit);
 		assertEquals("Approved", response.getMessage());
 	}
 

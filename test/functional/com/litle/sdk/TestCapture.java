@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.math.BigInteger;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.litle.sdk.generate.Capture;
@@ -12,6 +13,13 @@ import com.litle.sdk.generate.EnhancedData;
 
 public class TestCapture {
 
+	private static LitleOnline litle;
+
+	@BeforeClass
+	public static void beforeClass() throws Exception {
+		litle = new LitleOnline();
+	}
+	
 	@Test
 	public void simpleCapture() throws Exception{
 		Capture capture = new Capture();
@@ -19,7 +27,7 @@ public class TestCapture {
 		capture.setAmount(BigInteger.valueOf(106L));
 		capture.setPayPalNotes("Notes");
 		
-		CaptureResponse response = new LitleOnline().capture(capture);
+		CaptureResponse response = litle.capture(capture);
 		assertEquals("Approved", response.getMessage());
 	}
 	
@@ -31,7 +39,7 @@ public class TestCapture {
 		capture.setPartial(true);
 		capture.setPayPalNotes("Notes");
 		
-		CaptureResponse response = new LitleOnline().capture(capture);
+		CaptureResponse response = litle.capture(capture);
 		assertEquals("Approved", response.getMessage());
 	}
 	
@@ -48,7 +56,7 @@ public class TestCapture {
 		capture.setEnhancedData(enhancedData);
 		capture.setPayPalOrderComplete(true);
 		
-		CaptureResponse response = new LitleOnline().capture(capture);
+		CaptureResponse response = litle.capture(capture);
 		assertEquals("Approved", response.getMessage());
 	}
 
