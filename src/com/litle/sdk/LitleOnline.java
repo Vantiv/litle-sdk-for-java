@@ -86,109 +86,40 @@ public class LitleOnline {
 		LitleOnlineRequest request = createLitleOnlineRequest();
 		fillInReportGroup(reversal);
 		
-		ObjectFactory o = new ObjectFactory();
-		request.setTransaction(o.createAuthReversal(reversal));
-		
-		Marshaller m = jc.createMarshaller();
-		StringWriter sw = new StringWriter();
-		m.marshal(request, sw);
-		String xmlRequest = sw.toString();
-		
-		String xmlResponse = new Communication().requestToServer(xmlRequest, config);
-		Unmarshaller u = jc.createUnmarshaller();
-		try {
-			LitleOnlineResponse response = (LitleOnlineResponse)u.unmarshal(new StringReader(xmlResponse));
-			JAXBElement<? extends TransactionTypeWithReportGroup> newresponse = response.getTransactionResponse();
-			return (AuthReversalResponse)newresponse.getValue();
-		} catch(UnmarshalException ume) {
-			AuthReversalResponse response = new AuthReversalResponse();
-			response.setMessage("Error validating xml data against the schema: " + ume.getMessage());
-			return response;
-		}
+		request.setTransaction(objectFactory.createAuthReversal(reversal));
+		LitleOnlineResponse response = sendToLitle(request);
+		JAXBElement<? extends TransactionTypeWithReportGroup> newresponse = response.getTransactionResponse();
+		return (AuthReversalResponse)newresponse.getValue();
 	}
 	
 	public CaptureResponse capture(Capture capture) throws Exception {
 		LitleOnlineRequest request = createLitleOnlineRequest();
 		fillInReportGroup(capture);
 		
-		ObjectFactory o = new ObjectFactory();
-		request.setTransaction(o.createCapture(capture));
-		
-		Marshaller m = jc.createMarshaller();
-		StringWriter sw = new StringWriter();
-		m.marshal(request, sw);
-		String xmlRequest = sw.toString();
-		
-		String xmlResponse = new Communication().requestToServer(xmlRequest, config);
-		Unmarshaller u = jc.createUnmarshaller();
-		try {
-			LitleOnlineResponse response = (LitleOnlineResponse)u.unmarshal(new StringReader(xmlResponse));
-			JAXBElement<? extends TransactionTypeWithReportGroup> newresponse = response.getTransactionResponse();
-			return (CaptureResponse)newresponse.getValue();
-		} catch(UnmarshalException ume) {
-			CaptureResponse response = new CaptureResponse();
-			response.setMessage("Error validating xml data against the schema: " + ume.getMessage());
-			return response;
-		}
+		request.setTransaction(objectFactory.createCapture(capture));
+		LitleOnlineResponse response = sendToLitle(request);
+		JAXBElement<? extends TransactionTypeWithReportGroup> newresponse = response.getTransactionResponse();
+		return (CaptureResponse)newresponse.getValue();
 	}
 	
 	public CaptureGivenAuthResponse captureGivenAuth(CaptureGivenAuth captureGivenAuth) throws Exception {
 		LitleOnlineRequest request = createLitleOnlineRequest();
 		fillInReportGroup(captureGivenAuth);
 		
-		ObjectFactory o = new ObjectFactory();
-		request.setTransaction(o.createCaptureGivenAuth(captureGivenAuth));
-		
-		Marshaller m = jc.createMarshaller();
-		StringWriter sw = new StringWriter();
-		m.marshal(request, sw);
-		String xmlRequest = sw.toString();
-		
-		String xmlResponse = new Communication().requestToServer(xmlRequest, config);
-		Unmarshaller u = jc.createUnmarshaller();
-		try {
-			LitleOnlineResponse response = (LitleOnlineResponse)u.unmarshal(new StringReader(xmlResponse));
-			JAXBElement<? extends TransactionTypeWithReportGroup> newresponse = response.getTransactionResponse();
-			return (CaptureGivenAuthResponse)newresponse.getValue();
-		} catch(UnmarshalException ume) {
-			CaptureGivenAuthResponse response = new CaptureGivenAuthResponse();
-			response.setMessage("Error validating xml data against the schema: " + ume.getMessage());
-			return response;
-		}
+		request.setTransaction(objectFactory.createCaptureGivenAuth(captureGivenAuth));
+		LitleOnlineResponse response = sendToLitle(request);
+		JAXBElement<? extends TransactionTypeWithReportGroup> newresponse = response.getTransactionResponse();
+		return (CaptureGivenAuthResponse)newresponse.getValue();
 	}
 
-	
 	public CreditResponse credit(Credit credit) throws Exception {
-		LitleOnlineRequest request = new LitleOnlineRequest();
-		request.setMerchantId(config.getProperty("merchantId"));
-		request.setVersion(config.getProperty("version"));
-		Authentication authentication = new Authentication();
-		authentication.setPassword(config.getProperty("password"));
-		authentication.setUser(config.getProperty("username"));
-		if(credit.getReportGroup() == null) {
-			credit.setReportGroup(config.getProperty("reportGroup")); 
-		}
-		request.setAuthentication(authentication);
+		LitleOnlineRequest request = createLitleOnlineRequest();
+		fillInReportGroup(credit);
 		
-		ObjectFactory o = new ObjectFactory();
-		request.setTransaction(o.createCredit(credit));
-		
-		Marshaller m = jc.createMarshaller();
-		StringWriter sw = new StringWriter();
-		m.marshal(request, sw);
-		String xmlRequest = sw.toString();
-		
-		String xmlResponse = new Communication().requestToServer(xmlRequest, config);
-		Unmarshaller u = jc.createUnmarshaller();
-		try {
-			LitleOnlineResponse response = (LitleOnlineResponse)u.unmarshal(new StringReader(xmlResponse));
-			JAXBElement<? extends TransactionTypeWithReportGroup> newresponse = response.getTransactionResponse();
-			return (CreditResponse)newresponse.getValue();
-		} catch(UnmarshalException ume) {
-			CreditResponse response = new CreditResponse();
-			response.setMessage("Error validating xml data against the schema: " + ume.getMessage());
-			return response;
-		}
+		request.setTransaction(objectFactory.createCredit(credit));
+		LitleOnlineResponse response = sendToLitle(request);
+		JAXBElement<? extends TransactionTypeWithReportGroup> newresponse = response.getTransactionResponse();
+		return (CreditResponse)newresponse.getValue();
 	}
 	
 	public EcheckCreditResponse echeckCredit(EcheckCredit echeckcredit) throws Exception {
@@ -289,9 +220,7 @@ public class LitleOnline {
 		} catch(UnmarshalException ume) {
 			throw new LitleOnlineException("Error validating xml data against the schema", ume);
 		}
-		
 	}
-
 
 	private void fillInReportGroup(TransactionTypeWithReportGroup txn) {
 		if(txn.getReportGroup() == null) {
