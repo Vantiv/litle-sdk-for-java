@@ -191,37 +191,14 @@ public class LitleOnline {
 		}
 	}
 	
-	public EcheckCreditResponse echeckcredit(EcheckCredit echeckcredit) throws Exception {
-		LitleOnlineRequest request = new LitleOnlineRequest();
-		request.setMerchantId(config.getProperty("merchantId"));
-		request.setVersion(config.getProperty("version"));
-		Authentication authentication = new Authentication();
-		authentication.setPassword(config.getProperty("password"));
-		authentication.setUser(config.getProperty("username"));
-		if(echeckcredit.getReportGroup() == null) {
-			echeckcredit.setReportGroup(config.getProperty("reportGroup")); 
-		}
-		request.setAuthentication(authentication);
+	public EcheckCreditResponse echeckCredit(EcheckCredit echeckcredit) throws Exception {
+		LitleOnlineRequest request = createLitleOnlineRequest();
+		fillInReportGroup(echeckcredit);
 		
-		ObjectFactory o = new ObjectFactory();
-		request.setTransaction(o.createEcheckCredit(echeckcredit));
-		
-		Marshaller m = jc.createMarshaller();
-		StringWriter sw = new StringWriter();
-		m.marshal(request, sw);
-		String xmlRequest = sw.toString();
-		
-		String xmlResponse = new Communication().requestToServer(xmlRequest, config);
-		Unmarshaller u = jc.createUnmarshaller();
-		try {
-			LitleOnlineResponse response = (LitleOnlineResponse)u.unmarshal(new StringReader(xmlResponse));
-			JAXBElement<? extends TransactionTypeWithReportGroup> newresponse = response.getTransactionResponse();
-			return (EcheckCreditResponse)newresponse.getValue();
-		} catch(UnmarshalException ume) {
-			EcheckCreditResponse response = new EcheckCreditResponse();
-			response.setMessage("Error validating xml data against the schema: " + ume.getMessage());
-			return response;
-		}
+		request.setTransaction(objectFactory.createEcheckCredit(echeckcredit));
+		LitleOnlineResponse response = sendToLitle(request);
+		JAXBElement<? extends TransactionTypeWithReportGroup> newresponse = response.getTransactionResponse();
+		return (EcheckCreditResponse)newresponse.getValue();
 	}
 	
 	public EcheckRedepositResponse echeckRedeposit(EcheckRedeposit echeckRedeposit) throws Exception {
