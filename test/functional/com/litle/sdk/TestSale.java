@@ -25,7 +25,7 @@ public class TestSale {
 	@Test
 	public void simpleSaleWithCard() throws Exception{
 		Sale sale = new Sale();
-		sale.setAmount(BigInteger.valueOf(106L));
+		sale.setAmount(106L);
 		sale.setLitleTxnId(123456L);
 		sale.setOrderId("12344");
 		sale.setOrderSource("ecommerce");
@@ -41,7 +41,7 @@ public class TestSale {
 	@Test
 	public void simpleSaleWithPayPal() throws Exception{
 		Sale sale = new Sale();
-		sale.setAmount(BigInteger.valueOf(106L));
+		sale.setAmount(106L);
 		sale.setLitleTxnId(123456L);
 		sale.setOrderId("12344");
 		sale.setOrderSource("ecommerce");
@@ -59,7 +59,7 @@ public class TestSale {
 		Sale sale = new Sale();
 		sale.setReportGroup("Planets");
 		sale.setOrderId("12344");
-		sale.setAmount(BigInteger.valueOf(106L));
+		sale.setAmount(106L);
 		sale.setOrderSource("ecomerce"); //This order source is mispelled on purpose!
 		CardType card = new CardType();
 		card.setType("VI");
@@ -80,7 +80,7 @@ public class TestSale {
 		Sale sale = new Sale();
 		sale.setReportGroup("Planets");
 		sale.setOrderId("12344");
-		sale.setAmount(BigInteger.valueOf(106L));
+		sale.setAmount(106L);
 		sale.setLitleTxnId(123456L);
 		sale.setOrderSource("ecomerce"); //This order source is mispelled on purpose!
 		CardType card = new CardType();

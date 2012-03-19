@@ -6,6 +6,8 @@ import static org.junit.Assert.fail;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.litle.sdk.generate.EcheckVerification;
+
 public class TestCert4Echeck {
 
 	private static LitleOnline litle;
@@ -16,8 +18,10 @@ public class TestCert4Echeck {
 	}
 	
 	@Test
-	public void test() {
-		fail("Implement me");
+	public void test37() {
+		EcheckVerification verification = new EcheckVerification();
+		verification.setOrderId("37");
+		//verification.setAmount(BigInteger.valueOf(3001));
 	}
 
 }

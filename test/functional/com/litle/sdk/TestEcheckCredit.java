@@ -28,7 +28,7 @@ public class TestEcheckCredit {
 	@Test
 	public void simpleEcheckCredit() throws Exception{
 		EcheckCredit echeckcredit = new EcheckCredit();
-		echeckcredit.setAmount(BigInteger.valueOf(12L));
+		echeckcredit.setAmount(12L);
 		echeckcredit.setLitleTxnId(123456789101112L);
 		EcheckCreditResponse response = litle.echeckCredit(echeckcredit);
 		assertEquals("Approved", response.getMessage());
@@ -48,7 +48,7 @@ public class TestEcheckCredit {
 	@Test
 	public void echeckCreditWithEcheck() throws Exception{
 		EcheckCredit echeckcredit = new EcheckCredit();
-		echeckcredit.setAmount(BigInteger.valueOf(12L));
+		echeckcredit.setAmount(12L);
 		echeckcredit.setOrderId("12345");
 		echeckcredit.setOrderSource("ecommerce");
 		EcheckType echeck = new EcheckType();
@@ -70,7 +70,7 @@ public class TestEcheckCredit {
 	@Test
 	public void echeckCreditWithToken() throws Exception{
 		EcheckCredit echeckcredit = new EcheckCredit();
-		echeckcredit.setAmount(BigInteger.valueOf(12L));
+		echeckcredit.setAmount(12L);
 		echeckcredit.setOrderId("12345");
 		echeckcredit.setOrderSource("ecommerce");
 		EcheckTokenType token = new EcheckTokenType();
@@ -92,7 +92,7 @@ public class TestEcheckCredit {
 	@Test
 	public void missingBilling() throws Exception{
 		EcheckCredit echeckcredit = new EcheckCredit();
-		echeckcredit.setAmount(BigInteger.valueOf(12L));
+		echeckcredit.setAmount(12L);
 		echeckcredit.setOrderId("12345");
 		echeckcredit.setOrderSource("ecommerce");
 		EcheckType echeck = new EcheckType();

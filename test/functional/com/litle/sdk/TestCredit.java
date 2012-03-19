@@ -26,7 +26,7 @@ public class TestCredit {
 	@Test
 	public void simpleCreditWithCard() throws Exception{
 		Credit credit = new Credit();
-		credit.setAmount(BigInteger.valueOf(106L));
+		credit.setAmount(106L);
 		credit.setOrderId("12344");
 		credit.setOrderSource("ecommerce");
 		CardType card = new CardType();
@@ -41,7 +41,7 @@ public class TestCredit {
 	@Test
 	public void simpleCreditWithPaypal() throws Exception{
 		Credit credit = new Credit();
-		credit.setAmount(BigInteger.valueOf(106L));
+		credit.setAmount(106L);
 		credit.setOrderId("123456");
 		credit.setOrderSource("ecommerce");
 		Paypal paypal = new Paypal();
@@ -54,7 +54,7 @@ public class TestCredit {
 	@Test
 	public void paypalNotes() throws Exception{
 		Credit credit = new Credit();
-		credit.setAmount(BigInteger.valueOf(106L));
+		credit.setAmount(106L);
 		credit.setOrderId("12344");
 		credit.setPayPalNotes("Hello");
 		credit.setOrderSource("ecommerce");
@@ -70,7 +70,7 @@ public class TestCredit {
 	@Test
 	public void processingInstructionAndAmexData() throws Exception{
 		Credit credit = new Credit();
-		credit.setAmount(BigInteger.valueOf(2000L));
+		credit.setAmount(2000L);
 		credit.setOrderId("12344");
 		credit.setOrderSource("ecommerce");
 		ProcessingInstructions processinginstructions = new ProcessingInstructions();

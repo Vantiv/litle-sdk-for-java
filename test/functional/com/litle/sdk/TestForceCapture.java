@@ -24,7 +24,7 @@ public class TestForceCapture {
 	@Test
 	public void simpleForceCaptureWithCard() throws Exception{
 		ForceCapture forcecapture = new ForceCapture();
-		forcecapture.setAmount(BigInteger.valueOf(106L));
+		forcecapture.setAmount(106L);
 		forcecapture.setOrderId("12344");
 		forcecapture.setOrderSource("ecommerce");
 		CardType card = new CardType();
@@ -39,7 +39,7 @@ public class TestForceCapture {
 	@Test
 	public void simpleForceCaptureWithToken() throws Exception{
 		ForceCapture forcecapture = new ForceCapture();
-		forcecapture.setAmount(BigInteger.valueOf(106L));
+		forcecapture.setAmount(106L);
 		forcecapture.setOrderId("12344");
 		forcecapture.setOrderSource("ecommerce");
 		CardTokenType token = new CardTokenType();

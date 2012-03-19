@@ -31,7 +31,7 @@ public class TestEcheckSale {
 	@Test
 	public void simpleEcheckSaleWithEcheck() throws Exception{
 		EcheckSale echecksale = new EcheckSale();
-		echecksale.setAmount(BigInteger.valueOf(123456L));
+		echecksale.setAmount(123456L);
 		echecksale.setOrderId("12345");
 		echecksale.setOrderSource("ecommerce");
 		EcheckType echeck = new EcheckType();
@@ -67,7 +67,7 @@ public class TestEcheckSale {
 	public void echeckSaleWithShipTo() throws Exception{
 		EcheckSale echecksale = new EcheckSale();
 		echecksale.setReportGroup("Planets");
-		echecksale.setAmount(BigInteger.valueOf(123456L));
+		echecksale.setAmount(123456L);
 		echecksale.setVerify(true);
 		echecksale.setOrderId("12345");
 		echecksale.setOrderSource("ecommerce");
@@ -93,7 +93,7 @@ public class TestEcheckSale {
 	public void echeckSaleWithEcheckToken() throws Exception{
 		EcheckSale echecksale = new EcheckSale();
 		echecksale.setReportGroup("Planets");
-		echecksale.setAmount(BigInteger.valueOf(123456L));
+		echecksale.setAmount(123456L);
 		echecksale.setVerify(true);
 		echecksale.setOrderId("12345");
 		echecksale.setOrderSource("ecommerce");
@@ -122,7 +122,7 @@ public class TestEcheckSale {
 	public void echeckSaleMissingBilling() throws Exception{
 		EcheckSale echecksale = new EcheckSale();
 		echecksale.setReportGroup("Planets");
-		echecksale.setAmount(BigInteger.valueOf(123456L));
+		echecksale.setAmount(123456L);
 		EcheckTokenType echeck = new EcheckTokenType();
 		echeck.setAccType(EcheckAccountTypeEnum.CHECKING);
 		echeck.setLitleToken("1234565789012");
@@ -147,7 +147,7 @@ public class TestEcheckSale {
 		EcheckSale echecksale = new EcheckSale();
 		echecksale.setReportGroup("Planets");
 		echecksale.setLitleTxnId(123456789101112L);
-		echecksale.setAmount(BigInteger.valueOf(12L));
+		echecksale.setAmount(12L);
 		EcheckSalesResponse response = litle.echeckSale(echecksale);
 		assertEquals("Approved", response.getMessage());
 	}

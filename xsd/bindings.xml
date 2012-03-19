@@ -7,6 +7,8 @@
 	<jaxb:globalBindings>
 		<jaxb:javaType name="java.util.Calendar" xmlType="xs:date"
 			parseMethod="javax.xml.bind.DatatypeConverter.parseDate" printMethod="javax.xml.bind.DatatypeConverter.printDate" />
+		<jaxb:javaType name="java.lang.Long" xmlType="xp:transactionAmountType"
+			parseMethod="java.lang.Long.valueOf" printMethod="java.lang.Long.toString" />
 		<jaxb:javaType name="java.lang.String" xmlType="xs:base64Binary"
 			parseMethod="java.lang.String.valueOf" printMethod="java.lang.String.valueOf" />
 		<xjc:simple />

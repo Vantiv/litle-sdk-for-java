@@ -30,14 +30,14 @@ public class TestCaptureGivenAuth {
 	@Test
 	public void simpleCaptureGivenAuthWithCard() throws Exception{
 		CaptureGivenAuth capturegivenauth = new CaptureGivenAuth();
-		capturegivenauth.setAmount(BigInteger.valueOf(106L));
+		capturegivenauth.setAmount(106L);
 		capturegivenauth.setOrderId("12344");
 		AuthInformation authInfo = new AuthInformation();
 		Calendar authDate = Calendar.getInstance();
 		authDate.set(2002, Calendar.OCTOBER, 9);
 		authInfo.setAuthDate(authDate);
 		authInfo.setAuthCode("543216");
-		authInfo.setAuthAmount(BigInteger.valueOf(12345L));
+		authInfo.setAuthAmount(12345L);
 		capturegivenauth.setAuthInformation(authInfo);
 		capturegivenauth.setOrderSource("ecommerce");
 		CardType card = new CardType();
@@ -52,14 +52,14 @@ public class TestCaptureGivenAuth {
 	@Test
 	public void simpleCaptureGivenAuthWithToken() throws Exception{
 		CaptureGivenAuth capturegivenauth = new CaptureGivenAuth();
-		capturegivenauth.setAmount(BigInteger.valueOf(106L));
+		capturegivenauth.setAmount(106L);
 		capturegivenauth.setOrderId("12344");
 		AuthInformation authInfo = new AuthInformation();
 		Calendar authDate = Calendar.getInstance();
 		authDate.set(2002, Calendar.OCTOBER, 9);
 		authInfo.setAuthDate(authDate);
 		authInfo.setAuthCode("543216");
-		authInfo.setAuthAmount(BigInteger.valueOf(12345L));
+		authInfo.setAuthAmount(12345L);
 		capturegivenauth.setAuthInformation(authInfo);
 		capturegivenauth.setOrderSource("ecommerce");
 		CardTokenType cardtoken = new CardTokenType();
@@ -75,14 +75,14 @@ public class TestCaptureGivenAuth {
 	@Test
 	public void complexCaptureGivenAuth() throws Exception{
 		CaptureGivenAuth capturegivenauth = new CaptureGivenAuth();
-		capturegivenauth.setAmount(BigInteger.valueOf(106L));
+		capturegivenauth.setAmount(106L);
 		capturegivenauth.setOrderId("12344");
 		AuthInformation authInfo = new AuthInformation();
 		Calendar authDate = Calendar.getInstance();
 		authDate.set(2002, Calendar.OCTOBER, 9);
 		authInfo.setAuthDate(authDate);
 		authInfo.setAuthCode("543216");
-		authInfo.setAuthAmount(BigInteger.valueOf(12345L));
+		authInfo.setAuthAmount(12345L);
 		capturegivenauth.setAuthInformation(authInfo);
 		Contact contact = new Contact();
 		contact.setName("Bob");
@@ -105,14 +105,14 @@ public class TestCaptureGivenAuth {
 	@Test
 	public void authInfo() throws Exception{
 		CaptureGivenAuth capturegivenauth = new CaptureGivenAuth();
-		capturegivenauth.setAmount(BigInteger.valueOf(106L));
+		capturegivenauth.setAmount(106L);
 		capturegivenauth.setOrderId("12344");
 		AuthInformation authInfo = new AuthInformation();
 		Calendar authDate = Calendar.getInstance();
 		authDate.set(2002, Calendar.OCTOBER, 9);
 		authInfo.setAuthDate(authDate);
 		authInfo.setAuthCode("543216");
-		authInfo.setAuthAmount(BigInteger.valueOf(12345L));
+		authInfo.setAuthAmount(12345L);
 		FraudResult fraudresult = new FraudResult();
 		fraudresult.setAvsResult("12");
 		fraudresult.setCardValidationResult("123");

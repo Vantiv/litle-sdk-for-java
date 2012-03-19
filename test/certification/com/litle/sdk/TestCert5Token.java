@@ -107,7 +107,7 @@ public class TestCert5Token {
 	public void test55() throws Exception {
 		Authorization auth = new Authorization();
 		auth.setOrderId("55");
-		auth.setAmount(BigInteger.valueOf(15000L));
+		auth.setAmount(15000L);
 		auth.setOrderSource("ecommerce");
 		CardType card = new CardType();
 		card.setNumber("5435101234510196");
@@ -129,7 +129,7 @@ public class TestCert5Token {
 	public void test56() throws Exception {
 		Authorization auth = new Authorization();
 		auth.setOrderId("56");
-		auth.setAmount(BigInteger.valueOf(15000L));
+		auth.setAmount(15000L);
 		auth.setOrderSource("ecommerce");
 		CardType card = new CardType();
 		card.setNumber("5435109999999999");
@@ -147,7 +147,7 @@ public class TestCert5Token {
 	public void test57() throws Exception {
 		Authorization auth = new Authorization();
 		auth.setOrderId("57");
-		auth.setAmount(BigInteger.valueOf(15000L));
+		auth.setAmount(15000L);
 		auth.setOrderSource("ecommerce");
 		CardType card = new CardType();
 		card.setNumber("5435101234510196");
@@ -169,7 +169,7 @@ public class TestCert5Token {
 	public void test59() throws Exception {
 		Authorization auth = new Authorization();
 		auth.setOrderId("59");
-		auth.setAmount(BigInteger.valueOf(15000L));
+		auth.setAmount(15000L);
 		auth.setOrderSource("ecommerce");
 		CardTokenType token = new CardTokenType();
 		token.setLitleToken("1712990000040196");
@@ -185,7 +185,7 @@ public class TestCert5Token {
 	public void test60() throws Exception {
 		Authorization auth = new Authorization();
 		auth.setOrderId("60");
-		auth.setAmount(BigInteger.valueOf(15000L));
+		auth.setAmount(15000L);
 		auth.setOrderSource("ecommerce");
 		CardTokenType token = new CardTokenType();
 		token.setLitleToken("1712999999999999");
@@ -201,7 +201,7 @@ public class TestCert5Token {
 	public void test61() throws Exception {
 		EcheckSale sale = new EcheckSale();
 		sale.setOrderId("61");
-		sale.setAmount(BigInteger.valueOf(15000L));
+		sale.setAmount(15000L);
 		sale.setOrderSource("ecommerce");
 		Contact billToAddress = new Contact();
 		billToAddress.setFirstName("Tom");
@@ -224,7 +224,7 @@ public class TestCert5Token {
 	public void test62() throws Exception {
 		EcheckSale sale = new EcheckSale();
 		sale.setOrderId("62");
-		sale.setAmount(BigInteger.valueOf(15000L));
+		sale.setAmount(15000L);
 		sale.setOrderSource("ecommerce");
 		Contact billToAddress = new Contact();
 		billToAddress.setFirstName("Tom");
@@ -248,7 +248,7 @@ public class TestCert5Token {
 	public void test63() throws Exception {
 		EcheckSale sale = new EcheckSale();
 		sale.setOrderId("63");
-		sale.setAmount(BigInteger.valueOf(15000L));
+		sale.setAmount(15000L);
 		sale.setOrderSource("ecommerce");
 		Contact billToAddress = new Contact();
 		billToAddress.setFirstName("Tom");

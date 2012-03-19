@@ -30,7 +30,7 @@ public class TestEcheckVerification {
 	@Test
 	public void simpleEcheckVerification() throws Exception{
 		EcheckVerification echeckverification = new EcheckVerification();
-		echeckverification.setAmount(BigInteger.valueOf(123456L));
+		echeckverification.setAmount(123456L);
 		echeckverification.setOrderId("12345");
 		echeckverification.setOrderSource("ecommerce");
 		EcheckType echeck = new EcheckType();
@@ -53,7 +53,7 @@ public class TestEcheckVerification {
 	@Test
 	public void echeckVerificationWithEcheckToken() throws Exception{
 		EcheckVerification echeckverification = new EcheckVerification();
-		echeckverification.setAmount(BigInteger.valueOf(123456L));
+		echeckverification.setAmount(123456L);
 		echeckverification.setOrderId("12345");
 		echeckverification.setOrderSource("ecommerce");
 		EcheckTokenType echeck = new EcheckTokenType();
@@ -77,7 +77,7 @@ public class TestEcheckVerification {
 	public void testMissingBillingField() throws Exception {
 		EcheckVerification echeckVerification = new EcheckVerification();
 		echeckVerification.setReportGroup("Planets");
-		echeckVerification.setAmount(BigInteger.valueOf(123L));
+		echeckVerification.setAmount(123L);
 		EcheckType echeck = new EcheckType();
 		echeck.setAccType(EcheckAccountTypeEnum.CHECKING);
 		echeck.setAccNum("12345657890");

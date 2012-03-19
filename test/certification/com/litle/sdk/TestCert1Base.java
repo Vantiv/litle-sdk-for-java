@@ -35,7 +35,7 @@ public class TestCert1Base {
 	public void test1Auth() throws Exception {
 		Authorization authorization = new Authorization();
 		authorization.setOrderId("1");
-		authorization.setAmount(BigInteger.valueOf(10010L));
+		authorization.setAmount(10010L);
 		authorization.setOrderSource("ecommerce");
 		Contact contact = new Contact();
 		contact.setName("John Smith");
@@ -82,7 +82,7 @@ public class TestCert1Base {
 	public void test1AVS() throws Exception {
 		Authorization authorization = new Authorization();
 		authorization.setOrderId("1");
-		authorization.setAmount(BigInteger.valueOf(000L));
+		authorization.setAmount(000L);
 		authorization.setOrderSource("ecommerce");
 		Contact contact = new Contact();
 		contact.setName("John Smith");
@@ -112,7 +112,7 @@ public class TestCert1Base {
 	public void test1Sale() throws Exception {
 		Sale sale = new Sale();
 		sale.setOrderId("1");
-		sale.setAmount(BigInteger.valueOf(10010L));
+		sale.setAmount(10010L);
 		sale.setOrderSource("ecommerce");
 		Contact contact = new Contact();
 		contact.setName("John Smith");
@@ -153,7 +153,7 @@ public class TestCert1Base {
 	public void test2Auth() throws Exception {
 		Authorization authorization = new Authorization();
 		authorization.setOrderId("2");
-		authorization.setAmount(BigInteger.valueOf(20020L));
+		authorization.setAmount(20020L);
 		authorization.setOrderSource("ecommerce");
 		Contact contact = new Contact();
 		contact.setName("Mike J. Hammer");
@@ -204,7 +204,7 @@ public class TestCert1Base {
 	public void test2AVS() throws Exception {
 		Authorization authorization = new Authorization();
 		authorization.setOrderId("2");
-		authorization.setAmount(BigInteger.valueOf(000L));
+		authorization.setAmount(000L);
 		authorization.setOrderSource("ecommerce");
 		Contact contact = new Contact();
 		contact.setName("Mike J. Hammer");
@@ -238,7 +238,7 @@ public class TestCert1Base {
 	public void test2Sale() throws Exception {
 		Sale sale = new Sale();
 		sale.setOrderId("2");
-		sale.setAmount(BigInteger.valueOf(20020L));
+		sale.setAmount(20020L);
 		sale.setOrderSource("ecommerce");
 		Contact contact = new Contact();
 		contact.setName("Mike J. Hammer");
@@ -283,7 +283,7 @@ public class TestCert1Base {
 	public void test3Auth() throws Exception {
 		Authorization authorization = new Authorization();
 		authorization.setOrderId("3");
-		authorization.setAmount(BigInteger.valueOf(30030L));
+		authorization.setAmount(30030L);
 		authorization.setOrderSource("ecommerce");
 		Contact contact = new Contact();
 		contact.setName("Eileen Jones");
@@ -330,7 +330,7 @@ public class TestCert1Base {
 	public void test3AVS() throws Exception {
 		Authorization authorization = new Authorization();
 		authorization.setOrderId("3");
-		authorization.setAmount(BigInteger.valueOf(000L));
+		authorization.setAmount(000L);
 		authorization.setOrderSource("ecommerce");
 		Contact contact = new Contact();
 		contact.setName("Eileen Jones");
@@ -360,7 +360,7 @@ public class TestCert1Base {
 	public void test3Sale() throws Exception {
 		Sale sale = new Sale();
 		sale.setOrderId("3");
-		sale.setAmount(BigInteger.valueOf(30030L));
+		sale.setAmount(30030L);
 		sale.setOrderSource("ecommerce");
 		Contact contact = new Contact();
 		contact.setName("Eileen Jones");
@@ -401,7 +401,7 @@ public class TestCert1Base {
 	public void test4Auth() throws Exception {
 		Authorization authorization = new Authorization();
 		authorization.setOrderId("4");
-		authorization.setAmount(BigInteger.valueOf(40040L));
+		authorization.setAmount(40040L);
 		authorization.setOrderSource("ecommerce");
 		Contact contact = new Contact();
 		contact.setName("Bob Black");
@@ -447,7 +447,7 @@ public class TestCert1Base {
 	public void test4AVS() throws Exception {
 		Authorization authorization = new Authorization();
 		authorization.setOrderId("4");
-		authorization.setAmount(BigInteger.valueOf(000L));
+		authorization.setAmount(000L);
 		authorization.setOrderSource("ecommerce");
 		Contact contact = new Contact();
 		contact.setName("Bob Black");
@@ -476,7 +476,7 @@ public class TestCert1Base {
 	public void test4Sale() throws Exception {
 		Sale sale = new Sale();
 		sale.setOrderId("4");
-		sale.setAmount(BigInteger.valueOf(40040L));
+		sale.setAmount(40040L);
 		sale.setOrderSource("ecommerce");
 		Contact contact = new Contact();
 		contact.setName("Bob Black");
@@ -516,7 +516,7 @@ public class TestCert1Base {
 	public void test5Auth() throws Exception {
 		Authorization authorization = new Authorization();
 		authorization.setOrderId("5");
-		authorization.setAmount(BigInteger.valueOf(50050L));
+		authorization.setAmount(50050L);
 		authorization.setOrderSource("ecommerce");
 		CardType card = new CardType();
 		card.setType("VI");
@@ -558,7 +558,7 @@ public class TestCert1Base {
 	public void test5AVS() throws Exception {
 		Authorization authorization = new Authorization();
 		authorization.setOrderId("5");
-		authorization.setAmount(BigInteger.valueOf(000L));
+		authorization.setAmount(000L);
 		authorization.setOrderSource("ecommerce");
 		CardType card = new CardType();
 		card.setType("VI");
@@ -583,7 +583,7 @@ public class TestCert1Base {
 	public void test5Sale() throws Exception {
 		Sale sale = new Sale();
 		sale.setOrderId("5");
-		sale.setAmount(BigInteger.valueOf(50050L));
+		sale.setAmount(50050L);
 		sale.setOrderSource("ecommerce");
 		CardType card = new CardType();
 		card.setType("VI");

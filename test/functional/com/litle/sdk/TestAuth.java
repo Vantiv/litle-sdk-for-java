@@ -29,7 +29,7 @@ public class TestAuth {
 		Authorization authorization = new Authorization();
 		authorization.setReportGroup("Planets");
 		authorization.setOrderId("12344");
-		authorization.setAmount(BigInteger.valueOf(106L));
+		authorization.setAmount(106L);
 		authorization.setOrderSource("ecommerce");
 		CardType card = new CardType();
 		card.setType("VI");
@@ -46,7 +46,7 @@ public class TestAuth {
 		Authorization authorization = new Authorization();
 		authorization.setReportGroup("Planets");
 		authorization.setOrderId("123456");
-		authorization.setAmount(BigInteger.valueOf(106L));
+		authorization.setAmount(106L);
 		authorization.setOrderSource("ecommerce");
 		PayPal paypal = new PayPal();
 		paypal.setPayerId("1234");
@@ -63,7 +63,7 @@ public class TestAuth {
 		Authorization authorization = new Authorization();
 		authorization.setReportGroup("Planets");
 		authorization.setOrderId("12344");
-		authorization.setAmount(BigInteger.valueOf(106L));
+		authorization.setAmount(106L);
 		authorization.setOrderSource("ecomerce"); //This order source is mispelled on purpose!
 		CardType card = new CardType();
 		card.setType("VI");
@@ -84,7 +84,7 @@ public class TestAuth {
 		Authorization authorization = new Authorization();
 		authorization.setReportGroup("Planets");
 		authorization.setOrderId("12344");
-		authorization.setAmount(BigInteger.valueOf(106L));
+		authorization.setAmount(106L);
 		authorization.setOrderSource("ecommerce");
 		Pos pos = new Pos();
 		pos.setCardholderId(PosCardholderIdTypeEnum.PIN);
