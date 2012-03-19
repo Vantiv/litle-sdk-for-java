@@ -21,6 +21,7 @@ import com.litle.sdk.generate.EcheckSalesResponse;
 import com.litle.sdk.generate.EcheckTokenType;
 import com.litle.sdk.generate.EcheckType;
 import com.litle.sdk.generate.ObjectFactory;
+import com.litle.sdk.generate.OrderSourceType;
 import com.litle.sdk.generate.RegisterTokenRequestType;
 import com.litle.sdk.generate.RegisterTokenResponse;
 
@@ -108,7 +109,7 @@ public class TestCert5Token {
 		Authorization auth = new Authorization();
 		auth.setOrderId("55");
 		auth.setAmount(15000L);
-		auth.setOrderSource("ecommerce");
+		auth.setOrderSource(OrderSourceType.ECOMMERCE);
 		CardType card = new CardType();
 		card.setNumber("5435101234510196");
 		card.setExpDate("1112");
@@ -130,7 +131,7 @@ public class TestCert5Token {
 		Authorization auth = new Authorization();
 		auth.setOrderId("56");
 		auth.setAmount(15000L);
-		auth.setOrderSource("ecommerce");
+		auth.setOrderSource(OrderSourceType.ECOMMERCE);
 		CardType card = new CardType();
 		card.setNumber("5435109999999999");
 		card.setExpDate("1112");
@@ -148,7 +149,7 @@ public class TestCert5Token {
 		Authorization auth = new Authorization();
 		auth.setOrderId("57");
 		auth.setAmount(15000L);
-		auth.setOrderSource("ecommerce");
+		auth.setOrderSource(OrderSourceType.ECOMMERCE);
 		CardType card = new CardType();
 		card.setNumber("5435101234510196");
 		card.setExpDate("1112");
@@ -170,7 +171,7 @@ public class TestCert5Token {
 		Authorization auth = new Authorization();
 		auth.setOrderId("59");
 		auth.setAmount(15000L);
-		auth.setOrderSource("ecommerce");
+		auth.setOrderSource(OrderSourceType.ECOMMERCE);
 		CardTokenType token = new CardTokenType();
 		token.setLitleToken("1712990000040196");
 		token.setExpDate("1112");
@@ -186,7 +187,7 @@ public class TestCert5Token {
 		Authorization auth = new Authorization();
 		auth.setOrderId("60");
 		auth.setAmount(15000L);
-		auth.setOrderSource("ecommerce");
+		auth.setOrderSource(OrderSourceType.ECOMMERCE);
 		CardTokenType token = new CardTokenType();
 		token.setLitleToken("1712999999999999");
 		token.setExpDate("1112");
@@ -202,7 +203,7 @@ public class TestCert5Token {
 		EcheckSale sale = new EcheckSale();
 		sale.setOrderId("61");
 		sale.setAmount(15000L);
-		sale.setOrderSource("ecommerce");
+		sale.setOrderSource(OrderSourceType.ECOMMERCE);
 		Contact billToAddress = new Contact();
 		billToAddress.setFirstName("Tom");
 		billToAddress.setLastName("Black");
@@ -225,7 +226,7 @@ public class TestCert5Token {
 		EcheckSale sale = new EcheckSale();
 		sale.setOrderId("62");
 		sale.setAmount(15000L);
-		sale.setOrderSource("ecommerce");
+		sale.setOrderSource(OrderSourceType.ECOMMERCE);
 		Contact billToAddress = new Contact();
 		billToAddress.setFirstName("Tom");
 		billToAddress.setLastName("Black");
@@ -249,7 +250,7 @@ public class TestCert5Token {
 		EcheckSale sale = new EcheckSale();
 		sale.setOrderId("63");
 		sale.setAmount(15000L);
-		sale.setOrderSource("ecommerce");
+		sale.setOrderSource(OrderSourceType.ECOMMERCE);
 		Contact billToAddress = new Contact();
 		billToAddress.setFirstName("Tom");
 		billToAddress.setLastName("Black");

@@ -11,6 +11,7 @@ import com.litle.sdk.generate.CardTokenType;
 import com.litle.sdk.generate.CardType;
 import com.litle.sdk.generate.ForceCapture;
 import com.litle.sdk.generate.ForceCaptureResponse;
+import com.litle.sdk.generate.OrderSourceType;
 
 public class TestForceCapture {
 	
@@ -26,7 +27,7 @@ public class TestForceCapture {
 		ForceCapture forcecapture = new ForceCapture();
 		forcecapture.setAmount(106L);
 		forcecapture.setOrderId("12344");
-		forcecapture.setOrderSource("ecommerce");
+		forcecapture.setOrderSource(OrderSourceType.ECOMMERCE);
 		CardType card = new CardType();
 		card.setType("VI");
 		card.setNumber("4100000000000001");
@@ -41,7 +42,7 @@ public class TestForceCapture {
 		ForceCapture forcecapture = new ForceCapture();
 		forcecapture.setAmount(106L);
 		forcecapture.setOrderId("12344");
-		forcecapture.setOrderSource("ecommerce");
+		forcecapture.setOrderSource(OrderSourceType.ECOMMERCE);
 		CardTokenType token = new CardTokenType();
 		token.setLitleToken("123456789101112");
 		token.setExpDate("1210");

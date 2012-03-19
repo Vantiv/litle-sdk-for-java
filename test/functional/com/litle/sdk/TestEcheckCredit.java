@@ -15,6 +15,7 @@ import com.litle.sdk.generate.EcheckCreditResponse;
 import com.litle.sdk.generate.EcheckTokenType;
 import com.litle.sdk.generate.EcheckType;
 import com.litle.sdk.generate.ObjectFactory;
+import com.litle.sdk.generate.OrderSourceType;
 
 public class TestEcheckCredit {
 
@@ -50,7 +51,7 @@ public class TestEcheckCredit {
 		EcheckCredit echeckcredit = new EcheckCredit();
 		echeckcredit.setAmount(12L);
 		echeckcredit.setOrderId("12345");
-		echeckcredit.setOrderSource("ecommerce");
+		echeckcredit.setOrderSource(OrderSourceType.ECOMMERCE);
 		EcheckType echeck = new EcheckType();
 		echeck.setAccType(EcheckAccountTypeEnum.CHECKING);
 		echeck.setAccNum("12345657890");
@@ -72,7 +73,7 @@ public class TestEcheckCredit {
 		EcheckCredit echeckcredit = new EcheckCredit();
 		echeckcredit.setAmount(12L);
 		echeckcredit.setOrderId("12345");
-		echeckcredit.setOrderSource("ecommerce");
+		echeckcredit.setOrderSource(OrderSourceType.ECOMMERCE);
 		EcheckTokenType token = new EcheckTokenType();
 		token.setAccType(EcheckAccountTypeEnum.CHECKING);
 		token.setLitleToken("1234565789012");
@@ -94,7 +95,7 @@ public class TestEcheckCredit {
 		EcheckCredit echeckcredit = new EcheckCredit();
 		echeckcredit.setAmount(12L);
 		echeckcredit.setOrderId("12345");
-		echeckcredit.setOrderSource("ecommerce");
+		echeckcredit.setOrderSource(OrderSourceType.ECOMMERCE);
 		EcheckType echeck = new EcheckType();
 		echeck.setAccType(EcheckAccountTypeEnum.CHECKING);
 		echeck.setAccNum("12345657890");

@@ -11,6 +11,7 @@ import com.litle.sdk.generate.CardType;
 import com.litle.sdk.generate.Credit;
 import com.litle.sdk.generate.Credit.Paypal;
 import com.litle.sdk.generate.CreditResponse;
+import com.litle.sdk.generate.OrderSourceType;
 import com.litle.sdk.generate.ProcessingInstructions;
 
 public class TestCredit {
@@ -28,7 +29,7 @@ public class TestCredit {
 		Credit credit = new Credit();
 		credit.setAmount(106L);
 		credit.setOrderId("12344");
-		credit.setOrderSource("ecommerce");
+		credit.setOrderSource(OrderSourceType.ECOMMERCE);
 		CardType card = new CardType();
 		card.setType("VI");
 		card.setNumber("4100000000000001");
@@ -43,7 +44,7 @@ public class TestCredit {
 		Credit credit = new Credit();
 		credit.setAmount(106L);
 		credit.setOrderId("123456");
-		credit.setOrderSource("ecommerce");
+		credit.setOrderSource(OrderSourceType.ECOMMERCE);
 		Paypal paypal = new Paypal();
 		paypal.setPayerId("1234");
 		credit.setPaypal(paypal);
@@ -57,7 +58,7 @@ public class TestCredit {
 		credit.setAmount(106L);
 		credit.setOrderId("12344");
 		credit.setPayPalNotes("Hello");
-		credit.setOrderSource("ecommerce");
+		credit.setOrderSource(OrderSourceType.ECOMMERCE);
 		CardType card = new CardType();
 		card.setType("VI");
 		card.setNumber("4100000000000001");
@@ -72,7 +73,7 @@ public class TestCredit {
 		Credit credit = new Credit();
 		credit.setAmount(2000L);
 		credit.setOrderId("12344");
-		credit.setOrderSource("ecommerce");
+		credit.setOrderSource(OrderSourceType.ECOMMERCE);
 		ProcessingInstructions processinginstructions = new ProcessingInstructions();
 		processinginstructions.setBypassVelocityCheck(true);
 		credit.setProcessingInstructions(processinginstructions);

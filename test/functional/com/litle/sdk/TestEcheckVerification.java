@@ -17,6 +17,7 @@ import com.litle.sdk.generate.EcheckType;
 import com.litle.sdk.generate.EcheckVerification;
 import com.litle.sdk.generate.EcheckVerificationResponse;
 import com.litle.sdk.generate.ObjectFactory;
+import com.litle.sdk.generate.OrderSourceType;
 
 public class TestEcheckVerification {
 
@@ -32,7 +33,7 @@ public class TestEcheckVerification {
 		EcheckVerification echeckverification = new EcheckVerification();
 		echeckverification.setAmount(123456L);
 		echeckverification.setOrderId("12345");
-		echeckverification.setOrderSource("ecommerce");
+		echeckverification.setOrderSource(OrderSourceType.ECOMMERCE);
 		EcheckType echeck = new EcheckType();
 		echeck.setAccType(EcheckAccountTypeEnum.CHECKING);
 		echeck.setAccNum("12345657890");
@@ -55,7 +56,7 @@ public class TestEcheckVerification {
 		EcheckVerification echeckverification = new EcheckVerification();
 		echeckverification.setAmount(123456L);
 		echeckverification.setOrderId("12345");
-		echeckverification.setOrderSource("ecommerce");
+		echeckverification.setOrderSource(OrderSourceType.ECOMMERCE);
 		EcheckTokenType echeck = new EcheckTokenType();
 		echeck.setAccType(EcheckAccountTypeEnum.CHECKING);
 		echeck.setLitleToken("1234565789012");
@@ -86,7 +87,7 @@ public class TestEcheckVerification {
 		JAXBElement<?> invalidEcheck = new ObjectFactory().createEcheck(echeck);
 		echeckVerification.setEcheckOrEcheckToken(invalidEcheck);
 		echeckVerification.setOrderId("12345");
-		echeckVerification.setOrderSource("ecommerce");
+		echeckVerification.setOrderSource(OrderSourceType.ECOMMERCE);
 		try {
 			litle.echeckVerification(echeckVerification);
 			fail("Expected exception");

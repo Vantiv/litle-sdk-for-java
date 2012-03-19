@@ -1,5 +1,5 @@
 <xs:schema targetNamespace="http://www.litle.com/schema" xmlns:xp="http://www.litle.com/schema"
-    xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+    xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified" xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" jaxb:version="2.0">
 <!-- 
  Litle & Co. API Version: 8.10
  Copyright © 2003-2012, Litle & Co. ALL RIGHTS RESERVED.
@@ -1330,8 +1330,20 @@
             <xs:enumeration value="recurring" />
             <xs:enumeration value="retail" />
             <xs:enumeration value="telephone" />
-            <xs:enumeration value="3dsAuthenticated" />
-            <xs:enumeration value="3dsAttempted" />
+            <xs:enumeration value="3dsAuthenticated">
+            	<xs:annotation>
+            		<xs:appinfo>
+            			<jaxb:typesafeEnumMember name="AUTHENTICATED_3DS"/>
+            		</xs:appinfo>
+            	</xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="3dsAttempted">
+				<xs:annotation>
+					<xs:appinfo>
+						<jaxb:typesafeEnumMember name="ATTEMPTED_3DS" />
+					</xs:appinfo>
+				</xs:annotation>
+            </xs:enumeration>
             <!-- recurringtel is only for echeck -->
             <xs:enumeration value="recurringtel" />
         </xs:restriction>

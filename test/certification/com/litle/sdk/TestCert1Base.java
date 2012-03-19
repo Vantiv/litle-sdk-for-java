@@ -18,6 +18,7 @@ import com.litle.sdk.generate.CountryTypeEnum;
 import com.litle.sdk.generate.Credit;
 import com.litle.sdk.generate.CreditResponse;
 import com.litle.sdk.generate.FraudCheckType;
+import com.litle.sdk.generate.OrderSourceType;
 import com.litle.sdk.generate.Sale;
 import com.litle.sdk.generate.SaleResponse;
 import com.litle.sdk.generate.VoidResponse;
@@ -36,7 +37,7 @@ public class TestCert1Base {
 		Authorization authorization = new Authorization();
 		authorization.setOrderId("1");
 		authorization.setAmount(10010L);
-		authorization.setOrderSource("ecommerce");
+		authorization.setOrderSource(OrderSourceType.ECOMMERCE);
 		Contact contact = new Contact();
 		contact.setName("John Smith");
 		contact.setAddressLine1("1 Main St.");
@@ -83,7 +84,7 @@ public class TestCert1Base {
 		Authorization authorization = new Authorization();
 		authorization.setOrderId("1");
 		authorization.setAmount(000L);
-		authorization.setOrderSource("ecommerce");
+		authorization.setOrderSource(OrderSourceType.ECOMMERCE);
 		Contact contact = new Contact();
 		contact.setName("John Smith");
 		contact.setAddressLine1("1 Main St.");
@@ -113,7 +114,7 @@ public class TestCert1Base {
 		Sale sale = new Sale();
 		sale.setOrderId("1");
 		sale.setAmount(10010L);
-		sale.setOrderSource("ecommerce");
+		sale.setOrderSource(OrderSourceType.ECOMMERCE);
 		Contact contact = new Contact();
 		contact.setName("John Smith");
 		contact.setAddressLine1("1 Main St.");
@@ -154,7 +155,7 @@ public class TestCert1Base {
 		Authorization authorization = new Authorization();
 		authorization.setOrderId("2");
 		authorization.setAmount(20020L);
-		authorization.setOrderSource("ecommerce");
+		authorization.setOrderSource(OrderSourceType.ECOMMERCE);
 		Contact contact = new Contact();
 		contact.setName("Mike J. Hammer");
 		contact.setAddressLine1("2 Main St.");
@@ -205,7 +206,7 @@ public class TestCert1Base {
 		Authorization authorization = new Authorization();
 		authorization.setOrderId("2");
 		authorization.setAmount(000L);
-		authorization.setOrderSource("ecommerce");
+		authorization.setOrderSource(OrderSourceType.ECOMMERCE);
 		Contact contact = new Contact();
 		contact.setName("Mike J. Hammer");
 		contact.setAddressLine1("2 Main St.");
@@ -239,7 +240,7 @@ public class TestCert1Base {
 		Sale sale = new Sale();
 		sale.setOrderId("2");
 		sale.setAmount(20020L);
-		sale.setOrderSource("ecommerce");
+		sale.setOrderSource(OrderSourceType.ECOMMERCE);
 		Contact contact = new Contact();
 		contact.setName("Mike J. Hammer");
 		contact.setAddressLine1("2 Main St.");
@@ -284,7 +285,7 @@ public class TestCert1Base {
 		Authorization authorization = new Authorization();
 		authorization.setOrderId("3");
 		authorization.setAmount(30030L);
-		authorization.setOrderSource("ecommerce");
+		authorization.setOrderSource(OrderSourceType.ECOMMERCE);
 		Contact contact = new Contact();
 		contact.setName("Eileen Jones");
 		contact.setAddressLine1("3 Main St.");
@@ -331,7 +332,7 @@ public class TestCert1Base {
 		Authorization authorization = new Authorization();
 		authorization.setOrderId("3");
 		authorization.setAmount(000L);
-		authorization.setOrderSource("ecommerce");
+		authorization.setOrderSource(OrderSourceType.ECOMMERCE);
 		Contact contact = new Contact();
 		contact.setName("Eileen Jones");
 		contact.setAddressLine1("3 Main St.");
@@ -361,7 +362,7 @@ public class TestCert1Base {
 		Sale sale = new Sale();
 		sale.setOrderId("3");
 		sale.setAmount(30030L);
-		sale.setOrderSource("ecommerce");
+		sale.setOrderSource(OrderSourceType.ECOMMERCE);
 		Contact contact = new Contact();
 		contact.setName("Eileen Jones");
 		contact.setAddressLine1("3 Main St.");
@@ -402,7 +403,7 @@ public class TestCert1Base {
 		Authorization authorization = new Authorization();
 		authorization.setOrderId("4");
 		authorization.setAmount(40040L);
-		authorization.setOrderSource("ecommerce");
+		authorization.setOrderSource(OrderSourceType.ECOMMERCE);
 		Contact contact = new Contact();
 		contact.setName("Bob Black");
 		contact.setAddressLine1("4 Main St.");
@@ -448,7 +449,7 @@ public class TestCert1Base {
 		Authorization authorization = new Authorization();
 		authorization.setOrderId("4");
 		authorization.setAmount(000L);
-		authorization.setOrderSource("ecommerce");
+		authorization.setOrderSource(OrderSourceType.ECOMMERCE);
 		Contact contact = new Contact();
 		contact.setName("Bob Black");
 		contact.setAddressLine1("4 Main St.");
@@ -477,7 +478,7 @@ public class TestCert1Base {
 		Sale sale = new Sale();
 		sale.setOrderId("4");
 		sale.setAmount(40040L);
-		sale.setOrderSource("ecommerce");
+		sale.setOrderSource(OrderSourceType.ECOMMERCE);
 		Contact contact = new Contact();
 		contact.setName("Bob Black");
 		contact.setAddressLine1("4 Main St.");
@@ -517,7 +518,7 @@ public class TestCert1Base {
 		Authorization authorization = new Authorization();
 		authorization.setOrderId("5");
 		authorization.setAmount(50050L);
-		authorization.setOrderSource("ecommerce");
+		authorization.setOrderSource(OrderSourceType.ECOMMERCE);
 		CardType card = new CardType();
 		card.setType("VI");
 		card.setNumber("4457010200000007");
@@ -559,7 +560,7 @@ public class TestCert1Base {
 		Authorization authorization = new Authorization();
 		authorization.setOrderId("5");
 		authorization.setAmount(000L);
-		authorization.setOrderSource("ecommerce");
+		authorization.setOrderSource(OrderSourceType.ECOMMERCE);
 		CardType card = new CardType();
 		card.setType("VI");
 		card.setNumber("4457010200000007");
@@ -584,7 +585,7 @@ public class TestCert1Base {
 		Sale sale = new Sale();
 		sale.setOrderId("5");
 		sale.setAmount(50050L);
-		sale.setOrderSource("ecommerce");
+		sale.setOrderSource(OrderSourceType.ECOMMERCE);
 		CardType card = new CardType();
 		card.setType("VI");
 		card.setNumber("4457010200000007");
