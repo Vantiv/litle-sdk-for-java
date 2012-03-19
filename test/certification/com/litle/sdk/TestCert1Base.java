@@ -615,7 +615,409 @@ public class TestCert1Base {
 		assertEquals(voidresponse.getMessage(), "Approved",voidresponse.getMessage());
 	}
 	
+	@Test
+	public void test6Auth() throws Exception {
+		Authorization authorization = new Authorization();
+		authorization.setOrderId("6");
+		authorization.setAmount(60060L);
+		authorization.setOrderSource("ecommerce");
+		Contact contact = new Contact();
+		contact.setName("Joe Green");
+		contact.setAddressLine1("6 Main St.");
+		contact.setCity("Derry");
+		contact.setState("NH");
+		contact.setZip("03038");
+		contact.setCountry(CountryTypeEnum.US);
+		authorization.setBillToAddress(contact);
+		CardType card = new CardType();
+		card.setType("VI");
+		card.setNumber("4457010100000008");
+		card.setExpDate("0612");
+		card.setCardValidationNum("992");
+		authorization.setCard(card);
+		
+		AuthorizationResponse response = litle.authorize(authorization);
+		assertEquals(response.getMessage(), "110",response.getResponse());
+		assertEquals(response.getMessage(), "Insufficient Funds",response.getMessage());
+		assertEquals(response.getMessage(), "34",response.getFraudResult().getAvsResult());
+		assertEquals(response.getMessage(), "P",response.getFraudResult().getCardValidationResult());
+		
+	}
+	
+	@Test
+	public void test6Sale() throws Exception {
+		Sale sale = new Sale();
+		sale.setOrderId("6");
+		sale.setAmount(60060L);
+		sale.setOrderSource("ecommerce");
+		Contact contact = new Contact();
+		contact.setName("Joe Green");
+		contact.setAddressLine1("6 Main St.");
+		contact.setCity("Derry");
+		contact.setState("NH");
+		contact.setZip("03038");
+		contact.setCountry(CountryTypeEnum.US);
+		sale.setBillToAddress(contact);
+		CardType card = new CardType();
+		card.setType("VI");
+		card.setNumber("4457010100000008");
+		card.setExpDate("0612");
+		card.setCardValidationNum("992");
+		sale.setCard(card);
+		
+		SaleResponse response = litle.sale(sale);
+		assertEquals(response.getMessage(), "110",response.getResponse());
+		assertEquals(response.getMessage(), "Insufficient Funds",response.getMessage());
+		assertEquals(response.getMessage(), "34",response.getFraudResult().getAvsResult());
+		assertEquals(response.getMessage(), "P",response.getFraudResult().getCardValidationResult());
+		
+		com.litle.sdk.generate.Void newvoid = new com.litle.sdk.generate.Void();
+		newvoid.setLitleTxnId(response.getLitleTxnId());
+		VoidResponse voidresponse = litle.dovoid(newvoid);
+		assertEquals(voidresponse.getMessage(), "360",voidresponse.getResponse());
+		assertEquals(voidresponse.getMessage(), "No transaction found with specified litleTxnId",voidresponse.getMessage());
+	}
+	
+	@Test
+	public void test7Auth() throws Exception {
+		Authorization authorization = new Authorization();
+		authorization.setOrderId("7");
+		authorization.setAmount(70070L);
+		authorization.setOrderSource("ecommerce");
+		Contact contact = new Contact();
+		contact.setName("Jane Murray");
+		contact.setAddressLine1("7 Main St.");
+		contact.setCity("Amesbury");
+		contact.setState("MA");
+		contact.setZip("01913");
+		contact.setCountry(CountryTypeEnum.US);
+		authorization.setBillToAddress(contact);
+		CardType card = new CardType();
+		card.setType("MC");
+		card.setNumber("5112010100000002");
+		card.setExpDate("0712");
+		card.setCardValidationNum("251");
+		authorization.setCard(card);
+		
+		AuthorizationResponse response = litle.authorize(authorization);
+		assertEquals(response.getMessage(), "301",response.getResponse());
+		assertEquals(response.getMessage(), "Invalid Account Number",response.getMessage());
+		assertEquals(response.getMessage(), "34",response.getFraudResult().getAvsResult());
+		assertEquals(response.getMessage(), "N",response.getFraudResult().getCardValidationResult());
+		
+	}
+	
+	@Test
+	public void test7AVS() throws Exception {
+		Authorization authorization = new Authorization();
+		authorization.setOrderId("7");
+		authorization.setAmount(000L);
+		authorization.setOrderSource("ecommerce");
+		Contact contact = new Contact();
+		contact.setName("Jane Murray");
+		contact.setAddressLine1("7 Main St.");
+		contact.setCity("Amesbury");
+		contact.setState("MA");
+		contact.setZip("01913");
+		contact.setCountry(CountryTypeEnum.US);
+		authorization.setBillToAddress(contact);
+		CardType card = new CardType();
+		card.setType("MC");
+		card.setNumber("5112010100000002");
+		card.setExpDate("0712");
+		card.setCardValidationNum("251");
+		authorization.setCard(card);
+		
+		AuthorizationResponse response = litle.authorize(authorization);
+		assertEquals(response.getMessage(), "301",response.getResponse());
+		assertEquals(response.getMessage(), "Invalid Account Number",response.getMessage());
+		assertEquals(response.getMessage(), "34",response.getFraudResult().getAvsResult());
+		assertEquals(response.getMessage(), "N",response.getFraudResult().getCardValidationResult());
+		
+	}
+	
+	@Test
+	public void test7Sale() throws Exception {
+		Sale sale = new Sale();
+		sale.setOrderId("7");
+		sale.setAmount(70070L);
+		sale.setOrderSource("ecommerce");
+		Contact contact = new Contact();
+		contact.setName("Jane Murray");
+		contact.setAddressLine1("7 Main St.");
+		contact.setCity("Amesbury");
+		contact.setState("MA");
+		contact.setZip("01913");
+		contact.setCountry(CountryTypeEnum.US);
+		sale.setBillToAddress(contact);
+		CardType card = new CardType();
+		card.setType("MC");
+		card.setNumber("5112010100000002");
+		card.setExpDate("0712");
+		card.setCardValidationNum("251");
+		sale.setCard(card);
+		
+		SaleResponse response = litle.sale(sale);
+		assertEquals(response.getMessage(), "301",response.getResponse());
+		assertEquals(response.getMessage(), "Invalid Account Number",response.getMessage());
+		assertEquals(response.getMessage(), "34",response.getFraudResult().getAvsResult());
+		assertEquals(response.getMessage(), "N",response.getFraudResult().getCardValidationResult());
+		
+	}
+	
+	@Test
+	public void test8Auth() throws Exception {
+		Authorization authorization = new Authorization();
+		authorization.setOrderId("8");
+		authorization.setAmount(80080L);
+		authorization.setOrderSource("ecommerce");
+		Contact contact = new Contact();
+		contact.setName("Mark Johnson");
+		contact.setAddressLine1("8 Main St.");
+		contact.setCity("Manchester");
+		contact.setState("NH");
+		contact.setZip("03101");
+		contact.setCountry(CountryTypeEnum.US);
+		authorization.setBillToAddress(contact);
+		CardType card = new CardType();
+		card.setType("DI");
+		card.setNumber("6011010100000002");
+		card.setExpDate("0812");
+		card.setCardValidationNum("184");
+		authorization.setCard(card);
+		
+		AuthorizationResponse response = litle.authorize(authorization);
+		assertEquals(response.getMessage(), "123",response.getResponse());
+		assertEquals(response.getMessage(), "Call Discover",response.getMessage());
+		assertEquals(response.getMessage(), "34",response.getFraudResult().getAvsResult());
+		assertEquals(response.getMessage(), "P",response.getFraudResult().getCardValidationResult());
+		
+	}
+	
+	@Test
+	public void test8AVS() throws Exception {
+		Authorization authorization = new Authorization();
+		authorization.setOrderId("8");
+		authorization.setAmount(000L);
+		authorization.setOrderSource("ecommerce");
+		Contact contact = new Contact();
+		contact.setName("Mark Johnson");
+		contact.setAddressLine1("8 Main St.");
+		contact.setCity("Manchester");
+		contact.setState("NH");
+		contact.setZip("03101");
+		contact.setCountry(CountryTypeEnum.US);
+		authorization.setBillToAddress(contact);
+		CardType card = new CardType();
+		card.setType("DI");
+		card.setNumber("6011010100000002");
+		card.setExpDate("0812");
+		card.setCardValidationNum("184");
+		authorization.setCard(card);
+		
+		AuthorizationResponse response = litle.authorize(authorization);
+		assertEquals(response.getMessage(), "123",response.getResponse());
+		assertEquals(response.getMessage(), "Call Discover",response.getMessage());
+		assertEquals(response.getMessage(), "34",response.getFraudResult().getAvsResult());
+		assertEquals(response.getMessage(), "P",response.getFraudResult().getCardValidationResult());
+		
+	}
+	
+	@Test
+	public void test8Sale() throws Exception {
+		Sale sale = new Sale();
+		sale.setOrderId("8");
+		sale.setAmount(80080L);
+		sale.setOrderSource("ecommerce");
+		Contact contact = new Contact();
+		contact.setName("Mark Johnson");
+		contact.setAddressLine1("8 Main St.");
+		contact.setCity("Manchester");
+		contact.setState("NH");
+		contact.setZip("03101");
+		contact.setCountry(CountryTypeEnum.US);
+		sale.setBillToAddress(contact);
+		CardType card = new CardType();
+		card.setType("DI");
+		card.setNumber("6011010100000002");
+		card.setExpDate("0812");
+		card.setCardValidationNum("184");
+		sale.setCard(card);
+		
+		SaleResponse response = litle.sale(sale);
+		assertEquals(response.getMessage(), "123",response.getResponse());
+		assertEquals(response.getMessage(), "Call Discover",response.getMessage());
+		assertEquals(response.getMessage(), "34",response.getFraudResult().getAvsResult());
+		assertEquals(response.getMessage(), "P",response.getFraudResult().getCardValidationResult());
+		
+	}
+	
+	@Test
+	public void test9Auth() throws Exception {
+		Authorization authorization = new Authorization();
+		authorization.setOrderId("9");
+		authorization.setAmount(90090L);
+		authorization.setOrderSource("ecommerce");
+		Contact contact = new Contact();
+		contact.setName("James Miller");
+		contact.setAddressLine1("9 Main St.");
+		contact.setCity("Boston");
+		contact.setState("MA");
+		contact.setZip("02134");
+		contact.setCountry(CountryTypeEnum.US);
+		authorization.setBillToAddress(contact);
+		CardType card = new CardType();
+		card.setType("AX");
+		card.setNumber("375001010000003");
+		card.setExpDate("0912");
+		card.setCardValidationNum("0421");
+		authorization.setCard(card);
+		
+		AuthorizationResponse response = litle.authorize(authorization);
+		assertEquals(response.getMessage(), "303",response.getResponse());
+		assertEquals(response.getMessage(), "Pick Up Card",response.getMessage());
+		assertEquals(response.getMessage(), "34",response.getFraudResult().getAvsResult());
+		
+	}
+	
+	@Test
+	public void test9AVS() throws Exception {
+		Authorization authorization = new Authorization();
+		authorization.setOrderId("9");
+		authorization.setAmount(000L);
+		authorization.setOrderSource("ecommerce");
+		Contact contact = new Contact();
+		contact.setName("James Miller");
+		contact.setAddressLine1("9 Main St.");
+		contact.setCity("Boston");
+		contact.setState("MA");
+		contact.setZip("02134");
+		contact.setCountry(CountryTypeEnum.US);
+		authorization.setBillToAddress(contact);
+		CardType card = new CardType();
+		card.setType("AX");
+		card.setNumber("375001010000003");
+		card.setExpDate("0912");
+		card.setCardValidationNum("0421");
+		authorization.setCard(card);
+		
+		AuthorizationResponse response = litle.authorize(authorization);
+		assertEquals(response.getMessage(), "303",response.getResponse());
+		assertEquals(response.getMessage(), "Pick Up Card",response.getMessage());
+		assertEquals(response.getMessage(), "34",response.getFraudResult().getAvsResult());
+		
+	}
+	
+	@Test
+	public void test9Sale() throws Exception {
+		Sale sale = new Sale();
+		sale.setOrderId("9");
+		sale.setAmount(90090L);
+		sale.setOrderSource("ecommerce");
+		Contact contact = new Contact();
+		contact.setName("James Miller");
+		contact.setAddressLine1("9 Main St.");
+		contact.setCity("Boston");
+		contact.setState("MA");
+		contact.setZip("02134");
+		contact.setCountry(CountryTypeEnum.US);
+		sale.setBillToAddress(contact);
+		CardType card = new CardType();
+		card.setType("AX");
+		card.setNumber("375001010000003");
+		card.setExpDate("0912");
+		card.setCardValidationNum("0421");
+		sale.setCard(card);
+		
+		SaleResponse response = litle.sale(sale);
+		assertEquals(response.getMessage(), "303",response.getResponse());
+		assertEquals(response.getMessage(), "Pick Up Card",response.getMessage());
+		assertEquals(response.getMessage(), "34",response.getFraudResult().getAvsResult());
+		
+	}
+	
+	@Test
+	public void test10() throws Exception {
+		Authorization authorization = new Authorization();
+		authorization.setOrderId("10");
+		authorization.setAmount(40000L);
+		authorization.setOrderSource("ecommerce");
+		CardType card = new CardType();
+		card.setType("VI");
+		card.setNumber("4457010140000141");
+		card.setExpDate("0912");
+		authorization.setCard(card);
+		authorization.setAllowPartialAuth(true);
+		
+		AuthorizationResponse response = litle.authorize(authorization);
+		assertEquals(response.getMessage(), "010",response.getResponse());
+		assertEquals(response.getMessage(), "Partially Approved",response.getMessage());
+		assertEquals(response.getMessage(), 32000L,response.getApprovedAmount().longValue());
+		
+	}
+	
+	@Test
+	public void test11() throws Exception {
+		Authorization authorization = new Authorization();
+		authorization.setOrderId("11");
+		authorization.setAmount(60000L);
+		authorization.setOrderSource("ecommerce");
+		CardType card = new CardType();
+		card.setType("MC");
+		card.setNumber("5112010140000004");
+		card.setExpDate("1111");
+		authorization.setCard(card);
+		authorization.setAllowPartialAuth(true);
+		
+		AuthorizationResponse response = litle.authorize(authorization);
+		assertEquals(response.getMessage(), "010",response.getResponse());
+		assertEquals(response.getMessage(), "Partially Approved",response.getMessage());
+		assertEquals(response.getMessage(), 48000L,response.getApprovedAmount().longValue());
+		
+	}
+	
+	@Test
+	public void test12() throws Exception {
+		Authorization authorization = new Authorization();
+		authorization.setOrderId("12");
+		authorization.setAmount(50000L);
+		authorization.setOrderSource("ecommerce");
+		CardType card = new CardType();
+		card.setType("AX");
+		card.setNumber("375001014000009");
+		card.setExpDate("0412");
+		authorization.setCard(card);
+		authorization.setAllowPartialAuth(true);
+		
+		AuthorizationResponse response = litle.authorize(authorization);
+		assertEquals(response.getMessage(), "010",response.getResponse());
+		assertEquals(response.getMessage(), "Partially Approved",response.getMessage());
+		assertEquals(response.getMessage(), 40000L,response.getApprovedAmount().longValue());
+		
+	}
+	
+	@Test
+	public void test13() throws Exception {
+		Authorization authorization = new Authorization();
+		authorization.setOrderId("13");
+		authorization.setAmount(15000L);
+		authorization.setOrderSource("ecommerce");
+		CardType card = new CardType();
+		card.setType("DI");
+		card.setNumber("6011010140000004");
+		card.setExpDate("0812");
+		authorization.setCard(card);
+		authorization.setAllowPartialAuth(true);
+		
+		AuthorizationResponse response = litle.authorize(authorization);
+		assertEquals(response.getMessage(), "010",response.getResponse());
+		assertEquals(response.getMessage(), "Partially Approved",response.getMessage());
+		assertEquals(response.getMessage(), 12000L,response.getApprovedAmount().longValue());
+		
+	}
+	
 
 }
+
 
 
