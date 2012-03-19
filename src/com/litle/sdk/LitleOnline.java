@@ -44,6 +44,7 @@ import com.litle.sdk.generate.Sale;
 import com.litle.sdk.generate.SaleResponse;
 import com.litle.sdk.generate.TransactionTypeWithReportGroup;
 import com.litle.sdk.generate.TransactionTypeWithReportGroupAndPartial;
+import com.litle.sdk.generate.VoidResponse;
 
 public class LitleOnline {
 	
@@ -194,6 +195,16 @@ public class LitleOnline {
 		LitleOnlineResponse response = sendToLitle(request);
 		JAXBElement<? extends TransactionTypeWithReportGroup> newresponse = response.getTransactionResponse();
 		return (RegisterTokenResponse)newresponse.getValue();
+	}
+	
+	public VoidResponse dovoid(com.litle.sdk.generate.Void v) throws Exception {
+		LitleOnlineRequest request = createLitleOnlineRequest();
+		fillInReportGroup(v);
+		
+		request.setTransaction(objectFactory.createVoid(v));
+		LitleOnlineResponse response = sendToLitle(request);
+		JAXBElement<? extends TransactionTypeWithReportGroup> newresponse = response.getTransactionResponse();
+		return (VoidResponse)newresponse.getValue();
 	}
 
 	private LitleOnlineRequest createLitleOnlineRequest() {
