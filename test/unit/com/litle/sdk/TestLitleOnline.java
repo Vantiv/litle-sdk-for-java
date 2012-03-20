@@ -16,6 +16,7 @@ import com.litle.sdk.generate.AuthReversal;
 import com.litle.sdk.generate.AuthReversalResponse;
 import com.litle.sdk.generate.Authorization;
 import com.litle.sdk.generate.CardType;
+import com.litle.sdk.generate.MethodOfPaymentTypeEnum;
 import com.litle.sdk.generate.OrderSourceType;
 
 public class TestLitleOnline {
@@ -36,7 +37,7 @@ public class TestLitleOnline {
 		authorization.setAmount(106L);
 		authorization.setOrderSource(OrderSourceType.ECOMMERCE);
 		CardType card = new CardType();
-		card.setType("VI");
+		card.setType(MethodOfPaymentTypeEnum.VI);
 		card.setNumber("4100000000000002");
 		card.setExpDate("1210");
 		authorization.setCard(card);
