@@ -52,12 +52,14 @@ public class LitleOnline {
 	private ObjectFactory objectFactory;
 	private Marshaller marshaller;
 	private Unmarshaller unmarshaller;
+	private Communication communication;
 	
 	public LitleOnline() {
 		try {
 			jc = JAXBContext.newInstance("com.litle.sdk.generate");
 			marshaller = jc.createMarshaller();
 			unmarshaller = jc.createUnmarshaller();
+			communication = new Communication();
 		} catch (JAXBException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -75,6 +77,11 @@ public class LitleOnline {
 		objectFactory = new ObjectFactory();
 	}
 
+	public void setCommunication(Communication communication) {
+		this.communication = communication;
+	}
+
+	
 	public AuthorizationResponse authorize(Authorization auth) throws LitleOnlineException {
 		LitleOnlineRequest request = createLitleOnlineRequest();
 		fillInReportGroup(auth);
@@ -222,7 +229,7 @@ public class LitleOnline {
 			marshaller.marshal(request, sw);
 			String xmlRequest = sw.toString();
 			
-			String xmlResponse = new Communication().requestToServer(xmlRequest, config);
+			String xmlResponse = communication.requestToServer(xmlRequest, config);
 			LitleOnlineResponse response = (LitleOnlineResponse)unmarshaller.unmarshal(new StringReader(xmlResponse));
 			if("1".equals(response.getResponse())) {
 				throw new LitleOnlineException(response.getMessage());
