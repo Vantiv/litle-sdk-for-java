@@ -14,6 +14,7 @@ import com.litle.sdk.generate.FundingSourceTypeEnum;
 import com.litle.sdk.generate.HealthcareAmounts;
 import com.litle.sdk.generate.HealthcareIIAS;
 import com.litle.sdk.generate.IIASFlagType;
+import com.litle.sdk.generate.MethodOfPaymentTypeEnum;
 import com.litle.sdk.generate.OrderSourceType;
 
 public class TestCert2AuthEnhanced {
@@ -32,7 +33,7 @@ public class TestCert2AuthEnhanced {
 		authorization.setAmount(3000L);
 		authorization.setOrderSource(OrderSourceType.ECOMMERCE);
 		CardType card = new CardType();
-		card.setType("VI");
+		card.setType(MethodOfPaymentTypeEnum.VI);
 		card.setNumber("4457010200000247");
 		card.setExpDate("0812");
 		authorization.setCard(card);
@@ -53,7 +54,7 @@ public class TestCert2AuthEnhanced {
 		authorization.setAmount(3000L);
 		authorization.setOrderSource(OrderSourceType.ECOMMERCE);
 		CardType card = new CardType();
-		card.setType("MC");
+		card.setType(MethodOfPaymentTypeEnum.MC);
 		card.setNumber("5500000254444445");
 		card.setExpDate("0312");
 		authorization.setCard(card);
@@ -74,7 +75,7 @@ public class TestCert2AuthEnhanced {
 		authorization.setAmount(3000L);
 		authorization.setOrderSource(OrderSourceType.ECOMMERCE);
 		CardType card = new CardType();
-		card.setType("MC");
+		card.setType(MethodOfPaymentTypeEnum.MC);
 		card.setNumber("5592106621450897");
 		card.setExpDate("0312");
 		authorization.setCard(card);
@@ -95,7 +96,7 @@ public class TestCert2AuthEnhanced {
 		authorization.setAmount(3000L);
 		authorization.setOrderSource(OrderSourceType.ECOMMERCE);
 		CardType card = new CardType();
-		card.setType("MC");
+		card.setType(MethodOfPaymentTypeEnum.MC);
 		card.setNumber("5590409551104142");
 		card.setExpDate("0312");
 		authorization.setCard(card);
@@ -116,7 +117,7 @@ public class TestCert2AuthEnhanced {
 		authorization.setAmount(3000L);
 		authorization.setOrderSource(OrderSourceType.ECOMMERCE);
 		CardType card = new CardType();
-		card.setType("MC");
+		card.setType(MethodOfPaymentTypeEnum.MC);
 		card.setNumber("5587755665222179");
 		card.setExpDate("0312");
 		authorization.setCard(card);
@@ -137,7 +138,7 @@ public class TestCert2AuthEnhanced {
 		authorization.setAmount(3000L);
 		authorization.setOrderSource(OrderSourceType.ECOMMERCE);
 		CardType card = new CardType();
-		card.setType("MC");
+		card.setType(MethodOfPaymentTypeEnum.MC);
 		card.setNumber("5445840176552850");
 		card.setExpDate("0312");
 		authorization.setCard(card);
@@ -158,7 +159,7 @@ public class TestCert2AuthEnhanced {
 		authorization.setAmount(3000L);
 		authorization.setOrderSource(OrderSourceType.ECOMMERCE);
 		CardType card = new CardType();
-		card.setType("MC");
+		card.setType(MethodOfPaymentTypeEnum.MC);
 		card.setNumber("5390016478904678");
 		card.setExpDate("0312");
 		authorization.setCard(card);
@@ -179,7 +180,7 @@ public class TestCert2AuthEnhanced {
 		authorization.setAmount(5000L);
 		authorization.setOrderSource(OrderSourceType.ECOMMERCE);
 		CardType card = new CardType();
-		card.setType("VI");
+		card.setType(MethodOfPaymentTypeEnum.VI);
 		card.setNumber("4457010201000246");
 		card.setExpDate("0912");
 		authorization.setCard(card);
@@ -198,7 +199,7 @@ public class TestCert2AuthEnhanced {
 		authorization.setAmount(5000L);
 		authorization.setOrderSource(OrderSourceType.ECOMMERCE);
 		CardType card = new CardType();
-		card.setType("VI");
+		card.setType(MethodOfPaymentTypeEnum.VI);
 		card.setNumber("4457010202000245");
 		card.setExpDate("1111");
 		authorization.setCard(card);
@@ -217,7 +218,7 @@ public class TestCert2AuthEnhanced {
 		authorization.setAmount(5000L);
 		authorization.setOrderSource(OrderSourceType.ECOMMERCE);
 		CardType card = new CardType();
-		card.setType("MC");
+		card.setType(MethodOfPaymentTypeEnum.MC);
 		card.setNumber("5112010201000109");
 		card.setExpDate("0412");
 		authorization.setCard(card);
@@ -236,7 +237,7 @@ public class TestCert2AuthEnhanced {
 		authorization.setAmount(5000L);
 		authorization.setOrderSource(OrderSourceType.ECOMMERCE);
 		CardType card = new CardType();
-		card.setType("MC");
+		card.setType(MethodOfPaymentTypeEnum.MC);
 		card.setNumber("5112010202000108");
 		card.setExpDate("0812");
 		authorization.setCard(card);
@@ -255,7 +256,7 @@ public class TestCert2AuthEnhanced {
 		authorization.setAmount(5000L);
 		authorization.setOrderSource(OrderSourceType.ECOMMERCE);
 		CardType card = new CardType();
-		card.setType("VI");
+		card.setType(MethodOfPaymentTypeEnum.VI);
 		card.setNumber("4100204446270000");
 		card.setExpDate("1112");
 		authorization.setCard(card);
@@ -274,7 +275,7 @@ public class TestCert2AuthEnhanced {
 		authorization.setAmount(18698L);
 		authorization.setOrderSource(OrderSourceType.ECOMMERCE);
 		CardType card = new CardType();
-		card.setType("MC");
+		card.setType(MethodOfPaymentTypeEnum.MC);
 		card.setNumber("5194560012341234");
 		card.setExpDate("1212");
 		authorization.setCard(card);
@@ -298,7 +299,7 @@ public class TestCert2AuthEnhanced {
 		authorization.setAmount(18698L);
 		authorization.setOrderSource(OrderSourceType.ECOMMERCE);
 		CardType card = new CardType();
-		card.setType("MC");
+		card.setType(MethodOfPaymentTypeEnum.MC);
 		card.setNumber("5194560012341234");
 		card.setExpDate("1212");
 		authorization.setCard(card);
@@ -323,7 +324,7 @@ public class TestCert2AuthEnhanced {
 		authorization.setAmount(15000L);
 		authorization.setOrderSource(OrderSourceType.ECOMMERCE);
 		CardType card = new CardType();
-		card.setType("MC");
+		card.setType(MethodOfPaymentTypeEnum.MC);
 		card.setNumber("5194560012341234");
 		card.setExpDate("1212");
 		authorization.setCard(card);
@@ -348,7 +349,7 @@ public class TestCert2AuthEnhanced {
 		authorization.setAmount(18699L);
 		authorization.setOrderSource(OrderSourceType.ECOMMERCE);
 		CardType card = new CardType();
-		card.setType("VI");
+		card.setType(MethodOfPaymentTypeEnum.VI);
 		card.setNumber("4024720001231239");
 		card.setExpDate("1212");
 		authorization.setCard(card);
@@ -376,7 +377,7 @@ public class TestCert2AuthEnhanced {
 		authorization.setAmount(20000L);
 		authorization.setOrderSource(OrderSourceType.ECOMMERCE);
 		CardType card = new CardType();
-		card.setType("VI");
+		card.setType(MethodOfPaymentTypeEnum.VI);
 		card.setNumber("4024720001231239");
 		card.setExpDate("1212");
 		authorization.setCard(card);
@@ -404,7 +405,7 @@ public class TestCert2AuthEnhanced {
 		authorization.setAmount(25000L);
 		authorization.setOrderSource(OrderSourceType.ECOMMERCE);
 		CardType card = new CardType();
-		card.setType("VI");
+		card.setType(MethodOfPaymentTypeEnum.VI);
 		card.setNumber("4024720001231239");
 		card.setExpDate("1212");
 		authorization.setCard(card);

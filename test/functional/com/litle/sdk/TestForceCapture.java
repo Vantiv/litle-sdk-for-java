@@ -9,6 +9,7 @@ import com.litle.sdk.generate.CardTokenType;
 import com.litle.sdk.generate.CardType;
 import com.litle.sdk.generate.ForceCapture;
 import com.litle.sdk.generate.ForceCaptureResponse;
+import com.litle.sdk.generate.MethodOfPaymentTypeEnum;
 import com.litle.sdk.generate.OrderSourceType;
 
 public class TestForceCapture {
@@ -27,7 +28,7 @@ public class TestForceCapture {
 		forcecapture.setOrderId("12344");
 		forcecapture.setOrderSource(OrderSourceType.ECOMMERCE);
 		CardType card = new CardType();
-		card.setType("VI");
+		card.setType(MethodOfPaymentTypeEnum.VI);
 		card.setNumber("4100000000000001");
 		card.setExpDate("1210");
 		forcecapture.setCard(card);
@@ -45,7 +46,7 @@ public class TestForceCapture {
 		token.setLitleToken("123456789101112");
 		token.setExpDate("1210");
 		token.setCardValidationNum("555");
-		token.setType("VI");
+		token.setType(MethodOfPaymentTypeEnum.VI);
 		forcecapture.setToken(token);
 		ForceCaptureResponse response = litle.forceCapture(forcecapture);
 		assertEquals("Approved", response.getMessage());

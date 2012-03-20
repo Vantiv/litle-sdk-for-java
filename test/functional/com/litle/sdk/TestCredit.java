@@ -9,6 +9,7 @@ import com.litle.sdk.generate.CardType;
 import com.litle.sdk.generate.Credit;
 import com.litle.sdk.generate.Credit.Paypal;
 import com.litle.sdk.generate.CreditResponse;
+import com.litle.sdk.generate.MethodOfPaymentTypeEnum;
 import com.litle.sdk.generate.OrderSourceType;
 import com.litle.sdk.generate.ProcessingInstructions;
 
@@ -29,7 +30,7 @@ public class TestCredit {
 		credit.setOrderId("12344");
 		credit.setOrderSource(OrderSourceType.ECOMMERCE);
 		CardType card = new CardType();
-		card.setType("VI");
+		card.setType(MethodOfPaymentTypeEnum.VI);
 		card.setNumber("4100000000000001");
 		card.setExpDate("1210");
 		credit.setCard(card);
@@ -58,7 +59,7 @@ public class TestCredit {
 		credit.setPayPalNotes("Hello");
 		credit.setOrderSource(OrderSourceType.ECOMMERCE);
 		CardType card = new CardType();
-		card.setType("VI");
+		card.setType(MethodOfPaymentTypeEnum.VI);
 		card.setNumber("4100000000000001");
 		card.setExpDate("1210");
 		credit.setCard(card);
@@ -76,7 +77,7 @@ public class TestCredit {
 		processinginstructions.setBypassVelocityCheck(true);
 		credit.setProcessingInstructions(processinginstructions);
 		CardType card = new CardType();
-		card.setType("VI");
+		card.setType(MethodOfPaymentTypeEnum.VI);
 		card.setNumber("4100000000000001");
 		card.setExpDate("1210");
 		credit.setCard(card);

@@ -10,6 +10,7 @@ import org.junit.Test;
 import com.litle.sdk.generate.Authorization;
 import com.litle.sdk.generate.AuthorizationResponse;
 import com.litle.sdk.generate.CardType;
+import com.litle.sdk.generate.MethodOfPaymentTypeEnum;
 import com.litle.sdk.generate.OrderSourceType;
 import com.litle.sdk.generate.PayPal;
 import com.litle.sdk.generate.Pos;
@@ -32,7 +33,7 @@ public class TestAuth {
 		authorization.setAmount(106L);
 		authorization.setOrderSource(OrderSourceType.ECOMMERCE);
 		CardType card = new CardType();
-		card.setType("VI");
+		card.setType(MethodOfPaymentTypeEnum.VI);
 		card.setNumber("4100000000000002");
 		card.setExpDate("1210");
 		authorization.setCard(card);
@@ -69,7 +70,7 @@ public class TestAuth {
 		pos.setCardholderId(PosCardholderIdTypeEnum.PIN);
 		authorization.setPos(pos);
 		CardType card = new CardType();
-		card.setType("VI");
+		card.setType(MethodOfPaymentTypeEnum.VI);
 		card.setNumber("4100000000000002");
 		card.setExpDate("1210");
 		authorization.setCard(card);

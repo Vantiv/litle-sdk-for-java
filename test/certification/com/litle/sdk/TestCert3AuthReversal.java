@@ -16,6 +16,7 @@ import com.litle.sdk.generate.CardType;
 import com.litle.sdk.generate.Contact;
 import com.litle.sdk.generate.CountryTypeEnum;
 import com.litle.sdk.generate.FraudCheckType;
+import com.litle.sdk.generate.MethodOfPaymentTypeEnum;
 import com.litle.sdk.generate.OrderSourceType;
 
 public class TestCert3AuthReversal {
@@ -45,7 +46,7 @@ public class TestCert3AuthReversal {
 		card.setNumber("4457010000000009");
 		card.setExpDate("0112");
 		card.setCardValidationNum("349");
-		card.setType("VI");
+		card.setType(MethodOfPaymentTypeEnum.VI);
 		auth.setCard(card);
 		
 		AuthorizationResponse authorizeResponse = litle.authorize(auth);
@@ -88,7 +89,7 @@ public class TestCert3AuthReversal {
 		card.setNumber("5112010000000003");
 		card.setExpDate("0212");
 		card.setCardValidationNum("261");
-		card.setType("MC");
+		card.setType(MethodOfPaymentTypeEnum.MC);
 		auth.setCard(card);
 		FraudCheckType fraud = new FraudCheckType();
 		fraud.setAuthenticationValue("BwABBJQ1AgAAAAAgJDUCAAAAAAA=");
@@ -126,7 +127,7 @@ public class TestCert3AuthReversal {
 		card.setNumber("6011010000000003");
 		card.setExpDate("0312");
 		card.setCardValidationNum("758");
-		card.setType("DI");
+		card.setType(MethodOfPaymentTypeEnum.DI);
 		auth.setCard(card);
 		
 		AuthorizationResponse authorizeResponse = litle.authorize(auth);
@@ -160,7 +161,7 @@ public class TestCert3AuthReversal {
 		CardType card = new CardType();
 		card.setNumber("375001000000005");
 		card.setExpDate("0412");
-		card.setType("AX");
+		card.setType(MethodOfPaymentTypeEnum.AX);
 		auth.setCard(card);
 		
 		AuthorizationResponse authorizeResponse = litle.authorize(auth);
@@ -193,7 +194,7 @@ public class TestCert3AuthReversal {
 		CardType card = new CardType();
 		card.setNumber("375000026600004");
 		card.setExpDate("0512");
-		card.setType("AX");
+		card.setType(MethodOfPaymentTypeEnum.AX);
 		auth.setCard(card);
 		
 		AuthorizationResponse authorizeResponse = litle.authorize(auth);

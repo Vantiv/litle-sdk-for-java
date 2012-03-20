@@ -14,6 +14,7 @@ import com.litle.sdk.generate.CardTokenType;
 import com.litle.sdk.generate.CardType;
 import com.litle.sdk.generate.Contact;
 import com.litle.sdk.generate.FraudResult;
+import com.litle.sdk.generate.MethodOfPaymentTypeEnum;
 import com.litle.sdk.generate.OrderSourceType;
 import com.litle.sdk.generate.ProcessingInstructions;
 
@@ -41,7 +42,7 @@ public class TestCaptureGivenAuth {
 		capturegivenauth.setAuthInformation(authInfo);
 		capturegivenauth.setOrderSource(OrderSourceType.ECOMMERCE);
 		CardType card = new CardType();
-		card.setType("VI");
+		card.setType(MethodOfPaymentTypeEnum.VI);
 		card.setNumber("4100000000000001");
 		card.setExpDate("1210");
 		capturegivenauth.setCard(card);
@@ -66,7 +67,7 @@ public class TestCaptureGivenAuth {
 		cardtoken.setLitleToken("123456789101112");
 		cardtoken.setExpDate("1210");
 		cardtoken.setCardValidationNum("555");
-		cardtoken.setType("VI");
+		cardtoken.setType(MethodOfPaymentTypeEnum.VI);
 		capturegivenauth.setToken(cardtoken);
 		CaptureGivenAuthResponse response = litle.captureGivenAuth(capturegivenauth);
 		assertEquals("Approved", response.getMessage());
@@ -95,7 +96,7 @@ public class TestCaptureGivenAuth {
 		capturegivenauth.setProcessingInstructions(processinginstructions);
 		capturegivenauth.setOrderSource(OrderSourceType.ECOMMERCE);
 		CardType card = new CardType();
-		card.setType("VI");
+		card.setType(MethodOfPaymentTypeEnum.VI);
 		card.setNumber("4100000000000001");
 		card.setExpDate("1210");
 		capturegivenauth.setCard(card);
@@ -122,7 +123,7 @@ public class TestCaptureGivenAuth {
 		capturegivenauth.setAuthInformation(authInfo);
 		capturegivenauth.setOrderSource(OrderSourceType.ECOMMERCE);
 		CardType card = new CardType();
-		card.setType("VI");
+		card.setType(MethodOfPaymentTypeEnum.VI);
 		card.setNumber("4100000000000001");
 		card.setExpDate("1210");
 		capturegivenauth.setCard(card);

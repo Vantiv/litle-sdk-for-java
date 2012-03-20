@@ -15,7 +15,6 @@ import org.junit.Test;
 
 import com.litle.sdk.generate.AuthInformation;
 import com.litle.sdk.generate.AuthReversal;
-import com.litle.sdk.generate.AuthReversalResponse;
 import com.litle.sdk.generate.Authorization;
 import com.litle.sdk.generate.AuthorizationResponse;
 import com.litle.sdk.generate.Capture;
@@ -30,6 +29,7 @@ import com.litle.sdk.generate.EcheckSale;
 import com.litle.sdk.generate.EcheckType;
 import com.litle.sdk.generate.EcheckVerification;
 import com.litle.sdk.generate.ForceCapture;
+import com.litle.sdk.generate.MethodOfPaymentTypeEnum;
 import com.litle.sdk.generate.OrderSourceType;
 import com.litle.sdk.generate.RegisterTokenRequestType;
 import com.litle.sdk.generate.Sale;
@@ -52,7 +52,7 @@ public class TestLitleOnline {
 		authorization.setAmount(106L);
 		authorization.setOrderSource(OrderSourceType.ECOMMERCE);
 		CardType card = new CardType();
-		card.setType("VI");
+		card.setType(MethodOfPaymentTypeEnum.VI);
 		card.setNumber("4100000000000002");
 		card.setExpDate("1210");
 		authorization.setCard(card);
@@ -130,7 +130,7 @@ public class TestLitleOnline {
 		capturegivenauth.setAuthInformation(authInfo);
 		capturegivenauth.setOrderSource(OrderSourceType.ECOMMERCE);
 		CardType card = new CardType();
-		card.setType("VI");
+		card.setType(MethodOfPaymentTypeEnum.VI);
 		card.setNumber("4100000000000001");
 		card.setExpDate("1210");
 		capturegivenauth.setCard(card);
@@ -157,7 +157,7 @@ public class TestLitleOnline {
 		credit.setOrderId("12344");
 		credit.setOrderSource(OrderSourceType.ECOMMERCE);
 		CardType card = new CardType();
-		card.setType("VI");
+		card.setType(MethodOfPaymentTypeEnum.VI);
 		card.setNumber("4100000000000001");
 		card.setExpDate("1210");
 		credit.setCard(card);
@@ -288,7 +288,7 @@ public class TestLitleOnline {
 		forcecapture.setOrderId("12344");
 		forcecapture.setOrderSource(OrderSourceType.ECOMMERCE);
 		CardType card = new CardType();
-		card.setType("VI");
+		card.setType(MethodOfPaymentTypeEnum.VI);
 		card.setNumber("4100000000000001");
 		card.setExpDate("1210");
 		forcecapture.setCard(card);
@@ -315,7 +315,7 @@ public class TestLitleOnline {
 		sale.setOrderId("12344");
 		sale.setOrderSource(OrderSourceType.ECOMMERCE);
 		CardType card = new CardType();
-		card.setType("VI");
+		card.setType(MethodOfPaymentTypeEnum.VI);
 		card.setNumber("4100000000000002");
 		card.setExpDate("1210");
 		sale.setCard(card);
