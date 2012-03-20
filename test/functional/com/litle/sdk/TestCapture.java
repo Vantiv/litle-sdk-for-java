@@ -8,6 +8,7 @@ import org.junit.Test;
 import com.litle.sdk.generate.Capture;
 import com.litle.sdk.generate.CaptureResponse;
 import com.litle.sdk.generate.EnhancedData;
+import com.litle.sdk.generate.EnhancedData.DeliveryType;
 
 public class TestCapture {
 
@@ -50,7 +51,7 @@ public class TestCapture {
 		EnhancedData enhancedData = new EnhancedData();
 		enhancedData.setCustomerReference("Litle");
 		enhancedData.setSalesTax(50L);
-		enhancedData.setDeliveryType("TBD");
+		enhancedData.setDeliveryType(DeliveryType.TBD);
 		capture.setEnhancedData(enhancedData);
 		capture.setPayPalOrderComplete(true);
 		

@@ -16,6 +16,7 @@ import com.litle.sdk.generate.EcheckForTokenType;
 import com.litle.sdk.generate.EcheckSale;
 import com.litle.sdk.generate.EcheckSalesResponse;
 import com.litle.sdk.generate.EcheckType;
+import com.litle.sdk.generate.MethodOfPaymentTypeEnum;
 import com.litle.sdk.generate.OrderSourceType;
 import com.litle.sdk.generate.RegisterTokenRequestType;
 import com.litle.sdk.generate.RegisterTokenResponse;
@@ -37,7 +38,7 @@ public class TestCert5Token {
 		
 		RegisterTokenResponse response = litle.registertoken(request);
 		assertEquals(response.getMessage(), "445711", response.getBin());
-		assertEquals(response.getMessage(), "VI", response.getType());
+		assertEquals(response.getMessage(), MethodOfPaymentTypeEnum.VI, response.getType());
 		assertEquals(response.getMessage(), "801", response.getResponse());
 		assertEquals(response.getMessage(), "1111222233330123", response.getLitleToken());
 		assertEquals(response.getMessage(), "Account number was successfully registered", response.getMessage());
@@ -62,7 +63,7 @@ public class TestCert5Token {
 		
 		RegisterTokenResponse response = litle.registertoken(request);
 		assertEquals(response.getMessage(), "445711", response.getBin());
-		assertEquals(response.getMessage(), "VI", response.getType());
+		assertEquals(response.getMessage(), MethodOfPaymentTypeEnum.VI, response.getType());
 		assertEquals(response.getMessage(), "802", response.getResponse());
 		assertEquals(response.getMessage(), "1111222233330123", response.getLitleToken());
 		assertEquals(response.getMessage(), "Account number was previously registered", response.getMessage());
@@ -78,7 +79,7 @@ public class TestCert5Token {
 		request.setEcheckForToken(echeck);
 		
 		RegisterTokenResponse response = litle.registertoken(request);
-		assertEquals(response.getMessage(), "EC", response.getType());
+		assertEquals(response.getMessage(), MethodOfPaymentTypeEnum.EC, response.getType());
 		assertEquals(response.getMessage(), "998", response.getECheckAccountSuffix());
 		assertEquals(response.getMessage(), "801", response.getResponse());
 		assertEquals(response.getMessage(), "Account number was successfully registered", response.getMessage());
@@ -109,7 +110,7 @@ public class TestCert5Token {
 		card.setNumber("5435101234510196");
 		card.setExpDate("1112");
 		card.setCardValidationNum("987");
-		card.setType("MC");
+		card.setType(MethodOfPaymentTypeEnum.MC);
 		auth.setCard(card);
 		
 		AuthorizationResponse response = litle.authorize(auth);
@@ -117,7 +118,7 @@ public class TestCert5Token {
 		assertEquals(response.getMessage(), "Approved", response.getMessage());
 		assertEquals(response.getMessage(), "801", response.getTokenResponse().getTokenResponseCode());
 		assertEquals(response.getMessage(), "Account number was successfully registered", response.getTokenResponse().getTokenMessage());
-		assertEquals(response.getMessage(), "MC", response.getTokenResponse().getType());
+		assertEquals(response.getMessage(), MethodOfPaymentTypeEnum.MC, response.getTokenResponse().getType());
 		assertEquals(response.getMessage(), "543510", response.getTokenResponse().getBin());
 	}
 	
@@ -131,7 +132,7 @@ public class TestCert5Token {
 		card.setNumber("5435109999999999");
 		card.setExpDate("1112");
 		card.setCardValidationNum("987");
-		card.setType("MC");
+		card.setType(MethodOfPaymentTypeEnum.MC);
 		auth.setCard(card);
 		
 		AuthorizationResponse response = litle.authorize(auth);
@@ -149,7 +150,7 @@ public class TestCert5Token {
 		card.setNumber("5435101234510196");
 		card.setExpDate("1112");
 		card.setCardValidationNum("987");
-		card.setType("MC");
+		card.setType(MethodOfPaymentTypeEnum.MC);
 		auth.setCard(card);
 		
 		AuthorizationResponse response = litle.authorize(auth);
@@ -157,7 +158,7 @@ public class TestCert5Token {
 		assertEquals(response.getMessage(), "Approved", response.getMessage());
 		assertEquals(response.getMessage(), "802", response.getTokenResponse().getTokenResponseCode());
 		assertEquals(response.getMessage(), "Account number was previously registered", response.getTokenResponse().getTokenMessage());
-		assertEquals(response.getMessage(), "MC", response.getTokenResponse().getType());
+		assertEquals(response.getMessage(), MethodOfPaymentTypeEnum.MC, response.getTokenResponse().getType());
 		assertEquals(response.getMessage(), "543510", response.getTokenResponse().getBin());
 	}
 	
@@ -212,7 +213,7 @@ public class TestCert5Token {
 		EcheckSalesResponse response = litle.echeckSale(sale);
 		assertEquals(response.getMessage(), "801", response.getTokenResponse().getTokenResponseCode());
 		assertEquals(response.getMessage(), "Account number was successfully registered", response.getTokenResponse().getTokenMessage());
-		assertEquals(response.getMessage(), "EC", response.getTokenResponse().getType());
+		assertEquals(response.getMessage(), MethodOfPaymentTypeEnum.EC, response.getTokenResponse().getType());
 		assertEquals(response.getMessage(), "111922223333444003", response.getTokenResponse().getLitleToken());
 	}
 	
@@ -235,7 +236,7 @@ public class TestCert5Token {
 		EcheckSalesResponse response = litle.echeckSale(sale);
 		assertEquals(response.getMessage(), "801", response.getTokenResponse().getTokenResponseCode());
 		assertEquals(response.getMessage(), "Account number was successfully registered", response.getTokenResponse().getTokenMessage());
-		assertEquals(response.getMessage(), "EC", response.getTokenResponse().getType());
+		assertEquals(response.getMessage(), MethodOfPaymentTypeEnum.EC, response.getTokenResponse().getType());
 		assertEquals(response.getMessage(), "999", response.getTokenResponse().getECheckAccountSuffix());
 		assertEquals(response.getMessage(), "111922223333444999", response.getTokenResponse().getLitleToken());
 	}
@@ -259,7 +260,7 @@ public class TestCert5Token {
 		EcheckSalesResponse response = litle.echeckSale(sale);
 		assertEquals(response.getMessage(), "801", response.getTokenResponse().getTokenResponseCode());
 		assertEquals(response.getMessage(), "Account number was successfully registered", response.getTokenResponse().getTokenMessage());
-		assertEquals(response.getMessage(), "EC", response.getTokenResponse().getType());
+		assertEquals(response.getMessage(), MethodOfPaymentTypeEnum.EC, response.getTokenResponse().getType());
 		assertEquals(response.getMessage(), "999", response.getTokenResponse().getECheckAccountSuffix());
 		assertEquals(response.getMessage(), "111922223333555999", response.getTokenResponse().getLitleToken());
 	}

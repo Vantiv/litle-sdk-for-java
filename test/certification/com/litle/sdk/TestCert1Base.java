@@ -16,6 +16,7 @@ import com.litle.sdk.generate.CountryTypeEnum;
 import com.litle.sdk.generate.Credit;
 import com.litle.sdk.generate.CreditResponse;
 import com.litle.sdk.generate.FraudCheckType;
+import com.litle.sdk.generate.MethodOfPaymentTypeEnum;
 import com.litle.sdk.generate.OrderSourceType;
 import com.litle.sdk.generate.Sale;
 import com.litle.sdk.generate.SaleResponse;
@@ -45,7 +46,7 @@ public class TestCert1Base {
 		contact.setCountry(CountryTypeEnum.US);
 		authorization.setBillToAddress(contact);
 		CardType card = new CardType();
-		card.setType("VI");
+		card.setType(MethodOfPaymentTypeEnum.VI);
 		card.setNumber("4457010000000009");
 		card.setExpDate("0112");
 		card.setCardValidationNum("349");
@@ -92,7 +93,7 @@ public class TestCert1Base {
 		contact.setCountry(CountryTypeEnum.US);
 		authorization.setBillToAddress(contact);
 		CardType card = new CardType();
-		card.setType("VI");
+		card.setType(MethodOfPaymentTypeEnum.VI);
 		card.setNumber("4457010000000009");
 		card.setExpDate("0112");
 		card.setCardValidationNum("349");
@@ -122,7 +123,7 @@ public class TestCert1Base {
 		contact.setCountry(CountryTypeEnum.US);
 		sale.setBillToAddress(contact);
 		CardType card = new CardType();
-		card.setType("VI");
+		card.setType(MethodOfPaymentTypeEnum.VI);
 		card.setNumber("4457010000000009");
 		card.setExpDate("0112");
 		card.setCardValidationNum("349");
@@ -164,7 +165,7 @@ public class TestCert1Base {
 		contact.setCountry(CountryTypeEnum.US);
 		authorization.setBillToAddress(contact);
 		CardType card = new CardType();
-		card.setType("MC");
+		card.setType(MethodOfPaymentTypeEnum.MC);
 		card.setNumber("5112010000000003");
 		card.setExpDate("0212");
 		card.setCardValidationNum("261");
@@ -215,7 +216,7 @@ public class TestCert1Base {
 		contact.setCountry(CountryTypeEnum.US);
 		authorization.setBillToAddress(contact);
 		CardType card = new CardType();
-		card.setType("MC");
+		card.setType(MethodOfPaymentTypeEnum.MC);
 		card.setNumber("5112010000000003");
 		card.setExpDate("0212");
 		card.setCardValidationNum("261");
@@ -249,7 +250,7 @@ public class TestCert1Base {
 		contact.setCountry(CountryTypeEnum.US);
 		sale.setBillToAddress(contact);
 		CardType card = new CardType();
-		card.setType("MC");
+		card.setType(MethodOfPaymentTypeEnum.MC);
 		card.setNumber("5112010000000003");
 		card.setExpDate("0212");
 		card.setCardValidationNum("261");
@@ -293,7 +294,7 @@ public class TestCert1Base {
 		contact.setCountry(CountryTypeEnum.US);
 		authorization.setBillToAddress(contact);
 		CardType card = new CardType();
-		card.setType("DI");
+		card.setType(MethodOfPaymentTypeEnum.DI);
 		card.setNumber("6011010000000003");
 		card.setExpDate("0312");
 		card.setCardValidationNum("758");
@@ -340,7 +341,7 @@ public class TestCert1Base {
 		contact.setCountry(CountryTypeEnum.US);
 		authorization.setBillToAddress(contact);
 		CardType card = new CardType();
-		card.setType("DI");
+		card.setType(MethodOfPaymentTypeEnum.DI);
 		card.setNumber("6011010000000003");
 		card.setExpDate("0312");
 		card.setCardValidationNum("758");
@@ -370,7 +371,7 @@ public class TestCert1Base {
 		contact.setCountry(CountryTypeEnum.US);
 		sale.setBillToAddress(contact);
 		CardType card = new CardType();
-		card.setType("DI");
+		card.setType(MethodOfPaymentTypeEnum.DI);
 		card.setNumber("6011010000000003");
 		card.setExpDate("0312");
 		card.setCardValidationNum("758");
@@ -411,7 +412,7 @@ public class TestCert1Base {
 		contact.setCountry(CountryTypeEnum.US);
 		authorization.setBillToAddress(contact);
 		CardType card = new CardType();
-		card.setType("AX");
+		card.setType(MethodOfPaymentTypeEnum.AX);
 		card.setNumber("375001000000005");
 		card.setExpDate("0412");
 		card.setCardValidationNum("758");
@@ -457,7 +458,7 @@ public class TestCert1Base {
 		contact.setCountry(CountryTypeEnum.US);
 		authorization.setBillToAddress(contact);
 		CardType card = new CardType();
-		card.setType("AX");
+		card.setType(MethodOfPaymentTypeEnum.AX);
 		card.setNumber("375001000000005");
 		card.setExpDate("0412");
 		card.setCardValidationNum("758");
@@ -486,7 +487,7 @@ public class TestCert1Base {
 		contact.setCountry(CountryTypeEnum.US);
 		sale.setBillToAddress(contact);
 		CardType card = new CardType();
-		card.setType("AX");
+		card.setType(MethodOfPaymentTypeEnum.AX);
 		card.setNumber("375001000000005");
 		card.setExpDate("0412");
 		card.setCardValidationNum("758");
@@ -518,7 +519,7 @@ public class TestCert1Base {
 		authorization.setAmount(50050L);
 		authorization.setOrderSource(OrderSourceType.ECOMMERCE);
 		CardType card = new CardType();
-		card.setType("VI");
+		card.setType(MethodOfPaymentTypeEnum.VI);
 		card.setNumber("4457010200000007");
 		card.setExpDate("0512");
 		card.setCardValidationNum("463");
@@ -560,7 +561,7 @@ public class TestCert1Base {
 		authorization.setAmount(000L);
 		authorization.setOrderSource(OrderSourceType.ECOMMERCE);
 		CardType card = new CardType();
-		card.setType("VI");
+		card.setType(MethodOfPaymentTypeEnum.VI);
 		card.setNumber("4457010200000007");
 		card.setExpDate("0512");
 		card.setCardValidationNum("463");
@@ -585,7 +586,7 @@ public class TestCert1Base {
 		sale.setAmount(50050L);
 		sale.setOrderSource(OrderSourceType.ECOMMERCE);
 		CardType card = new CardType();
-		card.setType("VI");
+		card.setType(MethodOfPaymentTypeEnum.VI);
 		card.setNumber("4457010200000007");
 		card.setExpDate("0512");
 		card.setCardValidationNum("463");
@@ -629,7 +630,7 @@ public class TestCert1Base {
 		contact.setCountry(CountryTypeEnum.US);
 		authorization.setBillToAddress(contact);
 		CardType card = new CardType();
-		card.setType("VI");
+		card.setType(MethodOfPaymentTypeEnum.VI);
 		card.setNumber("4457010100000008");
 		card.setExpDate("0612");
 		card.setCardValidationNum("992");
@@ -658,7 +659,7 @@ public class TestCert1Base {
 		contact.setCountry(CountryTypeEnum.US);
 		sale.setBillToAddress(contact);
 		CardType card = new CardType();
-		card.setType("VI");
+		card.setType(MethodOfPaymentTypeEnum.VI);
 		card.setNumber("4457010100000008");
 		card.setExpDate("0612");
 		card.setCardValidationNum("992");
@@ -692,7 +693,7 @@ public class TestCert1Base {
 		contact.setCountry(CountryTypeEnum.US);
 		authorization.setBillToAddress(contact);
 		CardType card = new CardType();
-		card.setType("MC");
+		card.setType(MethodOfPaymentTypeEnum.MC);
 		card.setNumber("5112010100000002");
 		card.setExpDate("0712");
 		card.setCardValidationNum("251");
@@ -721,7 +722,7 @@ public class TestCert1Base {
 		contact.setCountry(CountryTypeEnum.US);
 		authorization.setBillToAddress(contact);
 		CardType card = new CardType();
-		card.setType("MC");
+		card.setType(MethodOfPaymentTypeEnum.MC);
 		card.setNumber("5112010100000002");
 		card.setExpDate("0712");
 		card.setCardValidationNum("251");
@@ -750,7 +751,7 @@ public class TestCert1Base {
 		contact.setCountry(CountryTypeEnum.US);
 		sale.setBillToAddress(contact);
 		CardType card = new CardType();
-		card.setType("MC");
+		card.setType(MethodOfPaymentTypeEnum.MC);
 		card.setNumber("5112010100000002");
 		card.setExpDate("0712");
 		card.setCardValidationNum("251");
@@ -779,7 +780,7 @@ public class TestCert1Base {
 		contact.setCountry(CountryTypeEnum.US);
 		authorization.setBillToAddress(contact);
 		CardType card = new CardType();
-		card.setType("DI");
+		card.setType(MethodOfPaymentTypeEnum.DI);
 		card.setNumber("6011010100000002");
 		card.setExpDate("0812");
 		card.setCardValidationNum("184");
@@ -808,7 +809,7 @@ public class TestCert1Base {
 		contact.setCountry(CountryTypeEnum.US);
 		authorization.setBillToAddress(contact);
 		CardType card = new CardType();
-		card.setType("DI");
+		card.setType(MethodOfPaymentTypeEnum.DI);
 		card.setNumber("6011010100000002");
 		card.setExpDate("0812");
 		card.setCardValidationNum("184");
@@ -837,7 +838,7 @@ public class TestCert1Base {
 		contact.setCountry(CountryTypeEnum.US);
 		sale.setBillToAddress(contact);
 		CardType card = new CardType();
-		card.setType("DI");
+		card.setType(MethodOfPaymentTypeEnum.DI);
 		card.setNumber("6011010100000002");
 		card.setExpDate("0812");
 		card.setCardValidationNum("184");
@@ -866,7 +867,7 @@ public class TestCert1Base {
 		contact.setCountry(CountryTypeEnum.US);
 		authorization.setBillToAddress(contact);
 		CardType card = new CardType();
-		card.setType("AX");
+		card.setType(MethodOfPaymentTypeEnum.AX);
 		card.setNumber("375001010000003");
 		card.setExpDate("0912");
 		card.setCardValidationNum("0421");
@@ -894,7 +895,7 @@ public class TestCert1Base {
 		contact.setCountry(CountryTypeEnum.US);
 		authorization.setBillToAddress(contact);
 		CardType card = new CardType();
-		card.setType("AX");
+		card.setType(MethodOfPaymentTypeEnum.AX);
 		card.setNumber("375001010000003");
 		card.setExpDate("0912");
 		card.setCardValidationNum("0421");
@@ -922,7 +923,7 @@ public class TestCert1Base {
 		contact.setCountry(CountryTypeEnum.US);
 		sale.setBillToAddress(contact);
 		CardType card = new CardType();
-		card.setType("AX");
+		card.setType(MethodOfPaymentTypeEnum.AX);
 		card.setNumber("375001010000003");
 		card.setExpDate("0912");
 		card.setCardValidationNum("0421");
@@ -942,7 +943,7 @@ public class TestCert1Base {
 		authorization.setAmount(40000L);
 		authorization.setOrderSource(OrderSourceType.ECOMMERCE);
 		CardType card = new CardType();
-		card.setType("VI");
+		card.setType(MethodOfPaymentTypeEnum.VI);
 		card.setNumber("4457010140000141");
 		card.setExpDate("0912");
 		authorization.setCard(card);
@@ -962,7 +963,7 @@ public class TestCert1Base {
 		authorization.setAmount(60000L);
 		authorization.setOrderSource(OrderSourceType.ECOMMERCE);
 		CardType card = new CardType();
-		card.setType("MC");
+		card.setType(MethodOfPaymentTypeEnum.MC);
 		card.setNumber("5112010140000004");
 		card.setExpDate("1111");
 		authorization.setCard(card);
@@ -982,7 +983,7 @@ public class TestCert1Base {
 		authorization.setAmount(50000L);
 		authorization.setOrderSource(OrderSourceType.ECOMMERCE);
 		CardType card = new CardType();
-		card.setType("AX");
+		card.setType(MethodOfPaymentTypeEnum.AX);
 		card.setNumber("375001014000009");
 		card.setExpDate("0412");
 		authorization.setCard(card);
@@ -1002,7 +1003,7 @@ public class TestCert1Base {
 		authorization.setAmount(15000L);
 		authorization.setOrderSource(OrderSourceType.ECOMMERCE);
 		CardType card = new CardType();
-		card.setType("DI");
+		card.setType(MethodOfPaymentTypeEnum.DI);
 		card.setNumber("6011010140000004");
 		card.setExpDate("0812");
 		authorization.setCard(card);
