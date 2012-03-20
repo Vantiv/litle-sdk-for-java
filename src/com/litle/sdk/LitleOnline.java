@@ -81,7 +81,9 @@ public class LitleOnline {
 		this.communication = communication;
 	}
 
-	
+	/**
+	 * <script src="https://gist.github.com/2139120.js"> </script>
+	 */
 	public AuthorizationResponse authorize(Authorization auth) throws LitleOnlineException {
 		LitleOnlineRequest request = createLitleOnlineRequest();
 		fillInReportGroup(auth);
@@ -92,6 +94,9 @@ public class LitleOnline {
 		return (AuthorizationResponse)newresponse.getValue();
 	}
 
+	/**
+	 * <script src="https://gist.github.com/2139404.js"> </script>
+	 */
 	public AuthReversalResponse authReversal(AuthReversal reversal) throws LitleOnlineException {
 		LitleOnlineRequest request = createLitleOnlineRequest();
 		fillInReportGroup(reversal);
@@ -102,6 +107,9 @@ public class LitleOnline {
 		return (AuthReversalResponse)newresponse.getValue();
 	}
 	
+	/**
+	 * <script src="https://gist.github.com/2139736.js"> </script>
+	 */
 	public CaptureResponse capture(Capture capture) throws LitleOnlineException {
 		LitleOnlineRequest request = createLitleOnlineRequest();
 		fillInReportGroup(capture);
@@ -112,6 +120,9 @@ public class LitleOnline {
 		return (CaptureResponse)newresponse.getValue();
 	}
 	
+	/**
+	 * @see <a href="https://gist.github.com/2139803"/>
+	 */
 	public CaptureGivenAuthResponse captureGivenAuth(CaptureGivenAuth captureGivenAuth) throws LitleOnlineException {
 		LitleOnlineRequest request = createLitleOnlineRequest();
 		fillInReportGroup(captureGivenAuth);
@@ -122,6 +133,9 @@ public class LitleOnline {
 		return (CaptureGivenAuthResponse)newresponse.getValue();
 	}
 
+	/**
+	 * @see <a href="https://gist.github.com/2139739"/>
+	 */
 	public CreditResponse credit(Credit credit) throws LitleOnlineException {
 		LitleOnlineRequest request = createLitleOnlineRequest();
 		fillInReportGroup(credit);
@@ -132,6 +146,9 @@ public class LitleOnline {
 		return (CreditResponse)newresponse.getValue();
 	}
 	
+	/**
+	 * @see <a href="https://gist.github.com/2139831"/>
+	 */
 	public EcheckCreditResponse echeckCredit(EcheckCredit echeckcredit) throws LitleOnlineException {
 		LitleOnlineRequest request = createLitleOnlineRequest();
 		fillInReportGroup(echeckcredit);
@@ -142,6 +159,9 @@ public class LitleOnline {
 		return (EcheckCreditResponse)newresponse.getValue();
 	}
 	
+	/**
+	 * @see <a href="https://gist.github.com/2139852"/>
+	 */
 	public EcheckRedepositResponse echeckRedeposit(EcheckRedeposit echeckRedeposit) throws LitleOnlineException {
 		LitleOnlineRequest request = createLitleOnlineRequest();
 		fillInReportGroup(echeckRedeposit);
@@ -152,6 +172,9 @@ public class LitleOnline {
 		return (EcheckRedepositResponse)newresponse.getValue();
 	}
 	
+	/**
+	 * @see <a href="https://gist.github.com/2139856"/>
+	 */
 	public EcheckSalesResponse echeckSale(EcheckSale echeckSale) throws LitleOnlineException {
 		LitleOnlineRequest request = createLitleOnlineRequest();
 		fillInReportGroup(echeckSale);
@@ -162,6 +185,9 @@ public class LitleOnline {
 		return (EcheckSalesResponse)newresponse.getValue();
 	}
 	
+	/**
+	 * @see <a href="https://gist.github.com/2139863"/>
+	 */
 	public EcheckVerificationResponse echeckVerification(EcheckVerification echeckVerification) throws LitleOnlineException {
 		LitleOnlineRequest request = createLitleOnlineRequest();
 		fillInReportGroup(echeckVerification);
@@ -172,6 +198,9 @@ public class LitleOnline {
 		return (EcheckVerificationResponse)newresponse.getValue();
 	}
 	
+	/**
+	 * @see <a href="https://gist.github.com/2139869"/>
+	 */
 	public ForceCaptureResponse forceCapture(ForceCapture forceCapture) throws LitleOnlineException {
 		LitleOnlineRequest request = createLitleOnlineRequest();
 		fillInReportGroup(forceCapture);
@@ -182,6 +211,9 @@ public class LitleOnline {
 		return (ForceCaptureResponse)newresponse.getValue();
 	}
 	
+	/**
+	 * @see <a href="https://gist.github.com/2139304"/>
+	 */
 	public SaleResponse sale(Sale sale) throws LitleOnlineException {
 		LitleOnlineRequest request = createLitleOnlineRequest();
 		fillInReportGroup(sale);
@@ -192,6 +224,9 @@ public class LitleOnline {
 		return (SaleResponse)newresponse.getValue();
 	}
 	
+	/**
+	 * @see <a href="https://gist.github.com/2139877"/>
+	 */
 	public RegisterTokenResponse registertoken(RegisterTokenRequestType tokenRequest) throws LitleOnlineException {
 		LitleOnlineRequest request = createLitleOnlineRequest();
 		fillInReportGroup(tokenRequest);
@@ -202,6 +237,9 @@ public class LitleOnline {
 		return (RegisterTokenResponse)newresponse.getValue();
 	}
 	
+	/**
+	 * @see <a href="https://gist.github.com/2139880"/>
+	 */
 	public VoidResponse dovoid(com.litle.sdk.generate.Void v) throws LitleOnlineException {
 		LitleOnlineRequest request = createLitleOnlineRequest();
 		fillInReportGroup(v);
