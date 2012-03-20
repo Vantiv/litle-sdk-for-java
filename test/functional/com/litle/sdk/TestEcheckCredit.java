@@ -57,7 +57,7 @@ public class TestEcheckCredit {
 		echeck.setAccNum("12345657890");
 		echeck.setRoutingNum("123456789");
 		echeck.setCheckNum("123455");
-		echeckcredit.setEcheckOrEcheckToken(new ObjectFactory().createEcheck(echeck));
+		echeckcredit.setEcheck(echeck);
 		Contact billToAddress = new Contact();
 		billToAddress.setName("Bob");
 		billToAddress.setCity("Lowell");
@@ -79,7 +79,7 @@ public class TestEcheckCredit {
 		token.setLitleToken("1234565789012");
 		token.setRoutingNum("123456789");
 		token.setCheckNum("123455");
-		echeckcredit.setEcheckOrEcheckToken(new ObjectFactory().createEcheckToken(token));
+		echeckcredit.setEcheckToken(token);
 		Contact billToAddress = new Contact();
 		billToAddress.setName("Bob");
 		billToAddress.setCity("Lowell");
@@ -101,7 +101,7 @@ public class TestEcheckCredit {
 		echeck.setAccNum("12345657890");
 		echeck.setRoutingNum("123456789");
 		echeck.setCheckNum("123455");
-		echeckcredit.setEcheckOrEcheckToken(new ObjectFactory().createEcheck(echeck));
+		echeckcredit.setEcheck(echeck);
 		try {
 			litle.echeckCredit(echeckcredit);
 			fail("Expected exception");
