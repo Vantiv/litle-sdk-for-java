@@ -3,6 +3,8 @@
         Builds and tests litle-sdk-for-java
     </description>
 	<!-- set global properties for this build -->
+	<property name="version" value="8.10"/>
+	
 	<property name="src" location="src" />
 	<property name="bin" location="bin" />
 	<property name="dist" location="dist" />
@@ -36,16 +38,28 @@
 		</classpath>
 	</taskdef>
 
-	<target name="init">
-		<mkdir dir="${bin}" />
+	<target name="generate" depends="clean">
 		<mkdir dir="${generated}" />
+		<copy file="xsd/litleOnline_v${version}.xsd" todir="generated"/>
+		<copy file="xsd/litleTransaction_v${version}.xsd" todir="generated"/>
+		<copy file="xsd/litleCommon_v${version}.xsd" todir="generated"/>
+		<!-- Allow jaxb tags in our schema -->
+		<replaceregexp file="generated/litleTransaction_v${version}.xsd" match="(attributeFormDefault=&quot;unqualified&quot;)>" replace="\1 xmlns:jaxb=&quot;http://java.sun.com/xml/ns/jaxb&quot; jaxb:version=&quot;2.0&quot;>" byline="true"/>
+		
+		<!--Make enums even if they begin with numbers -->
+		<replaceregexp file="generated/litleTransaction_v${version}.xsd" match="enumeration value=(.*?3dsAuthenticated.*?)/>" replace="enumeration value=\1>&lt;xs:annotation>&lt;xs:appinfo>&lt;jaxb:typesafeEnumMember name=&quot;AUTHENTICATED_3DS&quot;/>&lt;/xs:appinfo>&lt;/xs:annotation>&lt;/xs:enumeration>" byline="true"/>
+		<replaceregexp file="generated/litleTransaction_v${version}.xsd" match="enumeration value=(.*?3dsAttempted.*?)/>"     replace="enumeration value=\1>&lt;xs:annotation>&lt;xs:appinfo>&lt;jaxb:typesafeEnumMember name=&quot;ATTEMPTED_3DS&quot;/>&lt;/xs:appinfo>&lt;/xs:annotation>&lt;/xs:enumeration>" byline="true"/>
+		
+		<!-- Get rid of the weird substitution for jaxbelement/echeck/echeckToken -->
+		<replaceregexp file="generated/litleTransaction_v${version}.xsd" match="(&lt;xs:element name=&quot;echeckVerification.*?)&lt;xs:all>(.*?)&lt;/xs:all>(.*?&lt;/xs:element)" replace="\1&lt;xs:sequence>\2&lt;/xs:sequence>\3" flags="s"/>
+		<replaceregexp file="generated/litleTransaction_v${version}.xsd" match="&lt;xs:element ref=&quot;xp:echeckOrEcheckToken&quot; />" replace="&lt;xs:choice>&lt;xs:element name=&quot;echeck&quot; type=&quot;xp:echeckType&quot;/>&lt;xs:element name=&quot;echeckToken&quot; type=&quot;xp:echeckTokenType&quot;/>&lt;/xs:choice>" byline="true"/>
+		<replaceregexp file="generated/litleTransaction_v${version}.xsd" match="&lt;xs:element ref=&quot;xp:echeckOrEcheckToken&quot; minOccurs=&quot;0&quot;\s?/>" replace="&lt;xs:choice>&lt;xs:element name=&quot;echeck&quot; type=&quot;xp:echeckType&quot;/>&lt;xs:element name=&quot;echeckToken&quot; type=&quot;xp:echeckTokenType&quot;/>&lt;/xs:choice>" byline="true"/>
+		<!--Actually generate code from the modified schema -->
+		<xjc schema="generated/litleOnline_v${version}.xsd" package="com.litle.sdk.generate" destdir="${generated}" binding="xsd/bindings.xml" extension="true"/>
 	</target>
 
-	<target name="generate" depends="init">
-		<xjc schema="xsd/litleOnline_v8.10.xsd" package="com.litle.sdk.generate" destdir="${generated}" binding="xsd/bindings.xml" extension="true"/>
-	</target>
-
-	<target name="compile" depends="clean,init,generate" description="compile the source ">
+	<target name="compile" depends="clean,generate" description="compile the source ">
+		<mkdir dir="${bin}" />
 		<javac destdir="${bin}" includeantruntime="false" source="1.5" target="1.5" classpathref="classpath.ref">
 			<compilerarg value="-Xbootclasspath/p:${toString:lib.path.ref}" />
 			<src path="src" />

@@ -8,8 +8,6 @@ import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.Properties;
 
-import org.apache.cxf.helpers.IOUtils;
-
 public class Setup {
 
 	@SuppressWarnings("serial")

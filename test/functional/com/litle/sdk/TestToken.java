@@ -1,6 +1,7 @@
 package com.litle.sdk;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import org.junit.BeforeClass;
@@ -60,7 +61,7 @@ public class TestToken {
 			litle.registertoken(token);
 			fail("expected exception");
 		} catch(LitleOnlineException e) {
-			assertEquals("Error validating xml data against the schema", e.getMessage());
+			assertTrue(e.getMessage(),e.getMessage().startsWith("Error validating xml data against the schema"));
 		}
 	}
 

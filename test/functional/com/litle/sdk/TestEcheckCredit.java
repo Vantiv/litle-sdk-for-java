@@ -1,9 +1,8 @@
 package com.litle.sdk;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-
-import java.math.BigInteger;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -14,7 +13,6 @@ import com.litle.sdk.generate.EcheckCredit;
 import com.litle.sdk.generate.EcheckCreditResponse;
 import com.litle.sdk.generate.EcheckTokenType;
 import com.litle.sdk.generate.EcheckType;
-import com.litle.sdk.generate.ObjectFactory;
 import com.litle.sdk.generate.OrderSourceType;
 
 public class TestEcheckCredit {
@@ -42,7 +40,7 @@ public class TestEcheckCredit {
 			litle.echeckCredit(echeckcredit);
 			fail("Expected exception");
 		} catch(LitleOnlineException e) {
-			assertEquals("Error validating xml data against the schema", e.getMessage());
+			assertTrue(e.getMessage(),e.getMessage().startsWith("Error validating xml data against the schema"));
 		}
 	}
 	
@@ -106,7 +104,7 @@ public class TestEcheckCredit {
 			litle.echeckCredit(echeckcredit);
 			fail("Expected exception");
 		} catch(LitleOnlineException e) {
-			assertEquals("Error validating xml data against the schema", e.getMessage());
+			assertTrue(e.getMessage(),e.getMessage().startsWith("Error validating xml data against the schema"));
 		}
 	}
 	

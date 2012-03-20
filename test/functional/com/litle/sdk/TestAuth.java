@@ -1,9 +1,8 @@
 package com.litle.sdk;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-
-import java.math.BigInteger;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -79,7 +78,7 @@ public class TestAuth {
 			litle.authorize(authorization);
 			fail("expected exception");
 		} catch(LitleOnlineException e) {
-			assertEquals("Error validating xml data against the schema", e.getMessage());
+			assertTrue(e.getMessage(),e.getMessage().startsWith("Error validating xml data against the schema"));
 		}
 	}
 

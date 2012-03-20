@@ -1,10 +1,7 @@
 package com.litle.sdk;
 
 
-import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
-
-import java.math.BigInteger;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -18,9 +15,7 @@ import com.litle.sdk.generate.EcheckAccountTypeEnum;
 import com.litle.sdk.generate.EcheckForTokenType;
 import com.litle.sdk.generate.EcheckSale;
 import com.litle.sdk.generate.EcheckSalesResponse;
-import com.litle.sdk.generate.EcheckTokenType;
 import com.litle.sdk.generate.EcheckType;
-import com.litle.sdk.generate.ObjectFactory;
 import com.litle.sdk.generate.OrderSourceType;
 import com.litle.sdk.generate.RegisterTokenRequestType;
 import com.litle.sdk.generate.RegisterTokenResponse;
@@ -212,7 +207,7 @@ public class TestCert5Token {
 		echeck.setAccType(EcheckAccountTypeEnum.CHECKING);
 		echeck.setAccNum("1099999003");
 		echeck.setRoutingNum("114567895");
-		sale.setEcheckOrEcheckToken(new ObjectFactory().createEcheck(echeck));
+		sale.setEcheck(echeck);
 		
 		EcheckSalesResponse response = litle.echeckSale(sale);
 		assertEquals(response.getMessage(), "801", response.getTokenResponse().getTokenResponseCode());
@@ -235,7 +230,7 @@ public class TestCert5Token {
 		echeck.setAccType(EcheckAccountTypeEnum.CHECKING);
 		echeck.setAccNum("1099999999");
 		echeck.setRoutingNum("114567895");
-		sale.setEcheckOrEcheckToken(new ObjectFactory().createEcheck(echeck));
+		sale.setEcheck(echeck);
 		
 		EcheckSalesResponse response = litle.echeckSale(sale);
 		assertEquals(response.getMessage(), "801", response.getTokenResponse().getTokenResponseCode());
@@ -259,7 +254,7 @@ public class TestCert5Token {
 		echeck.setAccType(EcheckAccountTypeEnum.CHECKING);
 		echeck.setAccNum("1099999999");
 		echeck.setRoutingNum("214567892");
-		sale.setEcheckOrEcheckToken(new ObjectFactory().createEcheck(echeck));
+		sale.setEcheck(echeck);
 		
 		EcheckSalesResponse response = litle.echeckSale(sale);
 		assertEquals(response.getMessage(), "801", response.getTokenResponse().getTokenResponseCode());

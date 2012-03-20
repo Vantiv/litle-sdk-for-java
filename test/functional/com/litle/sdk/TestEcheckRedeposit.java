@@ -10,7 +10,6 @@ import com.litle.sdk.generate.EcheckRedeposit;
 import com.litle.sdk.generate.EcheckRedepositResponse;
 import com.litle.sdk.generate.EcheckTokenType;
 import com.litle.sdk.generate.EcheckType;
-import com.litle.sdk.generate.ObjectFactory;
 
 public class TestEcheckRedeposit {
 
@@ -39,7 +38,7 @@ public class TestEcheckRedeposit {
 		echeck.setRoutingNum("123456789");
 		echeck.setCheckNum("123455");
 		
-		echeckredeposit.setEcheckOrEcheckToken(new ObjectFactory().createEcheck(echeck));
+		echeckredeposit.setEcheck(echeck);
 		EcheckRedepositResponse response = litle.echeckRedeposit(echeckredeposit);
 		assertEquals("Approved", response.getMessage());
 	}
@@ -54,7 +53,7 @@ public class TestEcheckRedeposit {
 		echeckToken.setRoutingNum("123456789");
 		echeckToken.setCheckNum("123455");
 		
-		echeckredeposit.setEcheckOrEcheckToken(new ObjectFactory().createEcheckToken(echeckToken));
+		echeckredeposit.setEcheckToken(echeckToken);
 		EcheckRedepositResponse response = litle.echeckRedeposit(echeckredeposit);
 		assertEquals("Approved", response.getMessage());
 	}

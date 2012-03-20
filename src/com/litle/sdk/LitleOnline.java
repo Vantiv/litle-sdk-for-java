@@ -11,7 +11,6 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
-import javax.xml.bind.UnmarshalException;
 import javax.xml.bind.Unmarshaller;
 
 import com.litle.sdk.generate.AuthReversal;
@@ -24,8 +23,8 @@ import com.litle.sdk.generate.CaptureGivenAuth;
 import com.litle.sdk.generate.CaptureGivenAuthResponse;
 import com.litle.sdk.generate.CaptureResponse;
 import com.litle.sdk.generate.Credit;
-import com.litle.sdk.generate.EcheckCredit;
 import com.litle.sdk.generate.CreditResponse;
+import com.litle.sdk.generate.EcheckCredit;
 import com.litle.sdk.generate.EcheckCreditResponse;
 import com.litle.sdk.generate.EcheckRedeposit;
 import com.litle.sdk.generate.EcheckRedepositResponse;
@@ -76,7 +75,6 @@ public class LitleOnline {
 		objectFactory = new ObjectFactory();
 	}
 
-	//TODO This shouldn't throw "Exception"
 	public AuthorizationResponse authorize(Authorization auth) throws LitleOnlineException {
 		LitleOnlineRequest request = createLitleOnlineRequest();
 		fillInReportGroup(auth);
@@ -87,7 +85,7 @@ public class LitleOnline {
 		return (AuthorizationResponse)newresponse.getValue();
 	}
 
-	public AuthReversalResponse authReversal(AuthReversal reversal) throws Exception {
+	public AuthReversalResponse authReversal(AuthReversal reversal) throws LitleOnlineException {
 		LitleOnlineRequest request = createLitleOnlineRequest();
 		fillInReportGroup(reversal);
 		
@@ -97,7 +95,7 @@ public class LitleOnline {
 		return (AuthReversalResponse)newresponse.getValue();
 	}
 	
-	public CaptureResponse capture(Capture capture) throws Exception {
+	public CaptureResponse capture(Capture capture) throws LitleOnlineException {
 		LitleOnlineRequest request = createLitleOnlineRequest();
 		fillInReportGroup(capture);
 		
@@ -107,7 +105,7 @@ public class LitleOnline {
 		return (CaptureResponse)newresponse.getValue();
 	}
 	
-	public CaptureGivenAuthResponse captureGivenAuth(CaptureGivenAuth captureGivenAuth) throws Exception {
+	public CaptureGivenAuthResponse captureGivenAuth(CaptureGivenAuth captureGivenAuth) throws LitleOnlineException {
 		LitleOnlineRequest request = createLitleOnlineRequest();
 		fillInReportGroup(captureGivenAuth);
 		
@@ -117,7 +115,7 @@ public class LitleOnline {
 		return (CaptureGivenAuthResponse)newresponse.getValue();
 	}
 
-	public CreditResponse credit(Credit credit) throws Exception {
+	public CreditResponse credit(Credit credit) throws LitleOnlineException {
 		LitleOnlineRequest request = createLitleOnlineRequest();
 		fillInReportGroup(credit);
 		
@@ -127,7 +125,7 @@ public class LitleOnline {
 		return (CreditResponse)newresponse.getValue();
 	}
 	
-	public EcheckCreditResponse echeckCredit(EcheckCredit echeckcredit) throws Exception {
+	public EcheckCreditResponse echeckCredit(EcheckCredit echeckcredit) throws LitleOnlineException {
 		LitleOnlineRequest request = createLitleOnlineRequest();
 		fillInReportGroup(echeckcredit);
 		
@@ -137,7 +135,7 @@ public class LitleOnline {
 		return (EcheckCreditResponse)newresponse.getValue();
 	}
 	
-	public EcheckRedepositResponse echeckRedeposit(EcheckRedeposit echeckRedeposit) throws Exception {
+	public EcheckRedepositResponse echeckRedeposit(EcheckRedeposit echeckRedeposit) throws LitleOnlineException {
 		LitleOnlineRequest request = createLitleOnlineRequest();
 		fillInReportGroup(echeckRedeposit);
 		
@@ -147,7 +145,7 @@ public class LitleOnline {
 		return (EcheckRedepositResponse)newresponse.getValue();
 	}
 	
-	public EcheckSalesResponse echeckSale(EcheckSale echeckSale) throws Exception {
+	public EcheckSalesResponse echeckSale(EcheckSale echeckSale) throws LitleOnlineException {
 		LitleOnlineRequest request = createLitleOnlineRequest();
 		fillInReportGroup(echeckSale);
 		
@@ -157,7 +155,7 @@ public class LitleOnline {
 		return (EcheckSalesResponse)newresponse.getValue();
 	}
 	
-	public EcheckVerificationResponse echeckVerification(EcheckVerification echeckVerification) throws Exception {
+	public EcheckVerificationResponse echeckVerification(EcheckVerification echeckVerification) throws LitleOnlineException {
 		LitleOnlineRequest request = createLitleOnlineRequest();
 		fillInReportGroup(echeckVerification);
 		
@@ -167,7 +165,7 @@ public class LitleOnline {
 		return (EcheckVerificationResponse)newresponse.getValue();
 	}
 	
-	public ForceCaptureResponse forceCapture(ForceCapture forceCapture) throws Exception {
+	public ForceCaptureResponse forceCapture(ForceCapture forceCapture) throws LitleOnlineException {
 		LitleOnlineRequest request = createLitleOnlineRequest();
 		fillInReportGroup(forceCapture);
 		
@@ -177,7 +175,7 @@ public class LitleOnline {
 		return (ForceCaptureResponse)newresponse.getValue();
 	}
 	
-	public SaleResponse sale(Sale sale) throws Exception {
+	public SaleResponse sale(Sale sale) throws LitleOnlineException {
 		LitleOnlineRequest request = createLitleOnlineRequest();
 		fillInReportGroup(sale);
 		
@@ -187,7 +185,7 @@ public class LitleOnline {
 		return (SaleResponse)newresponse.getValue();
 	}
 	
-	public RegisterTokenResponse registertoken(RegisterTokenRequestType tokenRequest) throws Exception {
+	public RegisterTokenResponse registertoken(RegisterTokenRequestType tokenRequest) throws LitleOnlineException {
 		LitleOnlineRequest request = createLitleOnlineRequest();
 		fillInReportGroup(tokenRequest);
 		
@@ -197,7 +195,7 @@ public class LitleOnline {
 		return (RegisterTokenResponse)newresponse.getValue();
 	}
 	
-	public VoidResponse dovoid(com.litle.sdk.generate.Void v) throws Exception {
+	public VoidResponse dovoid(com.litle.sdk.generate.Void v) throws LitleOnlineException {
 		LitleOnlineRequest request = createLitleOnlineRequest();
 		fillInReportGroup(v);
 		
@@ -227,7 +225,7 @@ public class LitleOnline {
 			String xmlResponse = new Communication().requestToServer(xmlRequest, config);
 			LitleOnlineResponse response = (LitleOnlineResponse)unmarshaller.unmarshal(new StringReader(xmlResponse));
 			if("1".equals(response.getResponse())) {
-				throw new LitleOnlineException(response.getResponse());
+				throw new LitleOnlineException(response.getMessage());
 			}
 			return response;
 		} catch(JAXBException ume) {

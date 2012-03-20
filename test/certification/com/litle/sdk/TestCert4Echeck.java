@@ -15,7 +15,6 @@ import com.litle.sdk.generate.EcheckSalesResponse;
 import com.litle.sdk.generate.EcheckType;
 import com.litle.sdk.generate.EcheckVerification;
 import com.litle.sdk.generate.EcheckVerificationResponse;
-import com.litle.sdk.generate.ObjectFactory;
 import com.litle.sdk.generate.OrderSourceType;
 
 public class TestCert4Echeck {
@@ -41,7 +40,7 @@ public class TestCert4Echeck {
 		echeck.setAccNum("10@BC99999");
 		echeck.setAccType(EcheckAccountTypeEnum.CHECKING);
 		echeck.setRoutingNum("053100300");
-		verification.setEcheckOrEcheckToken(new ObjectFactory().createEcheck(echeck));
+		verification.setEcheck(echeck);
 		
 		EcheckVerificationResponse response = litle.echeckVerification(verification);
 		assertEquals(response.getMessage(),"301", response.getResponse());
@@ -63,7 +62,7 @@ public class TestCert4Echeck {
 		echeck.setAccNum("1099999999");
 		echeck.setAccType(EcheckAccountTypeEnum.CHECKING);
 		echeck.setRoutingNum("053000219");
-		verification.setEcheckOrEcheckToken(new ObjectFactory().createEcheck(echeck));
+		verification.setEcheck(echeck);
 		
 		EcheckVerificationResponse response = litle.echeckVerification(verification);
 		assertEquals(response.getMessage(),"000", response.getResponse());
@@ -86,7 +85,7 @@ public class TestCert4Echeck {
 		echeck.setAccNum("3099999999");
 		echeck.setAccType(EcheckAccountTypeEnum.CORPORATE);
 		echeck.setRoutingNum("053100300");
-		verification.setEcheckOrEcheckToken(new ObjectFactory().createEcheck(echeck));
+		verification.setEcheck(echeck);
 		
 		EcheckVerificationResponse response = litle.echeckVerification(verification);
 		assertEquals(response.getMessage(),"950", response.getResponse());
@@ -109,7 +108,7 @@ public class TestCert4Echeck {
 		echeck.setAccNum("8099999999");
 		echeck.setAccType(EcheckAccountTypeEnum.CORPORATE);
 		echeck.setRoutingNum("063102152");
-		verification.setEcheckOrEcheckToken(new ObjectFactory().createEcheck(echeck));
+		verification.setEcheck(echeck);
 		
 		EcheckVerificationResponse response = litle.echeckVerification(verification);
 		assertEquals(response.getMessage(),"951", response.getResponse());
@@ -131,7 +130,7 @@ public class TestCert4Echeck {
 		echeck.setAccNum("10@BC99999");
 		echeck.setAccType(EcheckAccountTypeEnum.CHECKING);
 		echeck.setRoutingNum("053100300");
-		sale.setEcheckOrEcheckToken(new ObjectFactory().createEcheck(echeck));
+		sale.setEcheck(echeck);
 		
 		EcheckSalesResponse response = litle.echeckSale(sale);
 		assertEquals(response.getMessage(),"301", response.getResponse());
@@ -152,7 +151,7 @@ public class TestCert4Echeck {
 		echeck.setAccNum("4099999992");
 		echeck.setAccType(EcheckAccountTypeEnum.CHECKING);
 		echeck.setRoutingNum("211370545");
-		sale.setEcheckOrEcheckToken(new ObjectFactory().createEcheck(echeck));
+		sale.setEcheck(echeck);
 		
 		EcheckSalesResponse response = litle.echeckSale(sale);
 		assertEquals(response.getMessage(),"000", response.getResponse());
@@ -174,7 +173,7 @@ public class TestCert4Echeck {
 		echeck.setAccNum("6099999992");
 		echeck.setAccType(EcheckAccountTypeEnum.CORPORATE);
 		echeck.setRoutingNum("211370545");
-		sale.setEcheckOrEcheckToken(new ObjectFactory().createEcheck(echeck));
+		sale.setEcheck(echeck);
 		
 		EcheckSalesResponse response = litle.echeckSale(sale);
 		assertEquals(response.getMessage(),"000", response.getResponse());
@@ -196,7 +195,7 @@ public class TestCert4Echeck {
 		echeck.setAccNum("9099999992");
 		echeck.setAccType(EcheckAccountTypeEnum.CORPORATE);
 		echeck.setRoutingNum("053133052");
-		sale.setEcheckOrEcheckToken(new ObjectFactory().createEcheck(echeck));
+		sale.setEcheck(echeck);
 		
 		EcheckSalesResponse response = litle.echeckSale(sale);
 		assertEquals(response.getMessage(),"900", response.getResponse());
@@ -217,7 +216,7 @@ public class TestCert4Echeck {
 		echeck.setAccNum("10@BC99999");
 		echeck.setAccType(EcheckAccountTypeEnum.CHECKING);
 		echeck.setRoutingNum("053100300");
-		credit.setEcheckOrEcheckToken(new ObjectFactory().createEcheck(echeck));
+		credit.setEcheck(echeck);
 		
 		EcheckCreditResponse response = litle.echeckCredit(credit);
 		assertEquals(response.getMessage(),"301", response.getResponse());
@@ -239,7 +238,7 @@ public class TestCert4Echeck {
 		echeck.setAccNum("3099999999");
 		echeck.setAccType(EcheckAccountTypeEnum.CORPORATE);
 		echeck.setRoutingNum("063102152");
-		credit.setEcheckOrEcheckToken(new ObjectFactory().createEcheck(echeck));
+		credit.setEcheck(echeck);
 		
 		EcheckCreditResponse response = litle.echeckCredit(credit);
 		assertEquals(response.getMessage(),"000", response.getResponse());
@@ -261,7 +260,7 @@ public class TestCert4Echeck {
 		echeck.setAccNum("6099999993");
 		echeck.setAccType(EcheckAccountTypeEnum.CORPORATE);
 		echeck.setRoutingNum("211370545");
-		credit.setEcheckOrEcheckToken(new ObjectFactory().createEcheck(echeck));
+		credit.setEcheck(echeck);
 		
 		EcheckCreditResponse response = litle.echeckCredit(credit);
 		assertEquals(response.getMessage(),"000", response.getResponse());

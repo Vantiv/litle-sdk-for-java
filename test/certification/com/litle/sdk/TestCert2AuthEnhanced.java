@@ -2,7 +2,6 @@ package com.litle.sdk;
 
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -10,19 +9,12 @@ import org.junit.Test;
 import com.litle.sdk.generate.AffluenceTypeEnum;
 import com.litle.sdk.generate.Authorization;
 import com.litle.sdk.generate.AuthorizationResponse;
-import com.litle.sdk.generate.Capture;
-import com.litle.sdk.generate.CaptureResponse;
 import com.litle.sdk.generate.CardType;
-import com.litle.sdk.generate.Contact;
-import com.litle.sdk.generate.CountryTypeEnum;
-import com.litle.sdk.generate.Credit;
-import com.litle.sdk.generate.CreditResponse;
 import com.litle.sdk.generate.FundingSourceTypeEnum;
 import com.litle.sdk.generate.HealthcareAmounts;
 import com.litle.sdk.generate.HealthcareIIAS;
 import com.litle.sdk.generate.IIASFlagType;
 import com.litle.sdk.generate.OrderSourceType;
-import com.litle.sdk.generate.VoidResponse;
 
 public class TestCert2AuthEnhanced {
 

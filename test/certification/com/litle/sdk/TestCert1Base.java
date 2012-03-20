@@ -3,8 +3,6 @@ package com.litle.sdk;
 
 import static org.junit.Assert.assertEquals;
 
-import java.math.BigInteger;
-
 import org.junit.BeforeClass;
 import org.junit.Test;
 
