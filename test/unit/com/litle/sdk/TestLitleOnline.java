@@ -15,24 +15,35 @@ import org.junit.Test;
 
 import com.litle.sdk.generate.AuthInformation;
 import com.litle.sdk.generate.AuthReversal;
+import com.litle.sdk.generate.AuthReversalResponse;
 import com.litle.sdk.generate.Authorization;
 import com.litle.sdk.generate.AuthorizationResponse;
 import com.litle.sdk.generate.Capture;
 import com.litle.sdk.generate.CaptureGivenAuth;
+import com.litle.sdk.generate.CaptureGivenAuthResponse;
+import com.litle.sdk.generate.CaptureResponse;
 import com.litle.sdk.generate.CardType;
 import com.litle.sdk.generate.Contact;
 import com.litle.sdk.generate.Credit;
+import com.litle.sdk.generate.CreditResponse;
 import com.litle.sdk.generate.EcheckAccountTypeEnum;
 import com.litle.sdk.generate.EcheckCredit;
+import com.litle.sdk.generate.EcheckCreditResponse;
 import com.litle.sdk.generate.EcheckRedeposit;
+import com.litle.sdk.generate.EcheckRedepositResponse;
 import com.litle.sdk.generate.EcheckSale;
+import com.litle.sdk.generate.EcheckSalesResponse;
 import com.litle.sdk.generate.EcheckType;
 import com.litle.sdk.generate.EcheckVerification;
+import com.litle.sdk.generate.EcheckVerificationResponse;
 import com.litle.sdk.generate.ForceCapture;
+import com.litle.sdk.generate.ForceCaptureResponse;
 import com.litle.sdk.generate.MethodOfPaymentTypeEnum;
 import com.litle.sdk.generate.OrderSourceType;
 import com.litle.sdk.generate.RegisterTokenRequestType;
+import com.litle.sdk.generate.RegisterTokenResponse;
 import com.litle.sdk.generate.Sale;
+import com.litle.sdk.generate.SaleResponse;
 
 public class TestLitleOnline {
 
@@ -64,10 +75,10 @@ public class TestLitleOnline {
 								matches(".*?<litleOnlineRequest.*?<authorization.*?<card>.*?<number>4100000000000002</number>.*?</card>.*?</authorization>.*?"),
 								any(Properties.class)))
 				.thenReturn(
-						"<litleOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><authorizationResponse><litleTxnId>1</litleTxnId></authorizationResponse></litleOnlineResponse>");
+						"<litleOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><authorizationResponse><litleTxnId>123</litleTxnId></authorizationResponse></litleOnlineResponse>");
 		litle.setCommunication(mockedCommunication);
 		AuthorizationResponse authorize = litle.authorize(authorization);
-		assertEquals(1L, authorize.getLitleTxnId());
+		assertEquals(123L, authorize.getLitleTxnId());
 	}
 	
 	@Test
@@ -83,21 +94,20 @@ public class TestLitleOnline {
 		when(
 				mockedCommunication
 						.requestToServer(
-								//matches(".*?<litleOnlineRequest.*?<authReversal.*?</authReversal>.*?"),
-								matches(".*?"),
+								matches(".*?<litleOnlineRequest.*?<authReversal.*?<litleTxnId>12345678000</litleTxnId>.*?</authReversal>.*?"),
 								any(Properties.class)))
 				.thenReturn(
-						"<litleOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><authReversalResponse></authReversalResponse></litleOnlineResponse>");
+						"<litleOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><authReversalResponse><litleTxnId>123</litleTxnId></authReversalResponse></litleOnlineResponse>");
 		litle.setCommunication(mockedCommunication);
-		litle.authReversal(reversal);
-		verify(mockedCommunication);
+		AuthReversalResponse authreversal = litle.authReversal(reversal);
+		assertEquals(123L, authreversal.getLitleTxnId());
 	}
 	
 	@Test
 	public void testCapture() throws Exception {
 
 		Capture capture = new Capture();
-		capture.setLitleTxnId(123456000);
+		capture.setLitleTxnId(123456000L);
 		capture.setAmount(106L);
 		capture.setPayPalNotes("Notes");
 
@@ -105,14 +115,13 @@ public class TestLitleOnline {
 		when(
 				mockedCommunication
 						.requestToServer(
-								//matches(".*?<litleOnlineRequest.*?<authorization.*?<card>.*?<number>4100000000000002</number>.*?</card>.*?</authorization>.*?"),
-								matches(".*?"),
+								matches(".*?<litleOnlineRequest.*?<capture.*?<litleTxnId>123456000</litleTxnId>.*?</capture>.*?"),
 								any(Properties.class)))
 				.thenReturn(
-						"<litleOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><captureResponse></captureResponse></litleOnlineResponse>");
+						"<litleOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><captureResponse><litleTxnId>123</litleTxnId></captureResponse></litleOnlineResponse>");
 		litle.setCommunication(mockedCommunication);
-		litle.capture(capture);
-		verify(mockedCommunication);
+		CaptureResponse captureresponse = litle.capture(capture);
+		assertEquals(123L, captureresponse.getLitleTxnId());
 	}
 	
 	@Test
@@ -139,14 +148,13 @@ public class TestLitleOnline {
 		when(
 				mockedCommunication
 						.requestToServer(
-								//matches(".*?<litleOnlineRequest.*?<capturegivenauth.*?<card>.*?<number>4100000000000002</number>.*?</card>.*?</capturegivenauth>.*?"),
-								matches(".*?"),
+							matches(".*?<litleOnlineRequest.*?<captureGivenAuth.*?<card>.*?<number>4100000000000001</number>.*?</card>.*?</captureGivenAuth>.*?"),
 								any(Properties.class)))
 				.thenReturn(
-						"<litleOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><captureGivenAuthResponse></captureGivenAuthResponse></litleOnlineResponse>");
+						"<litleOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><captureGivenAuthResponse><litleTxnId>123</litleTxnId></captureGivenAuthResponse></litleOnlineResponse>");
 		litle.setCommunication(mockedCommunication);
-		litle.captureGivenAuth(capturegivenauth);
-		verify(mockedCommunication);
+		CaptureGivenAuthResponse capturegivenauthresponse = litle.captureGivenAuth(capturegivenauth);
+		assertEquals(123L, capturegivenauthresponse.getLitleTxnId());
 	}
 	
 	@Test
@@ -166,14 +174,13 @@ public class TestLitleOnline {
 		when(
 				mockedCommunication
 						.requestToServer(
-								//matches(".*?<litleOnlineRequest.*?<authorization.*?<card>.*?<number>4100000000000002</number>.*?</card>.*?</authorization>.*?"),
-								matches(".*?"),
+								matches(".*?<litleOnlineRequest.*?<credit.*?<card>.*?<number>4100000000000001</number>.*?</card>.*?</credit>.*?"),
 								any(Properties.class)))
 				.thenReturn(
-						"<litleOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><creditResponse></creditResponse></litleOnlineResponse>");
+						"<litleOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><creditResponse><litleTxnId>123</litleTxnId></creditResponse></litleOnlineResponse>");
 		litle.setCommunication(mockedCommunication);
-		litle.credit(credit);
-		verify(mockedCommunication);
+		CreditResponse creditresponse = litle.credit(credit);
+		assertEquals(123L, creditresponse.getLitleTxnId());
 	}
 	
 	@Test
@@ -186,14 +193,13 @@ public class TestLitleOnline {
 		when(
 				mockedCommunication
 						.requestToServer(
-								//matches(".*?<litleOnlineRequest.*?<authorization.*?<card>.*?<number>4100000000000002</number>.*?</card>.*?</authorization>.*?"),
-								matches(".*?"),
+								matches(".*?<litleOnlineRequest.*?<echeckCredit.*?<litleTxnId>123456789101112</litleTxnId>.*?</echeckCredit>.*?"),
 								any(Properties.class)))
 				.thenReturn(
-						"<litleOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><echeckCreditResponse></echeckCreditResponse></litleOnlineResponse>");
+						"<litleOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><echeckCreditResponse><litleTxnId>123</litleTxnId></echeckCreditResponse></litleOnlineResponse>");
 		litle.setCommunication(mockedCommunication);
-		litle.echeckCredit(echeckcredit);
-		verify(mockedCommunication);
+		EcheckCreditResponse echeckcreditresponse = litle.echeckCredit(echeckcredit);
+		assertEquals(123L, echeckcreditresponse.getLitleTxnId());
 	}
 	
 	@Test
@@ -205,14 +211,13 @@ public class TestLitleOnline {
 		when(
 				mockedCommunication
 						.requestToServer(
-								//matches(".*?<litleOnlineRequest.*?<authorization.*?<card>.*?<number>4100000000000002</number>.*?</card>.*?</authorization>.*?"),
-								matches(".*?"),
+								matches(".*?<litleOnlineRequest.*?<echeckRedeposit.*?<litleTxnId>123456</litleTxnId>.*?</echeckRedeposit>.*?"),
 								any(Properties.class)))
 				.thenReturn(
-						"<litleOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><echeckRedepositResponse></echeckRedepositResponse></litleOnlineResponse>");
+						"<litleOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><echeckRedepositResponse><litleTxnId>123</litleTxnId></echeckRedepositResponse></litleOnlineResponse>");
 		litle.setCommunication(mockedCommunication);
-		litle.echeckRedeposit(echeckredeposit);
-		verify(mockedCommunication);
+		EcheckRedepositResponse echeckredepositresponse = litle.echeckRedeposit(echeckredeposit);
+		assertEquals(123L, echeckredepositresponse.getLitleTxnId());
 	}
 	
 	@Test
@@ -238,14 +243,13 @@ public class TestLitleOnline {
 		when(
 				mockedCommunication
 						.requestToServer(
-								//matches(".*?<litleOnlineRequest.*?<authorization.*?<card>.*?<number>4100000000000002</number>.*?</card>.*?</authorization>.*?"),
-								matches(".*?"),
+								matches(".*?<litleOnlineRequest.*?<echeckSale.*?<echeck>.*?<accNum>12345657890</accNum>.*?</echeck>.*?</echeckSale>.*?"),
 								any(Properties.class)))
 				.thenReturn(
-						"<litleOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><echeckSaleResponse></echeckSaleResponse></litleOnlineResponse>");
+						"<litleOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><echeckSalesResponse><litleTxnId>123</litleTxnId></echeckSalesResponse></litleOnlineResponse>");
 		litle.setCommunication(mockedCommunication);
-		litle.echeckSale(echecksale);
-		verify(mockedCommunication);
+		EcheckSalesResponse echecksaleresponse = litle.echeckSale(echecksale);
+		assertEquals(123L, echecksaleresponse.getLitleTxnId());
 	}
 	
 	@Test
@@ -271,14 +275,13 @@ public class TestLitleOnline {
 		when(
 				mockedCommunication
 						.requestToServer(
-								//matches(".*?<litleOnlineRequest.*?<authorization.*?<card>.*?<number>4100000000000002</number>.*?</card>.*?</authorization>.*?"),
-								matches(".*?"),
+								matches(".*?<litleOnlineRequest.*?<echeckVerification.*?<echeck>.*?<accNum>12345657890</accNum>.*?</echeck>.*?</echeckVerification>.*?"),
 								any(Properties.class)))
 				.thenReturn(
-						"<litleOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><echeckVerificationResponse></echeckVerificationResponse></litleOnlineResponse>");
+						"<litleOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><echeckVerificationResponse><litleTxnId>123</litleTxnId></echeckVerificationResponse></litleOnlineResponse>");
 		litle.setCommunication(mockedCommunication);
-		litle.echeckVerification(echeckverification);
-		verify(mockedCommunication);
+		EcheckVerificationResponse echeckverificationresponse = litle.echeckVerification(echeckverification);
+		assertEquals(123L, echeckverificationresponse.getLitleTxnId());
 	}
 	
 	@Test
@@ -297,14 +300,13 @@ public class TestLitleOnline {
 		when(
 				mockedCommunication
 						.requestToServer(
-								//matches(".*?<litleOnlineRequest.*?<authorization.*?<card>.*?<number>4100000000000002</number>.*?</card>.*?</authorization>.*?"),
-								matches(".*?"),
+								matches(".*?<litleOnlineRequest.*?<forceCapture.*?<card>.*?<number>4100000000000001</number>.*?</card>.*?</forceCapture>.*?"),
 								any(Properties.class)))
 				.thenReturn(
-						"<litleOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><forceCaptureResponse></forceCaptureResponse></litleOnlineResponse>");
+						"<litleOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><forceCaptureResponse><litleTxnId>123</litleTxnId></forceCaptureResponse></litleOnlineResponse>");
 		litle.setCommunication(mockedCommunication);
-		litle.forceCapture(forcecapture);
-		verify(mockedCommunication);
+		ForceCaptureResponse forcecaptureresponse = litle.forceCapture(forcecapture);
+		assertEquals(123L, forcecaptureresponse.getLitleTxnId());
 	}
 	
 	@Test
@@ -324,14 +326,13 @@ public class TestLitleOnline {
 		when(
 				mockedCommunication
 						.requestToServer(
-								//matches(".*?<litleOnlineRequest.*?<authorization.*?<card>.*?<number>4100000000000002</number>.*?</card>.*?</authorization>.*?"),
-								matches(".*?"),
+								matches(".*?<litleOnlineRequest.*?<sale.*?<card>.*?<number>4100000000000002</number>.*?</card>.*?</sale>.*?"),
 								any(Properties.class)))
 				.thenReturn(
-						"<litleOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><saleResponse></saleResponse></litleOnlineResponse>");
+						"<litleOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><saleResponse><litleTxnId>123</litleTxnId></saleResponse></litleOnlineResponse>");
 		litle.setCommunication(mockedCommunication);
-		litle.sale(sale);
-		verify(mockedCommunication);
+		SaleResponse saleresponse = litle.sale(sale);
+		assertEquals(123L, saleresponse.getLitleTxnId());
 	}
 	
 	@Test
@@ -344,14 +345,13 @@ public class TestLitleOnline {
 		when(
 				mockedCommunication
 						.requestToServer(
-								//matches(".*?<litleOnlineRequest.*?<authorization.*?<card>.*?<number>4100000000000002</number>.*?</card>.*?</authorization>.*?"),
-								matches(".*?"),
+								matches(".*?<litleOnlineRequest.*?<registerTokenRequest.*?<accountNumber>1233456789103801</accountNumber>.*?</registerTokenRequest>.*?"),
 								any(Properties.class)))
 				.thenReturn(
-						"<litleOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><registerTokenResponse></registerTokenResponse></litleOnlineResponse>");
+						"<litleOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><registerTokenResponse><litleTxnId>123</litleTxnId></registerTokenResponse></litleOnlineResponse>");
 		litle.setCommunication(mockedCommunication);
-		litle.registertoken(token);
-		verify(mockedCommunication);
+		RegisterTokenResponse registertokenresponse = litle.registertoken(token);
+		assertEquals(123L, registertokenresponse.getLitleTxnId());
 	}
 
 }
