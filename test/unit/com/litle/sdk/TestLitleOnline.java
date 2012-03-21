@@ -1,5 +1,6 @@
 package com.litle.sdk;
 
+import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.matches;
@@ -12,6 +13,8 @@ import java.util.Properties;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.internal.runners.statements.ExpectException;
+import org.junit.rules.ExpectedException;
 
 import com.litle.sdk.generate.AuthInformation;
 import com.litle.sdk.generate.AuthReversal;
@@ -352,6 +355,95 @@ public class TestLitleOnline {
 		litle.setCommunication(mockedCommunication);
 		RegisterTokenResponse registertokenresponse = litle.registertoken(token);
 		assertEquals(123L, registertokenresponse.getLitleTxnId());
+	}
+	
+	@Test
+	public void testLitleOnlineException() throws Exception {
+
+		Authorization authorization = new Authorization();
+		authorization.setReportGroup("Planets");
+		authorization.setOrderId("12344");
+		authorization.setAmount(106L);
+		authorization.setOrderSource(OrderSourceType.ECOMMERCE);
+		CardType card = new CardType();
+		card.setType(MethodOfPaymentTypeEnum.VI);
+		card.setNumber("4100000000000002");
+		card.setExpDate("1210");
+		authorization.setCard(card);
+
+		Communication mockedCommunication = mock(Communication.class);
+		when(
+				mockedCommunication
+						.requestToServer(
+								matches(".*?<litleOnlineRequest.*?<authorization.*?<card>.*?<number>4100000000000002</number>.*?</card>.*?</authorization>.*?"),
+								any(Properties.class)))
+				.thenReturn(
+						"<litleOnlineResponse version='8.10' response='1' message='Error validating xml data against the schema' xmlns='http://www.litle.com/schema'><authorizationResponse><litleTxnId>123</litleTxnId></authorizationResponse></litleOnlineResponse>");
+		litle.setCommunication(mockedCommunication);
+		try{
+		litle.authorize(authorization);
+		fail("Expected Exception");
+		} catch(LitleOnlineException e){
+			assertEquals("Error validating xml data against the schema", e.getMessage());
+		}
+	}
+	
+	@Test
+	public void testJAXBException() throws Exception {
+
+		Authorization authorization = new Authorization();
+		authorization.setReportGroup("Planets");
+		authorization.setOrderId("12344");
+		authorization.setAmount(106L);
+		authorization.setOrderSource(OrderSourceType.ECOMMERCE);
+		CardType card = new CardType();
+		card.setType(MethodOfPaymentTypeEnum.VI);
+		card.setNumber("4100000000000002");
+		card.setExpDate("1210");
+		authorization.setCard(card);
+
+		Communication mockedCommunication = mock(Communication.class);
+		when(
+				mockedCommunication
+						.requestToServer(
+								matches(".*?<litleOnlineRequest.*?<authorization.*?<card>.*?<number>4100000000000002</number>.*?</card>.*?</authorization>.*?"),
+								any(Properties.class)))
+				.thenReturn(
+						"no xml");
+		litle.setCommunication(mockedCommunication);
+		try{
+		litle.authorize(authorization);
+		fail("Expected Exception");
+		} catch(LitleOnlineException e){
+			assertEquals("Error validating xml data against the schema", e.getMessage());
+		}
+	}
+	
+	@Test
+	public void testDefaultReportGroup() throws Exception {
+		
+
+		Authorization authorization = new Authorization();
+		authorization.setOrderId("12344");
+		authorization.setAmount(106L);
+		authorization.setOrderSource(OrderSourceType.ECOMMERCE);
+		CardType card = new CardType();
+		card.setType(MethodOfPaymentTypeEnum.VI);
+		card.setNumber("4100000000000002");
+		card.setExpDate("1210");
+		authorization.setCard(card);
+
+		Communication mockedCommunication = mock(Communication.class);
+		when(
+				mockedCommunication
+						.requestToServer(
+								matches(".*?<litleOnlineRequest.*?<authorization.*? reportGroup=\"Default Report Group\">.*?<card>.*?<number>4100000000000002</number>.*?</card>.*?</authorization>.*?"),
+								any(Properties.class)))
+				.thenReturn(
+						"<litleOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><authorizationResponse reportGroup='Default Report Group'></authorizationResponse></litleOnlineResponse>");
+		litle.setCommunication(mockedCommunication);
+		AuthorizationResponse authorize = litle.authorize(authorization);
+		assertEquals("Default Report Group", authorize.getReportGroup());
 	}
 
 }
