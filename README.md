@@ -38,15 +38,15 @@ public class SampleLitleTxn {
 
 	public static void main(String[] args) {
 
-		# Visa $10 Sale
+		// Visa $10 Sale
 		Sale sale = new Sale();
 		sale.setReportGroup("Planets");
 		sale.setOrderId("12344");
-		sale.setAmount(BigInteger.valueOf(1000L));
-		sale.setOrderSource("ecommerce");
+		sale.setAmount(1000L);
+		sale.setOrderSource(OrderSourceType.ECOMMERCE);
 		CardType card = new CardType();
 		card.setType("VI");
-		card.setNumber("4100000000000002");
+		card.setNumber("4100000000000001");
 		card.setExpDate("1210");
 		sale.setCard(card);
 		
