@@ -36,7 +36,7 @@ public class TestCert5Token {
 		request.setOrderId("50");
 		request.setAccountNumber("4457119922390123");
 		
-		RegisterTokenResponse response = litle.registertoken(request);
+		RegisterTokenResponse response = litle.registerToken(request);
 		assertEquals(response.getMessage(), "445711", response.getBin());
 		assertEquals(response.getMessage(), MethodOfPaymentTypeEnum.VI, response.getType());
 		assertEquals(response.getMessage(), "801", response.getResponse());
@@ -50,7 +50,7 @@ public class TestCert5Token {
 		request.setOrderId("51");
 		request.setAccountNumber("4457119999999999");
 		
-		RegisterTokenResponse response = litle.registertoken(request);
+		RegisterTokenResponse response = litle.registerToken(request);
 		assertEquals(response.getMessage(), "820", response.getResponse());
 		assertEquals(response.getMessage(), "Credit card number was invalid", response.getMessage());
 	}
@@ -61,7 +61,7 @@ public class TestCert5Token {
 		request.setOrderId("52");
 		request.setAccountNumber("4457119922390123");
 		
-		RegisterTokenResponse response = litle.registertoken(request);
+		RegisterTokenResponse response = litle.registerToken(request);
 		assertEquals(response.getMessage(), "445711", response.getBin());
 		assertEquals(response.getMessage(), MethodOfPaymentTypeEnum.VI, response.getType());
 		assertEquals(response.getMessage(), "802", response.getResponse());
@@ -78,7 +78,7 @@ public class TestCert5Token {
 		echeck.setRoutingNum("114567895");
 		request.setEcheckForToken(echeck);
 		
-		RegisterTokenResponse response = litle.registertoken(request);
+		RegisterTokenResponse response = litle.registerToken(request);
 		assertEquals(response.getMessage(), MethodOfPaymentTypeEnum.EC, response.getType());
 		assertEquals(response.getMessage(), "998", response.getECheckAccountSuffix());
 		assertEquals(response.getMessage(), "801", response.getResponse());
@@ -95,7 +95,7 @@ public class TestCert5Token {
 		echeck.setRoutingNum("1145_7895");
 		request.setEcheckForToken(echeck);
 		
-		RegisterTokenResponse response = litle.registertoken(request);
+		RegisterTokenResponse response = litle.registerToken(request);
 		assertEquals(response.getMessage(), "900", response.getResponse());
 		assertEquals(response.getMessage(), "Invalid bank routing number", response.getMessage());
 	}

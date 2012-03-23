@@ -353,7 +353,7 @@ public class TestLitleOnline {
 				.thenReturn(
 						"<litleOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><registerTokenResponse><litleTxnId>123</litleTxnId></registerTokenResponse></litleOnlineResponse>");
 		litle.setCommunication(mockedCommunication);
-		RegisterTokenResponse registertokenresponse = litle.registertoken(token);
+		RegisterTokenResponse registertokenresponse = litle.registerToken(token);
 		assertEquals(123L, registertokenresponse.getLitleTxnId());
 	}
 	

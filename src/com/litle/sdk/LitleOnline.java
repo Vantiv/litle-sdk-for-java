@@ -54,35 +54,68 @@ public class LitleOnline {
 	private Unmarshaller unmarshaller;
 	private Communication communication;
 	
+	/**
+	 * Construct a LitleOnline using the configuration specified in $HOME/.litle_SDK_config.properties
+	 */
 	public LitleOnline() {
 		try {
 			jc = JAXBContext.newInstance("com.litle.sdk.generate");
 			marshaller = jc.createMarshaller();
 			unmarshaller = jc.createUnmarshaller();
 			communication = new Communication();
+			objectFactory = new ObjectFactory();
 		} catch (JAXBException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new LitleOnlineException("Unable to load jaxb dependencies.  Perhaps a classpath issue?", e);
 		}
 		try {
 			config = new Properties();
 			config.load(new FileInputStream(Configuration.location()));
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new LitleOnlineException("Configuration file not found. If you are not using the .litle_SDK_config.properties file, please use the LitleOnline(Properties) constructor.  If you are using .litle_SDK_config.properties, you can generate one using java -jar litle-sdk-for-java-8.10.jar", e);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new LitleOnlineException("Configuration file could not be loaded.  Check to see if the user running this has permission to access the file", e);
 		}
-		objectFactory = new ObjectFactory();
+	}
+	
+	/**
+	 * Construct a LitleOnline specifying the configuration in code.  This should be used by integrations that
+	 * have another way to specify their configuration settings (ofbiz, etc)
+	 * 
+	 * Properties that *must* be set are:
+	 * 
+	 * 	url (eg https://payments.litle.com/vap/communicator/online)
+	 *	reportGroup (eg "Default Report Group")
+	 *	username
+	 *	merchantId
+	 *	password
+	 *	version (eg 8.10)
+	 *	timeout (in seconds)
+	 *	Optional properties are: 
+	 *	proxyHost
+	 *	proxyPort
+	 *	printxml (possible values "true" and "false" - defaults to false)
+	 *
+	 * @param config
+	 */
+	public LitleOnline(Properties config) {
+		this.config = config;
+		try {
+			jc = JAXBContext.newInstance("com.litle.sdk.generate");
+			marshaller = jc.createMarshaller();
+			unmarshaller = jc.createUnmarshaller();
+			communication = new Communication();
+			objectFactory = new ObjectFactory();
+		} catch (JAXBException e) {
+			throw new LitleOnlineException("Unable to load jaxb dependencies.  Perhaps a classpath issue?", e);
+		}
 	}
 
-	public void setCommunication(Communication communication) {
+	protected void setCommunication(Communication communication) {
 		this.communication = communication;
 	}
 
 	/**
-	 * <script src="https://gist.github.com/2139120.js"> </script>
+	 * <script src="https://gist.github.com/2139120.js"></script>
 	 */
 	public AuthorizationResponse authorize(Authorization auth) throws LitleOnlineException {
 		LitleOnlineRequest request = createLitleOnlineRequest();
@@ -95,7 +128,7 @@ public class LitleOnline {
 	}
 
 	/**
-	 * <script src="https://gist.github.com/2139404.js"> </script>
+	 * <script src="https://gist.github.com/2174863.js"></script>
 	 */
 	public AuthReversalResponse authReversal(AuthReversal reversal) throws LitleOnlineException {
 		LitleOnlineRequest request = createLitleOnlineRequest();
@@ -108,7 +141,7 @@ public class LitleOnline {
 	}
 	
 	/**
-	 * <script src="https://gist.github.com/2139736.js"> </script>
+	 * <script src="https://gist.github.com/2139736.js"></script>
 	 */
 	public CaptureResponse capture(Capture capture) throws LitleOnlineException {
 		LitleOnlineRequest request = createLitleOnlineRequest();
@@ -121,7 +154,7 @@ public class LitleOnline {
 	}
 	
 	/**
-	 * @see <a href="https://gist.github.com/2139803"/>
+	 * <script src="https://gist.github.com/2139803.js"></script>
 	 */
 	public CaptureGivenAuthResponse captureGivenAuth(CaptureGivenAuth captureGivenAuth) throws LitleOnlineException {
 		LitleOnlineRequest request = createLitleOnlineRequest();
@@ -134,7 +167,7 @@ public class LitleOnline {
 	}
 
 	/**
-	 * @see <a href="https://gist.github.com/2139739"/>
+	 * <script src="https://gist.github.com/2139739.js"></script>
 	 */
 	public CreditResponse credit(Credit credit) throws LitleOnlineException {
 		LitleOnlineRequest request = createLitleOnlineRequest();
@@ -147,7 +180,7 @@ public class LitleOnline {
 	}
 	
 	/**
-	 * @see <a href="https://gist.github.com/2139831"/>
+	 * <script src="https://gist.github.com/2139831.js"></script>
 	 */
 	public EcheckCreditResponse echeckCredit(EcheckCredit echeckcredit) throws LitleOnlineException {
 		LitleOnlineRequest request = createLitleOnlineRequest();
@@ -160,7 +193,7 @@ public class LitleOnline {
 	}
 	
 	/**
-	 * @see <a href="https://gist.github.com/2139852"/>
+	 * <script src="https://gist.github.com/2139852.js"></script>
 	 */
 	public EcheckRedepositResponse echeckRedeposit(EcheckRedeposit echeckRedeposit) throws LitleOnlineException {
 		LitleOnlineRequest request = createLitleOnlineRequest();
@@ -173,7 +206,7 @@ public class LitleOnline {
 	}
 	
 	/**
-	 * @see <a href="https://gist.github.com/2139856"/>
+	 * <script src="https://gist.github.com/2139856.js"></script>
 	 */
 	public EcheckSalesResponse echeckSale(EcheckSale echeckSale) throws LitleOnlineException {
 		LitleOnlineRequest request = createLitleOnlineRequest();
@@ -186,7 +219,7 @@ public class LitleOnline {
 	}
 	
 	/**
-	 * @see <a href="https://gist.github.com/2139863"/>
+	 * <script src="https://gist.github.com/2139863.js"></script>
 	 */
 	public EcheckVerificationResponse echeckVerification(EcheckVerification echeckVerification) throws LitleOnlineException {
 		LitleOnlineRequest request = createLitleOnlineRequest();
@@ -199,7 +232,7 @@ public class LitleOnline {
 	}
 	
 	/**
-	 * @see <a href="https://gist.github.com/2139869"/>
+	 * <script src="https://gist.github.com/2174943.js"></script>
 	 */
 	public ForceCaptureResponse forceCapture(ForceCapture forceCapture) throws LitleOnlineException {
 		LitleOnlineRequest request = createLitleOnlineRequest();
@@ -212,7 +245,7 @@ public class LitleOnline {
 	}
 	
 	/**
-	 * @see <a href="https://gist.github.com/2139304"/>
+	 * <script src="https://gist.github.com/2139304.js"></script>
 	 */
 	public SaleResponse sale(Sale sale) throws LitleOnlineException {
 		LitleOnlineRequest request = createLitleOnlineRequest();
@@ -225,9 +258,9 @@ public class LitleOnline {
 	}
 	
 	/**
-	 * @see <a href="https://gist.github.com/2139877"/>
+	 * <script src="https://gist.github.com/2139877.js"></script>
 	 */
-	public RegisterTokenResponse registertoken(RegisterTokenRequestType tokenRequest) throws LitleOnlineException {
+	public RegisterTokenResponse registerToken(RegisterTokenRequestType tokenRequest) throws LitleOnlineException {
 		LitleOnlineRequest request = createLitleOnlineRequest();
 		fillInReportGroup(tokenRequest);
 		
@@ -238,7 +271,7 @@ public class LitleOnline {
 	}
 	
 	/**
-	 * @see <a href="https://gist.github.com/2139880"/>
+	 * <script src="https://gist.github.com/2139880.js"></script>
 	 */
 	public VoidResponse dovoid(com.litle.sdk.generate.Void v) throws LitleOnlineException {
 		LitleOnlineRequest request = createLitleOnlineRequest();

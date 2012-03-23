@@ -25,7 +25,7 @@ public class TestToken {
 		RegisterTokenRequestType token = new RegisterTokenRequestType();
 		token.setOrderId("12344");
 		token.setAccountNumber("1233456789103801");
-		RegisterTokenResponse response = litle.registertoken(token);
+		RegisterTokenResponse response = litle.registerToken(token);
 		assertEquals("Account number was successfully registered", response.getMessage());
 	}
 	
@@ -34,7 +34,7 @@ public class TestToken {
 		RegisterTokenRequestType token = new RegisterTokenRequestType();
 		token.setOrderId("12344");
 		token.setPaypageRegistrationId("1233456789101112");
-		RegisterTokenResponse response = litle.registertoken(token);
+		RegisterTokenResponse response = litle.registerToken(token);
 		assertEquals("Account number was successfully registered", response.getMessage());
 	}
 	
@@ -46,7 +46,7 @@ public class TestToken {
 		echeck.setAccNum("12344565");
 		echeck.setRoutingNum("123476545");
 		token.setEcheckForToken(echeck);
-		RegisterTokenResponse response = litle.registertoken(token);
+		RegisterTokenResponse response = litle.registerToken(token);
 		assertEquals("Account number was successfully registered", response.getMessage());
 	}
 	
@@ -58,7 +58,7 @@ public class TestToken {
 		echeck.setRoutingNum("123476545");
 		token.setEcheckForToken(echeck);
 		try {
-			litle.registertoken(token);
+			litle.registerToken(token);
 			fail("expected exception");
 		} catch(LitleOnlineException e) {
 			assertTrue(e.getMessage(),e.getMessage().startsWith("Error validating xml data against the schema"));

@@ -11,6 +11,7 @@ public class Configuration {
 		if(System.getenv("LITLE_CONFIG_DIR") != null) {
 			file = new File(System.getenv("LITLE_CONFIG_DIR") + File.separator + LITLE_SDK_CONFIG);
 		}
+		System.out.println("Loading config from " + file.getAbsolutePath());
 		return file;
 	}
 }
