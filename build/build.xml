@@ -91,7 +91,8 @@
 
 	<target name="compile" depends="clean,generate" description="compile the source ">
 		<mkdir dir="${bin}" />
-		<javac destdir="${bin}" includeantruntime="false" source="1.5" target="1.5" classpathref="classpath.ref">
+		<javac destdir="${bin}" includeantruntime="false" source="1.5" target="1.5" classpathref="classpath.ref" 
+			debug="true" debuglevel="lines, vars, source">
 			<compilerarg value="-Xbootclasspath/p:${toString:lib.path.ref}" />
 			<src path="src" />
 			<src path="generated" />
@@ -100,7 +101,8 @@
 
 	<target name="test" depends="dist">
 		<mkdir dir="${bin}/test" />
-		<javac destdir="${bin}/test" includeantruntime="false" source="1.5" target="1.5" classpathref="classpath.ref">
+		<javac destdir="${bin}/test" includeantruntime="false" source="1.5" target="1.5" classpathref="classpath.ref"
+			debug="true" debuglevel="lines, vars, source">
 			<compilerarg value="-Xbootclasspath/p:${toString:lib.path.ref}" />
 			<src path="test/functional" />
 			<src path="test/certification" />
