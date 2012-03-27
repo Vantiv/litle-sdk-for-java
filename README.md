@@ -38,7 +38,7 @@ public class SampleLitleTxn {
 
 	public static void main(String[] args) {
 
-		# Visa $10 Sale
+		// Visa $10 Sale
 		Sale sale = new Sale();
 		sale.setReportGroup("Planets");
 		sale.setOrderId("12344");
@@ -50,10 +50,10 @@ public class SampleLitleTxn {
 		card.setExpDate("1210");
 		sale.setCard(card);
 		
-		# Peform the transaction on the Litle Platform
+		// Peform the transaction on the Litle Platform
 		SaleResponse response = new LitleOnline().sale(sale);
 
-		# display result
+		// display result
 		System.out.println("Message: " + response.getMessage());
 		System.out.println("Litle Transaction ID: " + response.getLitleTxnId());
 	}
