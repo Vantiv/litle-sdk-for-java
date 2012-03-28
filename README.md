@@ -66,4 +66,4 @@ public class SampleLitleTxn {
     Litle Transaction ID: <your-numeric-litle-txn-id>
 
 
-Please contact Lilte & Co. with any further questions.   You can reach us at sdksupport@litle.com.
+Please contact Litle & Co. with any further questions.   You can reach us at sdksupport@litle.com.
