@@ -8,7 +8,7 @@ About Litle
 
 About this SDK
 --------------
-The Litle Java SDK is a Java implementation of the [Litle &amp; Co.](http://www.litle.com). XML API. This SDK was created to make it as easy as possible to connect process your payments with Litle.  This SDK utilizes  the HTTPS protocol to securely connect to Litle.  Using the SDK requires coordination with the Litle team in order to be provided with credentials for accessing our systems.
+The Litle Java SDK is a Java implementation of the [Litle &amp; Co.](http://www.litle.com) XML API. This SDK was created to make it as easy as possible to connect process your payments with Litle.  This SDK utilizes  the HTTPS protocol to securely connect to Litle.  Using the SDK requires coordination with the Litle team in order to be provided with credentials for accessing our systems.
 
 Our Java SDK supports all of the functionality present in Litle XML v8. Please see the online copy of our XSD for Litle XML to get more details on what is supported by the Litle payments engine.
 
@@ -38,22 +38,22 @@ public class SampleLitleTxn {
 
 	public static void main(String[] args) {
 
-		# Visa $10 Sale
+		// Visa $10 Sale
 		Sale sale = new Sale();
 		sale.setReportGroup("Planets");
 		sale.setOrderId("12344");
-		sale.setAmount(BigInteger.valueOf(1000L));
-		sale.setOrderSource("ecommerce");
+		sale.setAmount(1000L);
+		sale.setOrderSource(OrderSourceType.ECOMMERCE);
 		CardType card = new CardType();
-		card.setType("VI");
+		card.setType(MethodOfPaymentTypeEnum.VI);
 		card.setNumber("4100000000000002");
 		card.setExpDate("1210");
 		sale.setCard(card);
 		
-		# Peform the transaction on the Litle Platform
+		// Peform the transaction on the Litle Platform
 		SaleResponse response = new LitleOnline().sale(sale);
 
-		# display result
+		// display result
 		System.out.println("Message: " + response.getMessage());
 		System.out.println("Litle Transaction ID: " + response.getLitleTxnId());
 	}
@@ -66,4 +66,4 @@ public class SampleLitleTxn {
     Litle Transaction ID: <your-numeric-litle-txn-id>
 
 
-Please contact Lilte & Co. with any further questions.   You can reach us at sdksupport@litle.com.
+Please contact Litle & Co. with any further questions.   You can reach us at sdksupport@litle.com.
