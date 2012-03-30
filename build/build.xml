@@ -115,7 +115,8 @@
 		</javac>
 		<jar jarfile="${dist}/lib/litle-sdk-for-java-tests.jar" basedir="${bin}/test" />
 
-		<junit haltonfailure="true" printsummary="true">
+		<junit haltonfailure="true" printsummary="true" fork="yes">
+			<!--<jvmarg value="-Djavax.net.debug=ssl"/>-->
 			<classpath>
 				<path refid="classpath.ref"/>
 				<pathelement location="${junit}/junit-4.8.2.jar" />
