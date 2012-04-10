@@ -8,8 +8,15 @@ public class Configuration {
 
 	public static File location() {
 		File file = new File(System.getProperty("user.home") + File.separator + LITLE_SDK_CONFIG);
-		if(System.getenv("LITLE_CONFIG_DIR") != null) {
-			file = new File(System.getenv("LITLE_CONFIG_DIR") + File.separator + LITLE_SDK_CONFIG);
+		if(System.getProperty("java.specification.version").equals("1.4")) {
+			if(System.getProperty("LITLE_CONFIG_DIR") != null) {
+				file = new File(System.getProperty("LITLE_CONFIG_DIR") + File.separator + LITLE_SDK_CONFIG);
+			}
+		}
+		else {
+			if(System.getenv("LITLE_CONFIG_DIR") != null) {
+				file = new File(System.getenv("LITLE_CONFIG_DIR") + File.separator + LITLE_SDK_CONFIG);
+			}
 		}
 		System.out.println("Loading config from " + file.getAbsolutePath());
 		return file;

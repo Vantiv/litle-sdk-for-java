@@ -1,18 +1,15 @@
 package com.litle.sdk;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 
+import org.apache.commons.httpclient.HostConfiguration;
+import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.HttpHost;
+import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.cxf.helpers.IOUtils;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpHost;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.conn.params.ConnRoutePNames;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
+
 
 public class Communication {
 
@@ -20,31 +17,29 @@ public class Communication {
 		String xmlResponse = null;
 		String proxyHost = configuration.getProperty("proxyHost");
 		String proxyPort = configuration.getProperty("proxyPort");
-		HttpClient httpclient = new DefaultHttpClient();
+		HttpClient httpclient = new HttpClient();
 		if(proxyHost != null && proxyHost.length() > 0 && proxyPort != null && proxyHost.length() > 0) {
-			HttpHost proxy = new HttpHost(proxyHost, Integer.parseInt(proxyPort));
-			httpclient.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY, proxy);
+			HostConfiguration proxy = new HostConfiguration();
+			proxy.setProxy(proxyHost, Integer.parseInt(proxyPort));
+			httpclient.setHostConfiguration(proxy);
 		}
 	
-		HttpPost httppost = new HttpPost(configuration.getProperty("url"));
-		httppost.setHeader("content-type", "text/xml");
+		PostMethod httppost = new PostMethod(configuration.getProperty("url"));
+		httppost.setRequestHeader("content-type", "text/xml");
 
 		try {
 			boolean printxml = configuration.getProperty("printxml") != null && configuration.getProperty("printxml").equalsIgnoreCase("true");
 			if(printxml) {
 				System.out.println("Request XML: " + xmlRequest);
 			}
-			HttpEntity content = new StringEntity(xmlRequest); 
-			httppost.setEntity(content);
-			HttpResponse httpResponse = httpclient.execute(httppost);
-			xmlResponse = IOUtils.readStringFromStream(httpResponse.getEntity().getContent());
+			httppost.setRequestBody(xmlRequest);
+			httpclient.executeMethod(httppost);
+			InputStream in = httppost.getResponseBodyAsStream();
+			xmlResponse = IOUtils.readStringFromStream(in);
 			if(printxml) {
 				System.out.println("Response XML: " + xmlResponse);
 			}
 
-		} catch (ClientProtocolException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
