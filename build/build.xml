@@ -1,3 +1,4 @@
+<!--Create build.properties with a line like java4home =/usr/local/litle-home/"your home directory"/j2sdk1.4.2_19-->
 <project name="litle-sdk-for-java" default="dist" basedir="..">
 	<description>
         Builds and tests litle-sdk-for-java
@@ -5,7 +6,7 @@
 	<!-- set global properties for this build -->
 	<property name="version.schema" value="8.10"/>
 	<property name="version.jar" value="8.10.2"/>
-	<property name="java4home" value="/usr/local/litle-home/gdake/j2sdk1.4.2_19"/>
+	<property file="build/build.properties"/>
 	
 	<property name="src" location="src" />
 	<property name="bin" location="bin" />
@@ -128,6 +129,7 @@
 				<pathelement location="${mockito}/mockito-all-1.9.0.jar"/>
 			</classpath>
 		</javac>
+		<mkdir dir="dist/lib" />
 		<jar jarfile="dist/lib/litle-sdk-for-java-${version.jar}-tests.jar" basedir="${bin}/test" />
 
 		<junit haltonfailure="true" printsummary="true" fork="yes">
@@ -222,6 +224,8 @@
 		<!--Create 1.5 kit -->
 		<tar destfile="kit/litle-sdk-for-java-${version.jar}.tar" basedir="kit/java15"/>
 		<gzip src="kit/litle-sdk-for-java-${version.jar}.tar" destfile="kit/litle-sdk-for-java-${version.jar}.tar.gz"/>
+		<delete file = "kit/litle-sdk-for-java-${version.jar}.tar"/>
+		<zip destfile="kit/litle-sdk-for-java-${version.jar}.zip" basedir="kit/java15"/>
 		
 		<!-- Stage things for the java 1.4 kit" -->
 		<mkdir dir="kit/java14"/>
@@ -274,7 +278,8 @@
 		<!--Create 1.4 kit -->
 		<tar destfile="kit/litle-sdk-for-java-${version.jar}-ForJava14.tar" basedir="kit/java14"/>
 		<gzip src="kit/litle-sdk-for-java-${version.jar}-ForJava14.tar" destfile="kit/litle-sdk-for-java-${version.jar}-ForJava14.tar.gz"/>
-
+		<delete file = "kit/litle-sdk-for-java-${version.jar}-ForJava14.tar"/>
+		<zip destfile="kit/litle-sdk-for-java-${version.jar}-ForJava14.zip" basedir="kit/java14"/>
 	</target>
 	
 	<target name="doc" description="Build javadoc">
