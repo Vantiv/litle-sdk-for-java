@@ -19,6 +19,7 @@ import org.junit.rules.ExpectedException;
 import com.litle.sdk.generate.AuthInformation;
 import com.litle.sdk.generate.AuthReversal;
 import com.litle.sdk.generate.AuthReversalResponse;
+import com.litle.sdk.generate.Authentication;
 import com.litle.sdk.generate.Authorization;
 import com.litle.sdk.generate.AuthorizationResponse;
 import com.litle.sdk.generate.Capture;
@@ -41,6 +42,7 @@ import com.litle.sdk.generate.EcheckVerification;
 import com.litle.sdk.generate.EcheckVerificationResponse;
 import com.litle.sdk.generate.ForceCapture;
 import com.litle.sdk.generate.ForceCaptureResponse;
+import com.litle.sdk.generate.LitleOnlineRequest;
 import com.litle.sdk.generate.MethodOfPaymentTypeEnum;
 import com.litle.sdk.generate.OrderSourceType;
 import com.litle.sdk.generate.RegisterTokenRequestType;
@@ -85,6 +87,35 @@ public class TestLitleOnline {
 	}
 	
 	@Test
+	public void testAuthWithOverrides() throws Exception {
+
+		Authorization authorization = new Authorization();
+		authorization.setReportGroup("Planets");
+		authorization.setOrderId("12344");
+		authorization.setAmount(106L);
+		authorization.setOrderSource(OrderSourceType.ECOMMERCE);
+		CardType card = new CardType();
+		card.setType(MethodOfPaymentTypeEnum.VI);
+		card.setNumber("4100000000000002");
+		card.setExpDate("1210");
+		authorization.setCard(card);
+
+		Communication mockedCommunication = mock(Communication.class);
+		when(
+				mockedCommunication
+						.requestToServer(
+								matches(".*?<litleOnlineRequest.*?merchantId=\"9001\".*?<authorization.*?<card>.*?<number>4100000000000002</number>.*?</card>.*?</authorization>.*?"),
+								any(Properties.class)))
+				.thenReturn(
+						"<litleOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><authorizationResponse><litleTxnId>123</litleTxnId></authorizationResponse></litleOnlineResponse>");
+		litle.setCommunication(mockedCommunication);
+		LitleOnlineRequest overrides = new LitleOnlineRequest();
+		overrides.setMerchantId("9001");
+		AuthorizationResponse authorize = litle.authorize(authorization, overrides);
+		assertEquals(123L, authorize.getLitleTxnId());
+	}
+	
+	@Test
 	public void testAuthReversal() throws Exception {
 
 		AuthReversal reversal = new AuthReversal();
@@ -107,6 +138,31 @@ public class TestLitleOnline {
 	}
 	
 	@Test
+	public void testAuthReversalWithOverrides() throws Exception {
+
+		AuthReversal reversal = new AuthReversal();
+		reversal.setLitleTxnId(12345678000L);
+		reversal.setAmount(106L);
+		reversal.setPayPalNotes("Notes");
+		
+
+		Communication mockedCommunication = mock(Communication.class);
+		when(
+				mockedCommunication
+						.requestToServer(
+								matches(".*?<litleOnlineRequest.*?version=\"8.11\".*?<authReversal.*?<litleTxnId>12345678000</litleTxnId>.*?</authReversal>.*?"),
+								any(Properties.class)))
+				.thenReturn(
+						"<litleOnlineResponse version='8.11' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><authReversalResponse><litleTxnId>123</litleTxnId></authReversalResponse></litleOnlineResponse>");
+		litle.setCommunication(mockedCommunication);
+		LitleOnlineRequest overrides = new LitleOnlineRequest();
+		overrides.setVersion("8.11");
+		AuthReversalResponse authreversal = litle.authReversal(reversal, overrides);
+		assertEquals(123L, authreversal.getLitleTxnId());
+	}
+
+	
+	@Test
 	public void testCapture() throws Exception {
 
 		Capture capture = new Capture();
@@ -126,6 +182,31 @@ public class TestLitleOnline {
 		CaptureResponse captureresponse = litle.capture(capture);
 		assertEquals(123L, captureresponse.getLitleTxnId());
 	}
+	
+	@Test
+	public void testCaptureWithOverrides() throws Exception {
+
+		Capture capture = new Capture();
+		capture.setLitleTxnId(123456000L);
+		capture.setAmount(106L);
+		capture.setPayPalNotes("Notes");
+
+		Communication mockedCommunication = mock(Communication.class);
+		when(
+				mockedCommunication
+						.requestToServer(
+								matches(".*?<litleOnlineRequest.*?<password>supersecret</password>.*?<capture.*?<litleTxnId>123456000</litleTxnId>.*?</capture>.*?"),
+								any(Properties.class)))
+				.thenReturn(
+						"<litleOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><captureResponse><litleTxnId>123</litleTxnId></captureResponse></litleOnlineResponse>");
+		litle.setCommunication(mockedCommunication);
+		LitleOnlineRequest overrides = new LitleOnlineRequest();
+		overrides.setAuthentication(new Authentication());
+		overrides.getAuthentication().setPassword("supersecret");
+		CaptureResponse captureresponse = litle.capture(capture, overrides);
+		assertEquals(123L, captureresponse.getLitleTxnId());
+	}
+
 	
 	@Test
 	public void testCaptureGivenAuth() throws Exception {
@@ -159,6 +240,43 @@ public class TestLitleOnline {
 		CaptureGivenAuthResponse capturegivenauthresponse = litle.captureGivenAuth(capturegivenauth);
 		assertEquals(123L, capturegivenauthresponse.getLitleTxnId());
 	}
+	
+	@Test
+	public void testCaptureGivenAuthWithOverrides() throws Exception {
+
+		CaptureGivenAuth capturegivenauth = new CaptureGivenAuth();
+		capturegivenauth.setAmount(106L);
+		capturegivenauth.setOrderId("12344");
+		AuthInformation authInfo = new AuthInformation();
+		Calendar authDate = Calendar.getInstance();
+		authDate.set(2002, Calendar.OCTOBER, 9);
+		authInfo.setAuthDate(authDate);
+		authInfo.setAuthCode("543216");
+		authInfo.setAuthAmount(12345L);
+		capturegivenauth.setAuthInformation(authInfo);
+		capturegivenauth.setOrderSource(OrderSourceType.ECOMMERCE);
+		CardType card = new CardType();
+		card.setType(MethodOfPaymentTypeEnum.VI);
+		card.setNumber("4100000000000001");
+		card.setExpDate("1210");
+		capturegivenauth.setCard(card);
+
+		Communication mockedCommunication = mock(Communication.class);
+		when(
+				mockedCommunication
+						.requestToServer(
+							matches(".*?<litleOnlineRequest.*?<user>neweruser</user>.*?<captureGivenAuth.*?<card>.*?<number>4100000000000001</number>.*?</card>.*?</captureGivenAuth>.*?"),
+								any(Properties.class)))
+				.thenReturn(
+						"<litleOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><captureGivenAuthResponse><litleTxnId>123</litleTxnId></captureGivenAuthResponse></litleOnlineResponse>");
+		litle.setCommunication(mockedCommunication);
+		LitleOnlineRequest overrides = new LitleOnlineRequest();
+		overrides.setAuthentication(new Authentication());
+		overrides.getAuthentication().setUser("neweruser");
+		CaptureGivenAuthResponse capturegivenauthresponse = litle.captureGivenAuth(capturegivenauth, overrides);
+		assertEquals(123L, capturegivenauthresponse.getLitleTxnId());
+	}
+
 	
 	@Test
 	public void testCredit() throws Exception {
