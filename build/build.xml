@@ -4,8 +4,8 @@
         Builds and tests litle-sdk-for-java
     </description>
 	<!-- set global properties for this build -->
-	<property name="version.schema" value="8.10"/>
-	<property name="version.jar" value="8.10.3"/>
+	<property name="version.schema" value="8.12"/>
+	<property name="version.jar" value="8.12.0"/>
 	<property file="build/build.properties"/>
 	
 	<property name="src" location="src" />
@@ -99,7 +99,7 @@
 		
 		<!-- Get rid of the weird substitution for jaxbelement/echeck/echeckToken -->
 		<replaceregexp file="generated/litleTransaction_v${version.schema}.xsd" match="(&lt;xs:element name=&quot;echeckVerification.*?)&lt;xs:all>(.*?)&lt;/xs:all>(.*?&lt;/xs:element)" replace="\1&lt;xs:sequence>\2&lt;/xs:sequence>\3" flags="s"/>
-		<replaceregexp file="generated/litleTransaction_v${version.schema}.xsd" match="&lt;xs:element ref=&quot;xp:echeckOrEcheckToken&quot; />" replace="&lt;xs:choice>&lt;xs:element name=&quot;echeck&quot; type=&quot;xp:echeckType&quot;/>&lt;xs:element name=&quot;echeckToken&quot; type=&quot;xp:echeckTokenType&quot;/>&lt;/xs:choice>" byline="true"/>
+		<replaceregexp file="generated/litleTransaction_v${version.schema}.xsd" match="&lt;xs:element ref=&quot;xp:echeckOrEcheckToken&quot;\s?/>" replace="&lt;xs:choice>&lt;xs:element name=&quot;echeck&quot; type=&quot;xp:echeckType&quot;/>&lt;xs:element name=&quot;echeckToken&quot; type=&quot;xp:echeckTokenType&quot;/>&lt;/xs:choice>" byline="true"/>
 		<replaceregexp file="generated/litleTransaction_v${version.schema}.xsd" match="&lt;xs:element ref=&quot;xp:echeckOrEcheckToken&quot; minOccurs=&quot;0&quot;\s?/>" replace="&lt;xs:choice>&lt;xs:element name=&quot;echeck&quot; type=&quot;xp:echeckType&quot;/>&lt;xs:element name=&quot;echeckToken&quot; type=&quot;xp:echeckTokenType&quot;/>&lt;/xs:choice>" byline="true"/>
 		<!--Actually generate code from the modified schema -->
 		<xjc schema="generated/litleOnline_v${version.schema}.xsd" package="com.litle.sdk.generate" destdir="${generated}" binding="xsd/bindings.xml" extension="true"/>

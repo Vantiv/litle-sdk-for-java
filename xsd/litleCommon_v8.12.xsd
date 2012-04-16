@@ -1,9 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- 
- Litle & Co. API Version: 8.10
- Copyright © 2003-2012, Litle & Co. ALL RIGHTS RESERVED.
- http://www.litle.com/ 
--->
 <xs:schema targetNamespace="http://www.litle.com/schema" xmlns:xp="http://www.litle.com/schema"
     xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
 
@@ -40,7 +35,7 @@
         </xs:restriction>
     </xs:simpleType>
 
-	<xs:simpleType name="string3Type">
+    <xs:simpleType name="string3Type">
         <xs:restriction base="xs:string">
             <xs:maxLength value="3" />
         </xs:restriction>
@@ -494,20 +489,20 @@
         </xs:restriction>
     </xs:simpleType>
     <xs:simpleType name="customBillingUrlType">
-		<xs:restriction base="xs:string">
-			<xs:maxLength value="13" />
-			<xs:pattern value="[A-Z,a-z,0-9,/,\-,_,.]*"/>
-		</xs:restriction>
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="13" />
+            <xs:pattern value="[A-Z,a-z,0-9,/,\-,_,.]*"/>
+        </xs:restriction>
     </xs:simpleType>
     
     <xs:simpleType name="IIASFlagType">
-    	<xs:restriction base="xs:string">
-    		<xs:maxLength value="1"/>
-    		<xs:enumeration value="Y"/>
-    	</xs:restriction>
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="1"/>
+            <xs:enumeration value="Y"/>
+        </xs:restriction>
     </xs:simpleType>
 
-	<xs:simpleType name="driversLicenseType">
+    <xs:simpleType name="driversLicenseType">
         <xs:restriction base="xs:string">
             <xs:maxLength value="30" />
         </xs:restriction>
