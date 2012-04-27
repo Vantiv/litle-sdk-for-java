@@ -32,7 +32,7 @@ public class TestSale {
 		sale.setOrderSource(OrderSourceType.ECOMMERCE);
 		CardType card = new CardType();
 		card.setType(MethodOfPaymentTypeEnum.VI);
-		card.setNumber("4100000000000002");
+		card.setNumber("4100000000000000");
 		card.setExpDate("1210");
 		sale.setCard(card);
 		SaleResponse response = litle.sale(sale);
