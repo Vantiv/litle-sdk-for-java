@@ -34,7 +34,7 @@ public class TestAuth {
 		authorization.setOrderSource(OrderSourceType.ECOMMERCE);
 		CardType card = new CardType();
 		card.setType(MethodOfPaymentTypeEnum.VI);
-		card.setNumber("4100000000000002");
+		card.setNumber("4100000000000000");
 		card.setExpDate("1210");
 		authorization.setCard(card);
 		
@@ -81,6 +81,24 @@ public class TestAuth {
 		} catch(LitleOnlineException e) {
 			assertTrue(e.getMessage(),e.getMessage().startsWith("Error validating xml data against the schema"));
 		}
+	}
+	
+	@Test
+	public void accountUpdate() throws Exception {
+		Authorization authorization = new Authorization();
+		authorization.setReportGroup("Planets");
+		authorization.setOrderId("12344");
+		authorization.setAmount(106L);
+		authorization.setOrderSource(OrderSourceType.ECOMMERCE);
+		CardType card = new CardType();
+		card.setType(MethodOfPaymentTypeEnum.VI);
+		card.setNumber("4100100000000000");
+		card.setExpDate("1210");
+		authorization.setCard(card);
+		
+		AuthorizationResponse response = litle.authorize(authorization);
+		assertEquals("4100100000000000", response.getAccountUpdater().getOriginalCardInfo().getNumber());
+			
 	}
 
 }
