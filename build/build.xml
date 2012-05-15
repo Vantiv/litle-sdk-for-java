@@ -143,20 +143,21 @@
 			</classpath>
 
 			<formatter type="plain" usefile="false" />
+			<formatter type="xml" />
 
-			<batchtest>
+			<batchtest todir="reports/unit">
 				<fileset dir="test/unit">
 					<include name="**/Test*.java" />
 				</fileset>
 			</batchtest>
 			
-			<batchtest>
+			<batchtest todir="reports/functional">
 				<fileset dir="test/functional">
 					<include name="**/Test*.java" />
 				</fileset>
 			</batchtest>
 
-			<batchtest>
+			<batchtest todir="reports/certification">
 				<fileset dir="test/certification">
 					<include name="**/Test*.java" />
 				</fileset>
