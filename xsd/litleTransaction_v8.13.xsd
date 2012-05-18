@@ -1,5 +1,5 @@
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xp="http://www.litle.com/schema" targetNamespace="http://www.litle.com/schema" elementFormDefault="qualified" attributeFormDefault="unqualified">
-    <xs:include schemaLocation="litleCommon_v8.12.xsd"/>
+    <xs:include schemaLocation="litleCommon_v8.13.xsd"/>
 
     <xs:element name="transaction" type="xp:transactionType" abstract="true"/>
 
@@ -247,6 +247,7 @@
                             <xs:element name="filtering" type="xp:filteringType" minOccurs="0"/>
                             <xs:element name="merchantData" type="xp:merchantDataType" minOccurs="0"/>
                             <xs:element name="recyclingRequest" type="xp:recyclingRequestType" minOccurs="0"/>
+                            <xs:element name="fraudFilterOverride" type="xs:boolean" minOccurs="0"/>
                         </xs:sequence>
                     </xs:choice>
                 </xs:extension>
@@ -384,6 +385,7 @@
                         <xs:element name="filtering" type="xp:filteringType" minOccurs="0"/>
                         <xs:element name="merchantData" type="xp:merchantDataType" minOccurs="0"/>
                         <xs:element name="recyclingRequest" type="xp:recyclingRequestType" minOccurs="0"/>
+                        <xs:element name="fraudFilterOverride" type="xs:boolean" minOccurs="0"/>
                     </xs:sequence>
                 </xs:extension>
             </xs:complexContent>
