@@ -26,17 +26,5 @@ public class TestEcheckVoid {
 		EcheckVoidResponse response = litle.echeckVoid(echeckvoid);
 		assertEquals("Approved", response.getMessage());
 	}
-	
-	@Test
-	public void noLitleTxnId() throws Exception{
-		EcheckVoid echeckvoid = new EcheckVoid();
-		try {
-			litle.echeckVoid(echeckvoid);
-			fail("Expected exception");
-		} catch(LitleOnlineException e) {
-			assertTrue(e.getMessage(),e.getMessage().startsWith("Error validating xml data against the schema"));
-		}
-	}
-
 }
 
