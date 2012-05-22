@@ -32,6 +32,8 @@ import com.litle.sdk.generate.EcheckSale;
 import com.litle.sdk.generate.EcheckSalesResponse;
 import com.litle.sdk.generate.EcheckVerification;
 import com.litle.sdk.generate.EcheckVerificationResponse;
+import com.litle.sdk.generate.EcheckVoid;
+import com.litle.sdk.generate.EcheckVoidResponse;
 import com.litle.sdk.generate.ForceCapture;
 import com.litle.sdk.generate.ForceCaptureResponse;
 import com.litle.sdk.generate.LitleOnlineRequest;
@@ -346,6 +348,21 @@ public class LitleOnline {
 		JAXBElement<? extends TransactionTypeWithReportGroup> newresponse = response.getTransactionResponse();
 		return (VoidResponse)newresponse.getValue();
 	}
+	
+	public EcheckVoidResponse echeckVoid(EcheckVoid echeckVoid) throws LitleOnlineException {
+		LitleOnlineRequest request = createLitleOnlineRequest();
+		return echeckVoid(echeckVoid, request);
+	}
+
+	public EcheckVoidResponse echeckVoid(EcheckVoid echeckVoid, LitleOnlineRequest overrides) throws LitleOnlineException {
+		LitleOnlineRequest request = fillInMissingFieldsFromConfig(overrides);
+		fillInReportGroup(echeckVoid);
+		
+		request.setTransaction(objectFactory.createEcheckVoid(echeckVoid));
+		LitleOnlineResponse response = sendToLitle(request);
+		JAXBElement<? extends TransactionTypeWithReportGroup> newresponse = response.getTransactionResponse();
+		return (EcheckVoidResponse)newresponse.getValue();
+	}
 
 
 	private LitleOnlineRequest createLitleOnlineRequest() {
@@ -396,7 +413,7 @@ public class LitleOnline {
 		}
 		
 		if(request.getMerchantSdk() == null) {
-			retVal.setMerchantSdk("Java;8.13.0");
+			retVal.setMerchantSdk("Java;8.13.1");
 		}
 		else {
 			retVal.setMerchantSdk(request.getMerchantSdk());

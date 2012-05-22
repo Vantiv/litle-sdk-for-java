@@ -1,11 +1,10 @@
 package com.litle.sdk;
 
-import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.matches;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Calendar;
@@ -13,8 +12,6 @@ import java.util.Properties;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.junit.internal.runners.statements.ExpectException;
-import org.junit.rules.ExpectedException;
 
 import com.litle.sdk.generate.AuthInformation;
 import com.litle.sdk.generate.AuthReversal;
@@ -40,6 +37,8 @@ import com.litle.sdk.generate.EcheckSalesResponse;
 import com.litle.sdk.generate.EcheckType;
 import com.litle.sdk.generate.EcheckVerification;
 import com.litle.sdk.generate.EcheckVerificationResponse;
+import com.litle.sdk.generate.EcheckVoid;
+import com.litle.sdk.generate.EcheckVoidResponse;
 import com.litle.sdk.generate.ForceCapture;
 import com.litle.sdk.generate.ForceCaptureResponse;
 import com.litle.sdk.generate.LitleOnlineRequest;
@@ -562,6 +561,25 @@ public class TestLitleOnline {
 		litle.setCommunication(mockedCommunication);
 		AuthorizationResponse authorize = litle.authorize(authorization);
 		assertEquals("Default Report Group", authorize.getReportGroup());
+	}
+
+	
+	@Test
+	public void testEcheckVoid() throws Exception {
+		EcheckVoid echeckvoid = new EcheckVoid();
+		echeckvoid.setLitleTxnId(12345L);
+
+		Communication mockedCommunication = mock(Communication.class);
+		when(
+				mockedCommunication
+						.requestToServer(
+								matches(".*?<litleOnlineRequest.*?<echeckVoid.*?<litleTxnId>12345</litleTxnId>.*?</echeckVoid>.*?"),
+								any(Properties.class)))
+				.thenReturn(
+						"<litleOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><echeckVoidResponse><litleTxnId>123</litleTxnId></echeckVoidResponse></litleOnlineResponse>");
+		litle.setCommunication(mockedCommunication);
+		EcheckVoidResponse echeckvoidresponse = litle.echeckVoid(echeckvoid);
+		assertEquals(123L, echeckvoidresponse.getLitleTxnId());
 	}
 
 }
