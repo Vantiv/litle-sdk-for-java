@@ -1,5 +1,9 @@
 = LitleOnline CHANGELOG
 
+== Version 8.13.2 (June 18, 2012)
+
+* Bugfix: Customer Info Date of Birth was being printed with a time, which violates our specification of YYYY-MM-DD
+
 == Version 8.13.1 (May 22, 2012)
 
 * Feature: Echeck Void now supported

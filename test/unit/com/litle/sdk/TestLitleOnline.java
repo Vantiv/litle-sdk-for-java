@@ -27,6 +27,7 @@ import com.litle.sdk.generate.CardType;
 import com.litle.sdk.generate.Contact;
 import com.litle.sdk.generate.Credit;
 import com.litle.sdk.generate.CreditResponse;
+import com.litle.sdk.generate.CustomerInfo;
 import com.litle.sdk.generate.EcheckAccountTypeEnum;
 import com.litle.sdk.generate.EcheckCredit;
 import com.litle.sdk.generate.EcheckCreditResponse;
@@ -580,6 +581,37 @@ public class TestLitleOnline {
 		litle.setCommunication(mockedCommunication);
 		EcheckVoidResponse echeckvoidresponse = litle.echeckVoid(echeckvoid);
 		assertEquals(123L, echeckvoidresponse.getLitleTxnId());
+	}
+	
+	@Test
+	public void test_CustomerInfo_dob() throws Exception {
+		Authorization authorization = new Authorization();
+		authorization.setReportGroup("Planets");
+		authorization.setOrderId("12344");
+		authorization.setAmount(106L);
+		authorization.setOrderSource(OrderSourceType.ECOMMERCE);
+		CardType card = new CardType();
+		card.setType(MethodOfPaymentTypeEnum.VI);
+		card.setNumber("4100000000000002");
+		card.setExpDate("1210");		
+		authorization.setCard(card);
+		CustomerInfo customerInfo = new CustomerInfo();
+		Calendar c = Calendar.getInstance();
+		c.set(1980, Calendar.APRIL, 14);
+		customerInfo.setDob(c);
+		authorization.setCustomerInfo(customerInfo);
+
+		Communication mockedCommunication = mock(Communication.class);
+		when(
+				mockedCommunication
+						.requestToServer(
+								matches(".*?<litleOnlineRequest.*?<authorization.*?<dob>1980-04-14</dob>.*?</authorization>.*?"),
+								any(Properties.class)))
+				.thenReturn(
+						"<litleOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><authorizationResponse><litleTxnId>123</litleTxnId></authorizationResponse></litleOnlineResponse>");
+		litle.setCommunication(mockedCommunication);
+		AuthorizationResponse authorize = litle.authorize(authorization);
+		assertEquals(123L, authorize.getLitleTxnId());
 	}
 
 }
