@@ -13,12 +13,12 @@ import org.apache.cxf.helpers.IOUtils;
 
 public class Communication {
 
-    	private HttpClient httpclient;
-        
-        public Communication() {
-            httpclient = new HttpClient();
-        }
-        
+	private HttpClient httpclient;
+
+	public Communication() {
+		httpclient = new HttpClient();
+	}
+
 	public String requestToServer(String xmlRequest, Properties configuration) {
 		String xmlResponse = null;
 		String proxyHost = configuration.getProperty("proxyHost");
