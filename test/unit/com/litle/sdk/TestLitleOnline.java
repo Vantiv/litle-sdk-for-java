@@ -563,6 +563,34 @@ public class TestLitleOnline {
 		AuthorizationResponse authorize = litle.authorize(authorization);
 		assertEquals("Default Report Group", authorize.getReportGroup());
 	}
+	
+	@Test
+	public void testOverrideLoggedInUser() throws Exception {
+		Properties config = new Properties();
+		config.setProperty("loggedInUser", "avig");
+		litle = new LitleOnline(config);
+		Authorization authorization = new Authorization();
+		authorization.setOrderId("12344");
+		authorization.setAmount(106L);
+		authorization.setOrderSource(OrderSourceType.ECOMMERCE);
+		CardType card = new CardType();
+		card.setType(MethodOfPaymentTypeEnum.VI);
+		card.setNumber("4100000000000002");
+		card.setExpDate("1210");
+		authorization.setCard(card);
+
+		Communication mockedCommunication = mock(Communication.class);
+		when(
+				mockedCommunication
+						.requestToServer(
+								matches(".*?<litleOnlineRequest.*?loggedInUser=\"avig\".*?<authorization.*?<card>.*?<number>4100000000000002</number>.*?</card>.*?</authorization>.*?"),
+								any(Properties.class)))
+				.thenReturn(
+						"<litleOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><authorizationResponse reportGroup='Default Report Group'></authorizationResponse></litleOnlineResponse>");
+		litle.setCommunication(mockedCommunication);
+		AuthorizationResponse authorize = litle.authorize(authorization);
+		assertEquals("Default Report Group", authorize.getReportGroup());
+	}
 
 	
 	@Test

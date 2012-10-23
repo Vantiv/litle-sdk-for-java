@@ -45,6 +45,8 @@ import com.litle.sdk.generate.Sale;
 import com.litle.sdk.generate.SaleResponse;
 import com.litle.sdk.generate.TransactionTypeWithReportGroup;
 import com.litle.sdk.generate.TransactionTypeWithReportGroupAndPartial;
+import com.litle.sdk.generate.UpdateCardValidationNumOnToken;
+import com.litle.sdk.generate.UpdateCardValidationNumOnTokenResponse;
 import com.litle.sdk.generate.VoidResponse;
 
 public class LitleOnline {
@@ -363,7 +365,21 @@ public class LitleOnline {
 		JAXBElement<? extends TransactionTypeWithReportGroup> newresponse = response.getTransactionResponse();
 		return (EcheckVoidResponse)newresponse.getValue();
 	}
+	
+	public UpdateCardValidationNumOnTokenResponse updateCardValidationNumOnToken(UpdateCardValidationNumOnToken update) {
+		LitleOnlineRequest request = createLitleOnlineRequest();
+		return updateCardValidationNumOnToken(update, request);
+	}
 
+	private UpdateCardValidationNumOnTokenResponse updateCardValidationNumOnToken(UpdateCardValidationNumOnToken update, LitleOnlineRequest overrides) {
+		LitleOnlineRequest request = fillInMissingFieldsFromConfig(overrides);
+		fillInReportGroup(update);
+		
+		request.setTransaction(objectFactory.createUpdateCardValidationNumOnToken(update));
+		LitleOnlineResponse response = sendToLitle(request);
+		JAXBElement<? extends TransactionTypeWithReportGroup> newresponse = response.getTransactionResponse();
+		return (UpdateCardValidationNumOnTokenResponse)newresponse.getValue();
+	}
 
 	private LitleOnlineRequest createLitleOnlineRequest() {
 		LitleOnlineRequest request = new LitleOnlineRequest();
@@ -372,6 +388,7 @@ public class LitleOnline {
 		Authentication authentication = new Authentication();
 		authentication.setPassword(config.getProperty("password"));
 		authentication.setUser(config.getProperty("username"));
+		request.setLoggedInUser(config.getProperty("loggedInUser",null));
 		request.setAuthentication(authentication);
 		return request;
 	}
@@ -413,10 +430,14 @@ public class LitleOnline {
 		}
 		
 		if(request.getMerchantSdk() == null) {
-			retVal.setMerchantSdk("Java;8.13.2");
+			retVal.setMerchantSdk("Java;8.14.0");
 		}
 		else {
 			retVal.setMerchantSdk(request.getMerchantSdk());
+		}
+		
+		if(request.getLoggedInUser() != null) {
+			retVal.setLoggedInUser(request.getLoggedInUser());
 		}
 		
 		return retVal;
@@ -450,4 +471,5 @@ public class LitleOnline {
 			txn.setReportGroup(config.getProperty("reportGroup")); 
 		}
 	}
+
 }

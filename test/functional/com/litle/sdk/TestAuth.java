@@ -10,11 +10,14 @@ import org.junit.Test;
 import com.litle.sdk.generate.Authorization;
 import com.litle.sdk.generate.AuthorizationResponse;
 import com.litle.sdk.generate.CardType;
+import com.litle.sdk.generate.Contact;
 import com.litle.sdk.generate.MethodOfPaymentTypeEnum;
 import com.litle.sdk.generate.OrderSourceType;
 import com.litle.sdk.generate.PayPal;
 import com.litle.sdk.generate.Pos;
+import com.litle.sdk.generate.PosCapabilityTypeEnum;
 import com.litle.sdk.generate.PosCardholderIdTypeEnum;
+import com.litle.sdk.generate.PosEntryModeTypeEnum;
 
 public class TestAuth {
 
@@ -98,7 +101,30 @@ public class TestAuth {
 		
 		AuthorizationResponse response = litle.authorize(authorization);
 		assertEquals("4100100000000000", response.getAccountUpdater().getOriginalCardInfo().getNumber());
-			
+	}
+	
+	@Test
+	public void testTrackData() throws Exception {
+		Authorization authorization = new Authorization();
+		authorization.setId("AX54321678");
+		authorization.setReportGroup("RG27");
+		authorization.setOrderId("12z58743y1");
+		authorization.setAmount(12522L);
+		authorization.setOrderSource(OrderSourceType.RETAIL);
+		Contact billToAddress = new Contact();
+		billToAddress.setZip("95032");
+		authorization.setBillToAddress(billToAddress);
+		CardType card = new CardType();
+		card.setTrack("%B40000001^Doe/JohnP^06041...?;40001=0604101064200?");
+		authorization.setCard(card);
+		Pos pos = new Pos();
+		pos.setCapability(PosCapabilityTypeEnum.MAGSTRIPE);
+		pos.setEntryMode(PosEntryModeTypeEnum.COMPLETEREAD);
+		pos.setCardholderId(PosCardholderIdTypeEnum.SIGNATURE);
+		authorization.setPos(pos);
+		
+		AuthorizationResponse response = litle.authorize(authorization);
+		assertEquals(response.getMessage(), "Approved",response.getMessage());
 	}
 
 }

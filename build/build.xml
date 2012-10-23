@@ -4,8 +4,8 @@
         Builds and tests litle-sdk-for-java
     </description>
 	<!-- set global properties for this build -->
-	<property name="version.schema" value="8.13"/>
-	<property name="version.jar" value="8.13.2"/>
+	<property name="version.schema" value="8.14"/>
+	<property name="version.jar" value="8.14.0"/>
 	<property file="build/build.properties"/>
 	
 	<property name="src" location="src" />
@@ -17,8 +17,8 @@
 	<property name="test" location="test" />
 
 	<property name="jaxb" location="${lib}/jaxb/lib" />
+	<property name="httpclient" location="${lib}/httpclient" />
 	<property name="commons" location="${lib}/apache-commons" />
-	<property name="cxf" location="${lib}/apache-cxf-2.5.2/lib" />
 	<property name="junit" location="${lib}/junit" />
 	<property name="mockito" location="${lib}/mockito" />
 	<property name="xerces" location="${lib}/xerces-2_11_0" />
@@ -33,9 +33,10 @@
 		<pathelement location="${jaxb}/jaxb-api.jar" />
 		<pathelement location="${jaxb}/jaxb-impl.jar" />
 		<pathelement location="${jaxb}/jsr173_1.0_api.jar" />
-		<pathelement location="${cxf}/cxf-2.5.2.jar" />
-		<pathelement location="${commons}/apache-commons-codec-1.4.jar" />
-		<pathelement location="${commons}/commons-httpclient-3.0.1.jar" />
+		<pathelement location="${httpclient}/apache-mime4j-0.6.jar" />
+		<pathelement location="${httpclient}/httpclient-4.0.1.jar" />
+		<pathelement location="${httpclient}/httpcore-4.0.1.jar" />
+		<pathelement location="${httpclient}/httpmime-4.0.1.jar" />
 		<pathelement location="${commons}/commons-logging-1.1.1.jar" />
 	</path>
 
@@ -208,13 +209,11 @@
 				<include name="jaxb-impl.jar" />
 				<include name="jsr173_1.0_api.jar" />
 			</fileset>
-			<fileset dir="${cxf}">
-				<include name="cxf-2.5.2.jar" />
-			</fileset>
-			<fileset dir="${commons}">
-				<include name="apache-commons-codec-1.4.jar" />
-				<include name="commons-httpclient-3.0.1.jar" />
-				<include name="commons-logging-1.1.1.jar" />
+			<fileset dir="${httpclient}">
+				<include name="apache-mime4j-0.6.jar" />
+				<include name="httpclient-4.0.1.jar" />
+				<include name="httpcore-4.0.1.jar" />
+				<include name="httpmime-4.0.1.jar" />
 			</fileset>
 		</copy>
 		<copy todir="kit/java15/doc">
@@ -233,10 +232,11 @@
 		<copy file="${dist14}/lib/litle-sdk-for-java-${version.jar}-ForJava14.jar" todir="kit/java14"/>
 
 		<copy todir="kit/java14/dependencies">
-			<fileset dir="${commons}">
-				<include name="apache-commons-codec-1.4.jar" />
-				<include name="commons-httpclient-3.0.1.jar" />
-				<include name="commons-logging-1.1.1.jar" />
+			<fileset dir="${httpclient}">
+				<include name="apache-mime4j-0.6.jar" />
+				<include name="httpclient-4.0.1.jar" />
+				<include name="httpcore-4.0.1.jar" />
+				<include name="httpmime-4.0.1.jar" />
 			</fileset>
 			<fileset dir="${xerces}">
 				<include name="resolver.jar"/>
@@ -263,7 +263,6 @@
 	    		<include name="jaxb-impl.jar" />
 	    		<include name="jsr173_1.0_api.jar" />
 	    	</jarfileset>
-	    	<jarfileset dir="${cxf}" includes="cxf-2.5.2.jar"/>
 	        <classpath>
 	            <fileset dir="${java4home}/jre/lib" includes="**/*.jar"/>
 	            <fileset dir="lib/Retrotranslator-1.2.9-bin">

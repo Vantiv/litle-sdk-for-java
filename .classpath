@@ -7,9 +7,11 @@
 	<classpathentry kind="src" path="generated"/>
 	<classpathentry kind="lib" path="lib/jaxb/lib/jaxb-xjc.jar"/>
 	<classpathentry kind="lib" path="lib/junit/junit-4.8.2.jar"/>
-	<classpathentry kind="lib" path="lib/apache-commons/commons-httpclient-3.0.1.jar"/>
 	<classpathentry kind="lib" path="lib/apache-commons/commons-logging-1.1.1.jar"/>
-	<classpathentry kind="lib" path="lib/apache-commons/apache-commons-codec-1.4.jar"/>
+	<classpathentry kind="lib" path="lib/httpclient/apache-mime4j-0.6.jar"/>
+	<classpathentry kind="lib" path="lib/httpclient/httpclient-4.0.1.jar"/>
+	<classpathentry kind="lib" path="lib/httpclient/httpcore-4.0.1.jar"/>
+	<classpathentry kind="lib" path="lib/httpclient/httpmime-4.0.1.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/J2SE-1.5">
 		<attributes>
 			<attribute name="owner.project.facets" value="java"/>
@@ -19,7 +21,6 @@
 	<classpathentry kind="lib" path="lib/jaxb/lib/jaxb-api.jar" sourcepath="lib/jaxb/lib/jaxb-api-src.zip"/>
 	<classpathentry kind="lib" path="lib/jaxb/lib/jaxb-impl.jar"/>
 	<classpathentry kind="lib" path="lib/jaxb/lib/jsr173_1.0_api.jar"/>
-	<classpathentry kind="lib" path="lib/apache-cxf-2.5.2/lib/cxf-2.5.2.jar"/>
 	<classpathentry kind="lib" path="lib/mockito/mockito-all-1.9.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

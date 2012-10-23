@@ -1,5 +1,13 @@
 = LitleOnline CHANGELOG
 
+== Version 8.14.0 (October 23, 2012)
+
+* Feature: Temporary storage of card validation num on tokens
+* Feature: Updating card validation numbers on tokens
+* Bugfix: Merged pull request #3 from aingram to speed up performance and avoid concurrent connection limit
+* Cleanup: Removed dependency for CXF, based on suggestion from viniciusccarvalho at https://github.com/LitleCo/litle-sdk-for-java/issues/4
+* Cleanup: Updated httpclient dependency to version 4.0.1
+
 == Version 8.13.2 (June 18, 2012)
 
 * Bugfix: Customer Info Date of Birth was being printed with a time, which violates our specification of YYYY-MM-DD
