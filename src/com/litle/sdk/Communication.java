@@ -13,11 +13,16 @@ import org.apache.cxf.helpers.IOUtils;
 
 public class Communication {
 
+	private HttpClient httpclient;
+
+	public Communication() {
+		httpclient = new HttpClient();
+	}
+
 	public String requestToServer(String xmlRequest, Properties configuration) {
 		String xmlResponse = null;
 		String proxyHost = configuration.getProperty("proxyHost");
 		String proxyPort = configuration.getProperty("proxyPort");
-		HttpClient httpclient = new HttpClient();
 		if(proxyHost != null && proxyHost.length() > 0 && proxyPort != null && proxyHost.length() > 0) {
 			HostConfiguration proxy = new HostConfiguration();
 			proxy.setProxy(proxyHost, Integer.parseInt(proxyPort));
