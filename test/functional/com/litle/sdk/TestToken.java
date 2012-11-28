@@ -64,6 +64,14 @@ public class TestToken {
 			assertTrue(e.getMessage(),e.getMessage().startsWith("Error validating xml data against the schema"));
 		}
 	}
-
+	
+	@Test
+	public void convertPaypageRegistrationIdIntoToken() throws Exception {
+		RegisterTokenRequestType tokenRequest = new RegisterTokenRequestType();
+		tokenRequest.setOrderId("12345");
+		tokenRequest.setPaypageRegistrationId("123456789012345678901324567890abcdefghi");
+		RegisterTokenResponse tokenResponse = litle.registerToken(tokenRequest);
+		assertEquals("1111222233334444", tokenResponse.getLitleToken()); //all paypage registration ids return the same token
+	}
 }
 

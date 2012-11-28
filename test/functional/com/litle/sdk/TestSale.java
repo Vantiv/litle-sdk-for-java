@@ -7,6 +7,7 @@ import static org.junit.Assert.fail;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.litle.sdk.generate.CardTokenType;
 import com.litle.sdk.generate.CardType;
 import com.litle.sdk.generate.MethodOfPaymentTypeEnum;
 import com.litle.sdk.generate.OrderSourceType;
@@ -51,6 +52,22 @@ public class TestSale {
 		paypal.setToken("1234");
 		paypal.setTransactionId("123456");
 		sale.setPaypal(paypal);
+		SaleResponse response = litle.sale(sale);
+		assertEquals("Approved", response.getMessage());
+	}
+	
+	@Test
+	public void simpleSaleWithToken() throws Exception {
+		Sale sale = new Sale();
+		sale.setAmount(106L);
+		sale.setOrderId("12344");
+		sale.setOrderSource(OrderSourceType.ECOMMERCE);
+		CardTokenType token = new CardTokenType();
+		token.setCardValidationNum("349");
+		token.setExpDate("1214");
+		token.setLitleToken("1111222233334000");
+		token.setType(MethodOfPaymentTypeEnum.VI);
+		sale.setToken(token);
 		SaleResponse response = litle.sale(sale);
 		assertEquals("Approved", response.getMessage());
 	}
