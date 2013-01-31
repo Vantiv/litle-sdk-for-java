@@ -1,5 +1,9 @@
 = LitleOnline CHANGELOG
 
+== Version 8.15.0 (January 31, 2013)
+
+* Feature: Add merchantData to echeck verifications and echeck redeposits
+
 == Version 8.14.0 (October 23, 2012)
 
 * Feature: Temporary storage of card validation num on tokens
