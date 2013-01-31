@@ -1,6 +1,6 @@
 <xs:schema targetNamespace="http://www.litle.com/schema" xmlns:xp="http://www.litle.com/schema"
     xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
-    <xs:include schemaLocation="litleCommon_v8.15.xsd" />
+    <xs:include schemaLocation="litleCommon_v8.16.xsd" />
 
     <xs:element name="transaction" type="xp:transactionType" abstract="true" />
 

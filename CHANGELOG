@@ -1,5 +1,9 @@
 = LitleOnline CHANGELOG
 
+== Version 8.16.0 (Febuary 1, 2013)
+
+* Feature: Add recyling to voidResponse
+
 == Version 8.15.0 (January 31, 2013)
 
 * Feature: Add merchantData to echeck verifications and echeck redeposits
