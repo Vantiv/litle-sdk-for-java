@@ -5,7 +5,7 @@
     </description>
 	<!-- set global properties for this build -->
 	<property name="version.schema" value="8.16"/>
-	<property name="version.jar" value="8.16.0"/>
+	<property name="version.jar" value="8.16.1"/>
 	<property file="build/build.properties"/>
 	
 	<property name="src" location="src" />
@@ -33,10 +33,12 @@
 		<pathelement location="${jaxb}/jaxb-api.jar" />
 		<pathelement location="${jaxb}/jaxb-impl.jar" />
 		<pathelement location="${jaxb}/jsr173_1.0_api.jar" />
-		<pathelement location="${httpclient}/apache-mime4j-0.6.jar" />
-		<pathelement location="${httpclient}/httpclient-4.0.1.jar" />
-		<pathelement location="${httpclient}/httpcore-4.0.1.jar" />
-		<pathelement location="${httpclient}/httpmime-4.0.1.jar" />
+		<pathelement location="${httpclient}/commons-codec-1.6.jar" />
+		<pathelement location="${httpclient}/fluent-hc-4.2.3.jar" />
+		<pathelement location="${httpclient}/httpclient-4.2.3.jar" />
+		<pathelement location="${httpclient}/httpclient-cache-4.2.3.jar" />
+		<pathelement location="${httpclient}/httpcore-4.2.2.jar" />
+		<pathelement location="${httpclient}/httpmime-4.2.3.jar" />
 		<pathelement location="${commons}/commons-logging-1.1.1.jar" />
 	</path>
 
@@ -210,10 +212,12 @@
 				<include name="jsr173_1.0_api.jar" />
 			</fileset>
 			<fileset dir="${httpclient}">
-				<include name="apache-mime4j-0.6.jar" />
-				<include name="httpclient-4.0.1.jar" />
-				<include name="httpcore-4.0.1.jar" />
-				<include name="httpmime-4.0.1.jar" />
+				<include name="${httpclient}/commons-codec-1.6.jar" />
+				<include name="${httpclient}/fluent-hc-4.2.3.jar" />
+				<include name="${httpclient}/httpclient-4.2.3.jar" />
+				<include name="${httpclient}/httpclient-cache-4.2.3.jar" />
+				<include name="${httpclient}/httpcore-4.2.2.jar" />
+				<include name="${httpclient}/httpmime-4.2.3.jar" />
 			</fileset>
 		</copy>
 		<copy todir="kit/java15/doc">

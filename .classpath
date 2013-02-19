@@ -8,10 +8,12 @@
 	<classpathentry kind="lib" path="lib/jaxb/lib/jaxb-xjc.jar"/>
 	<classpathentry kind="lib" path="lib/junit/junit-4.8.2.jar"/>
 	<classpathentry kind="lib" path="lib/apache-commons/commons-logging-1.1.1.jar"/>
-	<classpathentry kind="lib" path="lib/httpclient/apache-mime4j-0.6.jar"/>
-	<classpathentry kind="lib" path="lib/httpclient/httpclient-4.0.1.jar"/>
-	<classpathentry kind="lib" path="lib/httpclient/httpcore-4.0.1.jar"/>
-	<classpathentry kind="lib" path="lib/httpclient/httpmime-4.0.1.jar"/>
+	<classpathentry kind="lib" path="lib/httpclient/commons-codec-1.6.jar"/>
+	<classpathentry kind="lib" path="lib/httpclient/fluent-hc-4.2.3.jar"/>
+	<classpathentry kind="lib" path="lib/httpclient/httpclient-4.2.3.jar" sourcepath="/usr/local/litle-home/gdake/httpcomponents-client-4.2.3-src.zip"/>
+	<classpathentry kind="lib" path="lib/httpclient/httpclient-cache-4.2.3.jar"/>
+	<classpathentry kind="lib" path="lib/httpclient/httpcore-4.2.2.jar"/>
+	<classpathentry kind="lib" path="lib/httpclient/httpmime-4.2.3.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/J2SE-1.5">
 		<attributes>
 			<attribute name="owner.project.facets" value="java"/>

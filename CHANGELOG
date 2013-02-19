@@ -1,5 +1,9 @@
 = LitleOnline CHANGELOG
 
+== Version 8.16.1 (Febuary 19, 2013)
+
+* Bugfix: Avoid concurrent connection limit by shutting down the HttpClient connection manager between requests
+
 == Version 8.16.0 (Febuary 1, 2013)
 
 * Feature: Add recyling to voidResponse

@@ -66,7 +66,7 @@ public class LitleOnline {
 			jc = JAXBContext.newInstance("com.litle.sdk.generate");
 			marshaller = jc.createMarshaller();
 			unmarshaller = jc.createUnmarshaller();
-			communication = new Communication();
+			//communication = new Communication();
 			objectFactory = new ObjectFactory();
 		} catch (JAXBException e) {
 			throw new LitleOnlineException("Unable to load jaxb dependencies.  Perhaps a classpath issue?", e);
@@ -107,7 +107,7 @@ public class LitleOnline {
 			jc = JAXBContext.newInstance("com.litle.sdk.generate");
 			marshaller = jc.createMarshaller();
 			unmarshaller = jc.createUnmarshaller();
-			communication = new Communication();
+			//communication = new Communication();
 			objectFactory = new ObjectFactory();
 		} catch (JAXBException e) {
 			throw new LitleOnlineException("Unable to load jaxb dependencies.  Perhaps a classpath issue?", e);
@@ -430,7 +430,7 @@ public class LitleOnline {
 		}
 		
 		if(request.getMerchantSdk() == null) {
-			retVal.setMerchantSdk("Java;8.16.0");
+			retVal.setMerchantSdk("Java;8.16.1");
 		}
 		else {
 			retVal.setMerchantSdk(request.getMerchantSdk());
@@ -445,6 +445,9 @@ public class LitleOnline {
 	
 	private LitleOnlineResponse sendToLitle(LitleOnlineRequest request) throws LitleOnlineException {
 		try {
+			if(communication == null) {
+				communication = new Communication();
+			}
 			StringWriter sw = new StringWriter();
 			marshaller.marshal(request, sw);
 			String xmlRequest = sw.toString();
@@ -457,6 +460,8 @@ public class LitleOnline {
 			return response;
 		} catch(JAXBException ume) {
 			throw new LitleOnlineException("Error validating xml data against the schema", ume);
+		} finally {
+			communication = null;
 		}
 	}
 

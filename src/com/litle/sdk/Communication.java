@@ -3,12 +3,14 @@ package com.litle.sdk;
 import java.io.IOException;
 import java.util.Properties;
 
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.conn.params.ConnRoutePNames;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.CoreConnectionPNames;
 import org.apache.http.util.EntityUtils;
 
 public class Communication {
@@ -27,6 +29,7 @@ public class Communication {
 				&& proxyHost.length() > 0) {
 			HttpHost proxy = new HttpHost(proxyHost, Integer.valueOf(proxyPort));
 			httpclient.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY, proxy);
+			httpclient.getParams().setParameter(CoreConnectionPNames.SO_LINGER, 0);
 		}
 
 		HttpPost post = new HttpPost(configuration.getProperty("url"));
@@ -40,16 +43,25 @@ public class Communication {
 				System.out.println("Request XML: " + xmlRequest);
 			}
 			post.setEntity(new StringEntity(xmlRequest));
-
+			
 			HttpResponse response = httpclient.execute(post);
-			xmlResponse = EntityUtils.toString(response.getEntity());
+			HttpEntity entity = response.getEntity();
+			
+			xmlResponse = EntityUtils.toString(entity);
+			
+			if(response.getStatusLine().getStatusCode() != 200) {
+				throw new LitleOnlineException(response.getStatusLine().getReasonPhrase());
+			}
+			
+			EntityUtils.consume(entity);
 
 			if (printxml) {
 				System.out.println("Response XML: " + xmlResponse);
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new LitleOnlineException("Exception connection to Litle", e);
+		} finally {
+			httpclient.getConnectionManager().shutdown();
 		}
 		return xmlResponse;
 	}

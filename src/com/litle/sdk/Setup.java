@@ -49,7 +49,7 @@ public class Setup {
 		config.put("proxyHost", stdin.readLine());
 		System.out.print("Please input the proxy port, if no proxy hit enter: ");
 		config.put("proxyPort", stdin.readLine());
-		config.put("version", "8.10");
+		config.put("version", "8.16");
 		config.put("timeout", "65");
 		config.put("reportGroup", "Default Report Group");
 		config.put("printxml", "true");
