@@ -1,5 +1,9 @@
 = LitleOnline CHANGELOG
 
+== Version 8.16.2 (Febuary 20, 2013)
+
+* Bugfix: Kit target was not copying the httpclient jars into the directory where they would be zipped up.
+
 == Version 8.16.1 (Febuary 19, 2013)
 
 * Bugfix: Avoid concurrent connection limit by shutting down the HttpClient connection manager between requests
