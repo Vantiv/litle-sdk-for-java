@@ -6,6 +6,7 @@ import java.util.Properties;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.conn.params.ConnRoutePNames;
 import org.apache.http.entity.StringEntity;
@@ -34,6 +35,7 @@ public class Communication {
 
 		HttpPost post = new HttpPost(configuration.getProperty("url"));
 		post.setHeader("content-type", "text/xml");
+		post.setHeader("Connection","close");
 
 		try {
 			boolean printxml = configuration.getProperty("printxml") != null
@@ -44,16 +46,7 @@ public class Communication {
 			}
 			post.setEntity(new StringEntity(xmlRequest));
 			
-			HttpResponse response = httpclient.execute(post);
-			HttpEntity entity = response.getEntity();
-			
-			xmlResponse = EntityUtils.toString(entity);
-			
-			if(response.getStatusLine().getStatusCode() != 200) {
-				throw new LitleOnlineException(response.getStatusLine().getReasonPhrase());
-			}
-			
-			EntityUtils.consume(entity);
+			xmlResponse = sendPostToLitle(post);
 
 			if (printxml) {
 				System.out.println("Response XML: " + xmlResponse);
@@ -66,4 +59,36 @@ public class Communication {
 		return xmlResponse;
 	}
 
+	private String sendPostToLitle(HttpPost post) throws IOException,
+			ClientProtocolException {
+		int counter = 0;
+		HttpResponse response = httpclient.execute(post);
+		while(response.getStatusLine().getStatusCode() == 403) {
+			System.err.println("Got a transient 403 for the " + counter + " time in a row");
+			if(counter < 10) {
+				counter++;
+				try {
+					long sleepTime = counter * 1000L;
+					String temporaryFailureMsg = "";
+					for(int i = 0; i < counter; i++) {
+						temporaryFailureMsg += ".";
+					}
+					temporaryFailureMsg += "Trying again but will sleep for " + sleepTime/1000L + "s first";
+					System.err.println(temporaryFailureMsg);
+					Thread.sleep(sleepTime);
+				} catch (InterruptedException e) {
+					System.err.println("Got a transient interruption.  Ignoring");
+				}
+			}
+			else {
+				String failureMsg = "..........Tried " + counter + "times but kept getting 403, even with sleeping.  Response from Litle " + response.getStatusLine().getReasonPhrase();
+				System.err.println(failureMsg);
+				throw new LitleOnlineException(failureMsg);
+			}
+			response = httpclient.execute(post);
+		}
+		HttpEntity entity = response.getEntity();
+		String xmlResponse = EntityUtils.toString(entity);			
+		return xmlResponse;
+	}
 }

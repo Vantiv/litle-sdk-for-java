@@ -66,7 +66,7 @@ public class LitleOnline {
 			jc = JAXBContext.newInstance("com.litle.sdk.generate");
 			marshaller = jc.createMarshaller();
 			unmarshaller = jc.createUnmarshaller();
-			//communication = new Communication();
+			communication = new Communication();
 			objectFactory = new ObjectFactory();
 		} catch (JAXBException e) {
 			throw new LitleOnlineException("Unable to load jaxb dependencies.  Perhaps a classpath issue?", e);
@@ -107,7 +107,7 @@ public class LitleOnline {
 			jc = JAXBContext.newInstance("com.litle.sdk.generate");
 			marshaller = jc.createMarshaller();
 			unmarshaller = jc.createUnmarshaller();
-			//communication = new Communication();
+			communication = new Communication();
 			objectFactory = new ObjectFactory();
 		} catch (JAXBException e) {
 			throw new LitleOnlineException("Unable to load jaxb dependencies.  Perhaps a classpath issue?", e);
@@ -430,7 +430,7 @@ public class LitleOnline {
 		}
 		
 		if(request.getMerchantSdk() == null) {
-			retVal.setMerchantSdk("Java;8.16.2");
+			retVal.setMerchantSdk("Java;8.16.2-Nikolas");
 		}
 		else {
 			retVal.setMerchantSdk(request.getMerchantSdk());
