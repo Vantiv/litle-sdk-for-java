@@ -430,7 +430,7 @@ public class LitleOnline {
 		}
 		
 		if(request.getMerchantSdk() == null) {
-			retVal.setMerchantSdk("Java;8.16.2-Nikolas");
+			retVal.setMerchantSdk("Java;8.16.3");
 		}
 		else {
 			retVal.setMerchantSdk(request.getMerchantSdk());
@@ -445,9 +445,6 @@ public class LitleOnline {
 	
 	private LitleOnlineResponse sendToLitle(LitleOnlineRequest request) throws LitleOnlineException {
 		try {
-			if(communication == null) {
-				communication = new Communication();
-			}
 			StringWriter sw = new StringWriter();
 			marshaller.marshal(request, sw);
 			String xmlRequest = sw.toString();
@@ -461,7 +458,6 @@ public class LitleOnline {
 		} catch(JAXBException ume) {
 			throw new LitleOnlineException("Error validating xml data against the schema", ume);
 		} finally {
-			communication = null;
 		}
 	}
 

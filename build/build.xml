@@ -5,7 +5,7 @@
     </description>
 	<!-- set global properties for this build -->
 	<property name="version.schema" value="8.16"/>
-	<property name="version.jar" value="8.16.2-Nikolas"/>
+	<property name="version.jar" value="8.16.3"/>
 	<property file="build/build.properties"/>
 	
 	<property name="src" location="src" />
@@ -218,6 +218,9 @@
 				<include name="httpclient-cache-4.2.3.jar" />
 				<include name="httpcore-4.2.2.jar" />
 				<include name="httpmime-4.2.3.jar" />
+			</fileset>
+			<fileset dir="${commons}">
+				<include name="commons-logging-1.1.1.jar"/>
 			</fileset>
 		</copy>
 		<copy todir="kit/java15/doc">
