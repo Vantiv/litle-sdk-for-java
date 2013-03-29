@@ -1,5 +1,11 @@
 = LitleOnline CHANGELOG
 
+== Version 8.17.0 (March 29, 2013)
+
+* Feature: Add support for surcharging credit card transactions
+* Feature: Add support for specifying the terminalId on a pos transaction
+* Feature: Add support for pos transactions on tied refunds
+
 == Version 8.16.3 (March 1, 2013)
 
 * Bugfix: Add Connection:close header to further avoid concurrent connection limit

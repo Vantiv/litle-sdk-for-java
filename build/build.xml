@@ -4,8 +4,8 @@
         Builds and tests litle-sdk-for-java
     </description>
 	<!-- set global properties for this build -->
-	<property name="version.schema" value="8.16"/>
-	<property name="version.jar" value="8.16.3"/>
+	<property name="version.schema" value="8.17"/>
+	<property name="version.jar" value="8.17.0"/>
 	<property file="build/build.properties"/>
 	
 	<property name="src" location="src" />

@@ -423,14 +423,14 @@ public class LitleOnline {
 			retVal.setMerchantId(request.getMerchantId());
 		}
 		if(request.getVersion() == null) {
-			retVal.setVersion(config.getProperty("version"));
+			retVal.setVersion("8.17");
 		}
 		else {
 			retVal.setVersion(request.getVersion());
 		}
 		
 		if(request.getMerchantSdk() == null) {
-			retVal.setMerchantSdk("Java;8.16.3");
+			retVal.setMerchantSdk("Java;8.17.0");
 		}
 		else {
 			retVal.setMerchantSdk(request.getMerchantSdk());

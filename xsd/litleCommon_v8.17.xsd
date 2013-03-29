@@ -429,6 +429,7 @@
             <xs:enumeration value="ZW" />
             <xs:enumeration value="RS" />
             <xs:enumeration value="ME" />
+            <xs:enumeration value="SS" />
         </xs:restriction>
     </xs:simpleType>
 
