@@ -13,10 +13,10 @@ public class LitleBatch {
 		this.batchRequest = new BatchRequest();
 	}
 	
-//	public enum addTransaction() {
-//		
-//		return TransactionCode(Success);
-//	}
+	public TransactionCodes addTransaction() {
+		
+		return TransactionCodes.SUCCESS;
+	}
 	
 	//public enu
 }
