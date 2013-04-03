@@ -2,6 +2,7 @@ package com.litle.sdk;
 
 import com.litle.sdk.generate.BatchRequest;
 
+
 public class LitleBatch {
 	
 	private String merchantId;
@@ -11,6 +12,11 @@ public class LitleBatch {
 		this.merchantId = merchantId;
 		this.batchRequest = new BatchRequest();
 	}
+	
+//	public enum addTransaction() {
+//		
+//		return TransactionCode(Success);
+//	}
 	
 	//public enu
 }
