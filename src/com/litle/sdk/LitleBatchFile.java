@@ -107,6 +107,9 @@ public class LitleBatchFile {
 		return litleBatch;
 	}
 
+	public void generateRawFile() {
+		
+	}
 	private LitleRequest createLitleRequest() {
 		LitleRequest request = new LitleRequest();
 		BatchRequest batchRequest = new BatchRequest();
