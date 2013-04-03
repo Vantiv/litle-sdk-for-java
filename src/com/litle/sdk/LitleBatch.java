@@ -14,7 +14,7 @@ public class LitleBatch {
 		return new LitleBatch(merchantId);
 	}
 	
-	private LitleBatch(String merchantId){
+	LitleBatch(String merchantId){
 		this.merchantId = merchantId;
 		this.batchRequest = new BatchRequest();
 	}
