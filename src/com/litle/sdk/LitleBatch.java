@@ -9,10 +9,6 @@ public class LitleBatch {
 	private String merchantId;
 	private BatchRequest batchRequest;
 	
-	public static LitleBatch createLitleBatch(String merchantId) {
-		
-		return new LitleBatch(merchantId);
-	}
 	
 	LitleBatch(String merchantId){
 		this.merchantId = merchantId;
@@ -23,8 +19,6 @@ public class LitleBatch {
 		return TransactionCodeEnum.SUCCESS;
 	}
 	
-	public BatchRequest getBatchRequest() {
-		return this.batchRequest;
-	}
+	
 
 }
