@@ -102,44 +102,9 @@ public class LitleBatchFile {
 		return batchRequest;
 	}
 	
-	public void addTransaction(BatchRequest transaction) {
-		
-	}
-	
 	public BatchRequest sendBatchFileToLitle(String batchResponseFile) {
 		BatchRequest batchRequest = new BatchRequest();
 		return batchRequest;
-	}
-	
-	/**
-	 * <script src="https://gist.github.com/2139120.js"></script>
-	 */
-	public AuthorizationResponse authorize(Authorization auth) throws LitleOnlineException {
-		LitleRequest request = createLitleRequest();
-		return authorize(auth, request);
-	}
-	
-	public AuthorizationResponse authorize(Authorization auth, LitleRequest overrides) throws LitleOnlineException {
-		LitleRequest request = fillInMissingFieldsFromConfig(overrides);
-		fillInReportGroup(auth);
-		
-		request.getBatchRequests().add(objectFactory.createBatchRequest());
-		//request.setTransaction(objectFactory.createAuthorization(auth));
-		LitleOnlineResponse response = sendToLitle(request);
-		JAXBElement<? extends TransactionTypeWithReportGroup> newresponse = response.getTransactionResponse();
-		return (AuthorizationResponse)newresponse.getValue();
-	}
-
-	
-	public CaptureResponse capture(Capture capture, LitleRequest overrides) throws LitleOnlineException {
-		LitleRequest request = fillInMissingFieldsFromConfig(overrides);
-		fillInReportGroup(capture);
-		
-		request.getBatchRequests().add(objectFactory.createBatchRequest());
-		//request.setTransaction(objectFactory.createCapture(capture));
-		LitleOnlineResponse response = sendToLitle(request);
-		JAXBElement<? extends TransactionTypeWithReportGroup> newresponse = response.getTransactionResponse();
-		return (CaptureResponse)newresponse.getValue();		
 	}
 
 	private LitleRequest createLitleRequest() {
