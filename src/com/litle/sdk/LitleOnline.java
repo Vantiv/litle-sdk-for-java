@@ -358,7 +358,7 @@ public class LitleOnline {
 
 	public EcheckVoidResponse echeckVoid(EcheckVoid echeckVoid, LitleOnlineRequest overrides) throws LitleOnlineException {
 		LitleOnlineRequest request = fillInMissingFieldsFromConfig(overrides);
-		fillInReportGroup(echeckVoid);
+		fillInReportGroup(echeckVoid); 
 		
 		request.setTransaction(objectFactory.createEcheckVoid(echeckVoid));
 		LitleOnlineResponse response = sendToLitle(request);
