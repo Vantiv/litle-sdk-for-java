@@ -1,6 +1,7 @@
 package com.litle.sdk;
 
 import com.litle.sdk.generate.BatchRequest;
+import com.litle.sdk.generate.LitleRequest;
 
 
 public class LitleBatch {
@@ -9,6 +10,7 @@ public class LitleBatch {
 	private BatchRequest batchRequest;
 	
 	public static LitleBatch createLitleBatch(String merchantId) {
+		
 		return new LitleBatch(merchantId);
 	}
 	
@@ -20,6 +22,9 @@ public class LitleBatch {
 	public TransactionCodeEnum addTransaction() {
 		return TransactionCodeEnum.SUCCESS;
 	}
-
 	
+	public BatchRequest getBatchRequest() {
+		return this.batchRequest;
+	}
+
 }
