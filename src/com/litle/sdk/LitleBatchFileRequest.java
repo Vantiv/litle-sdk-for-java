@@ -5,6 +5,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 import javax.xml.bind.JAXBContext;
@@ -23,7 +26,7 @@ import com.litle.sdk.generate.CaptureResponse;
 import com.litle.sdk.generate.LitleOnlineResponse;
 import com.litle.sdk.generate.LitleRequest;
 import com.litle.sdk.generate.ObjectFactory;
- import com.litle.sdk.generate.TransactionTypeWithReportGroup;
+import com.litle.sdk.generate.TransactionTypeWithReportGroup;
 import com.litle.sdk.generate.TransactionTypeWithReportGroupAndPartial;
 
 public class LitleBatchFileRequest {
@@ -35,6 +38,7 @@ public class LitleBatchFileRequest {
 	private Unmarshaller unmarshaller;
 	private Communication communication;
 	private LitleRequest litleRequest;
+	private List<LitleBatchRequest> litleBatchRequestList;
 	
 	/**
 	 * Construct a LitleOnline using the configuration specified in $HOME/.litle_SDK_config.properties
@@ -47,6 +51,7 @@ public class LitleBatchFileRequest {
 			communication = new Communication();
 			objectFactory = new ObjectFactory();
 			litleRequest = new LitleRequest();
+			litleBatchRequestList = new ArrayList<LitleBatchRequest>();
 		} catch (JAXBException e) {
 			throw new LitleOnlineException("Unable to load jaxb dependencies.  Perhaps a classpath issue?", e);
 		}
@@ -99,9 +104,9 @@ public class LitleBatchFileRequest {
 	
 	
 	public LitleBatchRequest createBatch(String merchantId) {
-		LitleBatchRequest litleBatch = new LitleBatchRequest(merchantId);
-		
-		return litleBatch;
+		LitleBatchRequest litleBatchRequest = new LitleBatchRequest(merchantId);
+		litleBatchRequestList.add(litleBatchRequest);
+		return litleBatchRequest;
 	}
 	
 //	public LitleBatchRequest sendBatchFileToLitle(String batchResponseFile) {
@@ -176,6 +181,13 @@ public class LitleBatchFileRequest {
 //			throw new LitleOnlineException("Error validating xml data against the schema", ume);
 //		} finally {
 //		}
+		int i = 0;
+		for(i = 0; i < litleBatchRequestList.size(); i++){
+			litleRequest.getBatchRequests().add(litleBatchRequestList.get(i).getBatchRequest());
+		}
+		BigInteger numOfBatches = BigInteger.valueOf(litleBatchRequestList.size());
+		litleRequest.setNumBatchRequests(numOfBatches);
+		
 		LitleBatchFileResponse retObj = new LitleBatchFileResponse(null);
 		return retObj;
 	}
