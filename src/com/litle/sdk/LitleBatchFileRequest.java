@@ -34,6 +34,7 @@ public class LitleBatchFileRequest {
 	private Marshaller marshaller;
 	private Unmarshaller unmarshaller;
 	private Communication communication;
+	private LitleRequest litleRequest;
 	
 	/**
 	 * Construct a LitleOnline using the configuration specified in $HOME/.litle_SDK_config.properties
@@ -45,6 +46,7 @@ public class LitleBatchFileRequest {
 			unmarshaller = jc.createUnmarshaller();
 			communication = new Communication();
 			objectFactory = new ObjectFactory();
+			litleRequest = new LitleRequest();
 		} catch (JAXBException e) {
 			throw new LitleOnlineException("Unable to load jaxb dependencies.  Perhaps a classpath issue?", e);
 		}
@@ -102,10 +104,10 @@ public class LitleBatchFileRequest {
 		return litleBatch;
 	}
 	
-	public LitleBatchRequest sendBatchFileToLitle(String batchResponseFile) {
-		LitleBatchRequest litleBatch = new LitleBatchRequest(batchResponseFile);
-		return litleBatch;
-	}
+//	public LitleBatchRequest sendBatchFileToLitle(String batchResponseFile) {
+//		LitleBatchRequest litleBatch = new LitleBatchRequest(batchResponseFile);
+//		return litleBatch;
+//	}
 
 	public void generateRawFile() {
 		
@@ -158,22 +160,24 @@ public class LitleBatchFileRequest {
 		return retVal;
 	}
 	
-	private LitleOnlineResponse sendToLitle(LitleRequest request) throws LitleOnlineException {
-		try {
-			StringWriter sw = new StringWriter();
-			marshaller.marshal(request, sw);
-			String xmlRequest = sw.toString();
-			
-			String xmlResponse = communication.requestToServer(xmlRequest, config);
-			LitleOnlineResponse response = (LitleOnlineResponse)unmarshaller.unmarshal(new StringReader(xmlResponse));
-			if("1".equals(response.getResponse())) {
-				throw new LitleOnlineException(response.getMessage());
-			}
-			return response;
-		} catch(JAXBException ume) {
-			throw new LitleOnlineException("Error validating xml data against the schema", ume);
-		} finally {
-		}
+	public LitleBatchFileResponse sendToLitle(LitleRequest request) throws LitleOnlineException {
+//		try {
+//			StringWriter sw = new StringWriter();
+//			marshaller.marshal(request, sw);
+//			String xmlRequest = sw.toString();
+//			
+//			String xmlResponse = communication.requestToServer(xmlRequest, config);
+//			LitleOnlineResponse response = (LitleOnlineResponse)unmarshaller.unmarshal(new StringReader(xmlResponse));
+//			if("1".equals(response.getResponse())) {
+//				throw new LitleOnlineException(response.getMessage());
+//			}
+//			return response;
+//		} catch(JAXBException ume) {
+//			throw new LitleOnlineException("Error validating xml data against the schema", ume);
+//		} finally {
+//		}
+		LitleBatchFileResponse retObj = new LitleBatchFileResponse(null);
+		return retObj;
 	}
 
 	private void fillInReportGroup(TransactionTypeWithReportGroup txn) {

@@ -2,7 +2,7 @@ package com.litle.sdk;
 
 
 public enum TransactionCodeEnum {
-	SUCCESS ("Success"), FAILURE ("Failed"), BATCHFULL ("Batch is Full");
+	SUCCESS ("Success"), FAILURE ("Failed"), BATCHFULL ("Batch is Full"), FILEFULL ("File is Full");
 	
 	private final String description;
 	
