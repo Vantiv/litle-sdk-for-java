@@ -96,14 +96,14 @@ public class LitleBatchFileRequest {
 	}
 	
 	
-	public LitleBatch createBatch(String merchantId) {
-		LitleBatch litleBatch = new LitleBatch(merchantId);
+	public LitleBatchRequest createBatch(String merchantId) {
+		LitleBatchRequest litleBatch = new LitleBatchRequest(merchantId);
 		
 		return litleBatch;
 	}
 	
-	public LitleBatch sendBatchFileToLitle(String batchResponseFile) {
-		LitleBatch litleBatch = new LitleBatch(batchResponseFile);
+	public LitleBatchRequest sendBatchFileToLitle(String batchResponseFile) {
+		LitleBatchRequest litleBatch = new LitleBatchRequest(batchResponseFile);
 		return litleBatch;
 	}
 

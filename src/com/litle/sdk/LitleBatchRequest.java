@@ -4,13 +4,13 @@ import com.litle.sdk.generate.BatchRequest;
 import com.litle.sdk.generate.LitleRequest;
 
 
-public class LitleBatch {
+public class LitleBatchRequest {
 	
 	private String merchantId;
 	private BatchRequest batchRequest;
 	
 	
-	LitleBatch(String merchantId){
+	LitleBatchRequest(String merchantId){
 		this.merchantId = merchantId;
 		this.batchRequest = new BatchRequest();
 	}
