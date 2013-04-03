@@ -103,8 +103,8 @@ public class LitleBatchFile {
 	}
 	
 	public LitleBatch sendBatchFileToLitle(String batchResponseFile) {
-		LitleBatch litleBatch = new LitleBatch();
-		return LitleBatch;
+		LitleBatch litleBatch = new LitleBatch(batchResponseFile);
+		return litleBatch;
 	}
 
 	private LitleRequest createLitleRequest() {
