@@ -8,15 +8,18 @@ public class LitleBatch {
 	private String merchantId;
 	private BatchRequest batchRequest;
 	
-	public LitleBatch(String merchantId){
+	public static LitleBatch createLitleBatch(String merchantId) {
+		return new LitleBatch(merchantId);
+	}
+	
+	private LitleBatch(String merchantId){
 		this.merchantId = merchantId;
 		this.batchRequest = new BatchRequest();
 	}
 	
-	public TransactionCodes addTransaction() {
-		
-		return TransactionCodes.SUCCESS;
+	public TransactionCodeEnum addTransaction() {
+		return TransactionCodeEnum.SUCCESS;
 	}
+
 	
-	//public enu
 }
