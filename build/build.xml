@@ -105,6 +105,11 @@
 		<replaceregexp file="generated/litleTransaction_v${version.schema}.xsd" match="(&lt;xs:element name=&quot;echeckVerification.*?)&lt;xs:all>(.*?)&lt;/xs:all>(.*?&lt;/xs:element)" replace="\1&lt;xs:sequence>\2&lt;/xs:sequence>\3" flags="s"/>
 		<replaceregexp file="generated/litleTransaction_v${version.schema}.xsd" match="&lt;xs:element ref=&quot;xp:echeckOrEcheckToken&quot;\s?/>" replace="&lt;xs:choice>&lt;xs:element name=&quot;echeck&quot; type=&quot;xp:echeckType&quot;/>&lt;xs:element name=&quot;echeckToken&quot; type=&quot;xp:echeckTokenType&quot;/>&lt;/xs:choice>" byline="true"/>
 		<replaceregexp file="generated/litleTransaction_v${version.schema}.xsd" match="&lt;xs:element ref=&quot;xp:echeckOrEcheckToken&quot; minOccurs=&quot;0&quot;\s?/>" replace="&lt;xs:choice>&lt;xs:element name=&quot;echeck&quot; type=&quot;xp:echeckType&quot;/>&lt;xs:element name=&quot;echeckToken&quot; type=&quot;xp:echeckTokenType&quot;/>&lt;/xs:choice>" byline="true"/>
+		
+		<!-- Make num* and *Amount have a default="0" in litleBatch*.xsd -->
+		<replaceregexp file="generated/litleBatch_v${version.schema}.xsd" match="(&lt;xs:attribute name=&quot;num\w+&quot;.*use=&quot;optional&quot;.*)/>" replace="\1 default=&quot;0&quot;/>" byline="true"/>
+		<replaceregexp file="generated/litleBatch_v${version.schema}.xsd" match="(&lt;xs:attribute name=&quot;\w+Amount&quot;.*use=&quot;optional&quot;.*)/>" replace="\1 default=&quot;0&quot;/>" byline="true"/>
+		
 		<!--Actually generate code from the modified schema -->
 		<!--<xjc schema="generated/litleOnline_v${version.schema}.xsd" package="com.litle.sdk.generate" destdir="${generated}" binding="xsd/bindings.xml" extension="true"/> -->
 		<xjc package="com.litle.sdk.generate" destdir="${generated}" binding="xsd/bindings.xml" extension="true">
