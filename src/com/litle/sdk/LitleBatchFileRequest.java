@@ -222,27 +222,23 @@ public class LitleBatchFileRequest {
 	}
 	
 	public File getFileToWrite(String subFolderName) {
-		// TODO: come up with logic to generate unique file name.
 		java.util.Date date= new java.util.Date();
 		String fileName = "fileToPass"+ date.getTime()+".xml";
-		// + fileName
-		File targetDir = new File(System.getProperty("user.home") + File.separator + subFolderName + File.separator);
+		File fileToReturn = new File(System.getProperty("user.home") + File.separator + subFolderName + File.separator + fileName);
 		if(System.getProperty("java.specification.version").equals("1.4")) {
 			if(System.getProperty("LITLE_BATCH_DIR") != null) {
-				targetDir = new File(System.getProperty("LITLE_BATCH_DIR") + File.separator + subFolderName + File.separator);
+				fileToReturn = new File(System.getProperty("LITLE_BATCH_DIR") + File.separator + subFolderName + File.separator + fileName);
 			}
 		}
 		else {
 			if(System.getenv("LITLE_BATCH_DIR") != null) {
-				targetDir = new File(System.getenv("LITLE_BATCH_DIR") + File.separator + subFolderName + File.separator);
+				fileToReturn = new File(System.getenv("LITLE_BATCH_DIR") + File.separator + subFolderName + File.separator + fileName);
 			}
 		}
 		
-		if(!targetDir.exists()){
-			targetDir.mkdir();
+		if(!fileToReturn.getParentFile().exists()){
+			fileToReturn.getParentFile().mkdir();
 		}
-		
-		File fileToReturn = new File(targetDir.getAbsolutePath().concat(File.separator + fileName));
 		
 		return fileToReturn;
 	}
