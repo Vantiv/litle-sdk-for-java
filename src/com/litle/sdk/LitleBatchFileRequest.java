@@ -1,11 +1,16 @@
 package com.litle.sdk;
 
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.math.BigInteger;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -177,22 +182,45 @@ public class LitleBatchFileRequest {
 			StringWriter sw = new StringWriter();
 			marshaller.marshal(litleRequest, sw);
 			String xmlRequest = sw.toString();
-			int abc = 0;
-			abc++;
 			
-//			String xmlResponse = communication.requestToServer(xmlRequest, config);
-//			LitleOnlineResponse response = (LitleOnlineResponse)unmarshaller.unmarshal(new StringReader(xmlResponse));
-//			if("1".equals(response.getResponse())) {
-//				throw new LitleOnlineException(response.getMessage());
-//			}
-//			return response;
+			File file = getFileToWrite();
+			// if file doesnt exists, then create it
+			if (!file.exists()) {
+				file.createNewFile();
+			}
+ 
+			FileWriter fw = new FileWriter(file.getAbsoluteFile());
+			BufferedWriter bw = new BufferedWriter(fw);
+			bw.write(xmlRequest);
+			bw.close();
+			
 		} catch(JAXBException ume) {
 			throw new LitleOnlineException("Error validating xml data against the schema", ume);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		} finally {
 		}
 		
 		LitleBatchFileResponse retObj = new LitleBatchFileResponse(null);
 		return retObj;
+	}
+	
+	public File getFileToWrite() {
+		// TODO: come up with logic to generate unique file name.
+		String fileName = "fileToPass.xml";
+		File file = new File(System.getProperty("user.home") + File.separator + fileName);
+		if(System.getProperty("java.specification.version").equals("1.4")) {
+			if(System.getProperty("LITLE_BATCH_DIR") != null) {
+				file = new File(System.getProperty("LITLE_CONFIG_DIR") + File.separator + fileName);
+			}
+		}
+		else {
+			if(System.getenv("LITLE_BATCH_DIR") != null) {
+				file = new File(System.getenv("LITLE_CONFIG_DIR") + File.separator + fileName);
+			}
+		}
+		return file;
 	}
 
 	private void fillInReportGroup(TransactionTypeWithReportGroup txn) {
