@@ -56,7 +56,7 @@ public class TestLitleBatchFileRequest {
 
 	@BeforeClass
 	public static void beforeClass() throws Exception {
-		litleBatchFileRequest = new LitleBatchFileRequest();
+		litleBatchFileRequest = new LitleBatchFileRequest("testFile.xml");
 	}
 	
 	@Test

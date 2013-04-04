@@ -11,6 +11,7 @@ import java.io.StringWriter;
 import java.math.BigInteger;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -44,29 +45,43 @@ public class LitleBatchFileRequest {
 	private Communication communication;
 	private LitleRequest litleRequest;
 	private List<LitleBatchRequest> litleBatchRequestList;
+	private String requestFileName;
 	
 	/**
 	 * Construct a LitleOnline using the configuration specified in $HOME/.litle_SDK_config.properties
 	 */
-	public LitleBatchFileRequest() {
+	public LitleBatchFileRequest(String requestFileName) {
 		try {
-			jc = JAXBContext.newInstance("com.litle.sdk.generate");
-			marshaller = jc.createMarshaller();
-			unmarshaller = jc.createUnmarshaller();
-			communication = new Communication();
-			objectFactory = new ObjectFactory();
-			litleRequest = new LitleRequest();
-			litleBatchRequestList = new ArrayList<LitleBatchRequest>();
+			this.jc = JAXBContext.newInstance("com.litle.sdk.generate");
+			this.marshaller = jc.createMarshaller();
+			this.unmarshaller = jc.createUnmarshaller();
+			this.communication = new Communication();
+			this.objectFactory = new ObjectFactory();
+			this.litleRequest = new LitleRequest();
+			this.litleBatchRequestList = new ArrayList<LitleBatchRequest>();
+			if(!requestFileName.isEmpty()){
+				this.requestFileName = requestFileName;
+			}
+			else{
+				throw new LitleBatchException("You need to supply a filename for the file.");
+			}
+			
+			try {
+				config = new Properties();
+				config.load(new FileInputStream(Configuration.location()));
+			} catch (FileNotFoundException e) {
+				throw new LitleBatchException("Configuration file not found. If you are not using the .litle_SDK_config.properties file, please use the LitleOnline(Properties) constructor.  If you are using .litle_SDK_config.properties, you can generate one using java -jar litle-sdk-for-java-8.10.jar", e);
+			} catch (IOException e) {
+				throw new LitleBatchException("Configuration file could not be loaded.  Check to see if the user running this has permission to access the file", e);
+			}
+			
+			Authentication authentication = new Authentication();
+			authentication.setPassword(config.getProperty("password"));
+			authentication.setUser(config.getProperty("username"));
+			this.litleRequest.setAuthentication(authentication);
+			
 		} catch (JAXBException e) {
-			throw new LitleOnlineException("Unable to load jaxb dependencies.  Perhaps a classpath issue?", e);
-		}
-		try {
-			config = new Properties();
-			config.load(new FileInputStream(Configuration.location()));
-		} catch (FileNotFoundException e) {
-			throw new LitleOnlineException("Configuration file not found. If you are not using the .litle_SDK_config.properties file, please use the LitleOnline(Properties) constructor.  If you are using .litle_SDK_config.properties, you can generate one using java -jar litle-sdk-for-java-8.10.jar", e);
-		} catch (IOException e) {
-			throw new LitleOnlineException("Configuration file could not be loaded.  Check to see if the user running this has permission to access the file", e);
+			throw new LitleBatchException("Unable to load jaxb dependencies.  Perhaps a classpath issue?", e);
 		}
 	}
 	
@@ -183,7 +198,7 @@ public class LitleBatchFileRequest {
 			marshaller.marshal(litleRequest, sw);
 			String xmlRequest = sw.toString();
 			
-			File file = getFileToWrite();
+			File file = getFileToWrite("Requests");
 			// if file doesnt exists, then create it
 			if (!file.exists()) {
 				file.createNewFile();
@@ -206,21 +221,30 @@ public class LitleBatchFileRequest {
 		return retObj;
 	}
 	
-	public File getFileToWrite() {
+	public File getFileToWrite(String subFolderName) {
 		// TODO: come up with logic to generate unique file name.
-		String fileName = "fileToPass.xml";
-		File file = new File(System.getProperty("user.home") + File.separator + fileName);
+		java.util.Date date= new java.util.Date();
+		String fileName = "fileToPass"+ date.getTime()+".xml";
+		// + fileName
+		File targetDir = new File(System.getProperty("user.home") + File.separator + subFolderName + File.separator);
 		if(System.getProperty("java.specification.version").equals("1.4")) {
 			if(System.getProperty("LITLE_BATCH_DIR") != null) {
-				file = new File(System.getProperty("LITLE_CONFIG_DIR") + File.separator + fileName);
+				targetDir = new File(System.getProperty("LITLE_BATCH_DIR") + File.separator + subFolderName + File.separator);
 			}
 		}
 		else {
 			if(System.getenv("LITLE_BATCH_DIR") != null) {
-				file = new File(System.getenv("LITLE_CONFIG_DIR") + File.separator + fileName);
+				targetDir = new File(System.getenv("LITLE_BATCH_DIR") + File.separator + subFolderName + File.separator);
 			}
 		}
-		return file;
+		
+		if(!targetDir.exists()){
+			targetDir.mkdir();
+		}
+		
+		File fileToReturn = new File(targetDir.getAbsolutePath().concat(File.separator + fileName));
+		
+		return fileToReturn;
 	}
 
 	private void fillInReportGroup(TransactionTypeWithReportGroup txn) {
