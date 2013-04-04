@@ -165,28 +165,31 @@ public class LitleBatchFileRequest {
 		return retVal;
 	}
 	
-	public LitleBatchFileResponse sendToLitle(LitleRequest request) throws LitleOnlineException {
-//		try {
-//			StringWriter sw = new StringWriter();
-//			marshaller.marshal(request, sw);
-//			String xmlRequest = sw.toString();
-//			
-//			String xmlResponse = communication.requestToServer(xmlRequest, config);
-//			LitleOnlineResponse response = (LitleOnlineResponse)unmarshaller.unmarshal(new StringReader(xmlResponse));
-//			if("1".equals(response.getResponse())) {
-//				throw new LitleOnlineException(response.getMessage());
-//			}
-//			return response;
-//		} catch(JAXBException ume) {
-//			throw new LitleOnlineException("Error validating xml data against the schema", ume);
-//		} finally {
-//		}
+	public LitleBatchFileResponse sendToLitle() throws LitleOnlineException {
 		int i = 0;
 		for(i = 0; i < litleBatchRequestList.size(); i++){
 			litleRequest.getBatchRequests().add(litleBatchRequestList.get(i).getBatchRequest());
 		}
 		BigInteger numOfBatches = BigInteger.valueOf(litleBatchRequestList.size());
 		litleRequest.setNumBatchRequests(numOfBatches);
+
+		try {
+			StringWriter sw = new StringWriter();
+			marshaller.marshal(litleRequest, sw);
+			String xmlRequest = sw.toString();
+			int abc = 0;
+			abc++;
+			
+//			String xmlResponse = communication.requestToServer(xmlRequest, config);
+//			LitleOnlineResponse response = (LitleOnlineResponse)unmarshaller.unmarshal(new StringReader(xmlResponse));
+//			if("1".equals(response.getResponse())) {
+//				throw new LitleOnlineException(response.getMessage());
+//			}
+//			return response;
+		} catch(JAXBException ume) {
+			throw new LitleOnlineException("Error validating xml data against the schema", ume);
+		} finally {
+		}
 		
 		LitleBatchFileResponse retObj = new LitleBatchFileResponse(null);
 		return retObj;
