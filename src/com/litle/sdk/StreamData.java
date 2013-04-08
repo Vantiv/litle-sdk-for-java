@@ -39,10 +39,8 @@ public class StreamData {
     public void init(String hostname, String port, int timeOut, boolean SSL) throws Exception {
         try {
             if (SSL) {
-                // dynamically register sun's ssl provider
-                //Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider());
-                SSLSocketFactory sslFact = (SSLSocketFactory) SSLSocketFactory.getDefault();
-                socket = (SSLSocket) sslFact.createSocket(hostname, Integer.parseInt(port));
+                SSLSocketFactory ssf = (SSLSocketFactory) SSLSocketFactory.getDefault();
+                socket = ssf.createSocket(hostname, Integer.parseInt(port));
             } else {
                 socket = new Socket(hostname, Integer.parseInt(port));
             }
@@ -64,13 +62,6 @@ public class StreamData {
         this.socket = socket;
     }
     
-//    public void sendStreamDataToIBC() {
-//    	char [] passphrase = "sasquatch".toCharArray();
-//    	KeyStore keyStore = KeyStore.getInstance("JKS");
-//    	keyStore.load(stream, password));
-//    	TrustManagerFactoy tmf = TrustManagerFactory.getInstance("SunX509");
-//    	
-//    }
     
     /**
      * This method will write the string on the socket.
