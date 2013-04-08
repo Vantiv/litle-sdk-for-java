@@ -74,10 +74,12 @@ public class Communication {
 
 	public void sendLitleBatchFileToIBC(File requestFile, String resposeFilePath, Properties configuration) throws Exception {
 
-			String hostName = "https://payments.litle.com";
-			int hostPort = 15000;
-			int tcpTimeout = 6000;
-			boolean useSSL = false;
+			String hostName = configuration.getProperty("batchHostName");
+			String hostPort = configuration.getProperty("batchHostPort");
+			int tcpTimeout = Integer.parseInt(configuration.getProperty("batchTcpTimeout"));
+			boolean useSSL = configuration.getProperty("batchUseSSL") != null
+					&& configuration.getProperty("batchUseSSL").equalsIgnoreCase(
+							"true");
 			
 	        // connect to the ibc and send the data
 	        StreamData streamData = new StreamData();

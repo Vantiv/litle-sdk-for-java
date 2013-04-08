@@ -36,15 +36,15 @@ public class StreamData {
      * @param timeOut The time ( in mills ) that the socket should wait on reading before timing out.
      * @throws Exception when any exception occurs trying to connect to the machine/port.
      */
-    public void init(String hostname, int port, int timeOut, boolean SSL) throws Exception {
+    public void init(String hostname, String port, int timeOut, boolean SSL) throws Exception {
         try {
             if (SSL) {
                 // dynamically register sun's ssl provider
                 //Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider());
                 SSLSocketFactory sslFact = (SSLSocketFactory) SSLSocketFactory.getDefault();
-                socket = (SSLSocket) sslFact.createSocket(hostname, port);
+                socket = (SSLSocket) sslFact.createSocket(hostname, Integer.parseInt(port));
             } else {
-                socket = new Socket(hostname, port);
+                socket = new Socket(hostname, Integer.parseInt(port));
             }
             socket.setTcpNoDelay(true);
             socket.setSoTimeout(timeOut);
