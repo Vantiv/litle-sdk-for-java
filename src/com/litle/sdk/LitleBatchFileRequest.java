@@ -10,7 +10,7 @@ import java.io.StringReader;
 import java.io.StringWriter;
 import java.math.BigInteger;
 import java.nio.charset.Charset;
-import java.nio.file.Files;
+//import java.io.file.Files;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -59,12 +59,12 @@ public class LitleBatchFileRequest {
 			this.objectFactory = new ObjectFactory();
 			this.litleRequest = new LitleRequest();
 			this.litleBatchRequestList = new ArrayList<LitleBatchRequest>();
-			if(!requestFileName.isEmpty()){
-				this.requestFileName = requestFileName;
-			}
-			else{
-				throw new LitleBatchException("You need to supply a filename for the file.");
-			}
+//			if(!(requestFileName.isEmpty())){
+//				this.requestFileName = requestFileName;
+//			}
+//			else{
+//				throw new LitleBatchException("You need to supply a filename for the file.");
+//			}
 			
 			try {
 				config = new Properties();
