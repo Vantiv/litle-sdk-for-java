@@ -1,5 +1,6 @@
 package com.litle.sdk;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Properties;
 
@@ -12,6 +13,9 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.CoreConnectionPNames;
 import org.apache.http.util.EntityUtils;
+
+//import com.phoenix.common.util.FileFunctions;
+//import com.phoenix.common.util.StreamData;
 
 public class Communication {
 
@@ -66,4 +70,26 @@ public class Communication {
 		return xmlResponse;
 	}
 
+//	public void sendLitleBatchFileToIBC(File file) {
+//
+//	        //System.out.println("sendFileToIBC(" + inputFile + ")");
+//	        		
+//	        // read the merchant's file from disk
+//	        String data = file.toString();
+//	        String string;
+//
+//	        // connect to the ibc and send the data
+//	        StreamData streamData = new StreamData();
+//	        streamData.init(environment.getHostName(), environment.getPort(), tcpTimeout, shouldSSLEncrypt);
+//	        streamData.dataOut(data);
+//
+//	        // get the responses from the ibc
+//	        string = streamData.dataIn();
+//	        // write out the results to disk
+//	        file.openFileForWriting(actualResultsFile);
+//	        file.write(string);
+//	        file.closeFile();
+//	        streamData.closeSocket();
+//	}
+//	
 }
