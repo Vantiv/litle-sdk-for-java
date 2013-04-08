@@ -213,6 +213,7 @@ public class LitleBatchFileRequest {
 		}
 		
 		LitleBatchFileResponse retObj = new LitleBatchFileResponse(null);
+		
 		return retObj;
 	}
 	
