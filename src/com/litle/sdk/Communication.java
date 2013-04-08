@@ -1,6 +1,8 @@
 package com.litle.sdk;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Properties;
 
@@ -70,26 +72,32 @@ public class Communication {
 		return xmlResponse;
 	}
 
-//	public void sendLitleBatchFileToIBC(File file) {
-//
-//	        //System.out.println("sendFileToIBC(" + inputFile + ")");
-//	        		
-//	        // read the merchant's file from disk
-//	        String data = file.toString();
-//	        String string;
-//
-//	        // connect to the ibc and send the data
-//	        StreamData streamData = new StreamData();
-//	        streamData.init(environment.getHostName(), environment.getPort(), tcpTimeout, shouldSSLEncrypt);
-//	        streamData.dataOut(data);
-//
-//	        // get the responses from the ibc
-//	        string = streamData.dataIn();
-//	        // write out the results to disk
-//	        file.openFileForWriting(actualResultsFile);
-//	        file.write(string);
-//	        file.closeFile();
-//	        streamData.closeSocket();
-//	}
-//	
+	public void sendLitleBatchFileToIBC(File requestFile, String resposeFilePath, Properties configuration) throws Exception {
+
+			String hostName = "https://payments.litle.com";
+			int hostPort = 15000;
+			int tcpTimeout = 6000;
+			boolean useSSL = false;
+			
+	        // connect to the ibc and send the data
+	        StreamData streamData = new StreamData();
+	        streamData.init(hostName, hostPort, tcpTimeout, useSSL);
+	        streamData.dataOut(requestFile);
+
+	        String content = streamData.dataIn();
+	        File responseFile = new File(resposeFilePath);
+ 
+			// if file doesnt exists, then create it
+			if (!responseFile.exists()) {
+				responseFile.createNewFile();
+			}
+ 
+			FileWriter fw = new FileWriter(responseFile.getAbsoluteFile());
+			BufferedWriter bw = new BufferedWriter(fw);
+			bw.write(content);
+			bw.close();
+	        
+	        streamData.closeSocket();
+	}
+	
 }

@@ -129,11 +129,6 @@ public class LitleBatchFileRequest {
 		return litleBatchRequest;
 	}
 	
-//	public LitleBatchRequest sendBatchFileToLitle(String batchResponseFile) {
-//		LitleBatchRequest litleBatch = new LitleBatchRequest(batchResponseFile);
-//		return litleBatch;
-//	}
-
 	public void generateRawFile() {
 		
 	}
