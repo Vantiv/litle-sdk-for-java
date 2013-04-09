@@ -94,11 +94,11 @@ public class LitleBatchFileRequest {
 			this.litleRequest = new LitleRequest();
 			this.litleBatchRequestList = new ArrayList<LitleBatchRequest>();
 			
-			if (!(requestFileName.isEmpty())) {
-				this.requestFileName = requestFileName;
-			} else {
-				throw new LitleBatchException("You need to supply a filename for the file.");
-			}
+//			if (!(requestFileName.isEmpty())) {
+//				this.requestFileName = requestFileName;
+//			} else {
+//				throw new LitleBatchException("You need to supply a filename for the file.");
+//			}
 
 			if( config == null || config.isEmpty() ){
 				this.config = new Properties();
@@ -207,7 +207,6 @@ public class LitleBatchFileRequest {
 	}
 
 	public LitleBatchFileResponse sendToLitle() throws LitleOnlineException {
-		int i = 0;
 		long countOfBatches = 0L;
 		BigInteger numOfBatches = BigInteger.valueOf(countOfBatches);
 		litleRequest.setNumBatchRequests(numOfBatches);
