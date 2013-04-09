@@ -7,6 +7,7 @@ import static org.mockito.Matchers.matches;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.io.File;
 import java.util.Calendar;
 import java.util.Properties;
 
@@ -117,4 +118,21 @@ public class TestLitleBatchFileRequest {
 		litleBatchFileRequest.sendToLitle();
 	}
 
+	
+	@Test
+	public void testEmptyCreateBatch() {
+		LitleBatchRequest litleBatchRequest = litleBatchFileRequest.createBatch("101");	
+		
+		litleBatchFileRequest.sendToLitle();
+	}
+	
+	@Test
+	public void testSendFileToIBC() throws Exception {
+		File file = new File("/usr/local/litle-home/rraman/Requests/fileToPass1365454351441.xml");
+		String responsePath = "/usr/local/litle-home/rraman/Responses/LitleResponse.xml";
+		Communication comm = new Communication();
+		Properties config = new Properties();
+		//LitleBatchFileResponse litleBatchFileResponse = new LitleBatchFileResponse();
+		comm.sendLitleBatchFileToIBC(file, responsePath, config);
+	}
 }
