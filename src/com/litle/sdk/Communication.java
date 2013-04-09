@@ -72,14 +72,11 @@ public class Communication {
 		return xmlResponse;
 	}
 
-	public void sendLitleBatchFileToIBC(File requestFile, String resposeFilePath, Properties configuration) throws Exception {
+	public LitleBatchFileResponse sendLitleBatchFileToIBC(File requestFile, String resposeFilePath, Properties configuration) throws Exception {
 
-			//String hostName = configuration.getProperty("proxyHost");
-			String hostName = "https://payments.litle.com";
-			//String hostPort = configuration.getProperty("proxyPort");
-			String hostPort = "15000";
-			//int tcpTimeout = Integer.parseInt(configuration.getProperty("batchTcpTimeout"));
-			int tcpTimeout = 1500;
+			String hostName = configuration.getProperty("batchHost");
+			String hostPort = configuration.getProperty("batchPort");
+			int tcpTimeout = Integer.parseInt(configuration.getProperty("batchTcpTimeout"));
 			boolean useSSL = configuration.getProperty("batchUseSSL") != null
 					&& configuration.getProperty("batchUseSSL").equalsIgnoreCase(
 							"true");
@@ -104,9 +101,9 @@ public class Communication {
 	        
 	        streamData.closeSocket();
 	        
-	        //LitleBatchFileResponse retObj = new LitleBatchFileResponse(null);
+	        LitleBatchFileResponse retObj = new LitleBatchFileResponse(null);
 	       
-			//return retObj;
+			return retObj;
 	}
 	
 }
