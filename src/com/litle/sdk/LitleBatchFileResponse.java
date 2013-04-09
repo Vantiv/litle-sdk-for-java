@@ -25,4 +25,8 @@ public class LitleBatchFileResponse {
 	public File getFile(){
 		return xmlFile;
 	}
+	
+	public void convertFileToObject() {
+		
+	}
 }
