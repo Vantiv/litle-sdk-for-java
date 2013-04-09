@@ -181,37 +181,43 @@ public class LitleBatchFileRequest {
 	
 	public LitleBatchFileResponse sendToLitle() throws LitleOnlineException {
 		int i = 0;
+		long countOfBatches = 0L;
 		for(i = 0; i < litleBatchRequestList.size(); i++){
-			litleRequest.getBatchRequests().add(litleBatchRequestList.get(i).getBatchRequest());
+			//if(litleBatchRequestList.get(i).getNumberOfTransactions() != 0L) {
+				litleRequest.getBatchRequests().add(litleBatchRequestList.get(i).getBatchRequest());
+				//countOfBatches = countOfBatches + 1;
+			//}
 		}
-		BigInteger numOfBatches = BigInteger.valueOf(litleBatchRequestList.size());
-		litleRequest.setNumBatchRequests(numOfBatches);
+			BigInteger numOfBatches = BigInteger.valueOf(countOfBatches);
+			litleRequest.setNumBatchRequests(numOfBatches);
+			try {
+				StringWriter sw = new StringWriter();
+				marshaller.marshal(litleRequest, sw);
+				String xmlRequest = sw.toString();
+				
+				File file = getFileToWrite("Requests");
+				// if file doesnt exists, then create it
+				if (!file.exists()) {
+					file.createNewFile();
+				}
+				
+				FileWriter fw = new FileWriter(file.getAbsoluteFile());
+				BufferedWriter bw = new BufferedWriter(fw);
+				bw.write(xmlRequest);
+				bw.close();
+				
+			} catch(JAXBException ume) {
+				throw new LitleOnlineException("Error validating xml data against the schema", ume);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+			
+		}
 
-		try {
-			StringWriter sw = new StringWriter();
-			marshaller.marshal(litleRequest, sw);
-			String xmlRequest = sw.toString();
-			
-			File file = getFileToWrite("Requests");
-			// if file doesnt exists, then create it
-			if (!file.exists()) {
-				file.createNewFile();
-			}
- 
-			FileWriter fw = new FileWriter(file.getAbsoluteFile());
-			BufferedWriter bw = new BufferedWriter(fw);
-			bw.write(xmlRequest);
-			bw.close();
-			
-		} catch(JAXBException ume) {
-			throw new LitleOnlineException("Error validating xml data against the schema", ume);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-		}
 		
 		LitleBatchFileResponse retObj = new LitleBatchFileResponse(null);
+		
 		return retObj;
 	}
 	
