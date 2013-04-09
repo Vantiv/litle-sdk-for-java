@@ -57,7 +57,7 @@ public class TestLitleBatchFileRequest {
 
 	@BeforeClass
 	public static void beforeClass() throws Exception {
-		litleBatchFileRequest = new LitleBatchFileRequest("testFile.xml");
+		//litleBatchFileRequest = new LitleBatchFileRequest("testFile.xml");
 	}
 	
 	@Test
@@ -121,8 +121,23 @@ public class TestLitleBatchFileRequest {
 	
 	@Test
 	public void testEmptyCreateBatch() {
-		LitleBatchRequest litleBatchRequest = litleBatchFileRequest.createBatch("101");	
+		LitleBatchFileRequest mockedLBFR = mock(LitleBatchFileRequest.class);
 		
+		Properties prpToPass = new Properties();
+		prpToPass.setProperty("maxTransactionsPerBatch", "0");
+		
+		when(mockedLBFR.getConfig()).thenReturn(prpToPass);
+		when(mockedLBFR.getNumberOfTransactionInFile()).thenReturn(0);
+		when(mockedLBFR.getMaxAllowedTransactionsPerFile()).thenReturn(1);
+		
+//		LitleBatchRequest litleBatchRequest = litleBatchFileRequest.createBatch("101");
+		LitleBatchRequest objToTest = new LitleBatchRequest("101", mockedLBFR);
+		try{
+			objToTest.addTransaction(null);
+		} catch(LitleBatchException e){
+			
+		}
+		objToTest.addTransaction(null);
 		litleBatchFileRequest.sendToLitle();
 	}
 	
