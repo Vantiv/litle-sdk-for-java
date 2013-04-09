@@ -59,12 +59,12 @@ public class LitleBatchFileRequest {
 			this.objectFactory = new ObjectFactory();
 			this.litleRequest = new LitleRequest();
 			this.litleBatchRequestList = new ArrayList<LitleBatchRequest>();
-//			if(!(requestFileName.isEmpty())){
-//				this.requestFileName = requestFileName;
-//			}
-//			else{
-//				throw new LitleBatchException("You need to supply a filename for the file.");
-//			}
+			if(!(requestFileName.isEmpty())){
+				this.requestFileName = requestFileName;
+			}
+			else{
+				throw new LitleBatchException("You need to supply a filename for the file.");
+			}
 			
 			try {
 				config = new Properties();
@@ -169,7 +169,6 @@ public class LitleBatchFileRequest {
 			}
 		}
 		
-		
 		if(request.getVersion() == null) {
 			retVal.setVersion(config.getProperty("version"));
 		}
@@ -218,7 +217,9 @@ public class LitleBatchFileRequest {
 	
 	public File getFileToWrite(String subFolderName) {
 		java.util.Date date= new java.util.Date();
-		String fileName = "fileToPass"+ date.getTime()+".xml";
+		String fileName = this.requestFileName + ".xml";
+		
+		// get the location to write the file in from config
 		File fileToReturn = new File(System.getProperty("user.home") + File.separator + subFolderName + File.separator + fileName);
 		if(System.getProperty("java.specification.version").equals("1.4")) {
 			if(System.getProperty("LITLE_BATCH_DIR") != null) {
