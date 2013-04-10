@@ -74,7 +74,7 @@ public class Communication {
 		return xmlResponse;
 	}
 
-	public File sendLitleBatchFileToIBC(File requestFile, String resposeFilePath, Properties configuration) throws Exception {
+	public String sendLitleBatchFileToIBC(File requestFile, String resposeFilePath, Properties configuration) throws Exception {
 		String hostName = configuration.getProperty("batchHost");
 		String hostPort = configuration.getProperty("batchPort");
 		int tcpTimeout = Integer.parseInt(configuration.getProperty("batchTcpTimeout"));
@@ -99,7 +99,7 @@ public class Communication {
 
 		streamData.closeSocket();
 
-		File retObj = new File("");
+		String retObj = new String("");
 
 		return retObj;
 	}
