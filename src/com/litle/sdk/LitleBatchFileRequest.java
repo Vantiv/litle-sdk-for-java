@@ -206,16 +206,16 @@ public class LitleBatchFileRequest {
 		return totalNumberOfTransactions;
 	}
 
-	public LitleBatchFileResponse sendToLitle() throws LitleOnlineException {
+	public LitleBatchFileResponse sendToLitle() throws Exception {
 		long countOfBatches = 0L;
 		BigInteger numOfBatches = BigInteger.valueOf(countOfBatches);
 		litleRequest.setNumBatchRequests(numOfBatches);
+		File file = getFileToWrite("Requests");
 		try {
 			StringWriter sw = new StringWriter();
 			marshaller.marshal(litleRequest, sw);
 			String xmlRequest = sw.toString();
 
-			File file = getFileToWrite("Requests");
 			// if file doesnt exists, then create it
 			if (!file.exists()) {
 				file.createNewFile();
@@ -235,9 +235,8 @@ public class LitleBatchFileRequest {
 		} finally {
 
 		}
-
 		LitleBatchFileResponse retObj = new LitleBatchFileResponse(null);
-
+		//retObj = (LitleBatchFileResponse)unmarshaller.unmarshal(communication.sendLitleBatchFileToIBC(file, "", config));
 		return retObj;
 	}
 
