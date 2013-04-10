@@ -1,5 +1,8 @@
 package com.litle.sdk;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Properties;
 
@@ -12,6 +15,9 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.CoreConnectionPNames;
 import org.apache.http.util.EntityUtils;
+
+//import com.phoenix.common.util.FileFunctions;
+//import com.phoenix.common.util.StreamData;
 
 public class Communication {
 
@@ -66,4 +72,38 @@ public class Communication {
 		return xmlResponse;
 	}
 
+	public LitleBatchFileResponse sendLitleBatchFileToIBC(File requestFile, String resposeFilePath, Properties configuration) throws Exception {
+
+			String hostName = configuration.getProperty("batchHost");
+			String hostPort = configuration.getProperty("batchPort");
+			int tcpTimeout = Integer.parseInt(configuration.getProperty("batchTcpTimeout"));
+			boolean useSSL = configuration.getProperty("batchUseSSL") != null
+					&& configuration.getProperty("batchUseSSL").equalsIgnoreCase(
+							"true");
+			
+	        // connect to the ibc and send the data
+	        StreamData streamData = new StreamData();
+	        streamData.init(hostName, hostPort, tcpTimeout, useSSL);
+	        streamData.dataOut(requestFile);
+
+	        String content = streamData.dataIn();
+	        File responseFile = new File(resposeFilePath);
+ 
+			// if file doesnt exists, then create it
+			if (!responseFile.exists()) {
+				responseFile.createNewFile();
+			}
+ 
+			FileWriter fw = new FileWriter(responseFile.getAbsoluteFile());
+			BufferedWriter bw = new BufferedWriter(fw);
+			bw.write(content);
+			bw.close();
+	        
+	        streamData.closeSocket();
+	        
+	        LitleBatchFileResponse retObj = new LitleBatchFileResponse(null);
+	       
+			return retObj;
+	}
+	
 }
