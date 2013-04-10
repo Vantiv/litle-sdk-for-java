@@ -45,11 +45,5 @@ public class LitleBatchFileResponse {
 				litleBatchResponse.addTransactionToResponse(response.getBatchResponses().get(i).getTransactionResponses().get(j).getValue());
 			}
 		}
-//		LitleBatchResponse litleBatchResponse =  new LitleBatchResponse();
-//		for(int i=0; i< litleResponse.getBatchResponses().size(); i++) {
-//			litleBatchResponse.addTransactionToResponse();
-//			return (UpdateCardValidationNumOnTokenResponse)newresponse.getValue();
-//			
-//		}
 	}
 }
