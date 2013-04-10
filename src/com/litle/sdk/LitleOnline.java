@@ -103,7 +103,7 @@ public class LitleOnline {
 	 */
 	public LitleOnline(Properties config) {
 		this.config = config;
-		try { 
+		try {
 			jc = JAXBContext.newInstance("com.litle.sdk.generate");
 			marshaller = jc.createMarshaller();
 			unmarshaller = jc.createUnmarshaller();
