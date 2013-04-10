@@ -22,9 +22,11 @@ import org.apache.http.util.EntityUtils;
 public class Communication {
 
 	private DefaultHttpClient httpclient;
+    private StreamData streamData;
 
 	public Communication() {
 		httpclient = new DefaultHttpClient();
+		streamData = new StreamData();
 	}
 
 	public String requestToServer(String xmlRequest, Properties configuration) {
@@ -73,37 +75,33 @@ public class Communication {
 	}
 
 	public LitleBatchFileResponse sendLitleBatchFileToIBC(File requestFile, String resposeFilePath, Properties configuration) throws Exception {
+		String hostName = configuration.getProperty("batchHost");
+		String hostPort = configuration.getProperty("batchPort");
+		int tcpTimeout = Integer.parseInt(configuration.getProperty("batchTcpTimeout"));
+		boolean useSSL = configuration.getProperty("batchUseSSL") != null
+				&& configuration.getProperty("batchUseSSL").equalsIgnoreCase("true");
+		streamData.init(hostName, hostPort, tcpTimeout, useSSL);
 
-			String hostName = configuration.getProperty("batchHost");
-			String hostPort = configuration.getProperty("batchPort");
-			int tcpTimeout = Integer.parseInt(configuration.getProperty("batchTcpTimeout"));
-			boolean useSSL = configuration.getProperty("batchUseSSL") != null
-					&& configuration.getProperty("batchUseSSL").equalsIgnoreCase(
-							"true");
-			
-	        // connect to the ibc and send the data
-	        StreamData streamData = new StreamData();
-	        streamData.init(hostName, hostPort, tcpTimeout, useSSL);
-	        streamData.dataOut(requestFile);
+		streamData.dataOut(requestFile);
 
-	        String content = streamData.dataIn();
-	        File responseFile = new File(resposeFilePath);
- 
-			// if file doesnt exists, then create it
-			if (!responseFile.exists()) {
-				responseFile.createNewFile();
-			}
- 
-			FileWriter fw = new FileWriter(responseFile.getAbsoluteFile());
-			BufferedWriter bw = new BufferedWriter(fw);
-			bw.write(content);
-			bw.close();
-	        
-	        streamData.closeSocket();
-	        
-	        LitleBatchFileResponse retObj = new LitleBatchFileResponse(null);
-	       
-			return retObj;
+		String content = streamData.dataIn();
+		File responseFile = new File(resposeFilePath);
+
+		// if file doesnt exists, then create it
+		if (!responseFile.exists()) {
+			responseFile.createNewFile();
+		}
+
+		FileWriter fw = new FileWriter(responseFile.getAbsoluteFile());
+		BufferedWriter bw = new BufferedWriter(fw);
+		bw.write(content);
+		bw.close();
+
+		streamData.closeSocket();
+
+		LitleBatchFileResponse retObj = new LitleBatchFileResponse(null);
+
+		return retObj;
 	}
 	
 }
