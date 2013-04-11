@@ -234,6 +234,10 @@ public class LitleBatchFileRequest {
 			BufferedWriter bwResponse = new BufferedWriter(fwResponse);
 			bwResponse.write(xmlResponse);
 			bwResponse.close();
+			
+			//LitleBatchFileResponse response = (LitleBatchFileResponse)unmarshaller.unmarshal(new StringReader(xmlResponse));
+			//int abc =0 ;
+			//abc++;
 
 		} catch (JAXBException ume) {
 			throw new LitleBatchException(
@@ -277,6 +281,14 @@ public class LitleBatchFileRequest {
 		return fileToReturn;
 	}
 
+	private boolean isEmpty() {
+		return (getNumberOfTransactionInFile() == 0) ? true : false;
+	}
+	
+	private boolean isFull() {
+		return (getNumberOfTransactionInFile() == this.maxAllowedTransactionsPerFile);
+	}
+	
 	private void fillInReportGroup(TransactionTypeWithReportGroup txn) {
 		if (txn.getReportGroup() == null) {
 			txn.setReportGroup(config.getProperty("reportGroup"));
