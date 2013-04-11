@@ -28,7 +28,7 @@ public class performanceTestMerchantSDKLite {
 	private static LitleBatchFileRequest litleBatchFileRequest;
 	
 	
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
     	litleBatchFileRequest = new LitleBatchFileRequest("testFile.xml");
     	LitleBatchRequest litleBatchRequest = litleBatchFileRequest.createBatch("101");
     	for (int i =0; i < 50 ; i++)
