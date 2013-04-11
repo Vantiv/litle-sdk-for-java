@@ -22,7 +22,7 @@ import org.apache.http.util.EntityUtils;
 public class Communication {
 
 	private DefaultHttpClient httpclient;
-    private StreamData streamData;
+	private StreamData streamData;
 
 	public Communication() {
 		httpclient = new DefaultHttpClient();
@@ -58,7 +58,7 @@ public class Communication {
 				throw new LitleOnlineException(response.getStatusLine().getStatusCode() + ":" + response.getStatusLine().getReasonPhrase());
 			}
 			entity = response.getEntity();
-			xmlResponse = EntityUtils.toString(entity);			
+			xmlResponse = EntityUtils.toString(entity);
 
 			if (printxml) {
 				System.out.println("Response XML: " + xmlResponse);
@@ -101,4 +101,7 @@ public class Communication {
 		return content;
 	}
 	
+	void setStreamData(StreamData streamData) {
+		this.streamData = streamData;
+	}
 }
