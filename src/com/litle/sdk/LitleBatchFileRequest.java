@@ -78,6 +78,7 @@ public class LitleBatchFileRequest {
 		intializeMembers(requestFileName, config);
 		// initializeMembers will initialize this.config
 		this.maxAllowedTransactionsPerFile = Integer.parseInt(config.getProperty("maxAllowedTransactionsPerFile"));
+		
 	}
 	
 	private void intializeMembers(String requestFileName){
@@ -93,8 +94,9 @@ public class LitleBatchFileRequest {
 			this.objectFactory = new ObjectFactory();
 			this.litleRequest = new LitleRequest();
 			this.litleBatchRequestList = new ArrayList<LitleBatchRequest>();
+			this.requestFileName = requestFileName;
 			
-//			if (!(requestFileName.isEmpty())) {
+//			if (!(requestFileName.equals(null))) {
 //				this.requestFileName = requestFileName;
 //			} else {
 //				throw new LitleBatchException("You need to supply a filename for the file.");
@@ -107,9 +109,10 @@ public class LitleBatchFileRequest {
 				this.config = config;
 			}
 			Authentication authentication = new Authentication();
-			authentication.setPassword(config.getProperty("password"));
-			authentication.setUser(config.getProperty("username"));
+			authentication.setPassword(this.config.getProperty("password"));
+			authentication.setUser(this.config.getProperty("username"));
 			this.litleRequest.setAuthentication(authentication);
+			this.litleRequest.setVersion(config.getProperty("version"));
 		} catch (FileNotFoundException e) {
 			throw new LitleBatchException("Configuration file not found. If you are not using the .litle_SDK_config.properties file, please use the LitleOnline(Properties) constructor.  If you are using .litle_SDK_config.properties, you can generate one using java -jar litle-sdk-for-java-8.10.jar", e);
 		} catch (IOException e) {
@@ -133,6 +136,7 @@ public class LitleBatchFileRequest {
 	public LitleBatchRequest createBatch(String merchantId) {
 		LitleBatchRequest litleBatchRequest = new LitleBatchRequest(merchantId, this);
 		litleBatchRequestList.add(litleBatchRequest);
+		//this.litleRequest.getBatchRequests().add(litleBatchRequest);
 		return litleBatchRequest;
 	}
 
@@ -140,23 +144,11 @@ public class LitleBatchFileRequest {
 
 	}
 
-	private LitleRequest createLitleRequest() {
-		LitleRequest request = new LitleRequest();
-		BatchRequest batchRequest = new BatchRequest();
-		batchRequest.setMerchantId(config.getProperty("merchantId"));
-		request.setVersion(config.getProperty("version"));
-		Authentication authentication = new Authentication();
-		authentication.setPassword(config.getProperty("password"));
-		authentication.setUser(config.getProperty("username"));
-		// request.setLoggedInUser(config.getProperty("loggedInUser",null));
-
-		return request;
-	}
-
 	public int getMaxAllowedTransactionsPerFile(){
 		return this.maxAllowedTransactionsPerFile;
 	}
 	
+	//TODO: Fix the merge logic
 	private LitleRequest fillInMissingFieldsFromConfig(LitleRequest request) {
 		LitleRequest retVal = new LitleRequest();
 		retVal.setAuthentication(new Authentication());
@@ -207,10 +199,14 @@ public class LitleBatchFileRequest {
 	}
 
 	public LitleBatchFileResponse sendToLitle() throws Exception {
-		long countOfBatches = 0L;
+		long countOfBatches = this.litleBatchRequestList.size();
 		BigInteger numOfBatches = BigInteger.valueOf(countOfBatches);
 		litleRequest.setNumBatchRequests(numOfBatches);
-		File file = getFileToWrite("Requests");
+		for(LitleBatchRequest lbr : this.litleBatchRequestList) {
+			this.litleRequest.getBatchRequests().add(lbr.getBatchRequest());
+		}
+		
+		File file = getFileToWrite("Request");
 		try {
 			StringWriter sw = new StringWriter();
 			marshaller.marshal(litleRequest, sw);
@@ -225,9 +221,22 @@ public class LitleBatchFileRequest {
 			BufferedWriter bw = new BufferedWriter(fw);
 			bw.write(xmlRequest);
 			bw.close();
+			
+			String xmlResponse = communication.sendLitleBatchFileToIBC(file, config);
+			
+			File fileResponse = getFileToWrite("Response");
+			
+			if (!fileResponse.exists()) {
+				fileResponse.createNewFile();
+			}
+			
+			FileWriter fwResponse = new FileWriter(fileResponse.getAbsoluteFile());
+			BufferedWriter bwResponse = new BufferedWriter(fwResponse);
+			bwResponse.write(xmlResponse);
+			bwResponse.close();
 
 		} catch (JAXBException ume) {
-			throw new LitleOnlineException(
+			throw new LitleBatchException(
 					"Error validating xml data against the schema", ume);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
