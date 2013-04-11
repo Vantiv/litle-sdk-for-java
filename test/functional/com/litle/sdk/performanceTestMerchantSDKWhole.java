@@ -35,7 +35,7 @@ public class performanceTestMerchantSDKWhole {
 	private static LitleBatchFileRequest litleBatchFileRequest;
 	
 	
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
     	litleBatchFileRequest = new LitleBatchFileRequest("testFile.xml");
     	LitleBatchRequest litleBatchRequest = litleBatchFileRequest.createBatch("101");
     	String litleTxnId = "82818409740294007";
