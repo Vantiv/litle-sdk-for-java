@@ -1,6 +1,7 @@
 package com.litle.sdk;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.matches;
@@ -57,11 +58,22 @@ public class TestLitleBatchFileRequest {
 
 	@BeforeClass
 	public static void beforeClass() throws Exception {
-		//litleBatchFileRequest = new LitleBatchFileRequest("testFile.xml");
+		Properties property = new Properties();
+		property.setProperty("username", "PHXMLTEST");
+		property.setProperty("password", "password");
+		property.setProperty("version", "8.18");
+		property.setProperty("maxAllowedTransactionsPerFile", "1000");
+		property.setProperty("maxTransactionsPerBatch", "500");
+		property.setProperty("batchHost", "l-rraman-ws490");
+		property.setProperty("batchPort", "2104");
+		property.setProperty("batchTcpTimeout", "10000");
+		property.setProperty("batchUseSSL", "false");
+		property.setProperty("merchantId", "101");
+		litleBatchFileRequest = new LitleBatchFileRequest("testFile", property);
 	}
 	
 	@Test
-	public void testCreateBatch() {
+	public void testCreateBatch() throws Exception {
 		LitleBatchRequest litleBatchRequest = litleBatchFileRequest.createBatch("101");
 		
 		Sale sale = new Sale();
@@ -73,6 +85,7 @@ public class TestLitleBatchFileRequest {
 		card.setNumber("4100000000000002");
 		card.setExpDate("1210");
 		sale.setCard(card);
+		sale.setReportGroup("ding");
 		
 		litleBatchRequest.addTransaction(sale);
 		
@@ -85,10 +98,11 @@ public class TestLitleBatchFileRequest {
 		card2.setNumber("4242424242424242");
 		card2.setExpDate("1210");
 		sale2.setCard(card2);
+		sale2.setReportGroup("ding");
 		
 		litleBatchRequest.addTransaction(sale2);
 		
-		LitleBatchRequest litleBatchRequest2 = litleBatchFileRequest.createBatch("102");
+		LitleBatchRequest litleBatchRequest2 = litleBatchFileRequest.createBatch("101");
 		
 		Sale sale3 = new Sale();
 		sale3.setAmount(106L);
@@ -99,6 +113,7 @@ public class TestLitleBatchFileRequest {
 		card3.setNumber("4100000000000002");
 		card3.setExpDate("1210");
 		sale3.setCard(card3);
+		sale3.setReportGroup("ding");
 		
 		litleBatchRequest2.addTransaction(sale3);
 		
@@ -111,13 +126,13 @@ public class TestLitleBatchFileRequest {
 		card4.setNumber("4242424242424242");
 		card4.setExpDate("1210");
 		sale4.setCard(card4);
+		sale4.setReportGroup("ding");
 		
 		litleBatchRequest2.addTransaction(sale4);
 		
-		
-		litleBatchFileRequest.sendToLitle();
+		LitleBatchFileResponse litleBatchFileResponse = litleBatchFileRequest.sendToLitle();
+		assertNotNull(litleBatchFileResponse);
 	}
-
 	
 	@Test
 	public void testEmptyCreateBatch() {
@@ -138,16 +153,20 @@ public class TestLitleBatchFileRequest {
 			
 		}
 		objToTest.addTransaction(null);
-		litleBatchFileRequest.sendToLitle();
+		//litleBatchFileRequest.sendToLitle();
 	}
 	
 	@Test
 	public void testSendFileToIBC() throws Exception {
 		File file = new File("/usr/local/litle-home/rraman/Requests/fileToPass1365454351441.xml");
-		String responsePath = "/usr/local/litle-home/rraman/Responses/LitleResponse.xml";
+		//String responsePath = "/usr/local/litle-home/rraman/Responses/LitleResponse.xml";
 		Communication comm = new Communication();
 		Properties config = new Properties();
+		config.setProperty("batchHost", "l-rraman-ws490");
+		config.setProperty("batchPort", "2104");
+		config.setProperty("batchTcpTimeout", "100000");
+		config.setProperty("batchUseSSL", "false");
 		//LitleBatchFileResponse litleBatchFileResponse = new LitleBatchFileResponse();
-		comm.sendLitleBatchFileToIBC(file, responsePath, config);
+		comm.sendLitleBatchFileToIBC(file, config);
 	}
 }
