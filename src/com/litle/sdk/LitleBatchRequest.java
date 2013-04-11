@@ -16,7 +16,6 @@ import com.litle.sdk.generate.Sale;
 public class LitleBatchRequest {
 	private BatchRequest batchRequest;
 	ObjectFactory objFac;
-	int totalNumTxn = 0;
 	private final int maxTransactionsPerBatch;
 	private final LitleBatchFileRequest lbfr;
 	
@@ -52,7 +51,6 @@ public class LitleBatchRequest {
 			BigInteger saleAmount = BigInteger.valueOf(sale.getAmount());
 			batchRequest.setSaleAmount(batchRequest.getSaleAmount().add(saleAmount));
 			batchRequest.getTransactions().add(objFac.createSale(sale));
-			totalNumTxn ++;
 			transactionAdded = true;
 		}
 		else if(transactionType instanceof Authorization) {
@@ -61,7 +59,6 @@ public class LitleBatchRequest {
 			BigInteger authAmount = BigInteger.valueOf(auth.getAmount());
 			batchRequest.setAuthAmount(batchRequest.getAuthAmount().add(authAmount));
 			batchRequest.getTransactions().add(objFac.createAuthorization(auth));
-			totalNumTxn ++;
 			transactionAdded = true;
 		}
 		
@@ -90,6 +87,10 @@ public class LitleBatchRequest {
 	
 	public int getNumberOfTransactions(){
 		return this.batchRequest.getTransactions().size();
+	}
+	
+	public boolean isFull() {
+		return (getNumberOfTransactions() == this.maxTransactionsPerBatch);
 	}
 	
 }
