@@ -74,7 +74,7 @@ public class Communication {
 		return xmlResponse;
 	}
 
-	public String sendLitleBatchFileToIBC(File requestFile, String resposeFilePath, Properties configuration) throws Exception {
+	public String sendLitleBatchFileToIBC(File requestFile, Properties configuration) throws Exception {
 		String hostName = configuration.getProperty("batchHost");
 		String hostPort = configuration.getProperty("batchPort");
 		int tcpTimeout = Integer.parseInt(configuration.getProperty("batchTcpTimeout"));
@@ -85,23 +85,20 @@ public class Communication {
 		streamData.dataOut(requestFile);
 
 		String content = streamData.dataIn();
-		File responseFile = new File(resposeFilePath);
+//		File responseFile = new File(resposeFilePath);
+//
+//		// if file doesnt exists, then create it
+//		if (!responseFile.exists()) {
+//			responseFile.createNewFile();
+//		}
 
-		// if file doesnt exists, then create it
-		if (!responseFile.exists()) {
-			responseFile.createNewFile();
-		}
-
-		FileWriter fw = new FileWriter(responseFile.getAbsoluteFile());
-		BufferedWriter bw = new BufferedWriter(fw);
-		bw.write(content);
-		bw.close();
+//		FileWriter fw = new FileWriter(responseFile.getAbsoluteFile());
+//		BufferedWriter bw = new BufferedWriter(fw);
+//		bw.write(content);
+//		bw.close();
 
 		streamData.closeSocket();
-
-		String retObj = new String("");
-
-		return retObj;
+		return content;
 	}
 	
 }
