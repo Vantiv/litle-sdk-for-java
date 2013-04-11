@@ -235,21 +235,23 @@ public class LitleBatchFileRequest {
 			bwResponse.write(xmlResponse);
 			bwResponse.close();
 			
+			LitleBatchFileResponse retObj = new LitleBatchFileResponse(xmlResponse);
+			retObj.convertFileToObject(xmlResponse);
+			
 			//LitleBatchFileResponse response = (LitleBatchFileResponse)unmarshaller.unmarshal(new StringReader(xmlResponse));
-			//int abc =0 ;
-			//abc++;
-
+			int abc =0 ;
+			abc++;
+			
 		} catch (JAXBException ume) {
 			throw new LitleBatchException(
 					"Error validating xml data against the schema", ume);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} finally {
-
-		}
-		LitleBatchFileResponse retObj = new LitleBatchFileResponse(null);
+		} 
 		//retObj = (LitleBatchFileResponse)unmarshaller.unmarshal(communication.sendLitleBatchFileToIBC(file, "", config));
+		LitleBatchFileResponse retObj = new LitleBatchFileResponse("");
+		//retObj.convertFileToObject(xmlResponse);
 		return retObj;
 	}
 
