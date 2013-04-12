@@ -52,6 +52,7 @@ import com.litle.sdk.generate.RegisterTokenRequestType;
 import com.litle.sdk.generate.RegisterTokenResponse;
 import com.litle.sdk.generate.Sale;
 import com.litle.sdk.generate.SaleResponse;
+import com.litle.sdk.generate.TransactionType;
 import com.litle.sdk.generate.TransactionTypeWithReportGroup;
 
 public class TestLitleBatchFileRequest {
@@ -159,7 +160,7 @@ public class TestLitleBatchFileRequest {
 //			}
 //		}
 		LitleBatchResponse litleBatchResponse0 = litleBatchFileResponse.getBatchResponseList().get(0);
-		List<TransactionTypeWithReportGroup> txnList0 = litleBatchResponse0.getResponseList();
+		List<TransactionType> txnList0 = litleBatchResponse0.getResponseList();
 		
 		SaleResponse saleResponse = (SaleResponse) txnList0.get(0);
 		assertEquals("12344", saleResponse.getOrderId());
@@ -172,7 +173,7 @@ public class TestLitleBatchFileRequest {
 		assertEquals("Invalid Account Number",authResponse.getMessage());
 		
 		LitleBatchResponse litleBatchResponse1 = litleBatchFileResponse.getBatchResponseList().get(1);
-		List<TransactionTypeWithReportGroup> txnList1 = litleBatchResponse1.getResponseList();
+		List<TransactionType> txnList1 = litleBatchResponse1.getResponseList();
 		
 		SaleResponse saleResponse1 = (SaleResponse) txnList1.get(0);
 		assertEquals("12346", saleResponse1.getOrderId());
