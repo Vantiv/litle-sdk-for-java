@@ -3,6 +3,7 @@ package com.litle.sdk;
 import java.io.File;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.xml.bind.JAXBContext;
@@ -19,7 +20,7 @@ import com.litle.sdk.generate.UpdateCardValidationNumOnTokenResponse;
 public class LitleBatchFileResponse {
 	private JAXBContext jc;
 	private LitleResponse litleResponse;
-	private List<BatchResponse> batchResponseList;
+	private List<LitleBatchResponse> litleBatchResponseList;
 	private Unmarshaller unmarshaller;
 	private File xmlFile;
 	private String xmlFileResponse;
@@ -27,11 +28,11 @@ public class LitleBatchFileResponse {
 	public LitleBatchFileResponse(File xmlFile){
 		// convert from xml to objects
 		this.litleResponse = new LitleResponse();
-		this.batchResponseList = new ArrayList<BatchResponse>();
+		this.litleBatchResponseList = new ArrayList<LitleBatchResponse>();
 		this.xmlFile = xmlFile;
 	}
 	
-	public LitleBatchFileResponse(String xmlResponse) {
+	public LitleBatchFileResponse(String xmlResponse) throws JAXBException {
 		try {
 			jc = JAXBContext.newInstance("com.litle.sdk.generate");
 			this.unmarshaller = jc.createUnmarshaller();
@@ -40,26 +41,24 @@ public class LitleBatchFileResponse {
 		}
 		this.xmlFileResponse = xmlResponse;
 		this.litleResponse = new LitleResponse();
-		this.batchResponseList = new ArrayList<BatchResponse>();
+		this.litleBatchResponseList = new ArrayList<LitleBatchResponse>();
+		this.litleResponse = (LitleResponse)unmarshaller.unmarshal(new StringReader(xmlResponse));
 	}
 	
-	public List<BatchResponse> getBatchResponseList(){
-		return batchResponseList;
+	public List<LitleBatchResponse> getBatchResponseList(){
+		return this.litleBatchResponseList;
 	}
 	
 	public File getFile(){
 		return xmlFile;
 	}
+
 	
-	public void convertFileToObject(String xmlResponseFile) throws JAXBException {
-		this.litleResponse = (LitleResponse)unmarshaller.unmarshal(new StringReader(xmlResponseFile));
-		LitleBatchResponse litleBatchResponse = new LitleBatchResponse();
-		for(int i = 0; i< litleResponse.getBatchResponses().size(); i++) {
-			//batchResponseList.set(i, response.getBatchResponses().get(i));
-			for(int j=0; j< litleResponse.getBatchResponses().get(i).getTransactionResponses().size(); j++) {
-				litleBatchResponse.addTransactionToResponse(litleResponse.getBatchResponses().get(i).getTransactionResponses().get(j).getValue());
-				//System.out.println(litleResponse.getBatchResponses().get(i).getTransactionResponses().get(j).getValue());
-			}
+	public void getTransaction() {
+		
+		for(BatchResponse batchResponse: litleResponse.getBatchResponses()) {
+			litleBatchResponseList.get(0).setBatchResponse(batchResponse);
+			//litleBatchResponseList.get(0).setResponseList(batchResponse.getTransactionResponses());
 		}
 	}
 }
