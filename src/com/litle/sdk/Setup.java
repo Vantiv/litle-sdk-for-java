@@ -49,10 +49,23 @@ public class Setup {
 		config.put("proxyHost", stdin.readLine());
 		System.out.print("Please input the proxy port, if no proxy hit enter: ");
 		config.put("proxyPort", stdin.readLine());
-		config.put("version", "8.16");
+		config.put("version", "8.18");
 		config.put("timeout", "65");
 		config.put("reportGroup", "Default Report Group");
 		config.put("printxml", "true");
+		
+		//These properties are for batch
+		System.out.print("Please enter the Batch Host Name: ");
+		//Entering the my system name for testing
+		config.put("batchHost",stdin.readLine());
+		System.out.print("Please enter the Batch Port Name: ");
+		config.put("batchPort", stdin.readLine());
+		System.out.print("Please enter the Batch TCP Timeout: ");
+		config.put("batchTcpTimeout", stdin.readLine());
+		System.out.print("Please enter the Batch Use SSL (True/False): ");
+		config.put("batchUSeSSL", stdin.readLine());
+		config.put("maxAllowedTransactionsPerFile", "500000");
+		config.put("maxTransactionsPerBatch", "100000");
 
 		config.store(configFile, "");
 		System.out.println("The Litle configuration file has been generated, the file is located at " + file.getAbsolutePath());
