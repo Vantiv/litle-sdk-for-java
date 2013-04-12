@@ -62,8 +62,7 @@ public class Setup {
 		config.put("batchPort", stdin.readLine());
 		System.out.print("Please enter the Batch TCP Timeout: ");
 		config.put("batchTcpTimeout", stdin.readLine());
-		System.out.print("Please enter the Batch Use SSL (True/False): ");
-		config.put("batchUSeSSL", stdin.readLine());
+		config.put("batchUSeSSL", "true");
 		config.put("maxAllowedTransactionsPerFile", "500000");
 		config.put("maxTransactionsPerBatch", "100000");
 
