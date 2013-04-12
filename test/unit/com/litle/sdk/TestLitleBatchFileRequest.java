@@ -10,6 +10,7 @@ import static org.mockito.Mockito.when;
 
 import java.io.File;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Properties;
 
 import org.junit.BeforeClass;
@@ -51,6 +52,7 @@ import com.litle.sdk.generate.RegisterTokenRequestType;
 import com.litle.sdk.generate.RegisterTokenResponse;
 import com.litle.sdk.generate.Sale;
 import com.litle.sdk.generate.SaleResponse;
+import com.litle.sdk.generate.TransactionTypeWithReportGroup;
 
 public class TestLitleBatchFileRequest {
 
@@ -73,7 +75,7 @@ public class TestLitleBatchFileRequest {
 	}
 	
 	@Test
-	public void testCreateBatch() throws Exception {
+	public void testEndToEndMerchantBatchSDK() throws Exception {
 		LitleBatchRequest litleBatchRequest = litleBatchFileRequest.createBatch("101");
 		
 		Sale sale = new Sale();
@@ -89,49 +91,101 @@ public class TestLitleBatchFileRequest {
 		
 		litleBatchRequest.addTransaction(sale);
 		
-		Authorization sale2 = new Authorization();
-		sale2.setAmount(106L);
-		sale2.setOrderId("12344");
-		sale2.setOrderSource(OrderSourceType.ECOMMERCE);
+		Authorization auth = new Authorization();
+		auth.setAmount(200L);
+		auth.setOrderId("12345");
+		auth.setOrderSource(OrderSourceType.ECOMMERCE);
 		CardType card2 = new CardType();
 		card2.setType(MethodOfPaymentTypeEnum.VI);
 		card2.setNumber("4242424242424242");
-		card2.setExpDate("1210");
-		sale2.setCard(card2);
-		sale2.setReportGroup("ding");
+		card2.setExpDate("1014");
+		auth.setCard(card2);
+		auth.setReportGroup("Ramya");
 		
-		litleBatchRequest.addTransaction(sale2);
+		litleBatchRequest.addTransaction(auth);
 		
 		LitleBatchRequest litleBatchRequest2 = litleBatchFileRequest.createBatch("101");
 		
-		Sale sale3 = new Sale();
-		sale3.setAmount(106L);
-		sale3.setOrderId("12344");
-		sale3.setOrderSource(OrderSourceType.ECOMMERCE);
+		Sale sale1 = new Sale();
+		sale1.setAmount(2500L);
+		sale1.setOrderId("12346");
+		sale1.setOrderSource(OrderSourceType.ECOMMERCE);
 		CardType card3 = new CardType();
 		card3.setType(MethodOfPaymentTypeEnum.VI);
 		card3.setNumber("4100000000000002");
-		card3.setExpDate("1210");
-		sale3.setCard(card3);
-		sale3.setReportGroup("ding");
+		card3.setExpDate("1218");
+		sale1.setCard(card3);
+		sale1.setReportGroup("abc");
 		
-		litleBatchRequest2.addTransaction(sale3);
+		litleBatchRequest2.addTransaction(sale1);
 		
-		Authorization sale4 = new Authorization();
-		sale4.setAmount(106L);
-		sale4.setOrderId("12344");
-		sale4.setOrderSource(OrderSourceType.ECOMMERCE);
+		Authorization auth1 = new Authorization();
+		auth1.setAmount(8900L);
+		auth1.setOrderId("12347");
+		auth1.setOrderSource(OrderSourceType.ECOMMERCE);
 		CardType card4 = new CardType();
 		card4.setType(MethodOfPaymentTypeEnum.VI);
 		card4.setNumber("4242424242424242");
-		card4.setExpDate("1210");
-		sale4.setCard(card4);
-		sale4.setReportGroup("ding");
+		card4.setExpDate("1220");
+		auth1.setCard(card4);
+		auth1.setReportGroup("checking");
 		
-		litleBatchRequest2.addTransaction(sale4);
+		litleBatchRequest2.addTransaction(auth1);
 		
 		LitleBatchFileResponse litleBatchFileResponse = litleBatchFileRequest.sendToLitle();
 		assertNotNull(litleBatchFileResponse);
+		
+		
+//      Generic way for accessing the objects
+//		List<LitleBatchResponse> batchList = litleBatchFileResponse.getBatchResponseList();
+//		
+//		for (LitleBatchResponse batch : batchList) {
+//			List<TransactionTypeWithReportGroup> txnList = batch.getResponseList();
+//			
+//			for(TransactionTypeWithReportGroup txn : txnList) {
+//				
+//				if (txn instanceof SaleResponse) {
+//					SaleResponse saleResponse = (SaleResponse) txn;
+//					saleResponse.getOrderId();
+//					saleResponse.getResponse();
+//					saleResponse.getMessage();
+//				}
+//				else if (txn instanceof AuthorizationResponse) {
+//					AuthorizationResponse authResponse = (AuthorizationResponse) txn;
+//					authResponse.getOrderId();
+//					authResponse.getResponse();
+//					authResponse.getMessage();
+//				}
+//			}
+//		}
+		LitleBatchResponse litleBatchResponse0 = litleBatchFileResponse.getBatchResponseList().get(0);
+		List<TransactionTypeWithReportGroup> txnList0 = litleBatchResponse0.getResponseList();
+		
+		SaleResponse saleResponse = (SaleResponse) txnList0.get(0);
+		assertEquals("12344", saleResponse.getOrderId());
+		assertEquals("000",saleResponse.getResponse());
+		assertEquals("Approved",saleResponse.getMessage());
+		
+		AuthorizationResponse authResponse = (AuthorizationResponse) txnList0.get(1);
+		assertEquals("12345",authResponse.getOrderId());
+		assertEquals("301",authResponse.getResponse());
+		assertEquals("Invalid Account Number",authResponse.getMessage());
+		
+		LitleBatchResponse litleBatchResponse1 = litleBatchFileResponse.getBatchResponseList().get(1);
+		List<TransactionTypeWithReportGroup> txnList1 = litleBatchResponse1.getResponseList();
+		
+		SaleResponse saleResponse1 = (SaleResponse) txnList1.get(0);
+		assertEquals("12346", saleResponse1.getOrderId());
+		assertEquals("000",saleResponse1.getResponse());
+		assertEquals("Approved",saleResponse1.getMessage());
+		
+		AuthorizationResponse authResponse1 = (AuthorizationResponse) txnList1.get(1);
+		assertEquals("12347",authResponse1.getOrderId());
+		assertEquals("301",authResponse1.getResponse());
+		assertEquals("Invalid Account Number",authResponse1.getMessage());
+		
+	
+//		litleBatchRequest.getBatchRequest().get(0);
 	}
 	
 	@Test
