@@ -8,12 +8,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
-import java.security.KeyStore;
-import java.security.Security;
 
-import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
-import javax.net.ssl.TrustManagerFactory;
 
 /**
  * This class is used to connect to a socket and read and write to it
@@ -36,7 +32,7 @@ public class StreamData {
      * @param timeOut The time ( in mills ) that the socket should wait on reading before timing out.
      * @throws Exception when any exception occurs trying to connect to the machine/port.
      */
-    public void init(String hostname, String port, int timeOut, boolean SSL) throws Exception {
+    public void init(String hostname, String port, int timeOut, boolean SSL) throws IOException {
         try {
             if (SSL) {
                 SSLSocketFactory ssf = (SSLSocketFactory) SSLSocketFactory.getDefault();
@@ -47,9 +43,8 @@ public class StreamData {
             socket.setTcpNoDelay(true);
             socket.setSoTimeout(timeOut);
         }
-        catch (Exception e) {
-            Exception ex = new Exception("Error connecting to host <" + hostname + "> and port <" + port + ">" + e);
-            throw ex;
+        catch (IOException e) {
+            throw new IOException("Error connecting to host <" + hostname + "> and port <" + port + ">" + e);
         }
     }
 
@@ -118,11 +113,16 @@ public class StreamData {
         BufferedOutputStream bos = new BufferedOutputStream(socket.getOutputStream());
         OutputStreamWriter osw = new OutputStreamWriter(bos, "UTF-8");
         FileReader fr = new FileReader(file);
-        int c = -1;
-        while ((c = fr.read()) != -1) {
-            osw.write(c);
+        try {
+	        int c = -1;
+	        while ((c = fr.read()) != -1) {
+	            osw.write(c);
+	        }
+	        osw.flush();
         }
-        osw.flush();
+        finally {
+        	fr.close();
+        }
     }
 
 }
