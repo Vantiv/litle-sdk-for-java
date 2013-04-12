@@ -45,8 +45,13 @@ public class LitleBatchResponse {
 	}
 
 	public List<TransactionTypeWithReportGroup> getResponseList() {
-		return responeList;
+		return this.responeList;
 	}
 	
+	public void setResponseList(List<TransactionTypeWithReportGroup> txns) {
+		for(TransactionTypeWithReportGroup txn : txns) {
+			this.responeList.add(txn);
+		}
+	}
 	
 }
