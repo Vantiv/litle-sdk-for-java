@@ -3,17 +3,19 @@ package com.litle.sdk;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.bind.JAXBElement;
+
 import com.litle.sdk.generate.BatchResponse;
 import com.litle.sdk.generate.TransactionTypeWithReportGroup;
 
 public class LitleBatchResponse {
 	private BatchResponse batchResponse;
 	//private Unmarshaller unmarshaller;
-	private List<TransactionTypeWithReportGroup> responeList;
+	private List<JAXBElement<? extends TransactionTypeWithReportGroup>> responeList;
 	
 	public LitleBatchResponse(){
 		batchResponse = new BatchResponse();
-		responeList = new ArrayList<TransactionTypeWithReportGroup>();
+		responeList = new ArrayList<JAXBElement<? extends TransactionTypeWithReportGroup>>();
 	}
 
 //	public void convertFileToObject() {
@@ -23,7 +25,7 @@ public class LitleBatchResponse {
 //		}
 //	}
 	
-	protected void addTransactionToResponse(TransactionTypeWithReportGroup transactionType) {
+	protected void addTransactionToResponse(JAXBElement<? extends TransactionTypeWithReportGroup> transactionType) {
 		responeList.add(transactionType);
 	}
 	
@@ -44,12 +46,12 @@ public class LitleBatchResponse {
 		return transReportGroup;
 	}
 
-	public List<TransactionTypeWithReportGroup> getResponseList() {
+	public List<JAXBElement<? extends TransactionTypeWithReportGroup>> getResponseList() {
 		return this.responeList;
 	}
 	
-	public void setResponseList(List<TransactionTypeWithReportGroup> txns) {
-		for(TransactionTypeWithReportGroup txn : txns) {
+	public void setResponseList(List<JAXBElement<? extends TransactionTypeWithReportGroup>> txns) {
+		for(JAXBElement<? extends TransactionTypeWithReportGroup> txn : txns) {
 			this.responeList.add(txn);
 		}
 	}
