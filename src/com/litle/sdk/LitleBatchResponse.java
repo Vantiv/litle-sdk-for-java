@@ -27,6 +27,14 @@ public class LitleBatchResponse {
 		responeList.add(transactionType);
 	}
 	
+	public void setBatchResponse(BatchResponse batchResponse) {
+		this.batchResponse = batchResponse;
+	}
+	
+	public BatchResponse getBatchResponse() {
+		return this.batchResponse;
+	}
+	
 	public int getNumberOfTransactions(){
 		return this.batchResponse.getTransactionResponses().size();
 	}
@@ -36,7 +44,7 @@ public class LitleBatchResponse {
 		return transReportGroup;
 	}
 
-	public List<TransactionTypeWithReportGroup> getResponeList() {
+	public List<TransactionTypeWithReportGroup> getResponseList() {
 		return responeList;
 	}
 	
