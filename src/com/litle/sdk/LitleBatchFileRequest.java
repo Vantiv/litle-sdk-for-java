@@ -6,42 +6,25 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.StringReader;
+
 import java.io.StringWriter;
 import java.math.BigInteger;
-import java.nio.charset.Charset;
-//import java.io.file.Files;
-import java.sql.Timestamp;
+
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-
 import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
-
 import com.litle.sdk.generate.Authentication;
-import com.litle.sdk.generate.Authorization;
-import com.litle.sdk.generate.AuthorizationResponse;
-import com.litle.sdk.generate.BatchRequest;
-import com.litle.sdk.generate.Capture;
-import com.litle.sdk.generate.CaptureResponse;
-
-import com.litle.sdk.generate.LitleOnlineResponse;
 import com.litle.sdk.generate.LitleRequest;
-import com.litle.sdk.generate.ObjectFactory;
-import com.litle.sdk.generate.TransactionTypeWithReportGroup;
-import com.litle.sdk.generate.TransactionTypeWithReportGroupAndPartial;
 
 public class LitleBatchFileRequest {
 
 	private JAXBContext jc;
 	private Properties config;
-	private ObjectFactory objectFactory;
 	private Marshaller marshaller;
-	private Unmarshaller unmarshaller;
 	private Communication communication;
 	private LitleRequest litleRequest;
 	private List<LitleBatchRequest> litleBatchRequestList;
@@ -89,9 +72,8 @@ public class LitleBatchFileRequest {
 		try {
 			this.jc = JAXBContext.newInstance("com.litle.sdk.generate");
 			this.marshaller = jc.createMarshaller();
-			this.unmarshaller = jc.createUnmarshaller();
+			
 			this.communication = new Communication();
-			this.objectFactory = new ObjectFactory();
 			this.litleRequest = new LitleRequest();
 			this.litleBatchRequestList = new ArrayList<LitleBatchRequest>();
 			this.requestFileName = requestFileName;
@@ -120,7 +102,7 @@ public class LitleBatchFileRequest {
 					"Configuration file could not be loaded.  Check to see if the user running this has permission to access the file",
 					e);
 		} catch (JAXBException e) {
-			throw new LitleOnlineException("Unable to load jaxb dependencies.  Perhaps a classpath issue?", e);
+			throw new LitleBatchException("Unable to load jaxb dependencies.  Perhaps a classpath issue?", e);
 		}
 	}
 
@@ -237,6 +219,7 @@ public class LitleBatchFileRequest {
 			bwResponse.close();
 			
 			LitleBatchFileResponse retObj = new LitleBatchFileResponse(xmlResponse);
+			retObj.getTransaction();
 			//retObj.convertFileToObject(xmlResponse);
 			
 			//LitleBatchFileResponse response = (LitleBatchFileResponse)unmarshaller.unmarshal(new StringReader(xmlResponse));
@@ -256,7 +239,6 @@ public class LitleBatchFileRequest {
 	}
 
 	public File getFileToWrite(String subFolderName) {
-		java.util.Date date = new java.util.Date();
 		String fileName = this.requestFileName + ".xml";
 
 		// get the location to write the file in from config
@@ -291,16 +273,5 @@ public class LitleBatchFileRequest {
 		return (getNumberOfTransactionInFile() == this.maxAllowedTransactionsPerFile);
 	}
 	
-	private void fillInReportGroup(TransactionTypeWithReportGroup txn) {
-		if (txn.getReportGroup() == null) {
-			txn.setReportGroup(config.getProperty("reportGroup"));
-		}
-	}
-
-	private void fillInReportGroup(TransactionTypeWithReportGroupAndPartial txn) {
-		if (txn.getReportGroup() == null) {
-			txn.setReportGroup(config.getProperty("reportGroup"));
-		}
-	}
 
 }
