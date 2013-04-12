@@ -1,16 +1,13 @@
 package com.litle.sdk;
 
 import java.math.BigInteger;
-import java.util.Properties;
 
-import javax.xml.bind.JAXBElement;
 
 import com.litle.sdk.generate.Authorization;
 import com.litle.sdk.generate.BatchRequest;
 import com.litle.sdk.generate.ObjectFactory;
 import com.litle.sdk.generate.TransactionType;
 
-import com.litle.sdk.generate.TransactionTypeWithReportGroup;
 import com.litle.sdk.generate.Sale;
 
 public class LitleBatchRequest {
