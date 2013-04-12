@@ -1,8 +1,6 @@
 package com.litle.sdk;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Properties;
 
@@ -74,7 +72,7 @@ public class Communication {
 		return xmlResponse;
 	}
 
-	public String sendLitleBatchFileToIBC(File requestFile, Properties configuration) throws Exception {
+	public String sendLitleBatchFileToIBC(File requestFile, Properties configuration) throws IOException {
 		String hostName = configuration.getProperty("batchHost");
 		String hostPort = configuration.getProperty("batchPort");
 		int tcpTimeout = Integer.parseInt(configuration.getProperty("batchTcpTimeout"));
