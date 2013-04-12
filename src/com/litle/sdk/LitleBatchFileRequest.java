@@ -198,7 +198,7 @@ public class LitleBatchFileRequest {
 		return totalNumberOfTransactions;
 	}
 
-	public LitleBatchFileResponse sendToLitle() throws Exception {
+	public LitleBatchFileResponse sendToLitle() throws LitleBatchException {
 		long countOfBatches = this.litleBatchRequestList.size();
 		BigInteger numOfBatches = BigInteger.valueOf(countOfBatches);
 		litleRequest.setNumBatchRequests(numOfBatches);
@@ -208,6 +208,7 @@ public class LitleBatchFileRequest {
 		
 		File file = getFileToWrite("Request");
 		try {
+			
 			StringWriter sw = new StringWriter();
 			marshaller.marshal(litleRequest, sw);
 			String xmlRequest = sw.toString();
@@ -236,23 +237,22 @@ public class LitleBatchFileRequest {
 			bwResponse.close();
 			
 			LitleBatchFileResponse retObj = new LitleBatchFileResponse(xmlResponse);
-			retObj.convertFileToObject(xmlResponse);
+			//retObj.convertFileToObject(xmlResponse);
 			
 			//LitleBatchFileResponse response = (LitleBatchFileResponse)unmarshaller.unmarshal(new StringReader(xmlResponse));
-			int abc =0 ;
-			abc++;
+			//retObj = (LitleBatchFileResponse)unmarshaller.unmarshal(communication.sendLitleBatchFileToIBC(file, "", config));
+//		LitleBatchFileResponse retObj = new LitleBatchFileResponse("");
+			//retObj.convertFileToObject(xmlResponse);
 			
+			return retObj;
 		} catch (JAXBException ume) {
 			throw new LitleBatchException(
 					"Error validating xml data against the schema", ume);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
-		//retObj = (LitleBatchFileResponse)unmarshaller.unmarshal(communication.sendLitleBatchFileToIBC(file, "", config));
-		LitleBatchFileResponse retObj = new LitleBatchFileResponse("");
-		//retObj.convertFileToObject(xmlResponse);
-		return retObj;
+			throw new LitleBatchException(
+					"Error while sending batch", e);
+		}
 	}
 
 	public File getFileToWrite(String subFolderName) {
@@ -283,11 +283,11 @@ public class LitleBatchFileRequest {
 		return fileToReturn;
 	}
 
-	private boolean isEmpty() {
+	public boolean isEmpty() {
 		return (getNumberOfTransactionInFile() == 0) ? true : false;
 	}
 	
-	private boolean isFull() {
+	public boolean isFull() {
 		return (getNumberOfTransactionInFile() == this.maxAllowedTransactionsPerFile);
 	}
 	
