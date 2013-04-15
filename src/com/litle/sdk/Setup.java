@@ -8,6 +8,8 @@ import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.Properties;
 
+import org.apache.commons.codec.binary.StringUtils;
+
 public class Setup {
 
 	@SuppressWarnings("serial")
@@ -54,7 +56,7 @@ public class Setup {
 		config.put("password", stdin.readLine());
 		System.out.print("Please input your merchantId: ");
 		config.put("merchantId", stdin.readLine());
-		System.out.println("Please choose Litle URL from the following list (example: 'cert') or directly input another URL:");
+		System.out.println("Please choose an environment from the following list (example: 'cert') or directly input another URL:");
 		System.out.println("\tsandbox => https://www.testlitle.com/sandbox/communicator/online");
 		System.out.println("\tcert => https://cert.litle.com/vap/communicator/online");
 		System.out.println("\tprecert => https://precert.litle.com/vap/communicator/online");
@@ -87,9 +89,9 @@ public class Setup {
 			config.put("batchPort", PORT_MAP.get(lastUserInput));
 		}
 		
-		System.out.print("Please enter the Batch TCP Timeout (leave blank for default (5000000)): ");
+		System.out.print("Please input the batch TCP timeout (leave blank for default (5000000)): ");
 		lastUserInput = stdin.readLine();
-		config.put("batchTcpTimeout", (lastUserInput.isEmpty() ? "5000000" : lastUserInput));
+		config.put("batchTcpTimeout", ((lastUserInput.length() == 0) ? "5000000" : lastUserInput));
 		config.put("batchUseSSL", "true");
 		config.put("maxAllowedTransactionsPerFile", "500000");
 		config.put("maxTransactionsPerBatch", "100000");
