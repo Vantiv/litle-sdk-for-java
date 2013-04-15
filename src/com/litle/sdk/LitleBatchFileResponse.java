@@ -4,16 +4,11 @@ import java.io.File;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.xml.bind.JAXBContext;
-
-import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
 import com.litle.sdk.generate.BatchResponse;
-import com.litle.sdk.generate.TransactionType;
-import com.litle.sdk.generate.TransactionTypeWithReportGroup;
 
 import com.litle.sdk.generate.LitleResponse;
 

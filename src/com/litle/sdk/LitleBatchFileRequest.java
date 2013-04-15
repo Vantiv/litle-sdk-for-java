@@ -4,8 +4,10 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStream;
 
 import java.io.StringWriter;
 import java.math.BigInteger;
@@ -18,6 +20,7 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import com.litle.sdk.generate.Authentication;
+import com.litle.sdk.generate.LitleOnlineRequest;
 import com.litle.sdk.generate.LitleRequest;
 
 public class LitleBatchFileRequest {
@@ -60,6 +63,7 @@ public class LitleBatchFileRequest {
 	public LitleBatchFileRequest(String requestFileName, Properties config) {
 		intializeMembers(requestFileName, config);
 		// initializeMembers will initialize this.config
+			
 		this.maxAllowedTransactionsPerFile = Integer.parseInt(config.getProperty("maxAllowedTransactionsPerFile"));
 		
 	}
@@ -88,6 +92,7 @@ public class LitleBatchFileRequest {
 				this.config = new Properties();
 				this.config.load(new FileInputStream(Configuration.location()));
 			} else {
+				fillInMissingFieldsFromConfig(config);
 				this.config = config;
 			}
 			Authentication authentication = new Authentication();
@@ -95,6 +100,7 @@ public class LitleBatchFileRequest {
 			authentication.setUser(this.config.getProperty("username"));
 			this.litleRequest.setAuthentication(authentication);
 			this.litleRequest.setVersion(config.getProperty("version"));
+			
 		} catch (FileNotFoundException e) {
 			throw new LitleBatchException("Configuration file not found. If you are not using the .litle_SDK_config.properties file, please use the LitleOnline(Properties) constructor.  If you are using .litle_SDK_config.properties, you can generate one using java -jar litle-sdk-for-java-8.10.jar", e);
 		} catch (IOException e) {
@@ -130,38 +136,24 @@ public class LitleBatchFileRequest {
 	}
 	
 	//TODO: Fix the merge logic
-	private LitleRequest fillInMissingFieldsFromConfig(LitleRequest request) {
-		LitleRequest retVal = new LitleRequest();
-		retVal.setAuthentication(new Authentication());
-		if (request.getAuthentication() == null) {
-			Authentication authentication = new Authentication();
-			authentication.setPassword(config.getProperty("password"));
-			authentication.setUser(config.getProperty("username"));
-			retVal.setAuthentication(authentication);
-		} else {
-			if (request.getAuthentication().getUser() == null) {
-				retVal.getAuthentication().setUser(
-						config.getProperty("username"));
-			} else {
-				retVal.getAuthentication().setUser(
-						request.getAuthentication().getUser());
+	private void fillInMissingFieldsFromConfig(Properties config) {
+		Properties localConfig = new Properties();
+		try {
+			localConfig.load(new FileInputStream(Configuration.location()));
+			if(config.getProperty("maxAllowedTransactionsPerFile") == null) {
+				config.setProperty("maxAllowedTransactionsPerFile", localConfig.getProperty("maxAllowedTransactionsPerFile"));
 			}
-			if (request.getAuthentication().getPassword() == null) {
-				retVal.getAuthentication().setPassword(
-						config.getProperty("password"));
-			} else {
-				retVal.getAuthentication().setPassword(
-						request.getAuthentication().getPassword());
+			if(config.getProperty("maxTransactionsPerBatch") == null) {
+				config.setProperty("maxTransactionsPerBatch", localConfig.getProperty("maxTransactionsPerBatch"));
 			}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-
-		if (request.getVersion() == null) {
-			retVal.setVersion(config.getProperty("version"));
-		} else {
-			retVal.setVersion(request.getVersion());
-		}
-
-		return retVal;
+		
 	}
 
 	public int getNumberOfBatches() {
@@ -203,6 +195,10 @@ public class LitleBatchFileRequest {
 			BufferedWriter bw = new BufferedWriter(fw);
 			bw.write(xmlRequest);
 			bw.close();
+			
+//			Code to write to the file directly 
+//			OutputStream os = new FileOutputStream("FileToPass.xml"); //file name to pass
+//			marshaller.marshal(litleRequest, os);
 			
 			String xmlResponse = communication.sendLitleBatchFileToIBC(file, config);
 			
@@ -270,6 +266,46 @@ public class LitleBatchFileRequest {
 	
 	public boolean isFull() {
 		return (getNumberOfTransactionInFile() == this.maxAllowedTransactionsPerFile);
+	}
+	
+	private LitleRequest fillInMissingFieldsFromConfig(LitleRequest request) {
+		LitleRequest retVal = new LitleRequest();
+		retVal.setAuthentication(new Authentication());
+		if(request.getAuthentication() == null) {
+			Authentication authentication = new Authentication();
+			authentication.setPassword(config.getProperty("password"));
+			authentication.setUser(config.getProperty("username"));
+			retVal.setAuthentication(authentication);			
+		}
+		else {
+			if(request.getAuthentication().getUser() == null) {
+				retVal.getAuthentication().setUser(config.getProperty("username"));
+			}
+			else {
+				retVal.getAuthentication().setUser(request.getAuthentication().getUser());
+			}
+			if(request.getAuthentication().getPassword() == null) {
+				retVal.getAuthentication().setPassword(config.getProperty("password"));
+			}
+			else {
+				retVal.getAuthentication().setPassword(request.getAuthentication().getPassword());
+			}
+		}
+		
+		if(request.getBatchRequests().get(0).getMerchantId() == null) {
+			retVal.getBatchRequests().get(0).setMerchantId(config.getProperty("merchantId"));
+		}
+		else {
+			retVal.getBatchRequests().get(0).setMerchantId(request.getBatchRequests().get(0).getMerchantId());
+		}
+		if(request.getVersion() == null) {
+			retVal.setVersion(config.getProperty("version"));
+		}
+		else {
+			retVal.setVersion(request.getVersion());
+		}
+		
+		return retVal;
 	}
 	
 
