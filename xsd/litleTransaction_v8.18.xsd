@@ -395,6 +395,7 @@
                         <xs:element name="recyclingRequest" type="xp:recyclingRequestType" minOccurs="0"/>
                         <xs:element name="fraudFilterOverride" type="xs:boolean" minOccurs="0"/>
                         <xs:element name="recurringRequest" type="xp:recurringRequestType" minOccurs="0"/>
+                        <xs:element name="litleInternalRecurringRequest" type="xp:litleInternalRecurringRequestType" minOccurs="0"/>
                     </xs:sequence>
                 </xs:extension>
             </xs:complexContent>
@@ -853,6 +854,13 @@
         </xs:sequence>
     </xs:complexType>
     
+    <xs:complexType name="litleInternalRecurringRequestType">
+        <xs:sequence>
+            <xs:element name="subscriptionId" type="xp:litleIdType" />
+            <xs:element name="recurringTxnId" type="xp:litleIdType" />
+        </xs:sequence>
+    </xs:complexType>
+    
     <xs:complexType name="recurringRequestType">
         <xs:sequence>
             <xs:element name="subscription" type="xp:recurringSubscriptionType" />
@@ -864,6 +872,7 @@
             <xs:element name="subscriptionId" type="xp:litleIdType" />
             <xs:element name="responseCode" type="xp:responseType" />
             <xs:element name="responseMessage" type="xp:messageType" />
+            <xs:element name="recurringTxnId" type="xp:litleIdType" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
     
