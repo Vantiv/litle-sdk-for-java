@@ -43,6 +43,12 @@ public class LitleBatchFileResponse {
 		this.litleResponse = new LitleResponse();
 		this.litleBatchResponseList = new ArrayList<LitleBatchResponse>();
 		this.litleResponse = (LitleResponse)unmarshaller.unmarshal(new StringReader(xmlResponse));
+		
+		for(BatchResponse br : this.litleResponse.getBatchResponses()){
+			LitleBatchResponse lbr = new LitleBatchResponse();
+			lbr.setBatchResponse(br);
+			this.litleBatchResponseList.add(lbr);
+		}
 	}
 	
 	public List<LitleBatchResponse> getBatchResponseList(){
@@ -51,16 +57,5 @@ public class LitleBatchFileResponse {
 	
 	public File getFile(){
 		return xmlFile;
-	}
-
-	
-	public void getTransaction() {
-		
-		for(BatchResponse batchResponse: litleResponse.getBatchResponses()) {
-//			for(TransactionType lbr: (TransactionType) batchResponse.getTransactionResponses()) {
-//				lbr.setBatchResponse(batchResponse);
-//				lbr.setBatchResponse(lbr.getBatchResponse());
-//			}
-		}
 	}
 }

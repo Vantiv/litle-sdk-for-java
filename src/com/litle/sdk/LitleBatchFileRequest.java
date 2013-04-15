@@ -218,7 +218,7 @@ public class LitleBatchFileRequest {
 			bwResponse.close();
 			
 			LitleBatchFileResponse retObj = new LitleBatchFileResponse(xmlResponse);
-			retObj.getTransaction();
+			//retObj.getTransaction();
 			//retObj.convertFileToObject(xmlResponse);
 			
 			//LitleBatchFileResponse response = (LitleBatchFileResponse)unmarshaller.unmarshal(new StringReader(xmlResponse));
