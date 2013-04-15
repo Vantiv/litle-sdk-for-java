@@ -43,100 +43,100 @@ public class TestLitleBatchFileRequest {
 		litleBatchFileRequest = new LitleBatchFileRequest("testFile", property);
 	}
 	
-	@Test
-	public void testEndToEndMerchantBatchSDK() throws Exception {
-		LitleBatchRequest litleBatchRequest = litleBatchFileRequest.createBatch("101");
-		
-		Sale sale = new Sale();
-		sale.setAmount(106L);
-		sale.setOrderId("12344");
-		sale.setOrderSource(OrderSourceType.ECOMMERCE);
-		CardType card = new CardType();
-		card.setType(MethodOfPaymentTypeEnum.VI);
-		card.setNumber("4100000000000002");
-		card.setExpDate("1210");
-		sale.setCard(card);
-		sale.setReportGroup("ding");
-		
-		litleBatchRequest.addTransaction(sale);
-		
-		Authorization auth = new Authorization();
-		auth.setAmount(200L);
-		auth.setOrderId("12345");
-		auth.setOrderSource(OrderSourceType.ECOMMERCE);
-		CardType card2 = new CardType();
-		card2.setType(MethodOfPaymentTypeEnum.VI);
-		card2.setNumber("4242424242424242");
-		card2.setExpDate("1014");
-		auth.setCard(card2);
-		auth.setReportGroup("Ramya");
-		
-		litleBatchRequest.addTransaction(auth);
-		
-//		LitleBatchRequest litleBatchRequest2 = litleBatchFileRequest.createBatch("101");
+//	@Test
+//	public void testEndToEndMerchantBatchSDK() throws Exception {
+//		LitleBatchRequest litleBatchRequest = litleBatchFileRequest.createBatch("101");
 //		
-//		Sale sale1 = new Sale();
-//		sale1.setAmount(2500L);
-//		sale1.setOrderId("12346");
-//		sale1.setOrderSource(OrderSourceType.ECOMMERCE);
-//		CardType card3 = new CardType();
-//		card3.setType(MethodOfPaymentTypeEnum.VI);
-//		card3.setNumber("4100000000000002");
-//		card3.setExpDate("1218");
-//		sale1.setCard(card3);
-//		sale1.setReportGroup("abc");
+//		Sale sale = new Sale();
+//		sale.setAmount(106L);
+//		sale.setOrderId("12344");
+//		sale.setOrderSource(OrderSourceType.ECOMMERCE);
+//		CardType card = new CardType();
+//		card.setType(MethodOfPaymentTypeEnum.VI);
+//		card.setNumber("4100000000000002");
+//		card.setExpDate("1210");
+//		sale.setCard(card);
+//		sale.setReportGroup("ding");
 //		
-//		litleBatchRequest2.addTransaction(sale1);
+//		litleBatchRequest.addTransaction(sale);
 //		
-//		Authorization auth1 = new Authorization();
-//		auth1.setAmount(8900L);
-//		auth1.setOrderId("12347");
-//		auth1.setOrderSource(OrderSourceType.ECOMMERCE);
-//		CardType card4 = new CardType();
-//		card4.setType(MethodOfPaymentTypeEnum.VI);
-//		card4.setNumber("4242424242424242");
-//		card4.setExpDate("1220");
-//		auth1.setCard(card4);
-//		auth1.setReportGroup("checking");
+//		Authorization auth = new Authorization();
+//		auth.setAmount(200L);
+//		auth.setOrderId("12345");
+//		auth.setOrderSource(OrderSourceType.ECOMMERCE);
+//		CardType card2 = new CardType();
+//		card2.setType(MethodOfPaymentTypeEnum.VI);
+//		card2.setNumber("4242424242424242");
+//		card2.setExpDate("1014");
+//		auth.setCard(card2);
+//		auth.setReportGroup("Ramya");
 //		
-//		litleBatchRequest2.addTransaction(auth1);
-		
-		LitleBatchFileResponse litleBatchFileResponse = litleBatchFileRequest.sendToLitle();
-		assertNotNull(litleBatchFileResponse);
-
-		LitleBatchResponse litleBatchResponse0 = litleBatchFileResponse.getBatchResponseList().get(0);
-		LitleBatchResponseTransactionTypeIterator batchResponseIter = litleBatchResponse0.getTransactionResponses();
-		
-		while(batchResponseIter.hasNext()){
-			TransactionTypeWithReportGroup ttwrg = batchResponseIter.next();
-			
-			if(ttwrg instanceof SaleResponse) {
-				SaleResponse sr = (SaleResponse)ttwrg;
-				assertEquals("12344", sr.getOrderId());
-				assertEquals("301",sr.getResponse());
-				assertEquals("Invalid Account Number",sr.getMessage());
-			}
-			else if(ttwrg instanceof AuthorizationResponse) {
-				AuthorizationResponse ar = (AuthorizationResponse)ttwrg;
-				assertEquals("12345",ar.getOrderId());
-				assertEquals("000",ar.getResponse());
-				assertEquals("Approved", ar.getMessage());
-			}
-			
-//			LitleBatchResponse litleBatchResponse1 = litleBatchFileResponse.getBatchResponseList().get(1);
-//			List<TransactionType> txnList1 = litleBatchResponse1.getResponseList();
+//		litleBatchRequest.addTransaction(auth);
+//		
+////		LitleBatchRequest litleBatchRequest2 = litleBatchFileRequest.createBatch("101");
+////		
+////		Sale sale1 = new Sale();
+////		sale1.setAmount(2500L);
+////		sale1.setOrderId("12346");
+////		sale1.setOrderSource(OrderSourceType.ECOMMERCE);
+////		CardType card3 = new CardType();
+////		card3.setType(MethodOfPaymentTypeEnum.VI);
+////		card3.setNumber("4100000000000002");
+////		card3.setExpDate("1218");
+////		sale1.setCard(card3);
+////		sale1.setReportGroup("abc");
+////		
+////		litleBatchRequest2.addTransaction(sale1);
+////		
+////		Authorization auth1 = new Authorization();
+////		auth1.setAmount(8900L);
+////		auth1.setOrderId("12347");
+////		auth1.setOrderSource(OrderSourceType.ECOMMERCE);
+////		CardType card4 = new CardType();
+////		card4.setType(MethodOfPaymentTypeEnum.VI);
+////		card4.setNumber("4242424242424242");
+////		card4.setExpDate("1220");
+////		auth1.setCard(card4);
+////		auth1.setReportGroup("checking");
+////		
+////		litleBatchRequest2.addTransaction(auth1);
+//		
+//		LitleBatchFileResponse litleBatchFileResponse = litleBatchFileRequest.sendToLitle();
+//		assertNotNull(litleBatchFileResponse);
+//
+//		LitleBatchResponse litleBatchResponse0 = litleBatchFileResponse.getBatchResponseList().get(0);
+//		LitleBatchResponseTransactionTypeIterator batchResponseIter = litleBatchResponse0.getTransactionResponses();
+//		
+//		while(batchResponseIter.hasNext()){
+//			TransactionTypeWithReportGroup ttwrg = batchResponseIter.next();
 //			
-//			SaleResponse saleResponse1 = (SaleResponse) txnList1.get(0);
-//			assertEquals("12346", saleResponse1.getOrderId());
-//			assertEquals("000",saleResponse1.getResponse());
-//			assertEquals("Approved",saleResponse1.getMessage());
+//			if(ttwrg instanceof SaleResponse) {
+//				SaleResponse sr = (SaleResponse)ttwrg;
+//				assertEquals("12344", sr.getOrderId());
+//				assertEquals("301",sr.getResponse());
+//				assertEquals("Invalid Account Number",sr.getMessage());
+//			}
+//			else if(ttwrg instanceof AuthorizationResponse) {
+//				AuthorizationResponse ar = (AuthorizationResponse)ttwrg;
+//				assertEquals("12345",ar.getOrderId());
+//				assertEquals("000",ar.getResponse());
+//				assertEquals("Approved", ar.getMessage());
+//			}
 //			
-//			AuthorizationResponse authResponse1 = (AuthorizationResponse) txnList1.get(1);
-//			assertEquals("12347",authResponse1.getOrderId());
-//			assertEquals("301",authResponse1.getResponse());
-//			assertEquals("Invalid Account Number",authResponse1.getMessage());
-		}
-	}
+////			LitleBatchResponse litleBatchResponse1 = litleBatchFileResponse.getBatchResponseList().get(1);
+////			List<TransactionType> txnList1 = litleBatchResponse1.getResponseList();
+////			
+////			SaleResponse saleResponse1 = (SaleResponse) txnList1.get(0);
+////			assertEquals("12346", saleResponse1.getOrderId());
+////			assertEquals("000",saleResponse1.getResponse());
+////			assertEquals("Approved",saleResponse1.getMessage());
+////			
+////			AuthorizationResponse authResponse1 = (AuthorizationResponse) txnList1.get(1);
+////			assertEquals("12347",authResponse1.getOrderId());
+////			assertEquals("301",authResponse1.getResponse());
+////			assertEquals("Invalid Account Number",authResponse1.getMessage());
+//		}
+//	}
 	
 //	@Test
 //	public void testEmptyCreateBatch() {
