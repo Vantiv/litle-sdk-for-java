@@ -3,68 +3,24 @@ package com.litle.sdk;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.matches;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.verify;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
 import java.util.Properties;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
-
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.litle.sdk.generate.AuthInformation;
-import com.litle.sdk.generate.AuthReversal;
-import com.litle.sdk.generate.AuthReversalResponse;
-import com.litle.sdk.generate.Authentication;
 import com.litle.sdk.generate.Authorization;
 import com.litle.sdk.generate.AuthorizationResponse;
-import com.litle.sdk.generate.Capture;
-import com.litle.sdk.generate.CaptureGivenAuth;
-import com.litle.sdk.generate.CaptureGivenAuthResponse;
-import com.litle.sdk.generate.CaptureResponse;
 import com.litle.sdk.generate.CardType;
-import com.litle.sdk.generate.Contact;
-import com.litle.sdk.generate.Credit;
-import com.litle.sdk.generate.CreditResponse;
-import com.litle.sdk.generate.CustomerInfo;
-import com.litle.sdk.generate.EcheckAccountTypeEnum;
-import com.litle.sdk.generate.EcheckCredit;
-import com.litle.sdk.generate.EcheckCreditResponse;
-import com.litle.sdk.generate.EcheckRedeposit;
-import com.litle.sdk.generate.EcheckRedepositResponse;
-import com.litle.sdk.generate.EcheckSale;
-import com.litle.sdk.generate.EcheckSalesResponse;
-import com.litle.sdk.generate.EcheckType;
-import com.litle.sdk.generate.EcheckVerification;
-import com.litle.sdk.generate.EcheckVerificationResponse;
-import com.litle.sdk.generate.EcheckVoid;
-import com.litle.sdk.generate.EcheckVoidResponse;
-import com.litle.sdk.generate.ForceCapture;
-import com.litle.sdk.generate.ForceCaptureResponse;
-import com.litle.sdk.generate.LitleOnlineRequest;
-import com.litle.sdk.generate.LitleRequest;
 import com.litle.sdk.generate.MethodOfPaymentTypeEnum;
-import com.litle.sdk.generate.ObjectFactory;
 import com.litle.sdk.generate.OrderSourceType;
-import com.litle.sdk.generate.RegisterTokenRequestType;
-import com.litle.sdk.generate.RegisterTokenResponse;
 import com.litle.sdk.generate.Sale;
 import com.litle.sdk.generate.SaleResponse;
-import com.litle.sdk.generate.TransactionType;
 import com.litle.sdk.generate.TransactionTypeWithReportGroup;
 
 public class TestLitleBatchFileRequest {
