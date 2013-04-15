@@ -68,7 +68,7 @@ public class LitleBatchFileRequest {
 		intializeMembers(requestFileName, null);
 	}
 	
-	private void intializeMembers(String requestFileName, Properties config){
+	public void intializeMembers(String requestFileName, Properties config){
 		try {
 			this.jc = JAXBContext.newInstance("com.litle.sdk.generate");
 			this.marshaller = jc.createMarshaller();
@@ -118,7 +118,6 @@ public class LitleBatchFileRequest {
 	public LitleBatchRequest createBatch(String merchantId) {
 		LitleBatchRequest litleBatchRequest = new LitleBatchRequest(merchantId, this);
 		litleBatchRequestList.add(litleBatchRequest);
-		//this.litleRequest.getBatchRequests().add(litleBatchRequest);
 		return litleBatchRequest;
 	}
 
