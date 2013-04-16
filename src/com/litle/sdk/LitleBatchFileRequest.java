@@ -99,7 +99,7 @@ public class LitleBatchFileRequest {
 			authentication.setPassword(this.config.getProperty("password"));
 			authentication.setUser(this.config.getProperty("username"));
 			this.litleRequest.setAuthentication(authentication);
-			this.litleRequest.setVersion(config.getProperty("version"));
+			this.litleRequest.setVersion(this.config.getProperty("version"));
 			
 		} catch (FileNotFoundException e) {
 			throw new LitleBatchException("Configuration file not found. If you are not using the .litle_SDK_config.properties file, please use the LitleOnline(Properties) constructor.  If you are using .litle_SDK_config.properties, you can generate one using java -jar litle-sdk-for-java-8.10.jar", e);
