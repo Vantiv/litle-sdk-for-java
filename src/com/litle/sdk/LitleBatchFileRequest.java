@@ -82,12 +82,6 @@ public class LitleBatchFileRequest {
 			this.litleBatchRequestList = new ArrayList<LitleBatchRequest>();
 			this.requestFileName = requestFileName;
 			
-//			if (!(requestFileName.equals(null))) {
-//				this.requestFileName = requestFileName;
-//			} else {
-//				throw new LitleBatchException("You need to supply a filename for the file.");
-//			}
-
 			if( config == null || config.isEmpty() ){
 				this.config = new Properties();
 				this.config.load(new FileInputStream(Configuration.location()));
@@ -265,45 +259,4 @@ public class LitleBatchFileRequest {
 		return (getNumberOfTransactionInFile() == this.maxAllowedTransactionsPerFile);
 	}
 	
-	private LitleRequest fillInMissingFieldsFromConfig(LitleRequest request) {
-		LitleRequest retVal = new LitleRequest();
-		retVal.setAuthentication(new Authentication());
-		if(request.getAuthentication() == null) {
-			Authentication authentication = new Authentication();
-			authentication.setPassword(config.getProperty("password"));
-			authentication.setUser(config.getProperty("username"));
-			retVal.setAuthentication(authentication);			
-		}
-		else {
-			if(request.getAuthentication().getUser() == null) {
-				retVal.getAuthentication().setUser(config.getProperty("username"));
-			}
-			else {
-				retVal.getAuthentication().setUser(request.getAuthentication().getUser());
-			}
-			if(request.getAuthentication().getPassword() == null) {
-				retVal.getAuthentication().setPassword(config.getProperty("password"));
-			}
-			else {
-				retVal.getAuthentication().setPassword(request.getAuthentication().getPassword());
-			}
-		}
-		
-		if(request.getBatchRequests().get(0).getMerchantId() == null) {
-			retVal.getBatchRequests().get(0).setMerchantId(config.getProperty("merchantId"));
-		}
-		else {
-			retVal.getBatchRequests().get(0).setMerchantId(request.getBatchRequests().get(0).getMerchantId());
-		}
-		if(request.getVersion() == null) {
-			retVal.setVersion(config.getProperty("version"));
-		}
-		else {
-			retVal.setVersion(request.getVersion());
-		}
-		
-		return retVal;
-	}
-	
-
 }
