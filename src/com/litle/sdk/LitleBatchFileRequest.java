@@ -140,11 +140,11 @@ public class LitleBatchFileRequest {
 		Properties localConfig = new Properties();
 		try {
 			localConfig.load(new FileInputStream(Configuration.location()));
-			if(config.getProperty("maxAllowedTransactionsPerFile") == null) {
-				config.setProperty("maxAllowedTransactionsPerFile", localConfig.getProperty("maxAllowedTransactionsPerFile"));
-			}
-			if(config.getProperty("maxTransactionsPerBatch") == null) {
-				config.setProperty("maxTransactionsPerBatch", localConfig.getProperty("maxTransactionsPerBatch"));
+			String[] allProperties = {"username","password","merchantId","url","proxyHost","proxyPort","version","timeout","reportGroup","printxml","batchHost","batchPort","batchTcpTimeout","batchUseSSL","maxAllowedTransactionsPerFile","maxTransactionsPerBatch"};
+			for(String prop : allProperties){
+				if(config.getProperty(prop) == null) {
+					config.setProperty(prop, localConfig.getProperty(prop));
+				}
 			}
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
