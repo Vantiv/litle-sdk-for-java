@@ -20,13 +20,13 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import com.litle.sdk.generate.Authentication;
-import com.litle.sdk.generate.LitleOnlineRequest;
+
 import com.litle.sdk.generate.LitleRequest;
 
 public class LitleBatchFileRequest {
 
 	private JAXBContext jc;
-	private Properties config;
+	private Properties properties;
 	private Marshaller marshaller;
 	private Communication communication;
 	private LitleRequest litleRequest;
@@ -42,7 +42,7 @@ public class LitleBatchFileRequest {
 	public LitleBatchFileRequest(String requestFileName) {
 		intializeMembers(requestFileName);
 		// initializeMembers will initialize this.config
-		this.maxAllowedTransactionsPerFile = Integer.parseInt(config.getProperty("maxAllowedTransactionsPerFile"));
+		this.maxAllowedTransactionsPerFile = Integer.parseInt(properties.getProperty("maxAllowedTransactionsPerFile"));
 	}
 	
 	/**
@@ -83,17 +83,17 @@ public class LitleBatchFileRequest {
 			this.requestFileName = requestFileName;
 			
 			if( config == null || config.isEmpty() ){
-				this.config = new Properties();
-				this.config.load(new FileInputStream(Configuration.location()));
+				this.properties = new Properties();
+				this.properties.load(new FileInputStream(Configuration.location()));
 			} else {
 				fillInMissingFieldsFromConfig(config);
-				this.config = config;
+				this.properties = config;
 			}
 			Authentication authentication = new Authentication();
-			authentication.setPassword(this.config.getProperty("password"));
-			authentication.setUser(this.config.getProperty("username"));
+			authentication.setPassword(this.properties.getProperty("password"));
+			authentication.setUser(this.properties.getProperty("username"));
 			this.litleRequest.setAuthentication(authentication);
-			this.litleRequest.setVersion(this.config.getProperty("version"));
+			this.litleRequest.setVersion(this.properties.getProperty("version"));
 			
 		} catch (FileNotFoundException e) {
 			throw new LitleBatchException("Configuration file not found. If you are not using the .litle_SDK_config.properties file, please use the LitleOnline(Properties) constructor.  If you are using .litle_SDK_config.properties, you can generate one using java -jar litle-sdk-for-java-8.10.jar", e);
@@ -112,7 +112,7 @@ public class LitleBatchFileRequest {
 	}
 	
 	public Properties getConfig(){
-		return this.config;
+		return this.properties;
 	}
 
 	public LitleBatchRequest createBatch(String merchantId) {
@@ -131,6 +131,7 @@ public class LitleBatchFileRequest {
 	
 	public void fillInMissingFieldsFromConfig(Properties config) {
 		Properties localConfig = new Properties();
+		
 		try {
 			localConfig.load(new FileInputStream(Configuration.location()));
 			String[] allProperties = {"username","password","merchantId","url","proxyHost","proxyPort","version","timeout","reportGroup","printxml","batchHost","batchPort","batchTcpTimeout","batchUseSSL","maxAllowedTransactionsPerFile","maxTransactionsPerBatch"};
@@ -182,7 +183,7 @@ public class LitleBatchFileRequest {
 				fileResponse.createNewFile();
 			}
 		
-			fileResponse = communication.sendLitleBatchFileToIBC(file, fileResponse.getAbsolutePath(), config);
+			fileResponse = communication.sendLitleBatchFileToIBC(file, fileResponse.getAbsolutePath(), properties);
 //			FileWriter fwResponse = new FileWriter(fileResponse.getAbsoluteFile());
 //			BufferedWriter bwResponse = new BufferedWriter(fwResponse);
 //			bwResponse.write(xmlResponse);
