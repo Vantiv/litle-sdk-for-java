@@ -4,6 +4,7 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -77,15 +78,18 @@ public class StreamData {
      * @return The string read from the socket
      * @throws IOException when a read exception occurs
      */
-    public String dataIn() throws IOException {
-        StringBuffer data = new StringBuffer();
+    public void dataIn(File xmlResponseFile) throws IOException {
+        //StringBuffer data = new StringBuffer();
+        FileWriter outputStream = null;
         int value;
         BufferedInputStream bis = new BufferedInputStream(socket.getInputStream());
+        outputStream = new FileWriter(xmlResponseFile.getAbsolutePath());
         InputStreamReader isr = new InputStreamReader(bis,"UTF-8");
         while ((value = isr.read()) != -1) {
-            data.append((char) value);
+            //data.append((char) value);
+            outputStream.write((char) value);
         }
-        return data.toString();
+        outputStream.close();
     }
 
     /**

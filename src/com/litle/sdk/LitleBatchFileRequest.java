@@ -181,47 +181,23 @@ public class LitleBatchFileRequest {
 		
 		File file = getFileToWrite("Request");
 		try {
-			
-			StringWriter sw = new StringWriter();
-			marshaller.marshal(litleRequest, sw);
-			String xmlRequest = sw.toString();
-
-			// if file doesnt exists, then create it
-			if (!file.exists()) {
-				file.createNewFile();
-			}
-
-			FileWriter fw = new FileWriter(file.getAbsoluteFile());
-			BufferedWriter bw = new BufferedWriter(fw);
-			bw.write(xmlRequest);
-			bw.close();
-			
 //			Code to write to the file directly 
-//			OutputStream os = new FileOutputStream("FileToPass.xml"); //file name to pass
-//			marshaller.marshal(litleRequest, os);
-			
-			String xmlResponse = communication.sendLitleBatchFileToIBC(file, config);
+			OutputStream os = new FileOutputStream(file.getAbsolutePath()); 
+			marshaller.marshal(litleRequest, os);
 			
 			File fileResponse = getFileToWrite("Response");
 			
 			if (!fileResponse.exists()) {
 				fileResponse.createNewFile();
 			}
+		
+			fileResponse = communication.sendLitleBatchFileToIBC(file, fileResponse.getAbsolutePath(), config);
+//			FileWriter fwResponse = new FileWriter(fileResponse.getAbsoluteFile());
+//			BufferedWriter bwResponse = new BufferedWriter(fwResponse);
+//			bwResponse.write(xmlResponse);
+//			bwResponse.close();
 			
-			FileWriter fwResponse = new FileWriter(fileResponse.getAbsoluteFile());
-			BufferedWriter bwResponse = new BufferedWriter(fwResponse);
-			bwResponse.write(xmlResponse);
-			bwResponse.close();
-			
-			LitleBatchFileResponse retObj = new LitleBatchFileResponse(xmlResponse);
-			//retObj.getTransaction();
-			//retObj.convertFileToObject(xmlResponse);
-			
-			//LitleBatchFileResponse response = (LitleBatchFileResponse)unmarshaller.unmarshal(new StringReader(xmlResponse));
-			//retObj = (LitleBatchFileResponse)unmarshaller.unmarshal(communication.sendLitleBatchFileToIBC(file, "", config));
-//		LitleBatchFileResponse retObj = new LitleBatchFileResponse("");
-			//retObj.convertFileToObject(xmlResponse);
-			
+			LitleBatchFileResponse retObj = new LitleBatchFileResponse(fileResponse);
 			return retObj;
 		} catch (JAXBException ume) {
 			throw new LitleBatchException(
