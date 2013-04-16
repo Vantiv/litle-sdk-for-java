@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.util.Properties;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
 
 import com.litle.sdk.generate.Authorization;
 import com.litle.sdk.generate.AuthorizationResponse;
@@ -40,6 +41,7 @@ public class TestLitleBatchFileRequest {
 		property.setProperty("batchTcpTimeout", "10000");
 		property.setProperty("batchUseSSL", "false");
 		property.setProperty("merchantId", "101");
+		//config = new Configuration();
 		litleBatchFileRequest = new LitleBatchFileRequest("testFile", property);
 	}
 	
@@ -236,14 +238,16 @@ public class TestLitleBatchFileRequest {
 			assertTrue(fileToBeWritten.delete());
 		}
 		assertTrue(!fileToBeWritten.exists());
+		//File file = new File("");
 		
 		Communication mockedCommunication = mock(Communication.class);
-		when(mockedCommunication.sendLitleBatchFileToIBC(any(File.class), any(Properties.class))).thenReturn("<litleResponse version=\"3.0\" xmlns=\"http://www.litle.com/schema\" response=\"0\" message=\"Valid Format\" litleSessionId=\"82822065667358730\"></litleResponse>");
+		File fileToReturn = new File("testSendToLitleReturnFile.txt");
+		when(mockedCommunication.sendLitleBatchFileToIBC(any(File.class), any(String.class), any(Properties.class))).thenReturn(fileToReturn);
 		
 		litleBatchFileRequest.setCommunication(mockedCommunication);
 		
 		litleBatchFileRequest.sendToLitle();
-		verify(mockedCommunication).sendLitleBatchFileToIBC(any(File.class), any(Properties.class));
+		verify(mockedCommunication).sendLitleBatchFileToIBC(any(File.class), any(String.class), any(Properties.class));
 		
 		File fileWritten = litleBatchFileRequest.getFileToWrite("Request");
 		assertTrue(fileWritten.exists());
@@ -298,6 +302,32 @@ public class TestLitleBatchFileRequest {
 		sale.setCard(card);
 		sale.setReportGroup("test");
 		return sale;
+	}
+	
+	
+	@Test
+	public void testFillInMissingFieldsFromConfig() {
+		LitleBatchFileRequest lbfr = new LitleBatchFileRequest("testFile");
+		lbfr.intializeMembers("testFile", null);
+		Properties properties = new Properties();
+		lbfr.fillInMissingFieldsFromConfig(properties);
+		
+		assertEquals("ramya", properties.getProperty("username"));
+		assertEquals("jhf", properties.getProperty("password"));
+		assertEquals("101", properties.getProperty("merchantId"));
+		assertEquals("https://www.testlitle.com/sandbox/communicator/online", properties.getProperty("url"));
+		assertEquals("abcd.com", properties.getProperty("proxyHost"));
+		assertEquals("845", properties.getProperty("proxyPort"));
+		assertEquals("8.18", properties.getProperty("version"));
+		assertEquals("65", properties.getProperty("timeout"));
+		assertEquals("Default Report Group", properties.getProperty("reportGroup"));
+		assertEquals("true", properties.getProperty("printxml"));
+		assertEquals("sandbox", properties.getProperty("batchHost"));
+		assertEquals("2104", properties.getProperty("batchPort"));
+		assertEquals("5000", properties.getProperty("batchTcpTimeout"));
+		assertEquals("false", properties.getProperty("batchUseSSL"));
+		assertEquals("500000", properties.getProperty("maxAllowedTransactionsPerFile"));
+		assertEquals("100000", properties.getProperty("maxTransactionsPerBatch"));
 	}
 	
 }
