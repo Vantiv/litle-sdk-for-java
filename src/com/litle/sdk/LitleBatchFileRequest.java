@@ -135,7 +135,6 @@ public class LitleBatchFileRequest {
 		return this.maxAllowedTransactionsPerFile;
 	}
 	
-	//TODO: Fix the merge logic
 	private void fillInMissingFieldsFromConfig(Properties config) {
 		Properties localConfig = new Properties();
 		try {
@@ -147,11 +146,9 @@ public class LitleBatchFileRequest {
 				}
 			}
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new LitleBatchException("File was not found: " + Configuration.location(), e);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new LitleBatchException("There was an IO exception.", e);
 		}
 		
 	}
