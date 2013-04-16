@@ -129,7 +129,7 @@ public class LitleBatchFileRequest {
 		return this.maxAllowedTransactionsPerFile;
 	}
 	
-	private void fillInMissingFieldsFromConfig(Properties config) {
+	public void fillInMissingFieldsFromConfig(Properties config) {
 		Properties localConfig = new Properties();
 		try {
 			localConfig.load(new FileInputStream(Configuration.location()));
