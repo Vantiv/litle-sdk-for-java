@@ -8,8 +8,6 @@ import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.Properties;
 
-import org.apache.commons.codec.binary.StringUtils;
-
 public class Setup {
 
 	@SuppressWarnings("serial")
@@ -19,20 +17,20 @@ public class Setup {
 			put("cert","https://cert.litle.com/vap/communicator/online");
 			put("precert","https://precert.litle.com/vap/communicator/online");
 			put("production","https://payments.litle.com/vap/communicator/online");
-			put("batchSandbox","https://www.testlitle.com/sandbox");
-			put("batchCert","https://cert.litle.com");
-			put("batchPrecert","https://precert.litle.com");
-			put("batchProduction", "https://payments.litle.com");
+			put("batchsandbox","https://www.testlitle.com/sandbox");
+			put("batchcert","https://cert.litle.com");
+			put("batchprecert","https://precert.litle.com");
+			put("batchproduction", "https://payments.litle.com");
 		}
 	};
 	
 	@SuppressWarnings("serial")
 	private static final HashMap<String,String> PORT_MAP = new HashMap<String,String>() {
 		{
-			put("batchSandbox","15000");
-			put("batchCert","15000");
-			put("batchPrecert","15000");
-			put("batchProduction", "15000");
+			put("batchsandbox","15000");
+			put("batchcert","15000");
+			put("batchprecert","15000");
+			put("batchproduction", "15000");
 		}
 	};
 	
@@ -56,13 +54,54 @@ public class Setup {
 		config.put("password", stdin.readLine());
 		System.out.print("Please input your merchantId: ");
 		config.put("merchantId", stdin.readLine());
-		System.out.println("Please choose an environment from the following list (example: 'cert') or directly input another URL:");
-		System.out.println("\tsandbox => https://www.testlitle.com/sandbox/communicator/online");
-		System.out.println("\tcert => https://cert.litle.com/vap/communicator/online");
-		System.out.println("\tprecert => https://precert.litle.com/vap/communicator/online");
-		System.out.println("\tproduction => https://payments.litle.com/vap/communicator/online");
+		boolean badInput = false;
+		do{
+			if( badInput ){
+				System.out.println("====== Invalid choice entered ======");
+			}
+			System.out.println("Please choose an environment from the following list (example: 'cert'):");
+			System.out.println("\tsandbox => www.testlitle.com");
+			System.out.println("\tcert => cert.litle.com");
+			System.out.println("\tprecert => precert.litle.com");
+			System.out.println("\tproduction => payments.litle.com");
+			System.out.println("\tother => You will be asked for all the values");
+			lastUserInput = stdin.readLine();
+			if( 
+				lastUserInput.compareToIgnoreCase("cert") == 0 ||
+				lastUserInput.compareToIgnoreCase("sandbox") == 0 ||
+				lastUserInput.compareToIgnoreCase("precert") == 0 ||
+				lastUserInput.compareToIgnoreCase("production") == 0
+			) {
+				// standard predefined cases
+				config.put("url", URL_MAP.get(lastUserInput.toLowerCase()));
+				config.put("batchHost", URL_MAP.get(("batch" + lastUserInput).toLowerCase()));
+				config.put("batchPort", PORT_MAP.get(("batch" + lastUserInput).toLowerCase()));
+				badInput = false;
+			} else if(lastUserInput.compareToIgnoreCase("other") == 0){
+				// user wants to enter custom values
+				System.out.println("Please input the URL for online transactions (ex: https://www.testlitle.com/sandbox/communicator/online):");
+				config.put("url", stdin.readLine());
+				System.out.println("Please input the Host name for batch transactions (ex: payments.litle.com):");
+				config.put("batchHost", stdin.readLine());
+				System.out.println("Please input the port number for batch transactions (ex: 15000):");
+				config.put("batchPort", stdin.readLine());
+				badInput = false;
+			} else{
+				// error condition
+				badInput = true;
+			}			
+		} while( badInput );
+		
+		System.out.print("Values set for host: ");
+		System.out.print("\n\tURL for online transactions: " + config.getProperty("url"));
+		System.out.print("\n\tHost for batch transactions: " + config.getProperty("batchHost"));
+		System.out.print("\n\tPort for batch transactions: " + config.getProperty("batchPort") + "\n");
+		
+		config.put("batchUseSSL", "true");
+		System.out.print("Please input the batch TCP timeout in milliseconds (leave blank for default (7200000)): ");
 		lastUserInput = stdin.readLine();
-		config.put("url", (URL_MAP.get(lastUserInput) == null ? lastUserInput : URL_MAP.get(lastUserInput)));
+		config.put("batchTcpTimeout", ((lastUserInput.length() == 0) ? "7200000" : lastUserInput));
+		
 		System.out.print("Please input the proxy host, if no proxy hit enter: ");
 		config.put("proxyHost", stdin.readLine());
 		System.out.print("Please input the proxy port, if no proxy hit enter: ");
@@ -70,29 +109,8 @@ public class Setup {
 		config.put("version", "8.18");
 		config.put("timeout", "65");
 		config.put("reportGroup", "Default Report Group");
-		config.put("printxml", "true");
+		config.put("printxml", "false");
 		
-		//These properties are for batch
-		System.out.println("Please choose Litle URL from the following list (example: 'batchCert') or directly input another URL:");
-		System.out.println("\tbatchSandbox => https://www.testlitle.com/sandbox");
-		System.out.println("\tbatchPrecert => https://precert.litle.com");
-		System.out.println("\tbatchCert => https://payments.litle.com");
-		System.out.println("\tbatchProduction => https://payments.litle.com");
-		lastUserInput = stdin.readLine();
-		config.put("batchHost", (URL_MAP.get(lastUserInput) == null ? lastUserInput : URL_MAP.get(lastUserInput)));
-		//config.put("batchHost", URL_MAP.get(batchHostInput));
-		if( URL_MAP.get(lastUserInput) == null ){
-			System.out.println("Please input the port for batchHost:");
-			config.put("batchPort", stdin.readLine());
-		}
-		else{
-			config.put("batchPort", PORT_MAP.get(lastUserInput));
-		}
-		
-		System.out.print("Please input the batch TCP timeout (leave blank for default (5000000)): ");
-		lastUserInput = stdin.readLine();
-		config.put("batchTcpTimeout", ((lastUserInput.length() == 0) ? "5000000" : lastUserInput));
-		config.put("batchUseSSL", "true");
 		config.put("maxAllowedTransactionsPerFile", "500000");
 		config.put("maxTransactionsPerBatch", "100000");
 

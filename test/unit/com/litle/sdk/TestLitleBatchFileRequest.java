@@ -304,7 +304,6 @@ public class TestLitleBatchFileRequest {
 		return sale;
 	}
 	
-	
 	@Test
 	public void testFillInMissingFieldsFromConfig() {
 		LitleBatchFileRequest lbfr = new LitleBatchFileRequest("testFile");
