@@ -102,7 +102,14 @@ public class Setup {
 		lastUserInput = stdin.readLine();
 		config.put("batchTcpTimeout", ((lastUserInput.length() == 0) ? "7200000" : lastUserInput));
 		
-		System.out.print("Please input the proxy host, if no proxy hit enter: ");
+		System.out.print("\nBatch SDK generates files for Requests and Responses. You may leave these blank if you do not plan to use \nbatch processing. Please input a location to a folder with write permissions for: \n");
+		System.out.print("\tRequests: ");
+		config.put("batchRequestFolder", stdin.readLine());
+		
+		System.out.print("\tResponses: ");
+		config.put("batchResponseFolder", stdin.readLine());
+		
+		System.out.print("\nPlease input the proxy host, if no proxy hit enter: ");
 		config.put("proxyHost", stdin.readLine());
 		System.out.print("Please input the proxy port, if no proxy hit enter: ");
 		config.put("proxyPort", stdin.readLine());
