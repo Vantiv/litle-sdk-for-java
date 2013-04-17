@@ -183,7 +183,7 @@ public class LitleBatchFileRequest {
 				fileResponse.createNewFile();
 			}
 		
-			fileResponse = communication.sendLitleBatchFileToIBC(file, fileResponse.getAbsolutePath(), properties);
+			communication.sendLitleBatchFileToIBC(file, fileResponse, properties);
 //			FileWriter fwResponse = new FileWriter(fileResponse.getAbsoluteFile());
 //			BufferedWriter bwResponse = new BufferedWriter(fwResponse);
 //			bwResponse.write(xmlResponse);

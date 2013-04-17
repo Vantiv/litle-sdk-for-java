@@ -242,12 +242,12 @@ public class TestLitleBatchFileRequest {
 		
 		Communication mockedCommunication = mock(Communication.class);
 		File fileToReturn = new File("testSendToLitleReturnFile.txt");
-		when(mockedCommunication.sendLitleBatchFileToIBC(any(File.class), any(String.class), any(Properties.class))).thenReturn(fileToReturn);
+		//when(mockedCommunication.sendLitleBatchFileToIBC(any(File.class), any(File.class), any(Properties.class))).thenReturn(fileToReturn);
 		
 		litleBatchFileRequest.setCommunication(mockedCommunication);
 		
 		litleBatchFileRequest.sendToLitle();
-		verify(mockedCommunication).sendLitleBatchFileToIBC(any(File.class), any(String.class), any(Properties.class));
+		verify(mockedCommunication).sendLitleBatchFileToIBC(any(File.class), any(File.class), any(Properties.class));
 		
 		File fileWritten = litleBatchFileRequest.getFileToWrite("Request");
 		assertTrue(fileWritten.exists());

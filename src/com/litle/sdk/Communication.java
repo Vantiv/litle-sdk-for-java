@@ -72,7 +72,7 @@ public class Communication {
 		return xmlResponse;
 	}
 
-	public File sendLitleBatchFileToIBC(File requestFile, String responseFilePath, Properties configuration) throws IOException {
+	public void sendLitleBatchFileToIBC(File requestFile, File responseFilePath, Properties configuration) throws IOException {
 		String hostName = configuration.getProperty("batchHost");
 		String hostPort = configuration.getProperty("batchPort");
 		int tcpTimeout = Integer.parseInt(configuration.getProperty("batchTcpTimeout"));
@@ -82,16 +82,13 @@ public class Communication {
 
 		streamData.dataOut(requestFile);
 
-		File responseFile = new File(responseFilePath);
-		
 		// if file doesnt exists, then create it
-		if (!responseFile.exists()) {
-			responseFile.createNewFile();
+		if (!responseFilePath.exists()) {
+			responseFilePath.createNewFile();
 		}
-		streamData.dataIn(responseFile);
+		streamData.dataIn(responseFilePath);
 
 		streamData.closeSocket();
-		return responseFile;
 	}
 	
 	void setStreamData(StreamData streamData) {
