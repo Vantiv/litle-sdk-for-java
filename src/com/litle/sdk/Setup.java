@@ -48,9 +48,9 @@ public class Setup {
 	      (new InputStreamReader(System.in));
 
 		System.out.println("Welcome to Litle Java_SDK");
-		System.out.print("Please input your user name: ");
+		System.out.print("Please input your presenter user name: ");
 		config.put("username", stdin.readLine());
-		System.out.print("Please input your password: ");
+		System.out.print("Please input your presenter password: ");
 		config.put("password", stdin.readLine());
 		System.out.print("Please input your merchantId: ");
 		config.put("merchantId", stdin.readLine());
