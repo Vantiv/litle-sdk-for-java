@@ -238,10 +238,8 @@ public class TestLitleBatchFileRequest {
 			assertTrue(fileToBeWritten.delete());
 		}
 		assertTrue(!fileToBeWritten.exists());
-		//File file = new File("");
 		
 		Communication mockedCommunication = mock(Communication.class);
-		File fileToReturn = new File("testSendToLitleReturnFile.txt");
 		//when(mockedCommunication.sendLitleBatchFileToIBC(any(File.class), any(File.class), any(Properties.class))).thenReturn(fileToReturn);
 		
 		litleBatchFileRequest.setCommunication(mockedCommunication);
