@@ -134,7 +134,7 @@ public class LitleBatchFileRequest {
 		
 		try {
 			localConfig.load(new FileInputStream(Configuration.location()));
-			String[] allProperties = {"username","password","merchantId","url","proxyHost","proxyPort","version","timeout","reportGroup","printxml","batchHost","batchPort","batchTcpTimeout","batchUseSSL","maxAllowedTransactionsPerFile","maxTransactionsPerBatch"};
+			String[] allProperties = {"username","password","proxyHost","proxyPort","version","reportGroup","batchHost","batchPort","batchTcpTimeout","batchUseSSL","maxAllowedTransactionsPerFile","maxTransactionsPerBatch", "batchRequestFolder", "batchResponseFolder"};
 			for(String prop : allProperties){
 				if(config.getProperty(prop) == null) {
 					config.setProperty(prop, localConfig.getProperty(prop));
@@ -170,14 +170,14 @@ public class LitleBatchFileRequest {
 		for(LitleBatchRequest lbr : this.litleBatchRequestList) {
 			this.litleRequest.getBatchRequests().add(lbr.getBatchRequest());
 		}
-		
-		File file = getFileToWrite("Request");
+
+		File file = getFileToWrite("batchRequestFolder");
 		try {
 //			Code to write to the file directly 
 			OutputStream os = new FileOutputStream(file.getAbsolutePath()); 
 			marshaller.marshal(litleRequest, os);
 			
-			File fileResponse = getFileToWrite("Response");
+			File fileResponse = getFileToWrite("batchResponseFolder");
 			
 			if (!fileResponse.exists()) {
 				fileResponse.createNewFile();
@@ -201,26 +201,11 @@ public class LitleBatchFileRequest {
 		}
 	}
 
-	public File getFileToWrite(String subFolderName) {
+	public File getFileToWrite(String locationKey) {
 		String fileName = this.requestFileName + ".xml";
-
-		// get the location to write the file in from config
-		File fileToReturn = new File(System.getProperty("user.home")
-				+ File.separator + subFolderName + File.separator + fileName);
-		if (System.getProperty("java.specification.version").equals("1.4")) {
-			if (System.getProperty("LITLE_BATCH_DIR") != null) {
-				fileToReturn = new File(System.getProperty("LITLE_BATCH_DIR")
-						+ File.separator + subFolderName + File.separator
-						+ fileName);
-			}
-		} else {
-			if (System.getenv("LITLE_BATCH_DIR") != null) {
-				fileToReturn = new File(System.getenv("LITLE_BATCH_DIR")
-						+ File.separator + subFolderName + File.separator
-						+ fileName);
-			}
-		}
-
+		String writeFolderPath = this.properties.getProperty(locationKey);
+		File fileToReturn = new File(writeFolderPath + File.separator + fileName);
+		
 		if (!fileToReturn.getParentFile().exists()) {
 			fileToReturn.getParentFile().mkdir();
 		}
