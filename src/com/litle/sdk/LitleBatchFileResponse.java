@@ -20,11 +20,20 @@ public class LitleBatchFileResponse {
 	private Unmarshaller unmarshaller;
 	private File xmlFile;
 	
-	public LitleBatchFileResponse(File xmlFile){
+	public LitleBatchFileResponse(File xmlFile) throws JAXBException{
 		// convert from xml to objects
-		this.litleResponse = new LitleResponse();
+		
+		try {
+			jc = JAXBContext.newInstance("com.litle.sdk.generate");
+			this.unmarshaller = jc.createUnmarshaller();
+		} catch (JAXBException e) {
+			e.printStackTrace();
+		}
 		this.litleBatchResponseList = new ArrayList<LitleBatchResponse>();
 		this.xmlFile = xmlFile;
+		this.litleResponse = (LitleResponse) this.unmarshaller.unmarshal(xmlFile);
+		
+		addBatchResponseToLitleReponse();
 	}
 	
 	public LitleBatchFileResponse(String xmlResponse) throws JAXBException {
@@ -39,6 +48,10 @@ public class LitleBatchFileResponse {
 		this.litleBatchResponseList = new ArrayList<LitleBatchResponse>();
 		this.litleResponse = (LitleResponse)unmarshaller.unmarshal(new StringReader(xmlResponse));
 		
+		addBatchResponseToLitleReponse();
+	}
+	
+	private void addBatchResponseToLitleReponse() {
 		for(BatchResponse br : this.litleResponse.getBatchResponses()){
 			LitleBatchResponse lbr = new LitleBatchResponse();
 			lbr.setBatchResponse(br);
