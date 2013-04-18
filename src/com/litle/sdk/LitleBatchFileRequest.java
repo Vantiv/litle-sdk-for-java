@@ -131,12 +131,15 @@ public class LitleBatchFileRequest {
 	
 	public void fillInMissingFieldsFromConfig(Properties config) {
 		Properties localConfig = new Properties();
-		
+		boolean propertiesReadFromFile = false;
 		try {
-			localConfig.load(new FileInputStream(Configuration.location()));
 			String[] allProperties = {"username","password","proxyHost","proxyPort","version","reportGroup","batchHost","batchPort","batchTcpTimeout","batchUseSSL","maxAllowedTransactionsPerFile","maxTransactionsPerBatch", "batchRequestFolder", "batchResponseFolder"};
 			for(String prop : allProperties){
 				if(config.getProperty(prop) == null) {
+					if(!propertiesReadFromFile){
+						localConfig.load(new FileInputStream(Configuration.location()));
+						propertiesReadFromFile = true;
+					}
 					config.setProperty(prop, localConfig.getProperty(prop));
 				}
 			}

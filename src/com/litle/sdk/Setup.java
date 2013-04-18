@@ -110,9 +110,11 @@ public class Setup {
 		config.put("batchResponseFolder", stdin.readLine());
 		
 		System.out.print("\nPlease input the proxy host, if no proxy hit enter: ");
-		config.put("proxyHost", stdin.readLine());
+		lastUserInput = stdin.readLine();
+		config.put("proxyHost", (lastUserInput == null ? "" : lastUserInput));
 		System.out.print("Please input the proxy port, if no proxy hit enter: ");
-		config.put("proxyPort", stdin.readLine());
+		lastUserInput = stdin.readLine();
+		config.put("proxyPort", (lastUserInput == null ? "" : lastUserInput));
 		config.put("version", "8.18");
 		config.put("timeout", "65");
 		config.put("reportGroup", "Default Report Group");
