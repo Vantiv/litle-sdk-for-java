@@ -24,38 +24,34 @@ public class LitleBatchFileResponse {
 		// convert from xml to objects
 		
 		try {
+			this.xmlFile = xmlFile;
 			jc = JAXBContext.newInstance("com.litle.sdk.generate");
 			this.unmarshaller = jc.createUnmarshaller();
+			this.litleResponse = (LitleResponse) unmarshaller.unmarshal(xmlFile);
 		} catch (JAXBException e) {
-			e.printStackTrace();
+			e.printStackTrace(); // TODO - convert to LitleBatchException
 		}
-		this.litleBatchResponseList = new ArrayList<LitleBatchResponse>();
-		this.xmlFile = xmlFile;
-		this.litleResponse = (LitleResponse) this.unmarshaller.unmarshal(xmlFile);
 		
-		addBatchResponseToLitleReponse();
+		wrapBatchResponses(litleResponse.getBatchResponses());
 	}
 	
 	public LitleBatchFileResponse(String xmlResponse) throws JAXBException {
 		try {
 			jc = JAXBContext.newInstance("com.litle.sdk.generate");
 			this.unmarshaller = jc.createUnmarshaller();
+			this.litleResponse = (LitleResponse) unmarshaller.unmarshal(new StringReader(xmlResponse));
 		} catch (JAXBException e) {
-			e.printStackTrace();
+			e.printStackTrace(); // TODO - convert to LitleBatchException
 		}
 		
-		this.litleResponse = new LitleResponse();
-		this.litleBatchResponseList = new ArrayList<LitleBatchResponse>();
-		this.litleResponse = (LitleResponse)unmarshaller.unmarshal(new StringReader(xmlResponse));
-		
-		addBatchResponseToLitleReponse();
+		wrapBatchResponses(litleResponse.getBatchResponses());
 	}
 	
-	private void addBatchResponseToLitleReponse() {
-		for(BatchResponse br : this.litleResponse.getBatchResponses()){
-			LitleBatchResponse lbr = new LitleBatchResponse();
-			lbr.setBatchResponse(br);
-			this.litleBatchResponseList.add(lbr);
+	private void wrapBatchResponses(List<BatchResponse> batchResponses) {
+		litleBatchResponseList = new ArrayList<LitleBatchResponse>();
+		for(BatchResponse br : batchResponses){
+			LitleBatchResponse lbr = new LitleBatchResponse(br);
+			litleBatchResponseList.add(lbr);
 		}
 	}
 	
@@ -63,7 +59,7 @@ public class LitleBatchFileResponse {
 		return this.litleBatchResponseList;
 	}
 	
-	public File getFile(){
+	public File getFile() {
 		return xmlFile;
 	}
 }

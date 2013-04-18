@@ -14,6 +14,8 @@ import java.util.Scanner;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.litle.sdk.generate.TransactionTypeWithReportGroup;
+
 public class TestLitleBatchFileResponse {
 
 	private static LitleBatchFileResponse litleBatchFileResponse;
@@ -30,10 +32,12 @@ public class TestLitleBatchFileResponse {
 		List<LitleBatchResponse> litleBatchResponseList = new ArrayList<LitleBatchResponse>();
 		litleBatchResponseList = litleBatchFileResponse.getBatchResponseList();
 	    assertEquals(1, litleBatchResponseList.size());
-		for(LitleBatchResponse list: litleBatchResponseList) {
-			assertEquals("101",list.getBatchResponse().getMerchantId());
-			assertEquals(2,list.getNumberOfTransactions());
-		}
+		LitleBatchResponse batchResponse1 = litleBatchResponseList.get(0);
+		assertEquals("101",batchResponse1.getBatchResponse().getMerchantId());
+		LitleBatchResponse.TransactionTypeIterator it = batchResponse1.getTransactionResponses();
+		TransactionTypeWithReportGroup txn1 = it.next();
+		// TODO - verify some txn fields
+		TransactionTypeWithReportGroup txn2 = it.next();
 	}
 	
 	@Test
@@ -43,9 +47,10 @@ public class TestLitleBatchFileResponse {
 		litleBatchFileResponse = new LitleBatchFileResponse(xmlResponseString);
 		litleBatchResponseList = litleBatchFileResponse.getBatchResponseList();
 	    assertEquals(1, litleBatchResponseList.size());
+	    // TODO - refactor me
 		for(LitleBatchResponse list: litleBatchResponseList) {
 			assertEquals("101",list.getBatchResponse().getMerchantId());
-			assertEquals(2,list.getNumberOfTransactions());
+//			assertEquals(2,list.getNumberOfTransactions());
 		}
 		
 	}

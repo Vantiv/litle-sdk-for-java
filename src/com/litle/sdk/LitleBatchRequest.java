@@ -25,7 +25,7 @@ public class LitleBatchRequest {
 		this.maxTransactionsPerBatch = Integer.parseInt(lbfr.getConfig().getProperty("maxTransactionsPerBatch"));
 	}
 	
-	public BatchRequest getBatchRequest(){
+	BatchRequest getBatchRequest(){
 		return batchRequest;
 	}
 	
@@ -74,7 +74,7 @@ public class LitleBatchRequest {
 			return TransactionCodeEnum.FAILURE;
 	}
 	
-	public TransactionCodeEnum verifyFileThresholds(){
+	TransactionCodeEnum verifyFileThresholds(){
 		if( this.lbfr.getNumberOfTransactionInFile() == this.lbfr.getMaxAllowedTransactionsPerFile()){
 			return TransactionCodeEnum.FILEFULL;
 		}

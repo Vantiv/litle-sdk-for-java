@@ -107,7 +107,7 @@ public class TestLitleBatchFileRequest {
 		assertNotNull(litleBatchFileResponse);
 
 		LitleBatchResponse litleBatchResponse0 = litleBatchFileResponse.getBatchResponseList().get(0);
-		LitleBatchResponseTransactionTypeIterator batchResponseIter = litleBatchResponse0.getTransactionResponses();
+		LitleBatchResponse.TransactionTypeIterator batchResponseIter = litleBatchResponse0.getTransactionResponses();
 		
 		while(batchResponseIter.hasNext()){
 			TransactionTypeWithReportGroup ttwrg = batchResponseIter.next();

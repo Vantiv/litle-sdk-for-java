@@ -1,37 +1,31 @@
 package com.litle.sdk;
 
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
-
-import java.io.StringWriter;
 import java.math.BigInteger;
-
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
-import com.litle.sdk.generate.Authentication;
 
+import com.litle.sdk.generate.Authentication;
 import com.litle.sdk.generate.LitleRequest;
 
 public class LitleBatchFileRequest {
 
 	private JAXBContext jc;
 	private Properties properties;
-	private Marshaller marshaller;
 	private Communication communication;
-	private LitleRequest litleRequest;
 	private List<LitleBatchRequest> litleBatchRequestList;
 	private String requestFileName;
+	private File requestFile;
 	
 	protected final int maxAllowedTransactionsPerFile;
 
@@ -65,7 +59,6 @@ public class LitleBatchFileRequest {
 		// initializeMembers will initialize this.config
 			
 		this.maxAllowedTransactionsPerFile = Integer.parseInt(config.getProperty("maxAllowedTransactionsPerFile"));
-		
 	}
 	
 	private void intializeMembers(String requestFileName){
@@ -75,10 +68,8 @@ public class LitleBatchFileRequest {
 	public void intializeMembers(String requestFileName, Properties config){
 		try {
 			this.jc = JAXBContext.newInstance("com.litle.sdk.generate");
-			this.marshaller = jc.createMarshaller();
 			
 			this.communication = new Communication();
-			this.litleRequest = new LitleRequest();
 			this.litleBatchRequestList = new ArrayList<LitleBatchRequest>();
 			this.requestFileName = requestFileName;
 			
@@ -89,12 +80,6 @@ public class LitleBatchFileRequest {
 				fillInMissingFieldsFromConfig(config);
 				this.properties = config;
 			}
-			Authentication authentication = new Authentication();
-			authentication.setPassword(this.properties.getProperty("password"));
-			authentication.setUser(this.properties.getProperty("username"));
-			this.litleRequest.setAuthentication(authentication);
-			this.litleRequest.setVersion(this.properties.getProperty("version"));
-			
 		} catch (FileNotFoundException e) {
 			throw new LitleBatchException("Configuration file not found. If you are not using the .litle_SDK_config.properties file, please use the LitleOnline(Properties) constructor.  If you are using .litle_SDK_config.properties, you can generate one using java -jar litle-sdk-for-java-8.10.jar", e);
 		} catch (IOException e) {
@@ -106,12 +91,11 @@ public class LitleBatchFileRequest {
 		}
 	}
 
-	
 	protected void setCommunication(Communication communication) {
 		this.communication = communication;
 	}
 	
-	public Properties getConfig(){
+	Properties getConfig(){
 		return this.properties;
 	}
 
@@ -124,12 +108,16 @@ public class LitleBatchFileRequest {
 	public void generateRawFile() {
 
 	}
+	
+	public File getFile() {
+		return requestFile;
+	}
 
 	public int getMaxAllowedTransactionsPerFile(){
 		return this.maxAllowedTransactionsPerFile;
 	}
 	
-	public void fillInMissingFieldsFromConfig(Properties config) {
+	void fillInMissingFieldsFromConfig(Properties config) {
 		Properties localConfig = new Properties();
 		boolean propertiesReadFromFile = false;
 		try {
@@ -148,7 +136,6 @@ public class LitleBatchFileRequest {
 		} catch (IOException e) {
 			throw new LitleBatchException("There was an IO exception.", e);
 		}
-		
 	}
 
 	public int getNumberOfBatches() {
@@ -167,30 +154,19 @@ public class LitleBatchFileRequest {
 	}
 
 	public LitleBatchFileResponse sendToLitle() throws LitleBatchException {
-		long countOfBatches = this.litleBatchRequestList.size();
-		BigInteger numOfBatches = BigInteger.valueOf(countOfBatches);
-		litleRequest.setNumBatchRequests(numOfBatches);
-		for(LitleBatchRequest lbr : this.litleBatchRequestList) {
-			this.litleRequest.getBatchRequests().add(lbr.getBatchRequest());
-		}
-
-		File file = getFileToWrite("batchRequestFolder");
 		try {
-//			Code to write to the file directly 
-			OutputStream os = new FileOutputStream(file.getAbsolutePath()); 
+			LitleRequest litleRequest = buildLitleRequest();
+
+			// Code to write to the file directly 
+			File localFile = getFileToWrite("batchRequestFolder");
+			OutputStream os = new FileOutputStream(localFile.getAbsolutePath());
+			Marshaller marshaller = jc.createMarshaller();
 			marshaller.marshal(litleRequest, os);
+			requestFile = localFile;
 			
 			File fileResponse = getFileToWrite("batchResponseFolder");
-			
-			if (!fileResponse.exists()) {
-				fileResponse.createNewFile();
-			}
 		
-			communication.sendLitleBatchFileToIBC(file, fileResponse, properties);
-//			FileWriter fwResponse = new FileWriter(fileResponse.getAbsoluteFile());
-//			BufferedWriter bwResponse = new BufferedWriter(fwResponse);
-//			bwResponse.write(xmlResponse);
-//			bwResponse.close();
+			communication.sendLitleBatchFileToIBC(localFile, fileResponse, properties);
 			
 			LitleBatchFileResponse retObj = new LitleBatchFileResponse(fileResponse);
 			return retObj;
@@ -204,7 +180,23 @@ public class LitleBatchFileRequest {
 		}
 	}
 
-	public File getFileToWrite(String locationKey) {
+	private LitleRequest buildLitleRequest() {
+		Authentication authentication = new Authentication();
+		authentication.setPassword(this.properties.getProperty("password"));
+		authentication.setUser(this.properties.getProperty("username"));
+		
+		LitleRequest litleRequest = new LitleRequest();
+		litleRequest.setAuthentication(authentication);
+		litleRequest.setVersion(this.properties.getProperty("version"));
+		BigInteger numOfBatches = BigInteger.valueOf(this.litleBatchRequestList.size());
+		litleRequest.setNumBatchRequests(numOfBatches);
+		for(LitleBatchRequest lbr : this.litleBatchRequestList) {
+			litleRequest.getBatchRequests().add(lbr.getBatchRequest());
+		}
+		return litleRequest;
+	}
+
+	File getFileToWrite(String locationKey) {
 		String fileName = this.requestFileName + ".xml";
 		String writeFolderPath = this.properties.getProperty(locationKey);
 		File fileToReturn = new File(writeFolderPath + File.separator + fileName);
