@@ -26,8 +26,10 @@ public class LitleBatchFileRequest {
 	private List<LitleBatchRequest> litleBatchRequestList;
 	private String requestFileName;
 	private File requestFile;
+	private File responseFile;
 	
-	protected final int maxAllowedTransactionsPerFile;
+	protected int maxAllowedTransactionsPerFile;
+	protected final int litleLimit_maxAllowedTransactionsPerFile = 500000;
 
 	/**
 	 * Construct a LitleBatchFileRequest using the configuration specified in
@@ -35,8 +37,6 @@ public class LitleBatchFileRequest {
 	 */
 	public LitleBatchFileRequest(String requestFileName) {
 		intializeMembers(requestFileName);
-		// initializeMembers will initialize this.config
-		this.maxAllowedTransactionsPerFile = Integer.parseInt(properties.getProperty("maxAllowedTransactionsPerFile"));
 	}
 	
 	/**
@@ -56,9 +56,6 @@ public class LitleBatchFileRequest {
 	 */
 	public LitleBatchFileRequest(String requestFileName, Properties config) {
 		intializeMembers(requestFileName, config);
-		// initializeMembers will initialize this.config
-			
-		this.maxAllowedTransactionsPerFile = Integer.parseInt(config.getProperty("maxAllowedTransactionsPerFile"));
 	}
 	
 	private void intializeMembers(String requestFileName){
@@ -80,6 +77,14 @@ public class LitleBatchFileRequest {
 				fillInMissingFieldsFromConfig(config);
 				this.properties = config;
 			}
+			
+			this.maxAllowedTransactionsPerFile = Integer.parseInt(properties.getProperty("maxAllowedTransactionsPerFile"));
+			if( maxAllowedTransactionsPerFile > litleLimit_maxAllowedTransactionsPerFile ){
+				throw new LitleBatchException("maxAllowedTransactionsPerFile property value cannot exceed " + String.valueOf(litleLimit_maxAllowedTransactionsPerFile));
+			}
+			
+			responseFile = getFileToWrite("batchResponseFolder");
+			
 		} catch (FileNotFoundException e) {
 			throw new LitleBatchException("Configuration file not found. If you are not using the .litle_SDK_config.properties file, please use the LitleOnline(Properties) constructor.  If you are using .litle_SDK_config.properties, you can generate one using java -jar litle-sdk-for-java-8.10.jar", e);
 		} catch (IOException e) {
@@ -164,11 +169,9 @@ public class LitleBatchFileRequest {
 			marshaller.marshal(litleRequest, os);
 			requestFile = localFile;
 			
-			File fileResponse = getFileToWrite("batchResponseFolder");
-		
-			communication.sendLitleBatchFileToIBC(localFile, fileResponse, properties);
+			communication.sendLitleBatchFileToIBC(localFile, responseFile, properties);
 			
-			LitleBatchFileResponse retObj = new LitleBatchFileResponse(fileResponse);
+			LitleBatchFileResponse retObj = new LitleBatchFileResponse(responseFile);
 			return retObj;
 		} catch (JAXBException ume) {
 			throw new LitleBatchException(
@@ -178,6 +181,10 @@ public class LitleBatchFileRequest {
 			throw new LitleBatchException(
 					"Error while sending batch", e);
 		}
+	}
+	
+	void setResponseFile(File inFile){
+		this.responseFile = inFile;
 	}
 
 	private LitleRequest buildLitleRequest() {
