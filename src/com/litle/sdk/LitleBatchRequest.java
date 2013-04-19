@@ -15,6 +15,7 @@ public class LitleBatchRequest {
 	ObjectFactory objFac;
 	
 	private final int maxTransactionsPerBatch;
+	protected int litleLimit_maxTransactionsPerBatch = 100000;
 	private final LitleBatchFileRequest lbfr;
 	
 	LitleBatchRequest(String merchantId, LitleBatchFileRequest lbfr){
@@ -23,6 +24,10 @@ public class LitleBatchRequest {
 		this.objFac = new ObjectFactory();
 		this.lbfr = lbfr;
 		this.maxTransactionsPerBatch = Integer.parseInt(lbfr.getConfig().getProperty("maxTransactionsPerBatch"));
+		
+		if( maxTransactionsPerBatch > litleLimit_maxTransactionsPerBatch ){
+			throw new LitleBatchException("maxTransactionsPerBatch property value cannot exceed " + String.valueOf(litleLimit_maxTransactionsPerBatch));
+		}
 	}
 	
 	BatchRequest getBatchRequest(){
