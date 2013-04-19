@@ -1,0 +1,25 @@
+<litleResponse version="8.18" xmlns="http://www.litle.com/schema" response="0" message="Valid Format" litleSessionId="82822095378759694">
+<batchResponse litleBatchId="82822095378759702" merchantId="101">
+<authorizationResponse reportGroup="Ramya">
+    <litleTxnId>82822095378759710</litleTxnId>
+    <orderId>12345</orderId>
+    <response>000</response>
+    <responseTime>2013-04-19T14:34:21</responseTime>
+    <message>Approved</message>
+    <authCode>123457</authCode>
+    <fraudResult>
+        <avsResult>00</avsResult>
+    </fraudResult>
+</authorizationResponse>
+<saleResponse reportGroup="test">
+    <litleTxnId>82822095378759728</litleTxnId>
+    <orderId>12344</orderId>
+    <response>301</response>
+    <responseTime>2013-04-19T14:34:21</responseTime>
+    <message>Invalid Account Number</message>
+    <fraudResult>
+        <avsResult>34</avsResult>
+    </fraudResult>
+</saleResponse>
+</batchResponse>
+</litleResponse>
