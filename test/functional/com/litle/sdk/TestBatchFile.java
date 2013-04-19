@@ -47,7 +47,7 @@ public class TestBatchFile {
 		LitleBatchFileResponse response = request.sendToLitle();
 		
 		// assert response can be processed through Java API
-		assertJavaApi(response);
+		assertJavaApi(request, response);
 		
 		// assert request and response files were created properly
 		assertGeneratedFiles(workingDirRequests, workingDirResponses, requestFileName, request, response);
@@ -81,7 +81,7 @@ public class TestBatchFile {
 		LitleBatchFileResponse response = request.sendToLitle();
 		
 		// assert response can be processed through Java API
-		assertJavaApi(response);
+		assertJavaApi(request, response);
 		
 		// assert request and response files were created properly
 		assertGeneratedFiles(workingDirRequests, workingDirResponses, requestFileName, request, response);
@@ -90,8 +90,8 @@ public class TestBatchFile {
 	private void prepareTestRequest(LitleBatchFileRequest request) {
 		LitleBatchRequest batchRequest1 = request.createBatch("101");
 		Sale sale11 = new Sale();
-		sale11.setReportGroup("reportGroup1");
-		sale11.setOrderId("orderId1");
+		sale11.setReportGroup("reportGroup11");
+		sale11.setOrderId("orderId11");
 		sale11.setAmount(1099L);
 		sale11.setOrderSource(OrderSourceType.ECOMMERCE);
 		
@@ -104,12 +104,21 @@ public class TestBatchFile {
 		batchRequest1.addTransaction(sale11);
 	}
 
-	private void assertJavaApi(LitleBatchFileResponse response) {
+	private void assertJavaApi(LitleBatchFileRequest request, LitleBatchFileResponse response) {
 		assertNotNull(response);
+		assertNotNull(response.getLitleSessionId());
+		assertEquals("0", response.getResponse());
+		assertEquals("Valid Format", response.getMessage());
+		assertEquals(request.getConfig().getProperty("version"), response.getVersion());
+		
 		List<LitleBatchResponse> batchList = response.getBatchResponseList();
 		assertEquals(1, batchList.size());
 		
 		LitleBatchResponse batchResponse1 = batchList.get(0);
+		assertNotNull(batchResponse1);
+		assertNotNull(batchResponse1.getLitleBatchId());
+		assertEquals("101", batchResponse1.getMerchantId());
+		
 		LitleBatchResponse.TransactionTypeIterator it = batchResponse1.getTransactionResponses();
 		
 		assertTrue("expected exactly one transaction in batchResponse1", it.hasNext());
@@ -119,10 +128,10 @@ public class TestBatchFile {
 		assertEquals("000", saleResponse11.getResponse());
 		assertEquals("Approved", saleResponse11.getMessage());
 		assertNotNull(saleResponse11.getLitleTxnId());
-		assertEquals("orderId1", saleResponse11.getOrderId());
-		assertEquals("reportGroup1", saleResponse11.getReportGroup());
+		assertEquals("orderId11", saleResponse11.getOrderId());
+		assertEquals("reportGroup11", saleResponse11.getReportGroup());
 		
-		assertFalse("expected only one transaction in batchResponse1", it.hasNext());
+		assertFalse("expected no more than one transaction in batchResponse1", it.hasNext());
 	}
 	
 	private void assertGeneratedFiles(String workingDirRequests, String workingDirResponses, String requestFileName,
@@ -139,7 +148,7 @@ public class TestBatchFile {
 		
 		// assert contents of the response file by reading it through the Java API again
 		LitleBatchFileResponse responseFromFile = new LitleBatchFileResponse(fResponse);
-		assertJavaApi(responseFromFile);
+		assertJavaApi(request, responseFromFile);
 	}
 
 	private void prepDir(String dirName) {
