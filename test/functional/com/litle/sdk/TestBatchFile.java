@@ -57,10 +57,10 @@ public class TestBatchFile {
 	public void testSendToLitle_WithConfigOverrides() throws Exception {
 		String workingDir = System.getProperty("java.io.tmpdir");
 		
-		String workingDirRequests = workingDir + File.separator + "requests";
+		String workingDirRequests = workingDir + File.separator + "litleSdkTestBatchRequests";
 		prepDir(workingDirRequests);
 		
-		String workingDirResponses = workingDir + File.separator + "responses";
+		String workingDirResponses = workingDir + File.separator + "litleSdkTestBatchResponses";
 		prepDir(workingDirResponses);
 		
 		Properties configOverrides = new Properties();
@@ -144,25 +144,9 @@ public class TestBatchFile {
 
 	private void prepDir(String dirName) {
 		File fRequestDir = new File(dirName);
-		deleteDir(fRequestDir);
 		fRequestDir.mkdirs();
 	}
 
-	private void deleteDir(File fDir) {
-		File[] childFiles = fDir.listFiles();
-		if(childFiles != null) {
-			for (File child : childFiles) {
-				if(child.isDirectory()) {
-					deleteDir(child);
-				}
-				else {
-					child.delete();
-				}
-			}
-		}
-		fDir.delete();
-	}
-	
 	public static void main(String[] args) throws Exception {
 		TestBatchFile t = new TestBatchFile();
 		
