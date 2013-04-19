@@ -126,7 +126,7 @@ public class LitleBatchFileRequest {
 		Properties localConfig = new Properties();
 		boolean propertiesReadFromFile = false;
 		try {
-			String[] allProperties = {"username","password","proxyHost","proxyPort","version","reportGroup","batchHost","batchPort","batchTcpTimeout","batchUseSSL","maxAllowedTransactionsPerFile","maxTransactionsPerBatch", "batchRequestFolder", "batchResponseFolder"};
+			String[] allProperties = {"username","password","proxyHost","proxyPort","version","batchHost","batchPort","batchTcpTimeout","batchUseSSL","maxAllowedTransactionsPerFile","maxTransactionsPerBatch", "batchRequestFolder", "batchResponseFolder"};
 			for(String prop : allProperties){
 				if(config.getProperty(prop) == null) {
 					if(!propertiesReadFromFile){
