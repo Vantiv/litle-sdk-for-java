@@ -27,6 +27,7 @@ public class LitleBatchFileRequest {
 	private String requestFileName;
 	private File requestFile;
 	private File responseFile;
+	private String requestId;
 	
 	protected int maxAllowedTransactionsPerFile;
 	protected final int litleLimit_maxAllowedTransactionsPerFile = 500000;
@@ -186,6 +187,10 @@ public class LitleBatchFileRequest {
 	void setResponseFile(File inFile){
 		this.responseFile = inFile;
 	}
+	
+	void setId(String id){
+		this.requestId = id;
+	}
 
 	private LitleRequest buildLitleRequest() {
 		Authentication authentication = new Authentication();
@@ -193,6 +198,9 @@ public class LitleBatchFileRequest {
 		authentication.setUser(this.properties.getProperty("username"));
 		
 		LitleRequest litleRequest = new LitleRequest();
+		if( !requestId.isEmpty() ){
+			litleRequest.setId(requestId);
+		}
 		litleRequest.setAuthentication(authentication);
 		litleRequest.setVersion(this.properties.getProperty("version"));
 		BigInteger numOfBatches = BigInteger.valueOf(this.litleBatchRequestList.size());
@@ -204,7 +212,7 @@ public class LitleBatchFileRequest {
 	}
 
 	File getFileToWrite(String locationKey) {
-		String fileName = this.requestFileName + ".xml";
+		String fileName = this.requestFileName;
 		String writeFolderPath = this.properties.getProperty(locationKey);
 		File fileToReturn = new File(writeFolderPath + File.separator + fileName);
 		

@@ -4,27 +4,21 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Properties;
+
 import org.junit.Before;
 import org.junit.Test;
-import org.kohsuke.rngom.dt.DoNothingDatatypeLibraryFactoryImpl;
-import org.mockito.Mock;
 
-import com.litle.sdk.generate.Authorization;
-import com.litle.sdk.generate.AuthorizationResponse;
 import com.litle.sdk.generate.CardType;
 import com.litle.sdk.generate.MethodOfPaymentTypeEnum;
 import com.litle.sdk.generate.OrderSourceType;
 import com.litle.sdk.generate.Sale;
-import com.litle.sdk.generate.SaleResponse;
-import com.litle.sdk.generate.TransactionTypeWithReportGroup;
 
 public class TestLitleBatchFileRequest {
 
@@ -48,140 +42,8 @@ public class TestLitleBatchFileRequest {
 		property.setProperty("reportGroup", "test");
 		property.setProperty("batchRequestFolder", "test/unit/requestFolder/");
 		property.setProperty("batchResponseFolder", "test/unit/responseFolder/");
-		//config = new Configuration();
-		litleBatchFileRequest = new LitleBatchFileRequest("testFile", property);
+		litleBatchFileRequest = new LitleBatchFileRequest("testFile.xml", property);
 	}
-	
-//	@Test
-//	public void testEndToEndMerchantBatchSDK() throws Exception {
-//		LitleBatchRequest litleBatchRequest = litleBatchFileRequest.createBatch("101");
-//		
-//		Sale sale = new Sale();
-//		sale.setAmount(106L);
-//		sale.setOrderId("12344");
-//		sale.setOrderSource(OrderSourceType.ECOMMERCE);
-//		CardType card = new CardType();
-//		card.setType(MethodOfPaymentTypeEnum.VI);
-//		card.setNumber("4100000000000002");
-//		card.setExpDate("1210");
-//		sale.setCard(card);
-//		sale.setReportGroup("test");
-//		
-//		litleBatchRequest.addTransaction(sale);
-//		
-//		Authorization auth = new Authorization();
-//		auth.setAmount(200L);
-//		auth.setOrderId("12345");
-//		auth.setOrderSource(OrderSourceType.ECOMMERCE);
-//		CardType card2 = new CardType();
-//		card2.setType(MethodOfPaymentTypeEnum.VI);
-//		card2.setNumber("4242424242424242");
-//		card2.setExpDate("1014");
-//		auth.setCard(card2);
-//		auth.setReportGroup("Ramya");
-//		
-//		litleBatchRequest.addTransaction(auth);
-//		
-////		LitleBatchRequest litleBatchRequest2 = litleBatchFileRequest.createBatch("101");
-////		
-////		Sale sale1 = new Sale();
-////		sale1.setAmount(2500L);
-////		sale1.setOrderId("12346");
-////		sale1.setOrderSource(OrderSourceType.ECOMMERCE);
-////		CardType card3 = new CardType();
-////		card3.setType(MethodOfPaymentTypeEnum.VI);
-////		card3.setNumber("4100000000000002");
-////		card3.setExpDate("1218");
-////		sale1.setCard(card3);
-////		sale1.setReportGroup("abc");
-////		
-////		litleBatchRequest2.addTransaction(sale1);
-////		
-////		Authorization auth1 = new Authorization();
-////		auth1.setAmount(8900L);
-////		auth1.setOrderId("12347");
-////		auth1.setOrderSource(OrderSourceType.ECOMMERCE);
-////		CardType card4 = new CardType();
-////		card4.setType(MethodOfPaymentTypeEnum.VI);
-////		card4.setNumber("4242424242424242");
-////		card4.setExpDate("1220");
-////		auth1.setCard(card4);
-////		auth1.setReportGroup("checking");
-////		
-////		litleBatchRequest2.addTransaction(auth1);
-//		
-//		LitleBatchFileResponse litleBatchFileResponse = litleBatchFileRequest.sendToLitle();
-//		assertNotNull(litleBatchFileResponse);
-//
-//		LitleBatchResponse litleBatchResponse0 = litleBatchFileResponse.getBatchResponseList().get(0);
-//		LitleBatchResponse.TransactionTypeIterator batchResponseIter = litleBatchResponse0.getTransactionResponses();
-//		
-//		while(batchResponseIter.hasNext()){
-//			TransactionTypeWithReportGroup ttwrg = batchResponseIter.next();
-//			
-//			if(ttwrg instanceof SaleResponse) {
-//				SaleResponse sr = (SaleResponse)ttwrg;
-//				assertEquals("12344", sr.getOrderId());
-//				assertEquals("301",sr.getResponse());
-//				assertEquals("Invalid Account Number",sr.getMessage());
-//			}
-//			else if(ttwrg instanceof AuthorizationResponse) {
-//				AuthorizationResponse ar = (AuthorizationResponse)ttwrg;
-//				assertEquals("12345",ar.getOrderId());
-//				assertEquals("000",ar.getResponse());
-//				assertEquals("Approved", ar.getMessage());
-//			}
-//			
-////			LitleBatchResponse litleBatchResponse1 = litleBatchFileResponse.getBatchResponseList().get(1);
-////			List<TransactionType> txnList1 = litleBatchResponse1.getResponseList();
-////			
-////			SaleResponse saleResponse1 = (SaleResponse) txnList1.get(0);
-////			assertEquals("12346", saleResponse1.getOrderId());
-////			assertEquals("000",saleResponse1.getResponse());
-////			assertEquals("Approved",saleResponse1.getMessage());
-////			
-////			AuthorizationResponse authResponse1 = (AuthorizationResponse) txnList1.get(1);
-////			assertEquals("12347",authResponse1.getOrderId());
-////			assertEquals("301",authResponse1.getResponse());
-////			assertEquals("Invalid Account Number",authResponse1.getMessage());
-//		}
-//	}
-	
-//	@Test
-//	public void testEmptyCreateBatch() {
-//		LitleBatchFileRequest mockedLBFR = mock(LitleBatchFileRequest.class);
-//		
-//		Properties prpToPass = new Properties();
-//		prpToPass.setProperty("maxTransactionsPerBatch", "0");
-//		
-//		when(mockedLBFR.getConfig()).thenReturn(prpToPass);
-//		when(mockedLBFR.getNumberOfTransactionInFile()).thenReturn(0);
-//		when(mockedLBFR.getMaxAllowedTransactionsPerFile()).thenReturn(1);
-//		
-////		LitleBatchRequest litleBatchRequest = litleBatchFileRequest.createBatch("101");
-//		LitleBatchRequest objToTest = new LitleBatchRequest("101", mockedLBFR);
-//		try{
-//			objToTest.addTransaction(null);
-//		} catch(LitleBatchException e){
-//			
-//		}
-//		objToTest.addTransaction(null);
-//		//litleBatchFileRequest.sendToLitle();
-//	}
-	
-//	@Test
-//	public void testSendFileToIBC() throws Exception {
-//		File file = new File("/usr/local/litle-home/rraman/Requests/fileToPass1365454351441.xml");
-//		//String responsePath = "/usr/local/litle-home/rraman/Responses/LitleResponse.xml";
-//		Communication comm = new Communication();
-//		Properties config = new Properties();
-//		config.setProperty("batchHost", "l-rraman-ws490");
-//		config.setProperty("batchPort", "2104");
-//		config.setProperty("batchTcpTimeout", "100000");
-//		config.setProperty("batchUseSSL", "false");
-//		//LitleBatchFileResponse litleBatchFileResponse = new LitleBatchFileResponse();
-//		comm.sendLitleBatchFileToIBC(file, config);
-//	}
 	
 	@Test
 	public void testInitializeMembers() throws Exception {
@@ -190,7 +52,7 @@ public class TestLitleBatchFileRequest {
 		configToPass.setProperty("username", "usr1");
 		configToPass.setProperty("password", "pass");
 		
-		litleBatchFileRequest.intializeMembers("testfile", configToPass);
+		litleBatchFileRequest.intializeMembers("testFile.xml", configToPass);
 		
 		assertEquals(litleBatchFileRequest.getConfig().getProperty("username"), "usr1");
 		assertEquals(litleBatchFileRequest.getConfig().getProperty("password"), "pass");
@@ -198,11 +60,11 @@ public class TestLitleBatchFileRequest {
 	
 	@Test
 	public void testInitializeMembers_withoutPropertiesOverridden() throws Exception {
-		LitleBatchFileRequest lbfr = new LitleBatchFileRequest("testFile");
+		LitleBatchFileRequest lbfr = new LitleBatchFileRequest("testFile.xml");
 		boolean hadException = false;
 		
 		try{
-			lbfr.intializeMembers("testFile", null);
+			lbfr.intializeMembers("testFile.xml", null);
 		} catch (Exception e){
 			hadException = true;
 		}
@@ -247,7 +109,6 @@ public class TestLitleBatchFileRequest {
 		assertTrue(!fileToBeWritten.exists());
 		
 		Communication mockedCommunication = mock(Communication.class);
-		//when(mockedCommunication.sendLitleBatchFileToIBC(any(File.class), any(File.class), any(Properties.class))).thenReturn(fileToReturn);
 		doNothing().when(mockedCommunication).sendLitleBatchFileToIBC(any(File.class), any(File.class), any(Properties.class));
 		
 		File responseFile = new File("test/unit/responseFolder/testFile.xml");
@@ -287,7 +148,7 @@ public class TestLitleBatchFileRequest {
 		property.setProperty("batchTcpTimeout", "10000");
 		property.setProperty("batchUseSSL", "false");
 		property.setProperty("merchantId", "101");
-		litleBatchFileRequest = new LitleBatchFileRequest("testFile", property);
+		litleBatchFileRequest = new LitleBatchFileRequest("testFile.xml", property);
 		
 		assertTrue(!litleBatchFileRequest.isFull());
 		
