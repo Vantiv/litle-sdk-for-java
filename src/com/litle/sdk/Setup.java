@@ -18,9 +18,9 @@ public class Setup {
 			put("precert","https://precert.litle.com/vap/communicator/online");
 			put("production","https://payments.litle.com/vap/communicator/online");
 			put("batchsandbox","https://www.testlitle.com/sandbox");
-			put("batchcert","https://cert.litle.com");
-			put("batchprecert","https://precert.litle.com");
-			put("batchproduction", "https://payments.litle.com");
+			put("batchcert","cert.litle.com");
+			put("batchprecert","precert.litle.com");
+			put("batchproduction", "payments.litle.com");
 		}
 	};
 	
@@ -102,7 +102,7 @@ public class Setup {
 		lastUserInput = stdin.readLine();
 		config.put("batchTcpTimeout", ((lastUserInput.length() == 0) ? "7200000" : lastUserInput));
 		
-		System.out.print("\nBatch SDK generates files for Requests and Responses. You may leave these blank if you do not plan to use \nbatch processing. Please input a location to a folder with write permissions for: \n");
+		System.out.print("\nBatch SDK generates files for Requests and Responses. You may leave these blank if you do not plan to use \nbatch processing. Please input the absolute path to the folder with write permissions for: \n");
 		System.out.print("\tRequests: ");
 		config.put("batchRequestFolder", stdin.readLine());
 		

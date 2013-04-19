@@ -204,7 +204,7 @@ public class LitleBatchFileRequest {
 	}
 
 	File getFileToWrite(String locationKey) {
-		String fileName = this.requestFileName + ".xml";
+		String fileName = this.requestFileName;
 		String writeFolderPath = this.properties.getProperty(locationKey);
 		File fileToReturn = new File(writeFolderPath + File.separator + fileName);
 		
