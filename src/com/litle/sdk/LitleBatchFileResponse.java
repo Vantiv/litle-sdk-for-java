@@ -62,4 +62,24 @@ public class LitleBatchFileResponse {
 	public File getFile() {
 		return xmlFile;
 	}
+	
+	public long getLitleSessionId() {
+		return this.litleResponse.getLitleSessionId();
+	}
+	
+	public String getVersion() {
+		return this.litleResponse.getVersion();
+	}
+	
+	public String getResponse() {
+		return this.litleResponse.getResponse();
+	}
+	
+	public String getMessage() {
+		return this.litleResponse.getMessage();
+	}
+	
+	public String getId() {
+		return this.litleResponse.getId();
+	}
 }

@@ -23,6 +23,14 @@ public class LitleBatchResponse {
 		return this.batchResponse;
 	}
 	
+	public long getLitleBatchId() {
+		return this.batchResponse.getLitleBatchId();
+	}
+	
+	public String getMerchantId() {
+		return this.batchResponse.getMerchantId();
+	}
+	
 //	public int getNumberOfTransactions(){
 //		return this.batchResponse.getTransactionResponses().size();
 //	}
