@@ -72,6 +72,13 @@ public class Communication {
 		return xmlResponse;
 	}
 
+	/** 
+	 * This method is exclusively used for sending batch file to the communicator.
+	 * @param requestFile
+	 * @param responseFile
+	 * @param configuration
+	 * @throws IOException
+	 */
 	public void sendLitleBatchFileToIBC(File requestFile, File responseFile, Properties configuration) throws IOException {
 		String hostName = configuration.getProperty("batchHost");
 		String hostPort = configuration.getProperty("batchPort");
@@ -82,7 +89,7 @@ public class Communication {
 
 		streamData.dataOut(requestFile);
 
-		streamData.dataIn(responseFile);
+		streamData.dataIn(responseFile);		
 
 		streamData.closeSocket();
 	}

@@ -8,6 +8,9 @@ import javax.xml.bind.JAXBElement;
 import com.litle.sdk.generate.BatchResponse;
 import com.litle.sdk.generate.TransactionTypeWithReportGroup;
 
+/**
+ * Wrapper class to initialize the batch Responses
+ */
 public class LitleBatchResponse {
 	private BatchResponse batchResponse;
 	
@@ -39,6 +42,12 @@ public class LitleBatchResponse {
 		return new TransactionTypeIterator(batchResponse.getTransactionResponses());
 	}
 	
+	/** 
+	 * This sub class is helps the user to navigate through the objects to access the values of the
+	 * transaction responses.
+	 * This class also provides the iterator to navigate through the objects.
+	 *
+	 */
 	public static class TransactionTypeIterator implements Iterator<TransactionTypeWithReportGroup> {
 
 		private Iterator<JAXBElement<? extends TransactionTypeWithReportGroup>> baseIterator;

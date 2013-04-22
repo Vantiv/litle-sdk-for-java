@@ -73,9 +73,10 @@ public class StreamData {
     }
 
     /**
-     * This method will read a string from the socket.
+     * This method will write to the Response file from the socket.
      * 
-     * @return The string read from the socket
+     * @param File Empty response file to write to
+     * @return Void
      * @throws IOException when a read exception occurs
      */
     public void dataIn(File xmlResponseFile) throws IOException {
@@ -113,6 +114,13 @@ public class StreamData {
         socket.shutdownOutput();
     }
 
+    /**
+     * This method will read from the request file and write to the socket.
+     * 
+     * @param File Empty response file to write to
+     * @return Void
+     * @throws IOException when a read exception occurs
+     */
     public void dataOut(File file) throws IOException {
         BufferedOutputStream bos = new BufferedOutputStream(socket.getOutputStream());
         OutputStreamWriter osw = new OutputStreamWriter(bos, "UTF-8");

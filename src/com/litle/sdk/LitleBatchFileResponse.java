@@ -20,6 +20,12 @@ public class LitleBatchFileResponse {
 	private Unmarshaller unmarshaller;
 	private File xmlFile;
 	
+	/**
+	 * This constructor initializes the LitleBatchResponseList to the Response values.
+	 * @param xmlFile
+	 * @throws JAXBException
+	 */
+	
 	public LitleBatchFileResponse(File xmlFile) throws JAXBException{
 		// convert from xml to objects
 		
@@ -35,6 +41,11 @@ public class LitleBatchFileResponse {
 		wrapBatchResponses(litleResponse.getBatchResponses());
 	}
 	
+	/**
+	 * This constructor initializes the LitleBatchResponseList to the Response values.
+	 * @param xmlResponse
+	 * @throws JAXBException
+	 */
 	public LitleBatchFileResponse(String xmlResponse) throws JAXBException {
 		try {
 			jc = JAXBContext.newInstance("com.litle.sdk.generate");

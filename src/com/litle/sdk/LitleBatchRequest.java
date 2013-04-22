@@ -18,6 +18,12 @@ public class LitleBatchRequest {
 	protected int litleLimit_maxTransactionsPerBatch = 100000;
 	private final LitleBatchFileRequest lbfr;
 	
+	
+	/** 
+	 * This method initializes the batch level attributes of the XML and checks if the maxTransactionsPerBatch is not more than the value provided in the properties file
+	 * @param merchantId
+	 * @param lbfr
+	 */
 	LitleBatchRequest(String merchantId, LitleBatchFileRequest lbfr){
 		this.batchRequest = new BatchRequest();
 		this.batchRequest.setMerchantId(merchantId);
@@ -34,6 +40,11 @@ public class LitleBatchRequest {
 		return batchRequest;
 	}
 	
+	/**
+	 * This method is used to add transaction to a particular batch
+	 * @param transactionType
+	 * @return
+	 */
 	public TransactionCodeEnum addTransaction(TransactionType transactionType) {
 		TransactionCodeEnum batchFileStatus = verifyFileThresholds();
 		if( batchFileStatus == TransactionCodeEnum.FILEFULL){
@@ -79,6 +90,11 @@ public class LitleBatchRequest {
 			return TransactionCodeEnum.FAILURE;
 	}
 	
+	/**
+	 * This method makes sure that the maximum number of transactions per batch and file is not exceeded
+	 * This is to ensure Performance.
+	 * @return
+	 */
 	TransactionCodeEnum verifyFileThresholds(){
 		if( this.lbfr.getNumberOfTransactionInFile() == this.lbfr.getMaxAllowedTransactionsPerFile()){
 			return TransactionCodeEnum.FILEFULL;

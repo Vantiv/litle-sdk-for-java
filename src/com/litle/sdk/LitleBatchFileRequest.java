@@ -30,6 +30,10 @@ public class LitleBatchFileRequest {
 	private String requestId;
 	
 	protected int maxAllowedTransactionsPerFile;
+	
+	/**
+	 * Recommend NOT to change this value. 
+	 */
 	protected final int litleLimit_maxAllowedTransactionsPerFile = 500000;
 
 	/**
@@ -41,7 +45,9 @@ public class LitleBatchFileRequest {
 	}
 	
 	/**
-	 * Construct a LitleBatchFileRequest specifying the configuration in code. This should
+	 * Construct a LitleBatchFileRequest specifying the file name for the request (ex: filename: TestFile.xml
+	 * the extension should be provided if the file has to generated in certain format like xml or txt etc) and 
+	 * configuration in code. This should
 	 * be used by integrations that have another way to specify their
 	 * configuration settings (ofbiz, etc)
 	 * 
@@ -50,10 +56,12 @@ public class LitleBatchFileRequest {
 	 * batchHost (eg https://payments.litle.com) batchPort (eg 8080) 
 	 * username merchantId password version (eg
 	 * 8.10) batchTcpTimeout (in seconds) batchUseSSL
+	 * BatchRequestPath folder - specify the absolute path
+	 * BatchResponsePath folder - specify the absolute path
 	 * Optional properties are: proxyHost proxyPort
 	 * printxml (possible values "true" and "false" - defaults to false)
 	 * 
-	 * @param config
+	 * @param RequestFileName, config
 	 */
 	public LitleBatchFileRequest(String requestFileName, Properties config) {
 		intializeMembers(requestFileName, config);
@@ -111,8 +119,33 @@ public class LitleBatchFileRequest {
 		return litleBatchRequest;
 	}
 
-	public void generateRawFile() {
+	/**
+	 * This method generates the response file alone. To generate the response object call
+	 * sendToLitle method.
+	 * 
+	 * @throws LitleBatchException
+	 */
+	public void generateRawFile() throws LitleBatchException {
+		try {
+			LitleRequest litleRequest = buildLitleRequest();
 
+			// Code to write to the file directly 
+			File localFile = getFileToWrite("batchRequestFolder");
+			OutputStream os = new FileOutputStream(localFile.getAbsolutePath());
+			Marshaller marshaller = jc.createMarshaller();
+			marshaller.marshal(litleRequest, os);
+			requestFile = localFile;
+			communication.sendLitleBatchFileToIBC(localFile, responseFile, properties);
+		}
+		catch (JAXBException ume) {
+			throw new LitleBatchException(
+					"Error validating xml data against the schema", ume);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			throw new LitleBatchException(
+					"Error while sending batch", e);
+		}
+		
 	}
 	
 	public File getFile() {
@@ -159,28 +192,18 @@ public class LitleBatchFileRequest {
 		return totalNumberOfTransactions;
 	}
 
+	/**
+	 * This method generates the response file and the objects to access the transaction responses.
+	 * 
+	 * @throws LitleBatchException
+	 */
 	public LitleBatchFileResponse sendToLitle() throws LitleBatchException {
 		try {
-			LitleRequest litleRequest = buildLitleRequest();
-
-			// Code to write to the file directly 
-			File localFile = getFileToWrite("batchRequestFolder");
-			OutputStream os = new FileOutputStream(localFile.getAbsolutePath());
-			Marshaller marshaller = jc.createMarshaller();
-			marshaller.marshal(litleRequest, os);
-			requestFile = localFile;
-			
-			communication.sendLitleBatchFileToIBC(localFile, responseFile, properties);
-			
+			generateRawFile();
 			LitleBatchFileResponse retObj = new LitleBatchFileResponse(responseFile);
 			return retObj;
-		} catch (JAXBException ume) {
-			throw new LitleBatchException(
-					"Error validating xml data against the schema", ume);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			throw new LitleBatchException(
-					"Error while sending batch", e);
+		} catch (JAXBException e) {
+			throw new LitleBatchException("There was a JAXB exception.", e);
 		}
 	}
 	
@@ -192,6 +215,10 @@ public class LitleBatchFileRequest {
 		this.requestId = id;
 	}
 
+	/**
+	 * This method initializes the high level properties for the XML(ex: initializes the user name and password for the presenter)
+	 * @return
+	 */
 	private LitleRequest buildLitleRequest() {
 		Authentication authentication = new Authentication();
 		authentication.setPassword(this.properties.getProperty("password"));
@@ -213,6 +240,11 @@ public class LitleBatchFileRequest {
 		return litleRequest;
 	}
 
+	/**
+	 * This method gets the folder path of either the request or reposne.
+	 * @param locationKey
+	 * @return
+	 */
 	File getFileToWrite(String locationKey) {
 		String fileName = this.requestFileName;
 		String writeFolderPath = this.properties.getProperty(locationKey);
