@@ -226,9 +226,7 @@ public class LitleBatchFileRequest {
 		
 		LitleRequest litleRequest = new LitleRequest();
 		if(requestId == null) {
-			if(requestId.length() != 0 ){
-				litleRequest.setId(requestId);
-			}	
+			litleRequest.setId(requestId);	
 		}
 		litleRequest.setAuthentication(authentication);
 		litleRequest.setVersion(this.properties.getProperty("version"));
