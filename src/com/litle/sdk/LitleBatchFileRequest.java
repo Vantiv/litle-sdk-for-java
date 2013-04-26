@@ -258,7 +258,7 @@ public class LitleBatchFileRequest {
 		authentication.setPassword(this.properties.getProperty("password"));
 		authentication.setUser(this.properties.getProperty("username"));
 		LitleRequest litleRequest = new LitleRequest();
-		if(requestId == null) {
+		if(requestId != null && requestId.length() != 0) {
 			litleRequest.setId(requestId);	
 		}
 		litleRequest.setAuthentication(authentication);
