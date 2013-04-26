@@ -12,6 +12,7 @@ import static org.mockito.Mockito.verify;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -19,6 +20,7 @@ import java.util.List;
 import java.util.Properties;
 
 import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -90,14 +92,14 @@ public class TestLitleBatchRequest {
 	}
 	
 	@Test
-	public void testGetNumberOfTransactions(){
+	public void testGetNumberOfTransactions() throws FileNotFoundException, JAXBException{
 		assertEquals(litleBatchRequest.getNumberOfTransactions(), 0);
 		litleBatchRequest.addTransaction(createTestSale(100L, "100"));
 		assertEquals(litleBatchRequest.getNumberOfTransactions(), 1);
 	}
 	
 	@Test
-	public void testIsFull(){
+	public void testIsFull() throws FileNotFoundException, JAXBException{
 		assertTrue(!litleBatchRequest.isFull());
 		litleBatchRequest.addTransaction(createTestSale(100L, "100"));
 		litleBatchRequest.addTransaction(createTestSale(100L, "100"));
@@ -106,7 +108,7 @@ public class TestLitleBatchRequest {
 	}
 	
 	@Test
-	public void testVerifyFileThresholds(){
+	public void testVerifyFileThresholds() throws FileNotFoundException, JAXBException{
 
 		litleBatchRequest.addTransaction(createTestSale(100L, "100"));
 		litleBatchRequest.addTransaction(createTestSale(100L, "100"));
@@ -121,7 +123,7 @@ public class TestLitleBatchRequest {
 	}
 	
 	@Test
-	public void testAddTransaction(){
+	public void testAddTransaction() throws FileNotFoundException, JAXBException{
 		assertEquals(litleBatchRequest.addTransaction(createTestSale(100L, "100")), TransactionCodeEnum.SUCCESS);
 		assertEquals(litleBatchRequest.addTransaction(createTestSale(100L, "100")), TransactionCodeEnum.SUCCESS);
 		assertEquals(litleBatchRequest.addTransaction(createTestSale(100L, "100")), TransactionCodeEnum.BATCHFULL);

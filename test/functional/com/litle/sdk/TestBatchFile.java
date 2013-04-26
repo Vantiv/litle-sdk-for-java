@@ -7,8 +7,11 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.Properties;
+
+import javax.xml.bind.JAXBException;
 
 import org.junit.Test;
 
@@ -87,7 +90,7 @@ public class TestBatchFile {
 		assertGeneratedFiles(workingDirRequests, workingDirResponses, requestFileName, request, response);
 	}
 
-	private void prepareTestRequest(LitleBatchFileRequest request) {
+	private void prepareTestRequest(LitleBatchFileRequest request) throws FileNotFoundException, JAXBException {
 		LitleBatchRequest batchRequest1 = request.createBatch("101");
 		Sale sale11 = new Sale();
 		sale11.setReportGroup("reportGroup11");
@@ -135,7 +138,7 @@ public class TestBatchFile {
 	}
 	
 	private void assertGeneratedFiles(String workingDirRequests, String workingDirResponses, String requestFileName,
-			LitleBatchFileRequest request, LitleBatchFileResponse response) throws Exception {
+		LitleBatchFileRequest request, LitleBatchFileResponse response) throws Exception {
 		File fRequest = request.getFile();
 		assertEquals(workingDirRequests + File.separator + requestFileName, fRequest.getAbsolutePath());
 		assertTrue(fRequest.exists());

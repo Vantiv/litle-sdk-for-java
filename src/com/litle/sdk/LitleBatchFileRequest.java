@@ -27,7 +27,10 @@ public class LitleBatchFileRequest {
 	private String requestFileName;
 	private File requestFile;
 	private File responseFile;
+	private File tempBatchRequestFile;
+	private File tempLitleRequestFile;
 	private String requestId;
+	private Marshaller marshaller;
 	
 	protected int maxAllowedTransactionsPerFile;
 	
@@ -78,6 +81,9 @@ public class LitleBatchFileRequest {
 			this.communication = new Communication();
 			this.litleBatchRequestList = new ArrayList<LitleBatchRequest>();
 			this.requestFileName = requestFileName;
+			marshaller = jc.createMarshaller();
+			marshaller.setProperty(Marshaller.JAXB_FRAGMENT, true);
+			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 			
 			if( config == null || config.isEmpty() ){
 				this.properties = new Properties();
@@ -113,7 +119,7 @@ public class LitleBatchFileRequest {
 		return this.properties;
 	}
 
-	public LitleBatchRequest createBatch(String merchantId) {
+	public LitleBatchRequest createBatch(String merchantId) throws FileNotFoundException, JAXBException {
 		LitleBatchRequest litleBatchRequest = new LitleBatchRequest(merchantId, this);
 		litleBatchRequestList.add(litleBatchRequest);
 		return litleBatchRequest;
@@ -124,8 +130,9 @@ public class LitleBatchFileRequest {
 	 * sendToLitle method.
 	 * 
 	 * @throws LitleBatchException
+	 * @throws JAXBException 
 	 */
-	public void generateRawFile() throws LitleBatchException {
+	public void generateRequestFile() throws LitleBatchException, JAXBException {
 		try {
 			LitleRequest litleRequest = buildLitleRequest();
 
@@ -135,12 +142,8 @@ public class LitleBatchFileRequest {
 			Marshaller marshaller = jc.createMarshaller();
 			marshaller.marshal(litleRequest, os);
 			requestFile = localFile;
-			communication.sendLitleBatchFileToIBC(localFile, responseFile, properties);
 		}
-		catch (JAXBException ume) {
-			throw new LitleBatchException(
-					"Error validating xml data against the schema", ume);
-		} catch (IOException e) {
+		 catch (IOException e) {
 			// TODO Auto-generated catch block
 			throw new LitleBatchException(
 					"Error while sending batch", e);
@@ -199,11 +202,42 @@ public class LitleBatchFileRequest {
 	 */
 	public LitleBatchFileResponse sendToLitle() throws LitleBatchException {
 		try {
-			generateRawFile();
+			java.util.Date date= new java.util.Date();
+			this.tempBatchRequestFile = new File("/tmp/tempBatchFile"+ date.getTime());
+			OutputStream batchReqWriter = new FileOutputStream(tempBatchRequestFile.getAbsoluteFile());
+			//close the all the batch files
+			byte[] readData = new byte[1024];
+			for(LitleBatchRequest batchReq: litleBatchRequestList) {
+				//TODO add the batch transaction before the closing tag
+				FileInputStream fis = new FileInputStream(batchReq.getFile());
+			      int i = fis.read(readData);
+
+			      while (i != -1) {
+			    	batchReqWriter.write(readData, 0, i);
+			        i = fis.read(readData);
+			      }
+				marshaller.marshal(batchReq, batchReqWriter);
+				batchReq.closeFile();
+				fis.close();
+			}		
+			//close the file
+			batchReqWriter.close();
+			//create a file for writing the litlerequest
+			this.tempLitleRequestFile = new File("/tmp/tempLitleRequestFile"+ date.getTime());
+			
+			//close it
+			generateRequestFile();
+			
+			//communication.sendLitleBatchFileToIBC(tempBatchRequestFile, responseFile, properties);
+			
 			LitleBatchFileResponse retObj = new LitleBatchFileResponse(responseFile);
 			return retObj;
+			
 		} catch (JAXBException e) {
 			throw new LitleBatchException("There was a JAXB exception.", e);
+		}
+		catch (IOException e) {
+			throw new LitleBatchException("There was a IO exception.", e);
 		}
 	}
 	
@@ -231,9 +265,9 @@ public class LitleBatchFileRequest {
 		litleRequest.setVersion(this.properties.getProperty("version"));
 		BigInteger numOfBatches = BigInteger.valueOf(this.litleBatchRequestList.size());
 		litleRequest.setNumBatchRequests(numOfBatches);
-		for(LitleBatchRequest lbr : this.litleBatchRequestList) {
-			litleRequest.getBatchRequests().add(lbr.getBatchRequest());
-		}
+//		for(LitleBatchRequest lbr : this.litleBatchRequestList) {
+//			litleRequest.getBatchRequests().add(lbr.getBatchRequest());
+//		}
 		return litleRequest;
 	}
 

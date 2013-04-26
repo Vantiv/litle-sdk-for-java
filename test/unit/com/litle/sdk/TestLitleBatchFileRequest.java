@@ -9,8 +9,11 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
+
+import javax.xml.bind.JAXBException;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -73,7 +76,7 @@ public class TestLitleBatchFileRequest {
 	}
 	
 	@Test
-	public void testCreateBatchAndGetNumberOfBatches() {
+	public void testCreateBatchAndGetNumberOfBatches() throws FileNotFoundException, JAXBException {
 		assertEquals(litleBatchFileRequest.getNumberOfBatches(), 0);
 		
 		LitleBatchRequest testBatch = litleBatchFileRequest.createBatch("101");
@@ -83,7 +86,7 @@ public class TestLitleBatchFileRequest {
 	}
 	
 	@Test
-	public void testGetNumberOfTransactionInFile() {
+	public void testGetNumberOfTransactionInFile() throws FileNotFoundException, JAXBException {
 		assertEquals(litleBatchFileRequest.getNumberOfTransactionInFile(), 0);
 		
 		LitleBatchRequest testBatch = litleBatchFileRequest.createBatch("101");
@@ -124,7 +127,7 @@ public class TestLitleBatchFileRequest {
 	}
 	
 	@Test
-	public void testIsEmpty(){
+	public void testIsEmpty() throws FileNotFoundException, JAXBException{
 		// right off from scratch, batchFileRequest should have no records.
 		assertTrue(litleBatchFileRequest.isEmpty());
 		
@@ -135,7 +138,7 @@ public class TestLitleBatchFileRequest {
 	}
 	
 	@Test
-	public void testIsFull(){
+	public void testIsFull() throws FileNotFoundException, JAXBException{
 		// right off from scratch, batchFileRequest should have no records and hence not full.
 		Properties property = new Properties();
 		property.setProperty("username", "PHXMLTEST");
