@@ -5,11 +5,9 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.math.BigInteger;
 
 import java.sql.Timestamp;
-import java.util.Date;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -53,8 +51,12 @@ public class LitleBatchRequest {
 		this.batchRequest.setMerchantId(merchantId);
 		this.objFac = new ObjectFactory();
 		this.lbfr = lbfr;
+		File tmpFile = new File(lbfr.getConfig().getProperty("batchRequestFolder")+"/tmp");
+		if(!tmpFile.exists()) {
+			tmpFile.mkdir();
+		}
 		java.util.Date date= new java.util.Date();
-		filePath = new String("/tmp/BatchFile"+ merchantId + new Timestamp(date.getTime()));
+		filePath = new String(lbfr.getConfig().getProperty("batchRequestFolder")+ "/tmp/Transactions" +merchantId + new Timestamp(date.getTime()));
 		numOfTxn = 0;
 		this.jc = JAXBContext.newInstance("com.litle.sdk.generate");
 		marshaller = jc.createMarshaller();
@@ -167,5 +169,6 @@ public class LitleBatchRequest {
 	public File getFile() {
 		return this.file;
 	}
+
 	
 }

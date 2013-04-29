@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.StringWriter;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,14 +29,14 @@ public class LitleBatchFileRequest {
 	private File requestFile;
 	private File responseFile;
 	private File tempBatchRequestFile;
-	private File tempLitleRequestFile;
+	//private File tempLitleRequestFile;
 	private String requestId;
 	private Marshaller marshaller;
-	
+
 	protected int maxAllowedTransactionsPerFile;
-	
+
 	/**
-	 * Recommend NOT to change this value. 
+	 * Recommend NOT to change this value.
 	 */
 	protected final int litleLimit_maxAllowedTransactionsPerFile = 500000;
 
@@ -46,127 +47,151 @@ public class LitleBatchFileRequest {
 	public LitleBatchFileRequest(String requestFileName) {
 		intializeMembers(requestFileName);
 	}
-	
+
 	/**
-	 * Construct a LitleBatchFileRequest specifying the file name for the request (ex: filename: TestFile.xml
-	 * the extension should be provided if the file has to generated in certain format like xml or txt etc) and 
-	 * configuration in code. This should
-	 * be used by integrations that have another way to specify their
-	 * configuration settings (ofbiz, etc)
+	 * Construct a LitleBatchFileRequest specifying the file name for the
+	 * request (ex: filename: TestFile.xml the extension should be provided if
+	 * the file has to generated in certain format like xml or txt etc) and
+	 * configuration in code. This should be used by integrations that have
+	 * another way to specify their configuration settings (ofbiz, etc)
 	 * 
 	 * Properties that *must* be set are:
 	 * 
-	 * batchHost (eg https://payments.litle.com) batchPort (eg 8080) 
-	 * username merchantId password version (eg
-	 * 8.10) batchTcpTimeout (in seconds) batchUseSSL
-	 * BatchRequestPath folder - specify the absolute path
-	 * BatchResponsePath folder - specify the absolute path
-	 * Optional properties are: proxyHost proxyPort
-	 * printxml (possible values "true" and "false" - defaults to false)
+	 * batchHost (eg https://payments.litle.com) batchPort (eg 8080) username
+	 * merchantId password version (eg 8.10) batchTcpTimeout (in seconds)
+	 * batchUseSSL BatchRequestPath folder - specify the absolute path
+	 * BatchResponsePath folder - specify the absolute path Optional properties
+	 * are: proxyHost proxyPort printxml (possible values "true" and "false" -
+	 * defaults to false)
 	 * 
-	 * @param RequestFileName, config
+	 * @param RequestFileName
+	 *            , config
 	 */
 	public LitleBatchFileRequest(String requestFileName, Properties config) {
 		intializeMembers(requestFileName, config);
 	}
-	
-	private void intializeMembers(String requestFileName){
+
+	private void intializeMembers(String requestFileName) {
 		intializeMembers(requestFileName, null);
 	}
-	
-	public void intializeMembers(String requestFileName, Properties config){
+
+	public void intializeMembers(String requestFileName, Properties config) {
 		try {
 			this.jc = JAXBContext.newInstance("com.litle.sdk.generate");
-			
+
 			this.communication = new Communication();
 			this.litleBatchRequestList = new ArrayList<LitleBatchRequest>();
 			this.requestFileName = requestFileName;
 			marshaller = jc.createMarshaller();
 			marshaller.setProperty(Marshaller.JAXB_FRAGMENT, true);
 			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-			
-			if( config == null || config.isEmpty() ){
+
+			if (config == null || config.isEmpty()) {
 				this.properties = new Properties();
 				this.properties.load(new FileInputStream(Configuration.location()));
 			} else {
 				fillInMissingFieldsFromConfig(config);
 				this.properties = config;
 			}
-			
+
 			this.maxAllowedTransactionsPerFile = Integer.parseInt(properties.getProperty("maxAllowedTransactionsPerFile"));
-			if( maxAllowedTransactionsPerFile > litleLimit_maxAllowedTransactionsPerFile ){
-				throw new LitleBatchException("maxAllowedTransactionsPerFile property value cannot exceed " + String.valueOf(litleLimit_maxAllowedTransactionsPerFile));
+			if (maxAllowedTransactionsPerFile > litleLimit_maxAllowedTransactionsPerFile) {
+				throw new LitleBatchException("maxAllowedTransactionsPerFile property value cannot exceed "
+								+ String.valueOf(litleLimit_maxAllowedTransactionsPerFile));
 			}
-			
+
 			responseFile = getFileToWrite("batchResponseFolder");
-			
+
 		} catch (FileNotFoundException e) {
-			throw new LitleBatchException("Configuration file not found. If you are not using the .litle_SDK_config.properties file, please use the LitleOnline(Properties) constructor.  If you are using .litle_SDK_config.properties, you can generate one using java -jar litle-sdk-for-java-8.10.jar", e);
+			throw new LitleBatchException(
+					"Configuration file not found. If you are not using the .litle_SDK_config.properties file, please use the LitleOnline(Properties) constructor.  If you are using .litle_SDK_config.properties, you can generate one using java -jar litle-sdk-for-java-8.10.jar", e);
 		} catch (IOException e) {
 			throw new LitleBatchException(
-					"Configuration file could not be loaded.  Check to see if the user running this has permission to access the file",
-					e);
+					"Configuration file could not be loaded.  Check to see if the user running this has permission to access the file", e);
 		} catch (JAXBException e) {
-			throw new LitleBatchException("Unable to load jaxb dependencies.  Perhaps a classpath issue?", e);
+			throw new LitleBatchException(
+					"Unable to load jaxb dependencies.  Perhaps a classpath issue?", e);
 		}
 	}
 
 	protected void setCommunication(Communication communication) {
 		this.communication = communication;
 	}
-	
-	Properties getConfig(){
+
+	Properties getConfig() {
 		return this.properties;
 	}
 
-	public LitleBatchRequest createBatch(String merchantId) throws FileNotFoundException, JAXBException {
+	public LitleBatchRequest createBatch(String merchantId)
+			throws FileNotFoundException, JAXBException {
 		LitleBatchRequest litleBatchRequest = new LitleBatchRequest(merchantId, this);
 		litleBatchRequestList.add(litleBatchRequest);
 		return litleBatchRequest;
 	}
 
 	/**
-	 * This method generates the response file alone. To generate the response object call
-	 * sendToLitle method.
+	 * This method generates the request file alone. To generate the response
+	 * object call sendToLitle method.
 	 * 
 	 * @throws LitleBatchException
-	 * @throws JAXBException 
+	 * @throws JAXBException
 	 */
 	public void generateRequestFile() throws LitleBatchException, JAXBException {
 		try {
 			LitleRequest litleRequest = buildLitleRequest();
 
-			// Code to write to the file directly 
+			// Code to write to the file directly
 			File localFile = getFileToWrite("batchRequestFolder");
-			OutputStream os = new FileOutputStream(localFile.getAbsolutePath());
+			StringWriter sw = new StringWriter();
 			Marshaller marshaller = jc.createMarshaller();
-			marshaller.marshal(litleRequest, os);
+			marshaller.marshal(litleRequest, sw);
+			String xmlRequest = sw.toString();
+			
+			xmlRequest = xmlRequest.replace("</litleRequest>", " ");
+			
+			OutputStream litleReqWriter = new FileOutputStream(localFile);
+			FileInputStream fis = new FileInputStream(tempBatchRequestFile);
+			byte[] readData = new byte[1024];
+			litleReqWriter.write(xmlRequest.getBytes());
+			int i = fis.read(readData);
+
+			while (i != -1) {
+				litleReqWriter.write(readData, 0, i);
+				i = fis.read(readData);
+			}
+			litleReqWriter.write(("</litleRequest>\n").getBytes());
+			//marshaller.marshal(litleRequest, os);
 			requestFile = localFile;
-		}
-		 catch (IOException e) {
+			fis.close();
+			tempBatchRequestFile.delete();
+			litleReqWriter.close();
+		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			throw new LitleBatchException(
-					"Error while sending batch", e);
+			throw new LitleBatchException("Error while sending batch", e);
 		}
-		
+
 	}
-	
+
 	public File getFile() {
 		return requestFile;
 	}
 
-	public int getMaxAllowedTransactionsPerFile(){
+	public int getMaxAllowedTransactionsPerFile() {
 		return this.maxAllowedTransactionsPerFile;
 	}
-	
+
 	void fillInMissingFieldsFromConfig(Properties config) {
 		Properties localConfig = new Properties();
 		boolean propertiesReadFromFile = false;
 		try {
-			String[] allProperties = {"username","password","proxyHost","proxyPort","version","batchHost","batchPort","batchTcpTimeout","batchUseSSL","maxAllowedTransactionsPerFile","maxTransactionsPerBatch", "batchRequestFolder", "batchResponseFolder"};
-			for(String prop : allProperties){
-				if(config.getProperty(prop) == null) {
-					if(!propertiesReadFromFile){
+			String[] allProperties = { "username", "password", "proxyHost",
+					"proxyPort", "version", "batchHost", "batchPort",
+					"batchTcpTimeout", "batchUseSSL",
+					"maxAllowedTransactionsPerFile", "maxTransactionsPerBatch",
+					"batchRequestFolder", "batchResponseFolder" };
+			for (String prop : allProperties) {
+				if (config.getProperty(prop) == null) {
+					if (!propertiesReadFromFile) {
 						localConfig.load(new FileInputStream(Configuration.location()));
 						propertiesReadFromFile = true;
 					}
@@ -174,7 +199,8 @@ public class LitleBatchFileRequest {
 				}
 			}
 		} catch (FileNotFoundException e) {
-			throw new LitleBatchException("File was not found: " + Configuration.location(), e);
+			throw new LitleBatchException("File was not found: "
+					+ Configuration.location(), e);
 		} catch (IOException e) {
 			throw new LitleBatchException("There was an IO exception.", e);
 		}
@@ -196,61 +222,74 @@ public class LitleBatchFileRequest {
 	}
 
 	/**
-	 * This method generates the response file and the objects to access the transaction responses.
+	 * This method generates the request and response file and the objects to access the
+	 * transaction responses.
 	 * 
 	 * @throws LitleBatchException
 	 */
 	public LitleBatchFileResponse sendToLitle() throws LitleBatchException {
 		try {
-			java.util.Date date= new java.util.Date();
-			this.tempBatchRequestFile = new File("/tmp/tempBatchFile"+ date.getTime());
+			
+			String writeFolderPath = this.properties.getProperty("batchRequestFolder");
+			
+			tempBatchRequestFile = new File(writeFolderPath+ "/tmp/tempBatchFileTesting");
 			OutputStream batchReqWriter = new FileOutputStream(tempBatchRequestFile.getAbsoluteFile());
-			//close the all the batch files
+			// close the all the batch files
 			byte[] readData = new byte[1024];
-			for(LitleBatchRequest batchReq: litleBatchRequestList) {
-				//TODO add the batch transaction before the closing tag
-				FileInputStream fis = new FileInputStream(batchReq.getFile());
-			      int i = fis.read(readData);
-
-			      while (i != -1) {
-			    	batchReqWriter.write(readData, 0, i);
-			        i = fis.read(readData);
-			      }
-				marshaller.marshal(batchReq, batchReqWriter);
+			for (LitleBatchRequest batchReq : litleBatchRequestList) {
+				// TODO add the batch transaction before the closing tag
 				batchReq.closeFile();
+				StringWriter sw = new StringWriter();
+				marshaller.marshal(batchReq.getBatchRequest(), sw);
+				String xmlRequest = sw.toString();
+
+				xmlRequest = xmlRequest.replaceFirst("/>", ">");
+
+				FileInputStream fis = new FileInputStream(batchReq.getFile());
+				
+				batchReqWriter.write(xmlRequest.getBytes());
+				int i = fis.read(readData);
+
+				while (i != -1) {
+					batchReqWriter.write(readData, 0, i);
+					i = fis.read(readData);
+				}
+				
+				batchReqWriter.write(("</batchRequest>\n").getBytes());
 				fis.close();
-			}		
-			//close the file
+				batchReq.getFile().delete();
+				
+			}
+			// close the file
 			batchReqWriter.close();
-			//create a file for writing the litlerequest
-			this.tempLitleRequestFile = new File("/tmp/tempLitleRequestFile"+ date.getTime());
-			
-			//close it
 			generateRequestFile();
-			
-			//communication.sendLitleBatchFileToIBC(tempBatchRequestFile, responseFile, properties);
-			
+			File tmpFile = new File(writeFolderPath+"/tmp");
+			if(tmpFile.exists()) {
+				tmpFile.delete();
+			}
+			communication.sendLitleBatchFileToIBC(requestFile, responseFile, properties);
 			LitleBatchFileResponse retObj = new LitleBatchFileResponse(responseFile);
 			return retObj;
-			
+
 		} catch (JAXBException e) {
 			throw new LitleBatchException("There was a JAXB exception.", e);
-		}
-		catch (IOException e) {
+		} catch (IOException e) {
 			throw new LitleBatchException("There was a IO exception.", e);
 		}
 	}
-	
-	void setResponseFile(File inFile){
+
+	void setResponseFile(File inFile) {
 		this.responseFile = inFile;
 	}
-	
-	void setId(String id){
+
+	void setId(String id) {
 		this.requestId = id;
 	}
 
 	/**
-	 * This method initializes the high level properties for the XML(ex: initializes the user name and password for the presenter)
+	 * This method initializes the high level properties for the XML(ex:
+	 * initializes the user name and password for the presenter)
+	 * 
 	 * @return
 	 */
 	private LitleRequest buildLitleRequest() {
@@ -258,29 +297,31 @@ public class LitleBatchFileRequest {
 		authentication.setPassword(this.properties.getProperty("password"));
 		authentication.setUser(this.properties.getProperty("username"));
 		LitleRequest litleRequest = new LitleRequest();
-		if(requestId == null) {
-			litleRequest.setId(requestId);	
+		if (requestId != null) {
+			litleRequest.setId(requestId);
 		}
 		litleRequest.setAuthentication(authentication);
 		litleRequest.setVersion(this.properties.getProperty("version"));
 		BigInteger numOfBatches = BigInteger.valueOf(this.litleBatchRequestList.size());
 		litleRequest.setNumBatchRequests(numOfBatches);
-//		for(LitleBatchRequest lbr : this.litleBatchRequestList) {
-//			litleRequest.getBatchRequests().add(lbr.getBatchRequest());
-//		}
+		// for(LitleBatchRequest lbr : this.litleBatchRequestList) {
+		// litleRequest.getBatchRequests().add(lbr.getBatchRequest());
+		// }
 		return litleRequest;
 	}
 
 	/**
 	 * This method gets the folder path of either the request or reposne.
+	 * 
 	 * @param locationKey
 	 * @return
 	 */
 	File getFileToWrite(String locationKey) {
 		String fileName = this.requestFileName;
 		String writeFolderPath = this.properties.getProperty(locationKey);
-		File fileToReturn = new File(writeFolderPath + File.separator + fileName);
-		
+		File fileToReturn = new File(writeFolderPath + File.separator
+				+ fileName);
+
 		if (!fileToReturn.getParentFile().exists()) {
 			fileToReturn.getParentFile().mkdir();
 		}
@@ -291,9 +332,9 @@ public class LitleBatchFileRequest {
 	public boolean isEmpty() {
 		return (getNumberOfTransactionInFile() == 0) ? true : false;
 	}
-	
+
 	public boolean isFull() {
 		return (getNumberOfTransactionInFile() == this.maxAllowedTransactionsPerFile);
 	}
-	
+
 }
