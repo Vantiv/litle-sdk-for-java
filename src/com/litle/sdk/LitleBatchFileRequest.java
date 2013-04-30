@@ -32,6 +32,7 @@ public class LitleBatchFileRequest {
 	//private File tempLitleRequestFile;
 	private String requestId;
 	private Marshaller marshaller;
+	private Configuration config = null;
 
 	protected int maxAllowedTransactionsPerFile;
 
@@ -67,18 +68,30 @@ public class LitleBatchFileRequest {
 	 * @param RequestFileName
 	 *            , config
 	 */
-	public LitleBatchFileRequest(String requestFileName, Properties config) {
-		intializeMembers(requestFileName, config);
+	public LitleBatchFileRequest(String requestFileName, Properties properties) {
+		intializeMembers(requestFileName, properties);
+	}
+	
+	/**
+	 * This constructor is primarily here for test purposes only.
+	 * @param requestFileName
+	 * @param config
+	 */
+	public LitleBatchFileRequest(String requestFileName, Configuration config) {
+		this.config = config;
+		intializeMembers(requestFileName, null);
 	}
 
 	private void intializeMembers(String requestFileName) {
 		intializeMembers(requestFileName, null);
 	}
 
-	public void intializeMembers(String requestFileName, Properties config) {
+	public void intializeMembers(String requestFileName, Properties in_properties) {
 		try {
 			this.jc = JAXBContext.newInstance("com.litle.sdk.generate");
-
+			if(config == null){
+				config = new Configuration();
+			}
 			this.communication = new Communication();
 			this.litleBatchRequestList = new ArrayList<LitleBatchRequest>();
 			this.requestFileName = requestFileName;
@@ -86,12 +99,12 @@ public class LitleBatchFileRequest {
 			marshaller.setProperty(Marshaller.JAXB_FRAGMENT, true);
 			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
-			if (config == null || config.isEmpty()) {
+			if (in_properties == null || in_properties.isEmpty()) {
 				this.properties = new Properties();
-				this.properties.load(new FileInputStream((new Configuration()).location()));
+				this.properties.load(new FileInputStream(config.location()));
 			} else {
-				fillInMissingFieldsFromConfig(config);
-				this.properties = config;
+				fillInMissingFieldsFromConfig(in_properties);
+				this.properties = in_properties;
 			}
 
 			this.maxAllowedTransactionsPerFile = Integer.parseInt(properties.getProperty("maxAllowedTransactionsPerFile"));

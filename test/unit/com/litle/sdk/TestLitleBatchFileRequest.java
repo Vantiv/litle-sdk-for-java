@@ -23,6 +23,8 @@ import com.litle.sdk.generate.MethodOfPaymentTypeEnum;
 import com.litle.sdk.generate.OrderSourceType;
 import com.litle.sdk.generate.Sale;
 
+import static org.mockito.Mockito.when;
+
 public class TestLitleBatchFileRequest {
 
     private static LitleBatchFileRequest litleBatchFileRequest;
@@ -63,7 +65,12 @@ public class TestLitleBatchFileRequest {
    
     @Test
     public void testInitializeMembers_withoutPropertiesOverridden() throws Exception {
-        LitleBatchFileRequest lbfr = new LitleBatchFileRequest("testFile.xml");
+        Configuration mockedConfig = mock(Configuration.class);
+        
+        File fileToReturn = new File("test/unit/testProperties/testProperties.txt");
+        when(mockedConfig.location()).thenReturn(fileToReturn);
+        
+    	LitleBatchFileRequest lbfr = new LitleBatchFileRequest("testFile.xml", mockedConfig);
         boolean hadException = false;
        
         try{

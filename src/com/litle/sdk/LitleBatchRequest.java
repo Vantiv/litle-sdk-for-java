@@ -73,11 +73,6 @@ public class LitleBatchRequest {
 		return batchRequest;
 	}
 	
-	void openFileAndStream() throws FileNotFoundException {
-		this.file = new File(filePath);
-		osWrttxn = new FileOutputStream(file.getAbsolutePath());
-	}
-	
 	/**
 	 * This method is used to add transaction to a particular batch
 	 * @param transactionType
@@ -87,7 +82,8 @@ public class LitleBatchRequest {
 	 */
 	public TransactionCodeEnum addTransaction(TransactionType transactionType) throws FileNotFoundException, JAXBException {
 		if (numOfTxn == 0) {
-			openFileAndStream();
+			this.file = new File(filePath);
+			osWrttxn = new FileOutputStream(file.getAbsolutePath());
 		}
 		
 		TransactionCodeEnum batchFileStatus = verifyFileThresholds();
