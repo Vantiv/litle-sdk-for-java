@@ -73,7 +73,7 @@ public class LitleOnline {
 		}
 		try {
 			config = new Properties();
-			config.load(new FileInputStream(Configuration.location()));
+			config.load(new FileInputStream((new Configuration()).location()));
 		} catch (FileNotFoundException e) {
 			throw new LitleOnlineException("Configuration file not found. If you are not using the .litle_SDK_config.properties file, please use the LitleOnline(Properties) constructor.  If you are using .litle_SDK_config.properties, you can generate one using java -jar litle-sdk-for-java-8.10.jar", e);
 		} catch (IOException e) {

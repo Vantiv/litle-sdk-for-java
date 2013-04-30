@@ -39,7 +39,7 @@ public class Setup {
 	 * @throws IOException 
 	 */
 	public static void main(String[] args) throws IOException {
-		File file = Configuration.location();
+		File file = (new Configuration()).location();
 		Properties config = new Properties();
 		PrintStream configFile = new PrintStream(file);
 		String lastUserInput;

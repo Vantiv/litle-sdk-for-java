@@ -88,7 +88,7 @@ public class LitleBatchFileRequest {
 
 			if (config == null || config.isEmpty()) {
 				this.properties = new Properties();
-				this.properties.load(new FileInputStream(Configuration.location()));
+				this.properties.load(new FileInputStream((new Configuration()).location()));
 			} else {
 				fillInMissingFieldsFromConfig(config);
 				this.properties = config;
@@ -190,17 +190,23 @@ public class LitleBatchFileRequest {
 					"maxAllowedTransactionsPerFile", "maxTransactionsPerBatch",
 					"batchRequestFolder", "batchResponseFolder" };
 			for (String prop : allProperties) {
+				// if the value of a property is not set, look at the Properties member of the class first, and the .properties file next.
 				if (config.getProperty(prop) == null) {
-					if (!propertiesReadFromFile) {
-						localConfig.load(new FileInputStream(Configuration.location()));
-						propertiesReadFromFile = true;
+					if ( this.properties.get(prop) != null ){
+						config.setProperty(prop, this.properties.getProperty(prop));
 					}
-					config.setProperty(prop, localConfig.getProperty(prop));
+					else{
+						if (!propertiesReadFromFile) {
+							localConfig.load(new FileInputStream((new Configuration()).location()));
+							propertiesReadFromFile = true;
+						}
+						config.setProperty(prop, localConfig.getProperty(prop));
+					}
 				}
 			}
 		} catch (FileNotFoundException e) {
 			throw new LitleBatchException("File was not found: "
-					+ Configuration.location(), e);
+					+ (new Configuration()).location(), e);
 		} catch (IOException e) {
 			throw new LitleBatchException("There was an IO exception.", e);
 		}
