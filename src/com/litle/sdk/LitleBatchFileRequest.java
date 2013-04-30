@@ -205,7 +205,7 @@ public class LitleBatchFileRequest {
 			for (String prop : allProperties) {
 				// if the value of a property is not set, look at the Properties member of the class first, and the .properties file next.
 				if (config.getProperty(prop) == null) {
-					if ( this.properties.get(prop) != null ){
+					if ( this.properties != null && this.properties.get(prop) != null ){
 						config.setProperty(prop, this.properties.getProperty(prop));
 					}
 					else{

@@ -86,6 +86,10 @@ public class TestLitleBatchRequest {
 		property.setProperty("batchTcpTimeout", "10000");
 		property.setProperty("batchUseSSL", "false");
 		property.setProperty("merchantId", "101");
+		property.setProperty("proxyHost", "");
+        property.setProperty("proxyPort", "");
+		property.setProperty("batchRequestFolder", "test/unit/requestFolder/");
+        property.setProperty("batchResponseFolder", "test/unit/responseFolder/");
 		litleBatchFileRequest = new LitleBatchFileRequest("testFile", property);
 		
 		litleBatchRequest = litleBatchFileRequest.createBatch("101");
