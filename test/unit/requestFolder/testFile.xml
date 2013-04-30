@@ -1,1 +1,1 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?><litleRequest xmlns="http://www.litle.com/schema" version="8.18" numBatchRequests="0"><authentication><user>PHXMLTEST</user><password>password</password></authentication></litleRequest>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><litleRequest version="8.18" numBatchRequests="0" xmlns="http://www.litle.com/schema"><authentication><user>PHXMLTEST</user><password>password</password></authentication> </litleRequest>

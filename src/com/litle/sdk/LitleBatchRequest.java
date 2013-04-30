@@ -112,6 +112,7 @@ public class LitleBatchRequest {
 			//Write the txn to a file
 			marshaller.marshal(objFac.createSale(sale), osWrttxn);
 			transactionAdded = true;
+			numOfTxn ++;
 		}
 		else if(transactionType instanceof Authorization) {
 			batchRequest.setNumAuths(batchRequest.getNumAuths().add(numToAdd));
@@ -122,6 +123,7 @@ public class LitleBatchRequest {
 			
 			marshaller.marshal(objFac.createAuthorization(auth), osWrttxn);
 			transactionAdded = true;
+			numOfTxn ++;
 		}
 		
 		batchFileStatus = verifyFileThresholds();
@@ -132,7 +134,6 @@ public class LitleBatchRequest {
 		}
 		
 		if (transactionAdded) {
-			numOfTxn ++;
 			return TransactionCodeEnum.SUCCESS;
 		}
 		else
@@ -155,7 +156,7 @@ public class LitleBatchRequest {
 	}
 	
 	public int getNumberOfTransactions(){
-		return (1);
+		return (numOfTxn);
 	}
 	
 	public boolean isFull() {

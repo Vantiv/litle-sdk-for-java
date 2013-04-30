@@ -4,6 +4,7 @@
 	<classpathentry kind="src" path="test/functional"/>
 	<classpathentry kind="src" path="test/certification"/>
 	<classpathentry kind="src" path="test/unit"/>
+	<classpathentry kind="src" path="generated"/>
 	<classpathentry kind="lib" path="lib/jaxb/lib/jaxb-xjc.jar"/>
 	<classpathentry kind="lib" path="lib/junit/junit-4.8.2.jar"/>
 	<classpathentry kind="lib" path="lib/apache-commons/commons-logging-1.1.1.jar"/>

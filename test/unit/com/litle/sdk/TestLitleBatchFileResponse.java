@@ -23,7 +23,7 @@ public class TestLitleBatchFileResponse {
 	
 	@Before
 	public void before() throws Exception {
-		file = new File("testFile.xml");
+		file = new File("test/unit/responseFolder/testFile.xml");
 		litleBatchFileResponse = new LitleBatchFileResponse(file);
 	}
 	
@@ -43,7 +43,7 @@ public class TestLitleBatchFileResponse {
 	@Test
 	public void testConstructorWithString() throws Exception {
 		List<LitleBatchResponse> litleBatchResponseList = new ArrayList<LitleBatchResponse>();
-		String xmlResponseString = new Scanner(new File("testFile.xml")).useDelimiter("\\Z").next();
+		String xmlResponseString = new Scanner(new File("test/unit/responseFolder/testFile.xml")).useDelimiter("\\Z").next();
 		litleBatchFileResponse = new LitleBatchFileResponse(xmlResponseString);
 		litleBatchResponseList = litleBatchFileResponse.getBatchResponseList();
 	    assertEquals(1, litleBatchResponseList.size());
