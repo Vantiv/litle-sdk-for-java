@@ -93,9 +93,9 @@ public class TestLitleBatchRequest {
 	
 	@Test
 	public void testGetNumberOfTransactions() throws FileNotFoundException, JAXBException{
-		assertEquals(litleBatchRequest.getNumberOfTransactions(), 0);
+		assertEquals(0, litleBatchRequest.getNumberOfTransactions());
 		litleBatchRequest.addTransaction(createTestSale(100L, "100"));
-		assertEquals(litleBatchRequest.getNumberOfTransactions(), 1);
+		assertEquals(1, litleBatchRequest.getNumberOfTransactions());
 	}
 	
 	@Test
