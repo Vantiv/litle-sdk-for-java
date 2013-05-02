@@ -136,7 +136,7 @@ public class LitleBatchFileRequest {
 	}
 
 	public LitleBatchRequest createBatch(String merchantId)
-			throws FileNotFoundException, JAXBException {
+			throws LitleBatchException {
 		LitleBatchRequest litleBatchRequest = new LitleBatchRequest(merchantId, this);
 		litleBatchRequestList.add(litleBatchRequest);
 		return litleBatchRequest;
@@ -149,15 +149,20 @@ public class LitleBatchFileRequest {
 	 * @throws LitleBatchException
 	 * @throws JAXBException
 	 */
-	public void generateRequestFile() throws LitleBatchException, JAXBException {
+	public void generateRequestFile() throws LitleBatchException {
 		try {
 			LitleRequest litleRequest = buildLitleRequest();
 
 			// Code to write to the file directly
 			File localFile = getFileToWrite("batchRequestFolder");
 			StringWriter sw = new StringWriter();
-			Marshaller marshaller = jc.createMarshaller();
-			marshaller.marshal(litleRequest, sw);
+			Marshaller marshaller;
+			try {
+				marshaller = jc.createMarshaller();
+				marshaller.marshal(litleRequest, sw);
+			} catch (JAXBException e) {
+				throw new LitleBatchException("Unable to load jaxb dependencies.  Perhaps a classpath issue?");
+			}
 			String xmlRequest = sw.toString();
 			
 			xmlRequest = xmlRequest.replace("</litleRequest>", " ");
@@ -179,8 +184,7 @@ public class LitleBatchFileRequest {
 			tempBatchRequestFile.delete();
 			litleReqWriter.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			throw new LitleBatchException("Error while sending batch", e);
+			throw new LitleBatchException("Error while creating a batch request file. Check to see if the user running this has permission to read and write to a request folder", e);
 		}
 
 	}
@@ -218,10 +222,9 @@ public class LitleBatchFileRequest {
 				}
 			}
 		} catch (FileNotFoundException e) {
-			throw new LitleBatchException("File was not found: "
-					+ (new Configuration()).location(), e);
+			throw new LitleBatchException("File .litle_SDK_config.properties was not found. Please run the Setup.java application to create the file at location "+ (new Configuration()).location(), e);
 		} catch (IOException e) {
-			throw new LitleBatchException("There was an IO exception.", e);
+			throw new LitleBatchException("There was an exception while reading the .litle_SDK_config.properties file.", e);
 		}
 	}
 
@@ -255,7 +258,6 @@ public class LitleBatchFileRequest {
 			// close the all the batch files
 			byte[] readData = new byte[1024];
 			for (LitleBatchRequest batchReq : litleBatchRequestList) {
-				// TODO add the batch transaction before the closing tag
 				batchReq.closeFile();
 				StringWriter sw = new StringWriter();
 				marshaller.marshal(batchReq.getBatchRequest(), sw);
@@ -290,9 +292,9 @@ public class LitleBatchFileRequest {
 			return retObj;
 
 		} catch (JAXBException e) {
-			throw new LitleBatchException("There was a JAXB exception.", e);
+			throw new LitleBatchException("There was an exception while creating the Batch Request. Please make sure that the objects are set correctly.", e);
 		} catch (IOException e) {
-			throw new LitleBatchException("There was a IO exception.", e);
+			throw new LitleBatchException("There was an exception while creating the Litle Request file. Check to see if the user running this has permission to read and write to a request folder", e);
 		}
 	}
 
