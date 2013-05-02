@@ -46,7 +46,7 @@ public class LitleBatchRequest {
 	 * @throws JAXBException 
 	 * @throws FileNotFoundException 
 	 */
-	LitleBatchRequest(String merchantId, LitleBatchFileRequest lbfr) throws JAXBException, FileNotFoundException{
+	LitleBatchRequest(String merchantId, LitleBatchFileRequest lbfr) throws LitleBatchException{
 		this.batchRequest = new BatchRequest();
 		this.batchRequest.setMerchantId(merchantId);
 		this.objFac = new ObjectFactory();
@@ -58,12 +58,15 @@ public class LitleBatchRequest {
 		java.util.Date date= new java.util.Date();
 		filePath = new String(lbfr.getConfig().getProperty("batchRequestFolder")+ "/tmp/Transactions" +merchantId + new Timestamp(date.getTime()));
 		numOfTxn = 0;
-		this.jc = JAXBContext.newInstance("com.litle.sdk.generate");
-		marshaller = jc.createMarshaller();
-		marshaller.setProperty(Marshaller.JAXB_FRAGMENT, true);
-		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+		try {
+			this.jc = JAXBContext.newInstance("com.litle.sdk.generate");
+			marshaller = jc.createMarshaller();
+			marshaller.setProperty(Marshaller.JAXB_FRAGMENT, true);
+			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+		} catch (JAXBException e) {
+			throw new LitleBatchException("There was an exception while trying to set the marsahller object and setting the properties for it. ");
+		}		
 		this.maxTransactionsPerBatch = Integer.parseInt(lbfr.getConfig().getProperty("maxTransactionsPerBatch"));
-		
 		if( maxTransactionsPerBatch > litleLimit_maxTransactionsPerBatch ){
 			throw new LitleBatchException("maxTransactionsPerBatch property value cannot exceed " + String.valueOf(litleLimit_maxTransactionsPerBatch));
 		}
@@ -80,10 +83,14 @@ public class LitleBatchRequest {
 	 * @throws FileNotFoundException 
 	 * @throws JAXBException 
 	 */
-	public TransactionCodeEnum addTransaction(TransactionType transactionType) throws FileNotFoundException, JAXBException {
+	public TransactionCodeEnum addTransaction(TransactionType transactionType) throws LitleBatchException {
 		if (numOfTxn == 0) {
 			this.file = new File(filePath);
-			osWrttxn = new FileOutputStream(file.getAbsolutePath());
+			try {
+				osWrttxn = new FileOutputStream(file.getAbsolutePath());
+			} catch (FileNotFoundException e) {
+				throw new LitleBatchException("There was an exception while trying to create a Request file. Please check if the file has read and write access. ");
+			}
 		}
 		
 		TransactionCodeEnum batchFileStatus = verifyFileThresholds();
@@ -106,7 +113,12 @@ public class LitleBatchRequest {
 			BigInteger saleAmount = BigInteger.valueOf(sale.getAmount());
 			batchRequest.setSaleAmount(batchRequest.getSaleAmount().add(saleAmount));
 			//Write the txn to a file
-			marshaller.marshal(objFac.createSale(sale), osWrttxn);
+			try {
+				marshaller.marshal(objFac.createSale(sale), osWrttxn);
+			} catch (JAXBException e) {
+				throw new LitleBatchException("Exception while trying to add a transaction to the request file.", e);
+			}
+			
 			transactionAdded = true;
 			numOfTxn ++;
 		}
@@ -117,7 +129,11 @@ public class LitleBatchRequest {
 			batchRequest.setAuthAmount(batchRequest.getAuthAmount().add(authAmount));
 			//Write the txn to a file
 			
-			marshaller.marshal(objFac.createAuthorization(auth), osWrttxn);
+			try {
+				marshaller.marshal(objFac.createAuthorization(auth), osWrttxn);
+			} catch (JAXBException e) {
+				throw new LitleBatchException("Exception while trying to add a transaction to the request file.", e);
+			}
 			transactionAdded = true;
 			numOfTxn ++;
 		}
