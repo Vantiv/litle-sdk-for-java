@@ -129,8 +129,9 @@ public class ResponseFileParser {
 		
 		// we're looking for all transactionResponses
 		if( closingTagToLookFor.compareToIgnoreCase("</transactionResponse>") == 0 && 
-			( "</authorizationResponse>".compareToIgnoreCase(currentStartingTagInFile) == 0 ||
-					"</saleResponse>".compareToIgnoreCase(currentStartingTagInFile) == 0)){
+			( currentStartingTagInFile.endsWith("</authorizationResponse>") == true  ||
+					currentStartingTagInFile.endsWith("</saleResponse>") == true)){
+
 				retVal = true;
 		}
 		 else if( closingTagToLookFor.compareToIgnoreCase(currentStartingTagInFile) == 0 ) {
