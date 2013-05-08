@@ -84,34 +84,34 @@ public class LitleBatchResponse {
 //		totalTxns += this.batchResponse.
 //	}
 	
-	public TransactionTypeIterator getTransactionResponses(){
-		return new TransactionTypeIterator(batchResponse.getTransactionResponses());
-	}
+//	public TransactionTypeIterator getTransactionResponses(){
+//		return new TransactionTypeIterator(batchResponse.getTransactionResponses());
+//	}
 	
-	/** 
-	 * This sub class is helps the user to navigate through the objects to access the values of the
-	 * transaction responses.
-	 * This class also provides the iterator to navigate through the objects.
-	 *
-	 */
-	public static class TransactionTypeIterator implements Iterator<TransactionTypeWithReportGroup> {
-
-		private Iterator<JAXBElement<? extends TransactionTypeWithReportGroup>> baseIterator;
-		
-		TransactionTypeIterator(List<JAXBElement<? extends TransactionTypeWithReportGroup>> baseList){
-			baseIterator = baseList.iterator();
-		}
-		
-		public boolean hasNext() {
-			return baseIterator.hasNext();
-		}
-
-		public TransactionTypeWithReportGroup next() {
-			return (TransactionTypeWithReportGroup) baseIterator.next().getValue();
-		}
-
-		public void remove() {
-			baseIterator.remove();
-		}
-	}
+//	/** 
+//	 * This sub class is helps the user to navigate through the objects to access the values of the
+//	 * transaction responses.
+//	 * This class also provides the iterator to navigate through the objects.
+//	 *
+//	 */
+//	public static class TransactionTypeIterator implements Iterator<TransactionTypeWithReportGroup> {
+//
+//		private Iterator<JAXBElement<? extends TransactionTypeWithReportGroup>> baseIterator;
+//		
+//		TransactionTypeIterator(List<JAXBElement<? extends TransactionTypeWithReportGroup>> baseList){
+//			baseIterator = baseList.iterator();
+//		}
+//		
+//		public boolean hasNext() {
+//			return baseIterator.hasNext();
+//		}
+//
+//		public TransactionTypeWithReportGroup next() {
+//			return (TransactionTypeWithReportGroup) baseIterator.next().getValue();
+//		}
+//
+//		public void remove() {
+//			baseIterator.remove();
+//		}
+//	}
 }
