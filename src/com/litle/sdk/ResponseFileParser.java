@@ -53,6 +53,15 @@ public class ResponseFileParser {
 						startRecordingEndingTag = true;
 						currentEndingTagInFile.append(lastChar);
 					}
+					
+					// override process for elements like litleResponse and batchResponse
+					if( (tagToLookFor.compareToIgnoreCase("batchResponse") == 0 ||
+						tagToLookFor.compareToIgnoreCase("litleResponse") == 0)
+						&&
+						ch == '>'){
+						retStringBuf.append(closingTagToLookFor);
+						break;
+					}
 				}
 				
 				// We want to look for startingTag only if we aren't already recording the string to return.
