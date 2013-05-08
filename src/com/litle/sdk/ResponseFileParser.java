@@ -72,7 +72,7 @@ public class ResponseFileParser {
 				if( startRecordingStartingTag ){
 					currentStartingTagInFile.append(ch);
 					
-					if( openingTagToLookFor.compareToIgnoreCase(currentStartingTagInFile.toString()) == 0 ){
+					if( okToStartRecordingString(openingTagToLookFor, currentStartingTagInFile.toString()) ){
 						startRecordingRetString = true;
 						retStringBuf.append(currentStartingTagInFile);
 						startRecordingStartingTag = false;
@@ -91,7 +91,7 @@ public class ResponseFileParser {
 					currentEndingTagInFile.append(ch);
 					if( ch == '>' ){
 						startRecordingEndingTag = false;
-						if( closingTagToLookFor.compareToIgnoreCase(currentEndingTagInFile.toString()) == 0 ){
+						if( okToStopRecordingString(closingTagToLookFor, currentEndingTagInFile.toString()) ){
 							startRecordingRetString = false;
 							currentEndingTagInFile.delete(0, currentEndingTagInFile.length());
 							break;
@@ -106,5 +106,37 @@ public class ResponseFileParser {
 			e.printStackTrace();
 		}
 		return retStringBuf.toString();
+	}
+	
+	boolean okToStartRecordingString(String openingTagToLookFor, String currentStartingTagInFile){
+		boolean retVal = false;
+		
+		// we're looking for all transactionResponses
+		if( openingTagToLookFor.compareToIgnoreCase("<transactionResponse") == 0 && 
+			( "<authorizationResponse".compareToIgnoreCase(currentStartingTagInFile) == 0 ||
+					"<saleResponse".compareToIgnoreCase(currentStartingTagInFile) == 0)){
+				retVal = true;
+		}
+		 else if( openingTagToLookFor.compareToIgnoreCase(currentStartingTagInFile) == 0 ) {
+			retVal = true;
+		}
+		
+		return retVal;
+	}
+	
+	boolean okToStopRecordingString(String closingTagToLookFor, String currentStartingTagInFile){
+		boolean retVal = false;
+		
+		// we're looking for all transactionResponses
+		if( closingTagToLookFor.compareToIgnoreCase("</transactionResponse>") == 0 && 
+			( "</authorizationResponse>".compareToIgnoreCase(currentStartingTagInFile) == 0 ||
+					"</saleResponse>".compareToIgnoreCase(currentStartingTagInFile) == 0)){
+				retVal = true;
+		}
+		 else if( closingTagToLookFor.compareToIgnoreCase(currentStartingTagInFile) == 0 ) {
+			retVal = true;
+		}
+		
+		return retVal;
 	}
 }

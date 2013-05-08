@@ -16,9 +16,10 @@ import com.litle.sdk.generate.LitleResponse;
 public class LitleBatchFileResponse {
 	private JAXBContext jc;
 	private LitleResponse litleResponse;
-	private List<LitleBatchResponse> litleBatchResponseList;
+	//private List<LitleBatchResponse> litleBatchResponseList;
 	private Unmarshaller unmarshaller;
 	private File xmlFile;
+	ResponseFileParser responseFileParser = null;
 	
 	/**
 	 * This constructor initializes the LitleBatchResponseList to the Response values.
@@ -31,43 +32,46 @@ public class LitleBatchFileResponse {
 		
 		try {
 			this.xmlFile = xmlFile;
+			responseFileParser = new ResponseFileParser(xmlFile);
+			String litleResponseXml = responseFileParser.getNextTag("litleResponse");
+			
 			jc = JAXBContext.newInstance("com.litle.sdk.generate");
-			this.unmarshaller = jc.createUnmarshaller();
-			this.litleResponse = (LitleResponse) unmarshaller.unmarshal(xmlFile);
+			unmarshaller = jc.createUnmarshaller();
+			litleResponse = (LitleResponse) unmarshaller.unmarshal(new StringReader(litleResponseXml));
 		} catch (JAXBException e) {
 			throw new LitleBatchException("There was an exception while unmarshalling the response file. Check your JAXB dependencies.", e);
 		}
 		
-		wrapBatchResponses(litleResponse.getBatchResponses());
+//		wrapBatchResponses(litleResponse.getBatchResponses());
 	}
 	
-	/**
-	 * This constructor initializes the LitleBatchResponseList to the Response values.
-	 * @param xmlResponse
-	 * @throws JAXBException
-	 */
-	public LitleBatchFileResponse(String xmlResponse) throws LitleBatchException {
-		try {
-			jc = JAXBContext.newInstance("com.litle.sdk.generate");
-			this.unmarshaller = jc.createUnmarshaller();
-			this.litleResponse = (LitleResponse) unmarshaller.unmarshal(new StringReader(xmlResponse));
-		} catch (JAXBException e) {
-			throw new LitleBatchException("There was an exception while unmarshalling the response file. Check your JAXB dependencies.", e);
-		}
+//	/**
+//	 * This constructor initializes the LitleBatchResponseList to the Response values.
+//	 * @param xmlResponse
+//	 * @throws JAXBException
+//	 */
+//	public LitleBatchFileResponse(String xmlResponse) throws LitleBatchException {
+//		try {
+//			jc = JAXBContext.newInstance("com.litle.sdk.generate");
+//			this.unmarshaller = jc.createUnmarshaller();
+//			this.litleResponse = (LitleResponse) unmarshaller.unmarshal(new StringReader(xmlResponse));
+//		} catch (JAXBException e) {
+//			throw new LitleBatchException("There was an exception while unmarshalling the response file. Check your JAXB dependencies.", e);
+//		}
+//		
+//		wrapBatchResponses(litleResponse.getBatchResponses());
+//	}
+	
+//	public List<LitleBatchResponse> getBatchResponseList(){
+//		return this.litleBatchResponseList;
+//	}
+	
+	public LitleBatchResponse getNextLitleBatchResponse(){
+		LitleBatchResponse retObj = null;
 		
-		wrapBatchResponses(litleResponse.getBatchResponses());
-	}
-	
-	private void wrapBatchResponses(List<BatchResponse> batchResponses) {
-		litleBatchResponseList = new ArrayList<LitleBatchResponse>();
-		for(BatchResponse br : batchResponses){
-			LitleBatchResponse lbr = new LitleBatchResponse(br);
-			litleBatchResponseList.add(lbr);
-		}
-	}
-	
-	public List<LitleBatchResponse> getBatchResponseList(){
-		return this.litleBatchResponseList;
+		retObj = new LitleBatchResponse(responseFileParser);
+		
+		return retObj;
 	}
 	
 	public File getFile() {
