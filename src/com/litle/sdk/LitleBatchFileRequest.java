@@ -148,7 +148,7 @@ public class LitleBatchFileRequest {
 	 * @throws LitleBatchException
 	 * @throws JAXBException
 	 */
-	public void generateRequestFile() throws LitleBatchException {
+	public void generateRequestFile() throws LitleBatchJAXBException {
 		try {
 			LitleRequest litleRequest = buildLitleRequest();
 
@@ -160,7 +160,7 @@ public class LitleBatchFileRequest {
 				marshaller = jc.createMarshaller();
 				marshaller.marshal(litleRequest, sw);
 			} catch (JAXBException e) {
-				throw new LitleBatchException("Unable to load jaxb dependencies.  Perhaps a classpath issue?");
+				throw new LitleBatchJAXBException("Unable to load jaxb dependencies.  Perhaps a classpath issue?");
 			}
 			String xmlRequest = sw.toString();
 			
@@ -291,7 +291,7 @@ public class LitleBatchFileRequest {
 			return retObj;
 
 		} catch (JAXBException e) {
-			throw new LitleBatchJAXBException("There was an exception while creating the Batch Request. Please make sure that the objects are set correctly.", e);
+			throw new LitleBatchJAXBException("There was an exception while creating the Batch Request. Please make sure that the LitleBatchRequest request object is set correctly.", e);
 		} catch (IOException e) {
 			throw new LitleBatchIOException("There was an exception while creating the Litle Request file. Check to see if the user running this has permission to read and write to a request folder", e);
 		}
