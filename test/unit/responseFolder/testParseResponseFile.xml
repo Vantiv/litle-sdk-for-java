@@ -1,0 +1,36 @@
+<litleResponse version="8.18" xmlns="http://www.litle.com/schema" response="0" message="Valid Format" litleSessionId="82822223274065939">
+<batchResponse litleBatchId="82822223274065947" merchantId="101">
+<saleResponse reportGroup="test">
+    <litleTxnId>82822223274147885</litleTxnId>
+    <orderId>256</orderId>
+    <response>301</response>
+    <responseTime>2013-05-07T16:14:44</responseTime>
+    <message>Invalid Account Number</message>
+    <fraudResult>
+        <avsResult>34</avsResult>
+    </fraudResult>
+</saleResponse>
+<saleResponse reportGroup="test1">
+    <litleTxnId>82822223274147893</litleTxnId>
+    <orderId>257</orderId>
+    <response>301</response>
+    <responseTime>2013-05-07T16:14:44</responseTime>
+    <message>Invalid Account Number</message>
+    <fraudResult>
+        <avsResult>34</avsResult>
+    </fraudResult>
+</saleResponse>
+</batchResponse>
+<batchResponse litleBatchId="82822223274065954" merchantId="101">
+<saleResponse reportGroup="test">
+    <litleTxnId>82822223274147901</litleTxnId>
+    <orderId>256</orderId>
+    <response>301</response>
+    <responseTime>2013-05-07T16:14:44</responseTime>
+    <message>Invalid Account Number</message>
+    <fraudResult>
+        <avsResult>34</avsResult>
+    </fraudResult>
+</saleResponse>
+</batchResponse>
+</litleResponse>
