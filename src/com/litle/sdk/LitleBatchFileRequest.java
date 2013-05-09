@@ -85,7 +85,7 @@ public class LitleBatchFileRequest {
 		intializeMembers(requestFileName, null);
 	}
 
-	public void intializeMembers(String requestFileName, Properties in_properties) {
+	public void intializeMembers(String requestFileName, Properties in_properties) throws LitleBatchFileNotFoundException, LitleBatchIOException, LitleBatchJAXBException{
 		try {
 			this.jc = JAXBContext.newInstance("com.litle.sdk.generate");
 			if(config == null){
@@ -115,13 +115,13 @@ public class LitleBatchFileRequest {
 			responseFile = getFileToWrite("batchResponseFolder");
 
 		} catch (FileNotFoundException e) {
-			throw new LitleBatchException(
+			throw new LitleBatchFileNotFoundException(
 					"Configuration file not found. If you are not using the .litle_SDK_config.properties file, please use the LitleOnline(Properties) constructor.  If you are using .litle_SDK_config.properties, you can generate one using java -jar litle-sdk-for-java-8.10.jar", e);
 		} catch (IOException e) {
-			throw new LitleBatchException(
+			throw new LitleBatchIOException(
 					"Configuration file could not be loaded.  Check to see if the user running this has permission to access the file", e);
 		} catch (JAXBException e) {
-			throw new LitleBatchException(
+			throw new LitleBatchJAXBException(
 					"Unable to load jaxb dependencies.  Perhaps a classpath issue?", e);
 		}
 	}
