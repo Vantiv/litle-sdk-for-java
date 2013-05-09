@@ -21,7 +21,7 @@ public class TestLitleBatchFileResponse {
 	private static LitleBatchFileResponse litleBatchFileResponse;
 	File file;
 	
-//	@Before
+	@Before
 	public void before() throws Exception {
 		file = new File("test/unit/responseFolder/testFile.xml");
 		litleBatchFileResponse = new LitleBatchFileResponse(file);

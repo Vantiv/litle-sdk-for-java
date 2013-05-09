@@ -22,7 +22,7 @@ public class LitleBatchFileResponse {
 	 * @throws JAXBException
 	 */
 	
-	public LitleBatchFileResponse(File xmlFile) throws LitleBatchJAXBException{
+	public LitleBatchFileResponse(File xmlFile) throws LitleBatchException{
 		// convert from xml to objects
 		
 		try {
@@ -34,40 +34,15 @@ public class LitleBatchFileResponse {
 			unmarshaller = jc.createUnmarshaller();
 			litleResponse = (LitleResponse) unmarshaller.unmarshal(new StringReader(litleResponseXml));
 		} catch (JAXBException e) {
-			throw new LitleBatchJAXBException("There was an exception while unmarshalling the response file. Check your JAXB dependencies.", e);
+			throw new LitleBatchException("There was an exception while unmarshalling the response file. Check your JAXB dependencies.", e);
 		} catch (Exception e) {
-			throw new LitleBatchNoLitleResponseException("There was an Exception while reading the Litle Response. The response file might not have been generated. Try re sending the request file with correct username and password.", e);
+			throw new LitleBatchException("There was an exception while reading the Litle response file. The response file might not have been generated. Try re-sending the request file or contact us.", e);
 		}
-		
-//		wrapBatchResponses(litleResponse.getBatchResponses());
 	}
-	
-//	/**
-//	 * This constructor initializes the LitleBatchResponseList to the Response values.
-//	 * @param xmlResponse
-//	 * @throws JAXBException
-//	 */
-//	public LitleBatchFileResponse(String xmlResponse) throws LitleBatchException {
-//		try {
-//			jc = JAXBContext.newInstance("com.litle.sdk.generate");
-//			this.unmarshaller = jc.createUnmarshaller();
-//			this.litleResponse = (LitleResponse) unmarshaller.unmarshal(new StringReader(xmlResponse));
-//		} catch (JAXBException e) {
-//			throw new LitleBatchException("There was an exception while unmarshalling the response file. Check your JAXB dependencies.", e);
-//		}
-//		
-//		wrapBatchResponses(litleResponse.getBatchResponses());
-//	}
-	
-//	public List<LitleBatchResponse> getBatchResponseList(){
-//		return this.litleBatchResponseList;
-//	}
 	
 	public LitleBatchResponse getNextLitleBatchResponse(){
 		LitleBatchResponse retObj = null;
-		
 		retObj = new LitleBatchResponse(responseFileParser);
-		
 		return retObj;
 	}
 	

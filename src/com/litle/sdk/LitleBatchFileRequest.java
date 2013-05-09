@@ -85,7 +85,7 @@ public class LitleBatchFileRequest {
 		intializeMembers(requestFileName, null);
 	}
 
-	public void intializeMembers(String requestFileName, Properties in_properties) throws LitleBatchFileNotFoundException, LitleBatchIOException, LitleBatchJAXBException{
+	public void intializeMembers(String requestFileName, Properties in_properties) throws LitleBatchException{
 		try {
 			this.jc = JAXBContext.newInstance("com.litle.sdk.generate");
 			if(config == null){
@@ -95,7 +95,9 @@ public class LitleBatchFileRequest {
 			this.litleBatchRequestList = new ArrayList<LitleBatchRequest>();
 			this.requestFileName = requestFileName;
 			marshaller = jc.createMarshaller();
+			// JAXB_FRAGMENT property required to prevent unnecessary XML info from being printed in the file during marshal.
 			marshaller.setProperty(Marshaller.JAXB_FRAGMENT, true);
+			// Proper formatting of XML purely for asthetic purposes.
 			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
 			if (in_properties == null || in_properties.isEmpty()) {
@@ -115,13 +117,13 @@ public class LitleBatchFileRequest {
 			responseFile = getFileToWrite("batchResponseFolder");
 
 		} catch (FileNotFoundException e) {
-			throw new LitleBatchFileNotFoundException(
-					"Configuration file not found. If you are not using the .litle_SDK_config.properties file, please use the LitleOnline(Properties) constructor.  If you are using .litle_SDK_config.properties, you can generate one using java -jar litle-sdk-for-java-8.10.jar", e);
+			throw new LitleBatchException(
+					"Configuration file not found. If you are not using the .litle_SDK_config.properties file, please use the LitleOnline(Properties) constructor.  If you would like to use .litle_SDK_config.properties, you can generate one using java -jar litle-sdk-for-java-8.10.jar", e);
 		} catch (IOException e) {
-			throw new LitleBatchIOException(
-					"Configuration file could not be loaded.  Check to see if the user running this has permission to access the file", e);
+			throw new LitleBatchException(
+					"Configuration file could not be loaded.  Check to see if the current user has permission to access the file", e);
 		} catch (JAXBException e) {
-			throw new LitleBatchJAXBException(
+			throw new LitleBatchException(
 					"Unable to load jaxb dependencies.  Perhaps a classpath issue?", e);
 		}
 	}
@@ -148,7 +150,7 @@ public class LitleBatchFileRequest {
 	 * @throws LitleBatchException
 	 * @throws JAXBException
 	 */
-	public void generateRequestFile() throws LitleBatchJAXBException {
+	public void generateRequestFile() throws LitleBatchException {
 		try {
 			LitleRequest litleRequest = buildLitleRequest();
 
@@ -160,7 +162,7 @@ public class LitleBatchFileRequest {
 				marshaller = jc.createMarshaller();
 				marshaller.marshal(litleRequest, sw);
 			} catch (JAXBException e) {
-				throw new LitleBatchJAXBException("Unable to load jaxb dependencies.  Perhaps a classpath issue?");
+				throw new LitleBatchException("Unable to load jaxb dependencies.  Perhaps a classpath issue?");
 			}
 			String xmlRequest = sw.toString();
 			
@@ -183,7 +185,7 @@ public class LitleBatchFileRequest {
 			tempBatchRequestFile.delete();
 			litleReqWriter.close();
 		} catch (IOException e) {
-			throw new LitleBatchException("Error while creating a batch request file. Check to see if the user running this has permission to read and write to a request folder", e);
+			throw new LitleBatchException("Error while creating a batch request file. Check to see if the current user has permission to read and write to " + this.properties.getProperty("batchRequestFolder"), e);
 		}
 
 	}
@@ -196,7 +198,7 @@ public class LitleBatchFileRequest {
 		return this.maxAllowedTransactionsPerFile;
 	}
 
-	void fillInMissingFieldsFromConfig(Properties config) throws LitleBatchFileNotFoundException, LitleBatchIOException{
+	void fillInMissingFieldsFromConfig(Properties config) throws LitleBatchException{
 		Properties localConfig = new Properties();
 		boolean propertiesReadFromFile = false;
 		try {
@@ -221,9 +223,9 @@ public class LitleBatchFileRequest {
 				}
 			}
 		} catch (FileNotFoundException e) {
-			throw new LitleBatchFileNotFoundException("File .litle_SDK_config.properties was not found. Please run the Setup.java application to create the file at location "+ (new Configuration()).location(), e);
+			throw new LitleBatchException("File .litle_SDK_config.properties was not found. Please run the Setup.java application to create the file at location "+ (new Configuration()).location(), e);
 		} catch (IOException e) {
-			throw new LitleBatchIOException("There was an exception while reading the .litle_SDK_config.properties file.", e);
+			throw new LitleBatchException("There was an exception while reading the .litle_SDK_config.properties file.", e);
 		}
 	}
 
@@ -247,7 +249,7 @@ public class LitleBatchFileRequest {
 	 * 
 	 * @throws LitleBatchException
 	 */
-	public LitleBatchFileResponse sendToLitle() throws LitleBatchJAXBException, LitleBatchIOException {
+	public LitleBatchFileResponse sendToLitle() throws LitleBatchException {
 		try {
 			
 			String writeFolderPath = this.properties.getProperty("batchRequestFolder");
@@ -291,9 +293,9 @@ public class LitleBatchFileRequest {
 			return retObj;
 
 		} catch (JAXBException e) {
-			throw new LitleBatchJAXBException("There was an exception while creating the Batch Request. Please make sure that the LitleBatchRequest request object is set correctly.", e);
+			throw new LitleBatchException("There was an exception while marshalling BatchRequest or LitleRequest objects.", e);
 		} catch (IOException e) {
-			throw new LitleBatchIOException("There was an exception while creating the Litle Request file. Check to see if the user running this has permission to read and write to a request folder", e);
+			throw new LitleBatchException("There was an exception while creating the Litle Request file. Check to see if the current user has permission to read and write to " + this.properties.getProperty("batchRequestFolder"), e);
 		}
 	}
 

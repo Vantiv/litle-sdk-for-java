@@ -29,16 +29,11 @@ public class TestResponseFileParser {
         outputString = "<batchResponse litleBatchId=\"82822223274065947\" merchantId=\"101\"></batchResponse>";
         assertEquals(outputString,retString);
 		retString = responseFileParser.getNextTag("transactionResponse");
-        System.out.println(retString);
-        System.out.println("\n\n\n");
         retString = responseFileParser.getNextTag("transactionResponse");
-        System.out.println(retString);
         retString = responseFileParser.getNextTag("batchResponse");
         outputString = "<batchResponse litleBatchId=\"82822223274065954\" merchantId=\"101\"></batchResponse>";
         assertEquals(outputString,retString);
         retString = responseFileParser.getNextTag("transactionResponse");
-        System.out.println("\n\n\n");
-        System.out.println(retString);
         
         //TODO Check the values returned for saleResponse and AuthorizationResponse
     }
