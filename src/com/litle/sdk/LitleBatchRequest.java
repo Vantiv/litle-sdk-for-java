@@ -63,7 +63,7 @@ public class LitleBatchRequest {
 			marshaller = jc.createMarshaller();
 			// JAXB_FRAGMENT property required to prevent unnecessary XML info from being printed in the file during marshal.
 			marshaller.setProperty(Marshaller.JAXB_FRAGMENT, true);
-			// Proper formatting of XML purely for asthetic purposes.
+			// Proper formatting of XML purely for aesthetic purposes.
 			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 		} catch (JAXBException e) {
 			throw new LitleBatchException("Unable to load jaxb dependencies.  Perhaps a classpath issue?", e);
