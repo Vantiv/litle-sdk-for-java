@@ -28,8 +28,8 @@ public class LitleBatchResponse {
 		String batchResponseXML = "";
 		
 		try {
-//			batchResponseXML = responseFileParser.getNextTag("batchResponse");
-			batchResponseXML = "<batchResponse litleBatchId=\"1431\" merchantId=\"101\"></batchResponse>";
+			batchResponseXML = responseFileParser.getNextTag("batchResponse");
+			//batchResponseXML = "<batchResponse litleBatchId=\"1431\" merchantId=\"101\" xmlns=\"http://www.litle.com/schema\"></batchResponse>";
 			jc = JAXBContext.newInstance("com.litle.sdk.generate");
 			unmarshaller = jc.createUnmarshaller();
 			batchResponse = (BatchResponse) unmarshaller.unmarshal(new StringReader(batchResponseXML));
