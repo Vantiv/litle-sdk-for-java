@@ -23,7 +23,7 @@ public class LitleBatchResponse {
 	private JAXBContext jc;
 	private Unmarshaller unmarshaller;
 	
-	private int numberOfTransactionsRequests = 0;
+	private boolean allTransactionsRetrieved = false;
 	
 	LitleBatchResponse(BatchResponse batchResponse) {
 		setBatchResponse(batchResponse);
@@ -31,13 +31,16 @@ public class LitleBatchResponse {
 	
 	public LitleBatchResponse(ResponseFileParser responseFileParser) {
 		this.responseFileParser = responseFileParser;
-		String batchResponseXML = responseFileParser.getNextTag("batchResponse");
 		
 		try {
+			String batchResponseXML = responseFileParser.getNextTag("batchResponse");
 			jc = JAXBContext.newInstance("com.litle.sdk.generate");
 			unmarshaller = jc.createUnmarshaller();
 			batchResponse = (BatchResponse) unmarshaller.unmarshal(new StringReader(batchResponseXML));
 		} catch (JAXBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -60,14 +63,21 @@ public class LitleBatchResponse {
 	}
 	
 	public TransactionType getNextTransaction(){
-		numberOfTransactionsRequests++;
-		
-		//TODO: count of transactions needs to be handled.
+		if( allTransactionsRetrieved ){
+			throw new LitleBatchException("All transactions from this batch have already been retrieved");
+		}
 		
 		TransactionType objToRet = null;
+		String txnXML = "";
+		
+		try{
+			txnXML = responseFileParser.getNextTag("transactionResponse");
+		} catch (Exception e) {
+			allTransactionsRetrieved = true;
+			throw new LitleBatchException("All transactions from this batch have already been retrieved");
+		}
 		
 		try {
-			String txnXML = responseFileParser.getNextTag("transactionResponse");
 			objToRet = (TransactionType) unmarshaller.unmarshal(new StringReader(txnXML));
 		} catch (JAXBException e) {
 			// TODO Auto-generated catch block

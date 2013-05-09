@@ -42,8 +42,7 @@ public class LitleBatchFileRequest {
 	protected final int litleLimit_maxAllowedTransactionsPerFile = 500000;
 
 	/**
-	 * Construct a LitleBatchFileRequest using the configuration specified in
-	 * $HOME/.litle_SDK_config.properties
+	 * Construct a LitleBatchFileRequest using the configuration specified in location specified by requestFileName
 	 */
 	public LitleBatchFileRequest(String requestFileName) {
 		intializeMembers(requestFileName);

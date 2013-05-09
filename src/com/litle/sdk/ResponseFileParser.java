@@ -27,7 +27,8 @@ public class ResponseFileParser {
 		}
 	}
 	
-	public String getNextTag(String tagToLookFor){
+	
+	public String getNextTag(String tagToLookFor) throws Exception{
 		StringBuffer currentStartingTagInFile = new StringBuffer();
 		StringBuffer retStringBuf = new StringBuffer();
 		StringBuffer currentEndingTagInFile = new StringBuffer();
@@ -81,6 +82,12 @@ public class ResponseFileParser {
 					
 					// tag declaration has ended. Safe to discard.
 					if( ch == '>' ){
+						if( tagToLookFor.compareToIgnoreCase("transactionResponse") == 0 && 
+							currentStartingTagInFile.toString().compareToIgnoreCase("</batchResponse>") == 0){
+							// Presumably this will only happen when the user is requesting a new transaction info,
+							// but all transactions have been exhausted. i.e. this one is a batchResponse
+							throw new Exception("All payments in this batch have already been retrieved.");
+						}
 						startRecordingStartingTag = false;
 						currentStartingTagInFile.delete(0, currentStartingTagInFile.length());
 					}

@@ -40,6 +40,9 @@ public class LitleBatchFileResponse {
 			litleResponse = (LitleResponse) unmarshaller.unmarshal(new StringReader(litleResponseXml));
 		} catch (JAXBException e) {
 			throw new LitleBatchException("There was an exception while unmarshalling the response file. Check your JAXB dependencies.", e);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
 //		wrapBatchResponses(litleResponse.getBatchResponses());
