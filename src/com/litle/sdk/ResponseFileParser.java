@@ -136,9 +136,6 @@ public class ResponseFileParser {
 		boolean retVal = false;
 		
 		// we're looking for all transactionResponses
-//		if( closingTagToLookFor.compareToIgnoreCase("</transactionResponse>") == 0 && 
-//			( currentStartingTagInFile.endsWith("</authorizationResponse>") == true  ||
-//					currentStartingTagInFile.endsWith("</saleResponse>") == true)){
 		if( closingTagToLookFor.compareToIgnoreCase("</transactionResponse>") == 0 && 
 				( currentStartingTagInFile.compareToIgnoreCase("</authorizationResponse>") == 0 ||
 				currentStartingTagInFile.compareToIgnoreCase("</saleResponse>") == 0)){
