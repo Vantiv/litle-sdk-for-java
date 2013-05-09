@@ -15,6 +15,7 @@ public class ResponseFileParser {
 	Reader reader = null;
 	Reader buffer = null;
 	
+	
 	public ResponseFileParser(File responseFile){
 		try {
 			fileToParse = responseFile;

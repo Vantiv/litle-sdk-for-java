@@ -83,23 +83,23 @@ public class LitleBatchRequest {
 	 * @throws FileNotFoundException 
 	 * @throws JAXBException 
 	 */
-	public TransactionCodeEnum addTransaction(TransactionType transactionType) throws LitleBatchException {
+	public TransactionCodeEnum addTransaction(TransactionType transactionType) throws LitleBatchFileNotFoundException, LitleBatchFileFullException, LitleBatchBatchFullException {
 		if (numOfTxn == 0) {
 			this.file = new File(filePath);
 			try {
 				osWrttxn = new FileOutputStream(file.getAbsolutePath());
 			} catch (FileNotFoundException e) {
-				throw new LitleBatchException("There was an exception while trying to create a Request file. Please check if the file has read and write access. ");
+				throw new LitleBatchFileNotFoundException("There was an exception while trying to create a Request file. Please check if the folder: " + file.getPath() +" has read and write access. ");
 			}
 		}
 		
 		TransactionCodeEnum batchFileStatus = verifyFileThresholds();
 		if( batchFileStatus == TransactionCodeEnum.FILEFULL){
 			Exception e = new Exception();
-			throw new LitleBatchException("Batch File is already full -- it has reached the maximum number of transactions allowed per batch file.", e);
+			throw new LitleBatchFileFullException("Batch File is already full -- it has reached the maximum number of transactions allowed per batch file.", e);
 		} else if( batchFileStatus == TransactionCodeEnum.BATCHFULL ){
 			Exception e = new Exception();
-			throw new LitleBatchException("Batch is already full -- it has reached the maximum number of transactions allowed per batch.", e);
+			throw new LitleBatchBatchFullException("Batch is already full -- it has reached the maximum number of transactions allowed per batch.", e);
 		}
 		
 		//Adding 1 to the number of transaction. This is on the assumption that we are adding one transaction to the batch at a time.
@@ -116,7 +116,7 @@ public class LitleBatchRequest {
 			try {
 				marshaller.marshal(objFac.createSale(sale), osWrttxn);
 			} catch (JAXBException e) {
-				throw new LitleBatchException("Exception while trying to add a transaction to the request file.", e);
+				throw new LitleBatchJAXBException("Exception while trying to add a transaction to the request file.", e);
 			}
 			
 			transactionAdded = true;
@@ -132,7 +132,7 @@ public class LitleBatchRequest {
 			try {
 				marshaller.marshal(objFac.createAuthorization(auth), osWrttxn);
 			} catch (JAXBException e) {
-				throw new LitleBatchException("Exception while trying to add a transaction to the request file.", e);
+				throw new LitleBatchJAXBException("Exception while trying to add a transaction to the request file.", e);
 			}
 			transactionAdded = true;
 			numOfTxn ++;

@@ -22,25 +22,23 @@ public class TestResponseFileParser {
 	@Test
     public void testgetNextTag() throws Exception {
        
-//		String retString = responseFileParser.getNextTag("litleResponse");
-//		String outputString = "<litleResponse version=\"8.18\" xmlns=\"http://www.litle.com/schema\" response=\"0\" message=\"Valid Format\" litleSessionId=\"82822223274065939\"></litleResponse>";
-//        assertEquals (outputString,retString);
-//        retString = responseFileParser.getNextTag("batchResponse");
-//        outputString = "<batchResponse litleBatchId=\"82822223274065947\" merchantId=\"101\"></batchResponse>";
-//        assertEquals(outputString,retString);
-		String retString = responseFileParser.getNextTag("transactionResponse");
+		String retString = responseFileParser.getNextTag("litleResponse");
+		String outputString = "<litleResponse version=\"8.18\" xmlns=\"http://www.litle.com/schema\" response=\"0\" message=\"Valid Format\" litleSessionId=\"82822223274065939\"></litleResponse>";
+        assertEquals (outputString,retString);
+        retString = responseFileParser.getNextTag("batchResponse");
+        outputString = "<batchResponse litleBatchId=\"82822223274065947\" merchantId=\"101\"></batchResponse>";
+        assertEquals(outputString,retString);
+		retString = responseFileParser.getNextTag("transactionResponse");
         System.out.println(retString);
-//        System.out.println("\n\n\n");
-//        retString = responseFileParser.getNextTag("transactionResponse");
-//        System.out.println(retString);
-//        retString = responseFileParser.getNextTag("batchResponse");
-//        outputString = "<batchResponse litleBatchId=\"82822223274065954\" merchantId=\"101\"></batchResponse>";
-//        assertEquals(outputString,retString);
-//        retString = responseFileParser.getNextTag("transactionResponse");
-//        System.out.println("\n\n\n");
-//        System.out.println(retString);
-//        retString = responseFileParser.getNextTag("transactionResponse");
-//        assertEquals("",retString);
+        System.out.println("\n\n\n");
+        retString = responseFileParser.getNextTag("transactionResponse");
+        System.out.println(retString);
+        retString = responseFileParser.getNextTag("batchResponse");
+        outputString = "<batchResponse litleBatchId=\"82822223274065954\" merchantId=\"101\"></batchResponse>";
+        assertEquals(outputString,retString);
+        retString = responseFileParser.getNextTag("transactionResponse");
+        System.out.println("\n\n\n");
+        System.out.println(retString);
         
         //TODO Check the values returned for saleResponse and AuthorizationResponse
     }

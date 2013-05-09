@@ -196,7 +196,7 @@ public class LitleBatchFileRequest {
 		return this.maxAllowedTransactionsPerFile;
 	}
 
-	void fillInMissingFieldsFromConfig(Properties config) {
+	void fillInMissingFieldsFromConfig(Properties config) throws LitleBatchFileNotFoundException, LitleBatchIOException{
 		Properties localConfig = new Properties();
 		boolean propertiesReadFromFile = false;
 		try {
@@ -221,9 +221,9 @@ public class LitleBatchFileRequest {
 				}
 			}
 		} catch (FileNotFoundException e) {
-			throw new LitleBatchException("File .litle_SDK_config.properties was not found. Please run the Setup.java application to create the file at location "+ (new Configuration()).location(), e);
+			throw new LitleBatchFileNotFoundException("File .litle_SDK_config.properties was not found. Please run the Setup.java application to create the file at location "+ (new Configuration()).location(), e);
 		} catch (IOException e) {
-			throw new LitleBatchException("There was an exception while reading the .litle_SDK_config.properties file.", e);
+			throw new LitleBatchIOException("There was an exception while reading the .litle_SDK_config.properties file.", e);
 		}
 	}
 
@@ -247,7 +247,7 @@ public class LitleBatchFileRequest {
 	 * 
 	 * @throws LitleBatchException
 	 */
-	public LitleBatchFileResponse sendToLitle() throws LitleBatchException {
+	public LitleBatchFileResponse sendToLitle() throws LitleBatchJAXBException, LitleBatchIOException {
 		try {
 			
 			String writeFolderPath = this.properties.getProperty("batchRequestFolder");
@@ -291,9 +291,9 @@ public class LitleBatchFileRequest {
 			return retObj;
 
 		} catch (JAXBException e) {
-			throw new LitleBatchException("There was an exception while creating the Batch Request. Please make sure that the objects are set correctly.", e);
+			throw new LitleBatchJAXBException("There was an exception while creating the Batch Request. Please make sure that the objects are set correctly.", e);
 		} catch (IOException e) {
-			throw new LitleBatchException("There was an exception while creating the Litle Request file. Check to see if the user running this has permission to read and write to a request folder", e);
+			throw new LitleBatchIOException("There was an exception while creating the Litle Request file. Check to see if the user running this has permission to read and write to a request folder", e);
 		}
 	}
 
@@ -324,9 +324,6 @@ public class LitleBatchFileRequest {
 		litleRequest.setVersion(this.properties.getProperty("version"));
 		BigInteger numOfBatches = BigInteger.valueOf(this.litleBatchRequestList.size());
 		litleRequest.setNumBatchRequests(numOfBatches);
-		// for(LitleBatchRequest lbr : this.litleBatchRequestList) {
-		// litleRequest.getBatchRequests().add(lbr.getBatchRequest());
-		// }
 		return litleRequest;
 	}
 
