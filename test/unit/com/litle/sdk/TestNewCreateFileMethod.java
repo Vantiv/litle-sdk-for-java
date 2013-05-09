@@ -40,7 +40,7 @@ public class TestNewCreateFileMethod {
 	
 	@Test
 	public void testAddAFileToTestNewFileMethod() throws FileNotFoundException, JAXBException {
-		litleBatchFileRequest = new LitleBatchFileRequest("testfile.xml");
+		litleBatchFileRequest = new LitleBatchFileRequest("testFile.xml");
 		litleBatchRequest = litleBatchFileRequest.createBatch("101");
 		//litleBatchRequest = new LitleBatchRequest("101", new LitleBatchFileRequest(""));
 		Sale sale = new Sale();
@@ -82,5 +82,4 @@ public class TestNewCreateFileMethod {
 		litleBatchRequest.addTransaction(sale3);
 		litleBatchFileRequest.sendToLitle();
 	}
-		
 }

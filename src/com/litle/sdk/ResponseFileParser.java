@@ -100,9 +100,10 @@ public class ResponseFileParser {
 						startRecordingEndingTag = false;
 						if( okToStopRecordingString(closingTagToLookFor, currentEndingTagInFile.toString()) ){
 							startRecordingRetString = false;
-							currentEndingTagInFile.delete(0, currentEndingTagInFile.length());
+							//currentEndingTagInFile.delete(0, currentEndingTagInFile.length());
 							break;
 						}
+						currentEndingTagInFile.delete(0, currentEndingTagInFile.length());
 					}
 				}
 				
@@ -135,9 +136,12 @@ public class ResponseFileParser {
 		boolean retVal = false;
 		
 		// we're looking for all transactionResponses
+//		if( closingTagToLookFor.compareToIgnoreCase("</transactionResponse>") == 0 && 
+//			( currentStartingTagInFile.endsWith("</authorizationResponse>") == true  ||
+//					currentStartingTagInFile.endsWith("</saleResponse>") == true)){
 		if( closingTagToLookFor.compareToIgnoreCase("</transactionResponse>") == 0 && 
-			( currentStartingTagInFile.endsWith("</authorizationResponse>") == true  ||
-					currentStartingTagInFile.endsWith("</saleResponse>") == true)){
+				( currentStartingTagInFile.compareToIgnoreCase("</authorizationResponse>") == 0 ||
+				currentStartingTagInFile.compareToIgnoreCase("</saleResponse>") == 0)){
 
 				retVal = true;
 		}
