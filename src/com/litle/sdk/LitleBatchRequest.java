@@ -46,7 +46,7 @@ public class LitleBatchRequest {
 	 * @throws JAXBException 
 	 * @throws FileNotFoundException 
 	 */
-	LitleBatchRequest(String merchantId, LitleBatchFileRequest lbfr) throws LitleBatchException{
+	LitleBatchRequest(String merchantId, LitleBatchFileRequest lbfr) throws LitleBatchJAXBException, LitleBatchFileFullException{
 		this.batchRequest = new BatchRequest();
 		this.batchRequest.setMerchantId(merchantId);
 		this.objFac = new ObjectFactory();
@@ -64,11 +64,11 @@ public class LitleBatchRequest {
 			marshaller.setProperty(Marshaller.JAXB_FRAGMENT, true);
 			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 		} catch (JAXBException e) {
-			throw new LitleBatchException("There was an exception while trying to set the marsahller object and setting the properties for it. ");
+			throw new LitleBatchJAXBException("There was an exception while trying to set the marsahller object and setting the properties for it. ");
 		}		
 		this.maxTransactionsPerBatch = Integer.parseInt(lbfr.getConfig().getProperty("maxTransactionsPerBatch"));
 		if( maxTransactionsPerBatch > litleLimit_maxTransactionsPerBatch ){
-			throw new LitleBatchException("maxTransactionsPerBatch property value cannot exceed " + String.valueOf(litleLimit_maxTransactionsPerBatch));
+			throw new LitleBatchFileFullException("maxTransactionsPerBatch property value cannot exceed " + String.valueOf(litleLimit_maxTransactionsPerBatch));
 		}
 	}
 	
