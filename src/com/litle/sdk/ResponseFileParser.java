@@ -77,7 +77,7 @@ public class ResponseFileParser {
 					startRecordingRetString = true;
 					retStringBuf.append(currentStartingTagInFile);
 					if( openingTagToLookFor.compareToIgnoreCase("<litleResponse") != 0 ){
-						retStringBuf.append(" xmlns=\"http://www.litle.com/schema\" ");
+						retStringBuf.append(" xmlns=\"http://www.litle.com/schema\"");
 					}
 					startRecordingStartingTag = false;
 					currentStartingTagInFile.delete(0,
