@@ -67,7 +67,7 @@ public class LitleBatchRequest {
 			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 		} catch (JAXBException e) {
 			throw new LitleBatchException("Unable to load jaxb dependencies.  Perhaps a classpath issue?", e);
-		}		
+		}
 		this.maxTransactionsPerBatch = Integer.parseInt(lbfr.getConfig().getProperty("maxTransactionsPerBatch"));
 		if( maxTransactionsPerBatch > litleLimit_maxTransactionsPerBatch ){
 			throw new LitleBatchException("maxTransactionsPerBatch property value cannot exceed " + String.valueOf(litleLimit_maxTransactionsPerBatch));

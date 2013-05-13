@@ -14,9 +14,6 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.CoreConnectionPNames;
 import org.apache.http.util.EntityUtils;
 
-//import com.phoenix.common.util.FileFunctions;
-//import com.phoenix.common.util.StreamData;
-
 public class Communication {
 
 	private DefaultHttpClient httpclient;
@@ -89,7 +86,7 @@ public class Communication {
 
 		streamData.dataOut(requestFile);
 
-		streamData.dataIn(responseFile);		
+		streamData.dataIn(responseFile);
 
 		streamData.closeSocket();
 	}

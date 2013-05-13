@@ -118,7 +118,10 @@ public class LitleBatchFileRequest {
 
 		} catch (FileNotFoundException e) {
 			throw new LitleBatchException(
-					"Configuration file not found. If you are not using the .litle_SDK_config.properties file, please use the LitleOnline(Properties) constructor.  If you would like to use .litle_SDK_config.properties, you can generate one using java -jar litle-sdk-for-java-8.10.jar", e);
+					"Configuration file not found." +
+							" If you are not using the .litle_SDK_config.properties file," +
+							" please use the " + LitleBatchFileRequest.class.getSimpleName() + "(String, Properties) constructor." +
+							" If you are using .litle_SDK_config.properties, you can generate one using java -jar litle-sdk-for-java-x.xx.jar", e);
 		} catch (IOException e) {
 			throw new LitleBatchException(
 					"Configuration file could not be loaded.  Check to see if the current user has permission to access the file", e);
@@ -320,7 +323,7 @@ public class LitleBatchFileRequest {
 		LitleRequest litleRequest = new LitleRequest();
 
 		if(requestId != null && requestId.length() != 0) {
-			litleRequest.setId(requestId);	
+			litleRequest.setId(requestId);
 		}
 		litleRequest.setAuthentication(authentication);
 		litleRequest.setVersion(this.properties.getProperty("version"));

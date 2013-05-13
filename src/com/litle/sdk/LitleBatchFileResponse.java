@@ -14,7 +14,7 @@ public class LitleBatchFileResponse {
 	private LitleResponse litleResponse;
 	private Unmarshaller unmarshaller;
 	private File xmlFile;
-	ResponseFileParser responseFileParser = null;
+	ResponseFileParser responseFileParser;
 	
 	/**
 	 * This constructor initializes the LitleBatchResponseList to the Response values.

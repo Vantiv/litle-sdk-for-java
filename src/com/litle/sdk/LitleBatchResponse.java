@@ -2,6 +2,7 @@ package com.litle.sdk;
 
 import java.io.StringReader;
 import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
@@ -61,7 +62,6 @@ public class LitleBatchResponse {
 			throw new LitleBatchNoMoreBatchTransactionException("All transactions from this batch have already been retrieved");
 		}
 		
-		TransactionType objToRet = null;
 		String txnXML = "";
 		
 		try{
@@ -72,12 +72,12 @@ public class LitleBatchResponse {
 		}
 		
 		try {
-			objToRet = (TransactionType) unmarshaller.unmarshal(new StringReader(txnXML));
+			@SuppressWarnings("unchecked")
+			TransactionType objToRet = ((JAXBElement<TransactionType>)unmarshaller.unmarshal(new StringReader(txnXML))).getValue();
+			return objToRet;
 		} catch (JAXBException e) {
 			throw new LitleBatchException("There was an exception while trying to unmarshall transactionResponse: " + txnXML, e);
 		}
-		
-		return objToRet;
 	}
 	
 }

@@ -75,7 +75,10 @@ public class LitleOnline {
 			config = new Properties();
 			config.load(new FileInputStream((new Configuration()).location()));
 		} catch (FileNotFoundException e) {
-			throw new LitleOnlineException("Configuration file not found. If you are not using the .litle_SDK_config.properties file, please use the LitleOnline(Properties) constructor.  If you are using .litle_SDK_config.properties, you can generate one using java -jar litle-sdk-for-java-8.10.jar", e);
+			throw new LitleOnlineException("Configuration file not found." +
+					" If you are not using the .litle_SDK_config.properties file," +
+					" please use the " + LitleOnline.class.getSimpleName() + "(Properties) constructor." +
+					" If you are using .litle_SDK_config.properties, you can generate one using java -jar litle-sdk-for-java-x.xx.jar", e);
 		} catch (IOException e) {
 			throw new LitleOnlineException("Configuration file could not be loaded.  Check to see if the user running this has permission to access the file", e);
 		}
@@ -400,7 +403,7 @@ public class LitleOnline {
 			Authentication authentication = new Authentication();
 			authentication.setPassword(config.getProperty("password"));
 			authentication.setUser(config.getProperty("username"));
-			retVal.setAuthentication(authentication);			
+			retVal.setAuthentication(authentication);
 		}
 		else {
 			if(request.getAuthentication().getUser() == null) {
