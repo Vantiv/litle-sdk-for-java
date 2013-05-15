@@ -1,20 +1,9 @@
 package com.litle.sdk;
 
 import static org.junit.Assert.assertEquals;
-
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
-import java.io.OutputStreamWriter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-
 import org.junit.Before;
 import org.junit.Test;
-
-import com.litle.sdk.generate.TransactionTypeWithReportGroup;
 
 public class TestLitleBatchFileResponse {
 
@@ -23,42 +12,38 @@ public class TestLitleBatchFileResponse {
 	
 	@Before
 	public void before() throws Exception {
-		file = new File("test/unit/responseFolder/testFile.xml");
+		file = new File("test/unit/responseFolder/testParseResponseFile.xml");
 		litleBatchFileResponse = new LitleBatchFileResponse(file);
 	}
-	
-//	@Test
-//	public void testgetBatchResponseList() throws Exception {
-//		List<LitleBatchResponse> litleBatchResponseList = new ArrayList<LitleBatchResponse>();
-//		litleBatchResponseList = litleBatchFileResponse.getBatchResponseList();
-//	    assertEquals(1, litleBatchResponseList.size());
-//		LitleBatchResponse batchResponse1 = litleBatchResponseList.get(0);
-//		assertEquals("101",batchResponse1.getBatchResponse().getMerchantId());
-//		LitleBatchResponse.TransactionTypeIterator it = batchResponse1.getTransactionResponses();
-//		TransactionTypeWithReportGroup txn1 = it.next();
-//		// TODO - verify some txn fields
-//		TransactionTypeWithReportGroup txn2 = it.next();
-//	}
-	
-//	@Test
-//	public void testConstructorWithString() throws Exception {
-//		List<LitleBatchResponse> litleBatchResponseList = new ArrayList<LitleBatchResponse>();
-//		String xmlResponseString = new Scanner(new File("test/unit/responseFolder/testFile.xml")).useDelimiter("\\Z").next();
-//		litleBatchFileResponse = new LitleBatchFileResponse(xmlResponseString);
-//		litleBatchResponseList = litleBatchFileResponse.getBatchResponseList();
-//	    assertEquals(1, litleBatchResponseList.size());
-//	    // TODO - refactor me
-//		for(LitleBatchResponse list: litleBatchResponseList) {
-//			assertEquals("101",list.getBatchResponse().getMerchantId());
-////			assertEquals(2,list.getNumberOfTransactions());
-//		}
-//		
-//	}
+		
+	@Test
+	public void testConstructorForException() {
+		file = new File("test/unit/responseFolder/testEmptyFile.xml");
+		try {
+			litleBatchFileResponse = new LitleBatchFileResponse(file);
+		} catch(LitleBatchException e) {
+			assertEquals("There was an exception while unmarshalling the response file. Check your JAXB dependencies.", e.getMessage());
+		}
+		
+		file = new File("test/unit/responseFolder/File.xml");
+		try {
+			litleBatchFileResponse = new LitleBatchFileResponse(file);
+		} catch(Exception e) {
+			assertEquals("There was an exception while reading the Litle response file. The response file might not have been generated. Try re-sending the request file or contact us.", e.getMessage());
+		}
+	}
 	
 	@Test
 	public void testGetNextLitleBatchResponse() {
 		LitleBatchResponse litleBatchResponse = litleBatchFileResponse.getNextLitleBatchResponse();
 		assertEquals(litleBatchResponse.getMerchantId(), "101");
-		
+	}
+	
+	@Test
+	public void testGetLitleResponseAttributes() {
+		assertEquals(82822223274065939L, litleBatchFileResponse.getLitleSessionId());
+		assertEquals("8.18", litleBatchFileResponse.getVersion());
+		assertEquals("0", litleBatchFileResponse.getResponse());
+		assertEquals("Valid Format", litleBatchFileResponse.getMessage());
 	}
 }
