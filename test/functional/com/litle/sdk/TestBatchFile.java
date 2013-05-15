@@ -56,7 +56,7 @@ public class TestBatchFile {
 		assertGeneratedFiles(workingDirRequests, workingDirResponses, requestFileName, request, response);
 	}
 	
-//	@Ignore
+	@Ignore
 	@Test
 	public void testSendToLitle_WithConfigOverrides() throws Exception {
 		String workingDir = System.getProperty("java.io.tmpdir");
