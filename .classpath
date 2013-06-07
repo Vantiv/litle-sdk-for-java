@@ -24,5 +24,18 @@
 	<classpathentry kind="lib" path="lib/jaxb/lib/jaxb-impl.jar"/>
 	<classpathentry kind="lib" path="lib/jaxb/lib/jsr173_1.0_api.jar"/>
 	<classpathentry kind="lib" path="lib/mockito/mockito-all-1.9.0.jar"/>
+	<classpathentry kind="lib" path="lib/opensftp-0.3.0/opensftp-api-0.3.jar"/>
+	<classpathentry kind="lib" path="lib/opensftp-0.3.0/lib/bsh-2.0b4.jar"/>
+	<classpathentry kind="lib" path="lib/opensftp-0.3.0/lib/commons-beanutils-1.8.3.jar"/>
+	<classpathentry kind="lib" path="lib/opensftp-0.3.0/lib/commons-logging-1.1.1.jar"/>
+	<classpathentry kind="lib" path="lib/opensftp-0.3.0/lib/dom4j-1.6.1.jar"/>
+	<classpathentry kind="lib" path="lib/opensftp-0.3.0/lib/jaxen-1.1-beta-6.jar"/>
+	<classpathentry kind="lib" path="lib/opensftp-0.3.0/lib/jsch-0.1.42.jar"/>
+	<classpathentry kind="lib" path="lib/opensftp-0.3.0/lib/jsch-0.1.47.jar"/>
+	<classpathentry kind="lib" path="lib/opensftp-0.3.0/lib/jzlib-1.0.7.jar"/>
+	<classpathentry kind="lib" path="lib/opensftp-0.3.0/lib/log4j-1.2.16.jar"/>
+	<classpathentry kind="lib" path="lib/opensftp-0.3.0/lib/objenesis-1.2.jar"/>
+	<classpathentry kind="lib" path="lib/opensftp-0.3.0/lib/xercesImpl-2.6.2.jar"/>
+	<classpathentry kind="lib" path="lib/opensftp-0.3.0/opensftp-impl-0.3.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

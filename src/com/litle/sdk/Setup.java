@@ -23,7 +23,7 @@ public class Setup {
 			put("batchproduction", "payments.litle.com");
 		}
 	};
-	
+
 	@SuppressWarnings("serial")
 	private static final HashMap<String,String> PORT_MAP = new HashMap<String,String>() {
 		{
@@ -33,17 +33,17 @@ public class Setup {
 			put("batchproduction", "15000");
 		}
 	};
-	
+
 	/**
 	 * @param args
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	public static void main(String[] args) throws IOException {
 		File file = (new Configuration()).location();
 		Properties config = new Properties();
 		PrintStream configFile = new PrintStream(file);
 		String lastUserInput;
-		
+
 		BufferedReader stdin = new BufferedReader
 	      (new InputStreamReader(System.in));
 
@@ -66,7 +66,7 @@ public class Setup {
 			System.out.println("\tproduction => payments.litle.com");
 			System.out.println("\tother => You will be asked for all the values");
 			lastUserInput = stdin.readLine();
-			if( 
+			if(
 				lastUserInput.compareToIgnoreCase("cert") == 0 ||
 				lastUserInput.compareToIgnoreCase("sandbox") == 0 ||
 				lastUserInput.compareToIgnoreCase("precert") == 0 ||
@@ -89,26 +89,37 @@ public class Setup {
 			} else{
 				// error condition
 				badInput = true;
-			}			
+			}
 		} while( badInput );
-		
+
 		System.out.print("Values set for host: ");
 		System.out.print("\n\tURL for online transactions: " + config.getProperty("url"));
 		System.out.print("\n\tHost for batch transactions: " + config.getProperty("batchHost"));
 		System.out.print("\n\tPort for batch transactions: " + config.getProperty("batchPort") + "\n");
-		
+
 		config.put("batchUseSSL", "true");
 		System.out.print("Please input the batch TCP timeout in milliseconds (leave blank for default (7200000)): ");
 		lastUserInput = stdin.readLine();
 		config.put("batchTcpTimeout", ((lastUserInput.length() == 0) ? "7200000" : lastUserInput));
-		
+
 		System.out.print("\nBatch SDK generates files for Requests and Responses. You may leave these blank if you do not plan to use \nbatch processing. Please input the absolute path to the folder with write permissions for: \n");
 		System.out.print("\tRequests: ");
 		config.put("batchRequestFolder", stdin.readLine());
-		
+
 		System.out.print("\tResponses: ");
 		config.put("batchResponseFolder", stdin.readLine());
-		
+
+		System.out.print("\nPlease input your credentials for sFTP access for batch delivery. You may leave these blank if you do not plan to use sFTP.\n");
+		System.out.print("\tUsername: ");
+		config.put("sftpUsername", stdin.readLine());
+		System.out.print("\tPassword: ");
+        config.put("sftpPassword", stdin.readLine());
+        System.out.print("Please input the sFTP timeout in milliseconds (leave blank for default (7200000)): ");
+        lastUserInput = stdin.readLine();
+        config.put("sftpTimeout", ((lastUserInput.length() == 0) ? "7200000" : lastUserInput));
+
+
+
 		System.out.print("\nPlease input the proxy host, if no proxy hit enter: ");
 		lastUserInput = stdin.readLine();
 		config.put("proxyHost", (lastUserInput == null ? "" : lastUserInput));
@@ -119,7 +130,7 @@ public class Setup {
 		config.put("timeout", "65");
 		config.put("reportGroup", "Default Report Group");
 		config.put("printxml", "false");
-		
+
 		config.put("maxAllowedTransactionsPerFile", "500000");
 		config.put("maxTransactionsPerBatch", "100000");
 

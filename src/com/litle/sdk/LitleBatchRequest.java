@@ -197,6 +197,9 @@ public class LitleBatchRequest {
             transactionAdded = true;
             numOfTxn ++;
         } else if (transactionType instanceof AccountUpdate){
+            // TODO: handle account update jank
+
+
             batchRequest.setNumAccountUpdates(batchRequest.getNumAccountUpdates().add(BigInteger.valueOf(1)));
             transaction = objFac.createAccountUpdate((AccountUpdate)transactionType);
             transactionAdded = true;

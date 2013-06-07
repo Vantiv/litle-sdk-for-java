@@ -4,6 +4,12 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Properties;
 
+import net.sf.opensftp.SftpException;
+import net.sf.opensftp.SftpResult;
+import net.sf.opensftp.SftpSession;
+import net.sf.opensftp.SftpUtil;
+import net.sf.opensftp.SftpUtilFactory;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
@@ -47,7 +53,7 @@ public class Communication {
 				System.out.println("Request XML: " + xmlRequest);
 			}
 			post.setEntity(new StringEntity(xmlRequest));
-			
+
 			HttpResponse response = httpclient.execute(post);
 			if(response.getStatusLine().getStatusCode() != 200) {
 				throw new LitleOnlineException(response.getStatusLine().getStatusCode() + ":" + response.getStatusLine().getReasonPhrase());
@@ -69,7 +75,7 @@ public class Communication {
 		return xmlResponse;
 	}
 
-	/** 
+	/**
 	 * This method is exclusively used for sending batch file to the communicator.
 	 * @param requestFile
 	 * @param responseFile
@@ -90,7 +96,62 @@ public class Communication {
 
 		streamData.closeSocket();
 	}
-	
+
+	public void sendLitleRequestFileToSFTP(File requestFile, Properties configuration) throws IOException{
+	    String username = configuration.getProperty("sftpUsername");
+	    String password = configuration.getProperty("sftpPassword");
+	    String hostname = configuration.getProperty("batchHost");
+
+
+	    SftpUtil util = SftpUtilFactory.getSftpUtil();
+	    SftpSession session = null;
+	    try{
+	        session = util.connectByPasswdAuth(hostname, username, password, SftpUtil.STRICT_HOST_KEY_CHECKING_OPTION_NO);
+	    } catch(SftpException e){
+	        throw new LitleBatchException("Exception connection to Litle", e);
+	    }
+
+	    util.put(session, requestFile.getAbsolutePath(), "inbound/" + requestFile.getName() + ".prg");
+	    util.rename(session, "inbound/" + requestFile.getName() + ".prg", "inbound/" + requestFile.getName() + ".asc");
+	    util.disconnect(session);
+
+	    System.out.println("SFTPing at " + username + " to " + hostname + " with " + password );
+	}
+
+	public void receiveLitleRequestResponseFileFromSFTP(File requestFile, File responseFile, Properties configuration) throws IOException{
+	    String username = configuration.getProperty("sftpUsername");
+        String password = configuration.getProperty("sftpPassword");
+        String hostname = configuration.getProperty("batchHost");
+
+
+        SftpUtil util = SftpUtilFactory.getSftpUtil();
+        SftpSession session = null;
+        try{
+            session = util.connectByPasswdAuth(hostname, username, password, SftpUtil.STRICT_HOST_KEY_CHECKING_OPTION_NO);
+        } catch(SftpException e){
+            throw new LitleBatchException("Exception connection to Litle", e);
+        }
+        Long start = System.currentTimeMillis();
+        Long timeout = Long.parseLong(configuration.getProperty("sftpTimeout"));
+        while(System.currentTimeMillis() - start < timeout){
+            System.out.println("Checking...");
+            try {
+                Thread.sleep(15000);
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            SftpResult res = util.get(session, "outbound/" + requestFile.getName() + ".asc", responseFile.getAbsolutePath());
+            if(res.getSuccessFlag()) {
+                System.out.println("We graped in the mouth~!");
+                break;
+            }
+            System.out.println("We missed it :(");
+        }
+        util.disconnect(session);
+	}
+
+
 	void setStreamData(StreamData streamData) {
 		this.streamData = streamData;
 	}

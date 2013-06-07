@@ -23,7 +23,9 @@
 	<property name="mockito" location="${lib}/mockito" />
 	<property name="xerces" location="${lib}/xerces-2_11_0" />
 	<property name="retrotranslator" location="${lib}/Retrotranslator-1.2.9-bin"/>
-
+	<property name="opensftp" location="${lib}/opensftp-0.3.0"/>
+	
+	
 	<path id="lib.path.ref">
 		<fileset dir="${jaxb}" includes="*.jar" />
 	</path>
@@ -40,6 +42,9 @@
 		<pathelement location="${httpclient}/httpcore-4.2.2.jar" />
 		<pathelement location="${httpclient}/httpmime-4.2.3.jar" />
 		<pathelement location="${commons}/commons-logging-1.1.1.jar" />
+		<pathelement location="${opensftp}/opensftp-api-0.3.jar" />
+		<pathelement location="${opensftp}/opensftp-impl-0.3.0.jar" />
+		<pathelement path="${opensftp}/lib" />
 	</path>
 
 	<taskdef name="xjc" classname="com.sun.tools.xjc.XJCTask">
@@ -47,6 +52,7 @@
 			<fileset dir="${basedir}/lib/jaxb/lib" includes="*.jar" />
 		</classpath>
 	</taskdef>
+	
 	
     <taskdef name="retrotranslator" classname="net.sf.retrotranslator.transformer.RetrotranslatorTask">
         <classpath>
