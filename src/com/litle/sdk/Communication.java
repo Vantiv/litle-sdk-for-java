@@ -143,7 +143,6 @@ public class Communication {
             }
             SftpResult res = util.get(session, "outbound/" + requestFile.getName() + ".asc", responseFile.getAbsolutePath());
             if(res.getSuccessFlag()) {
-                System.out.println("We graped in the mouth~!");
                 break;
             }
             System.out.println("We missed it :(");
