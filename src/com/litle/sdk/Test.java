@@ -3,6 +3,7 @@ package com.litle.sdk;
 import java.util.Calendar;
 
 import com.litle.sdk.generate.AccountUpdateFileRequestData;
+import com.litle.sdk.generate.AccountUpdateResponse;
 import com.litle.sdk.generate.AuthReversalResponse;
 import com.litle.sdk.generate.AuthorizationResponse;
 import com.litle.sdk.generate.CaptureGivenAuthResponse;
@@ -92,6 +93,11 @@ public class Test {
                 public void processAuthReversalResponse(AuthReversalResponse authReversalResponse) { }
 
                 public void processRegisterTokenResponse(RegisterTokenResponse registerTokenResponse) { }
+
+                public void processAccountUpdate(AccountUpdateResponse accountUpdateResponse) {
+                    // TODO Auto-generated method stub
+
+                }
             })){
                 System.out.println("Processed another txn!");
             }

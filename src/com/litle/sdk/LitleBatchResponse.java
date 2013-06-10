@@ -7,6 +7,7 @@ import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
+import com.litle.sdk.generate.AccountUpdateResponse;
 import com.litle.sdk.generate.AuthReversalResponse;
 import com.litle.sdk.generate.AuthorizationResponse;
 import com.litle.sdk.generate.BatchResponse;
@@ -133,7 +134,8 @@ public class LitleBatchResponse {
             processor.processEcheckRedepositResponse( (EcheckRedepositResponse) objToRet);
         } else if (objToRet instanceof EcheckSalesResponse){
             processor.processEcheckSalesResponse((EcheckSalesResponse) objToRet);
-
+        } else if (objToRet instanceof AccountUpdateResponse){
+            processor.processAccountUpdate((AccountUpdateResponse) objToRet);
         }
 	    return true;
 

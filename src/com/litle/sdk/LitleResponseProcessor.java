@@ -1,5 +1,6 @@
 package com.litle.sdk;
 
+import com.litle.sdk.generate.AccountUpdateResponse;
 import com.litle.sdk.generate.AuthReversalResponse;
 import com.litle.sdk.generate.AuthorizationResponse;
 import com.litle.sdk.generate.CaptureGivenAuthResponse;
@@ -38,5 +39,7 @@ public interface LitleResponseProcessor {
     void processAuthReversalResponse(AuthReversalResponse authReversalResponse);
 
     void processRegisterTokenResponse(RegisterTokenResponse registerTokenResponse);
+
+    void processAccountUpdate(AccountUpdateResponse accountUpdateResponse);
 
 }
