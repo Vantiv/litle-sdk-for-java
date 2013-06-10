@@ -283,8 +283,27 @@ public class LitleBatchFileRequest extends LitleRequestFile{
         }
 	}
 
+	public void sendOnlyToLitleSFTP() throws LitleBatchException{
+        try {
+            prepareForDelivery();
+            communication.sendLitleRequestFileToSFTP(requestFile, properties);
+        } catch (IOException e) {
+            throw new LitleBatchException("There was an exception while creating the Litle Request file. Check to see if the current user has permission to read and write to " + this.properties.getProperty("batchRequestFolder"), e);
+        }
+    }
 
-	public void prepareForDelivery() {
+	public LitleBatchFileResponse retrieveOnlyFromLitleSFTP() throws LitleBatchException{
+        try {
+            communication.receiveLitleRequestResponseFileFromSFTP(requestFile, responseFile, properties);
+            LitleBatchFileResponse retObj = new LitleBatchFileResponse(responseFile);
+            return retObj;
+        } catch (IOException e) {
+            throw new LitleBatchException("There was an exception while creating the Litle Request file. Check to see if the current user has permission to read and write to " + this.properties.getProperty("batchRequestFolder"), e);
+        }
+    }
+
+
+	private void prepareForDelivery() {
         try {
             String writeFolderPath = this.properties.getProperty("batchRequestFolder");
 

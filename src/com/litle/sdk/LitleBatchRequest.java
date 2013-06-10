@@ -106,6 +106,14 @@ public class LitleBatchRequest {
             }
         }
 
+		if(numOfTxn > 0 && batchRequest.getNumAccountUpdates().intValue() != numOfTxn
+		        && (transactionType instanceof AccountUpdate)){
+            throw new LitleBatchException("An account update cannot be added to a batch containing transactions other than other AccountUpdates.");
+        } else if(numOfTxn > 0 && batchRequest.getNumAccountUpdates().intValue() == numOfTxn &&
+                !(transactionType instanceof AccountUpdate)){
+            throw new LitleBatchException("Transactions that are not AccountUpdates cannot be added to a batch containing AccountUpdates.");
+        }
+
 		TransactionCodeEnum batchFileStatus = verifyFileThresholds();
         if( batchFileStatus == TransactionCodeEnum.FILEFULL){
             Exception e = new Exception();
@@ -197,10 +205,6 @@ public class LitleBatchRequest {
             transactionAdded = true;
             numOfTxn ++;
         } else if (transactionType instanceof AccountUpdate){
-            // TODO: handle account update jank
-            if(numOfTxn > 0 && batchRequest.getNumAccountUpdates().intValue() != numOfTxn){
-                throw new LitleBatchException("An account update cannot be added to a batch containing transactions other than other AccountUpdates.");
-            }
             batchRequest.setNumAccountUpdates(batchRequest.getNumAccountUpdates().add(BigInteger.valueOf(1)));
             transaction = objFac.createAccountUpdate((AccountUpdate)transactionType);
             transactionAdded = true;

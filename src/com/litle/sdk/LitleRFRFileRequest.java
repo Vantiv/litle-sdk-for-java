@@ -40,13 +40,18 @@ public class LitleRFRFileRequest {
         addRFRRequest(request);
     }
 
+    public LitleRFRFileRequest(String requestFileName, RFRRequest request, Configuration config) {
+        this.config = config;
+        initializeMembers(requestFileName, null);
+    }
+
     public LitleRFRFileRequest(String requestFileName, RFRRequest request){
         rfrRequest = request;
         initializeMembers(requestFileName, null);
         addRFRRequest(request);
     }
 
-    private void initializeMembers(String requestFileName, Properties in_properties) throws LitleBatchException{
+    public void initializeMembers(String requestFileName, Properties in_properties) throws LitleBatchException{
         try {
             this.jc = JAXBContext.newInstance("com.litle.sdk.generate");
             if(config == null){
@@ -160,7 +165,7 @@ public class LitleRFRFileRequest {
         }
     }
 
-    private File getFileToWrite(String locationKey) {
+    public File getFileToWrite(String locationKey) {
         String fileName = this.requestFileName;
         String writeFolderPath = this.properties.getProperty(locationKey);
         File fileToReturn = new File(writeFolderPath + File.separator
@@ -203,5 +208,21 @@ public class LitleRFRFileRequest {
         }
     }
 
+    Properties getConfig() {
+        return this.properties;
+    }
+
+    void setResponseFile(File inFile) {
+        this.responseFile = inFile;
+    }
+
+    public void setCommunication(Communication com) {
+        this.communication = com;
+    }
+
+    public File getFile() {
+        // TODO Auto-generated method stub
+        return requestFile;
+    }
 
 }
