@@ -90,6 +90,7 @@ public class LitleRFRFileRequest {
         }
     }
 
+
     private void addRFRRequest(RFRRequest request){
         try {
             LitleRequest litleRequest = buildLitleRequest();
@@ -141,7 +142,11 @@ public class LitleRFRFileRequest {
     }
 
 
-
+/**
+ * Sends the RFR File via the streaming method.
+ * @return An RFR Response File
+ * @throws LitleBatchException
+ */
     public LitleRFRFileResponse sendToLitleStream() throws LitleBatchException{
         try {
             communication.sendLitleBatchFileToIBC(requestFile, responseFile, properties);
@@ -153,6 +158,11 @@ public class LitleRFRFileRequest {
         }
     }
 
+    /**
+     * Sends the RFR file via sFTP
+     * @return An RFR Response File
+     * @throws LitleBatchException
+     */
     public LitleRFRFileResponse sendToLitleSFTP() throws LitleBatchException{
         try {
             communication.sendLitleRequestFileToSFTP(requestFile, properties);
@@ -165,6 +175,11 @@ public class LitleRFRFileRequest {
         }
     }
 
+    /**
+     * Returns an appropriate file at the locationkey
+     * @param locationKey
+     * @return File
+     */
     public File getFileToWrite(String locationKey) {
         String fileName = this.requestFileName;
         String writeFolderPath = this.properties.getProperty(locationKey);

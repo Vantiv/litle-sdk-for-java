@@ -38,6 +38,11 @@ public class LitleBatchResponse {
 		setBatchResponse(batchResponse);
 	}
 
+	/**
+	 * Consumes a ResponseFileParser and sets up the appropriate structure for JAXB marshalling/demarshalling
+	 * @param responseFileParser
+	 * @throws LitleBatchException
+	 */
 	public LitleBatchResponse(ResponseFileParser responseFileParser) throws LitleBatchException{
 		this.responseFileParser = responseFileParser;
 		String batchResponseXML = "";
@@ -71,6 +76,10 @@ public class LitleBatchResponse {
 		return this.batchResponse.getMerchantId();
 	}
 
+	/**
+	 * Retrieves the next transaction from the batch response object.
+	 * @return the TransactionType object, or null (if all transactions have been accessed)
+	 */
 	public TransactionType getNextTransaction(){
 		if( allTransactionsRetrieved ){
 			throw new LitleBatchNoMoreBatchTransactionException("All transactions from this batch have already been retrieved");
@@ -94,7 +103,12 @@ public class LitleBatchResponse {
 		}
 	}
 
-
+	/**
+	 * Parses the next transaction in the batch response and applies the appropos method of the LitleResponseProcessor
+	 * (probably an anonymous class) to it.
+	 * @param processor
+	 * @return true or false, indicating whether another transaction was read.
+	 */
 	public boolean processNextTransaction(LitleResponseProcessor processor){
 	    String txnXml = "";
 	    TransactionType objToRet;
@@ -138,12 +152,6 @@ public class LitleBatchResponse {
             processor.processAccountUpdate((AccountUpdateResponse) objToRet);
         }
 	    return true;
-
-//       else if (objToRet instanceof UpdateCardValidationNumOnToken){
-//
-//        } else if (objToRet instanceof AccountUpdate){
-//        }
-//
 	}
 
 }

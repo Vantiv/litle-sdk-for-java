@@ -96,7 +96,6 @@ public class LitleBatchRequest {
 	 * @throws JAXBException
 	 */
 	public TransactionCodeEnum addTransaction(TransactionType transactionType) throws LitleBatchException, LitleBatchFileFullException, LitleBatchBatchFullException {
-
 		if (numOfTxn == 0) {
             this.file = new File(filePath);
             try {
@@ -248,18 +247,34 @@ public class LitleBatchRequest {
 		return TransactionCodeEnum.SUCCESS;
 	}
 
+	/**
+	 * Returns the number of transactions in the batch
+	 * @return
+	 */
 	public int getNumberOfTransactions(){
 		return (numOfTxn);
 	}
 
+	/**
+	 * Gets whether the batch is full per the size specification
+	 * @return boolean indicating whether the batch is full
+	 */
 	public boolean isFull() {
 		return (getNumberOfTransactions() == this.maxTransactionsPerBatch);
 	}
 
+	/**
+	 * Closes the batch output file
+	 * @throws IOException
+	 */
 	public void closeFile() throws IOException {
 		osWrttxn.close();
 	}
 
+	/**
+	 * Grabs the request file
+	 * @return the request file
+	 */
 	public File getFile() {
 		return this.file;
 	}

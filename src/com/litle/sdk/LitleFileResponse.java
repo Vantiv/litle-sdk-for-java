@@ -9,6 +9,12 @@ import javax.xml.bind.Unmarshaller;
 
 import com.litle.sdk.generate.LitleResponse;
 
+/**
+ * Provides abstraction over Litle Requests containing  batch requests and Litle Requests containing RFR requests
+ * @author ahammond
+ *
+ */
+
 abstract class LitleFileResponse {
 
     protected JAXBContext jc;

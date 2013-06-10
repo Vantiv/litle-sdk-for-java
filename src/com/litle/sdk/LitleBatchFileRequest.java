@@ -139,6 +139,12 @@ public class LitleBatchFileRequest extends LitleRequestFile{
 		return this.properties;
 	}
 
+	/**
+	 * Returns a LitleBatchRequest object, the container for transactions.
+	 * @param merchantId
+	 * @return
+	 * @throws LitleBatchException
+	 */
 	public LitleBatchRequest createBatch(String merchantId)
 			throws LitleBatchException {
 		LitleBatchRequest litleBatchRequest = new LitleBatchRequest(merchantId, this);
@@ -257,6 +263,11 @@ public class LitleBatchFileRequest extends LitleRequestFile{
 	    return sendToLitleStream();
 	}
 
+	/**
+	 * Sends the file to Litle over a TCP socket, the less favorable method of sending batches to Litle.
+	 * @return A response object for the batch file
+	 * @throws LitleBatchException
+	 */
 	public LitleBatchFileResponse sendToLitleStream() throws LitleBatchException{
 	    try {
             prepareForDelivery();
@@ -270,6 +281,11 @@ public class LitleBatchFileRequest extends LitleRequestFile{
         }
 	}
 
+	/**
+	 * Sends the file to Litle over sFTP, the preferred method of sending batches to Litle.
+	 * @return A response object for the batch file
+	 * @throws LitleBatchException
+	 */
 	public LitleBatchFileResponse sendToLitleSFTP() throws LitleBatchException{
 	    try {
 	        prepareForDelivery();
@@ -283,6 +299,10 @@ public class LitleBatchFileRequest extends LitleRequestFile{
         }
 	}
 
+	/**
+	 * Only sends the file to Litle after sFTP. This method requires separate invocation of the retrieve method.
+	 * @throws LitleBatchException
+	 */
 	public void sendOnlyToLitleSFTP() throws LitleBatchException{
         try {
             prepareForDelivery();
@@ -292,6 +312,11 @@ public class LitleBatchFileRequest extends LitleRequestFile{
         }
     }
 
+	/**
+	 * Only retrieves the file from Litle over sFTP. This method requires separate invocation of the send method.
+	 * @return A response object for the file
+	 * @throws LitleBatchException
+	 */
 	public LitleBatchFileResponse retrieveOnlyFromLitleSFTP() throws LitleBatchException{
         try {
             communication.receiveLitleRequestResponseFileFromSFTP(requestFile, responseFile, properties);

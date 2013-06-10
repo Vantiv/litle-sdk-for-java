@@ -97,6 +97,12 @@ public class Communication {
 		streamData.closeSocket();
 	}
 
+	/**
+	 * This method sends the request file to Litle's server sFTP
+	 * @param requestFile
+	 * @param configuration
+	 * @throws IOException
+	 */
 	public void sendLitleRequestFileToSFTP(File requestFile, Properties configuration) throws IOException{
 	    String username = configuration.getProperty("sftpUsername");
 	    String password = configuration.getProperty("sftpPassword");
@@ -118,6 +124,14 @@ public class Communication {
 	    System.out.println("SFTPing at " + username + " to " + hostname + " with " + password );
 	}
 
+	/**
+	 * Grabs the response file from Litle's sFTP server. This method is blocking! It will continue to poll until the timeout has elapsed
+	 * or the file has been retrieved!
+	 * @param requestFile
+	 * @param responseFile
+	 * @param configuration
+	 * @throws IOException
+	 */
 	public void receiveLitleRequestResponseFileFromSFTP(File requestFile, File responseFile, Properties configuration) throws IOException{
 	    String username = configuration.getProperty("sftpUsername");
         String password = configuration.getProperty("sftpPassword");

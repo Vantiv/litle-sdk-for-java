@@ -14,6 +14,10 @@ import com.litle.sdk.generate.ForceCaptureResponse;
 import com.litle.sdk.generate.RegisterTokenResponse;
 import com.litle.sdk.generate.SaleResponse;
 
+/**
+ * Implement this interface in order to process transactions on LitleBatchResponse objects with the .processNextTransaction method.
+ * @author ahammond
+ */
 public interface LitleResponseProcessor {
 
     void processAuthorizationResponse(AuthorizationResponse authorizationResponse);
