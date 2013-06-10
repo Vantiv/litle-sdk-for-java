@@ -19,7 +19,7 @@ import javax.xml.bind.Marshaller;
 import com.litle.sdk.generate.Authentication;
 import com.litle.sdk.generate.LitleRequest;
 
-public class LitleBatchFileRequest {
+public class LitleBatchFileRequest extends LitleRequestFile{
 
 	private JAXBContext jc;
 	private Properties properties;
@@ -209,7 +209,8 @@ public class LitleBatchFileRequest {
 					"proxyPort", "version", "batchHost", "batchPort",
 					"batchTcpTimeout", "batchUseSSL",
 					"maxAllowedTransactionsPerFile", "maxTransactionsPerBatch",
-					"batchRequestFolder", "batchResponseFolder" };
+					"batchRequestFolder", "batchResponseFolder", "sftpUsername", "sftpPassword"};
+
 			for (String prop : allProperties) {
 				// if the value of a property is not set, look at the Properties member of the class first, and the .properties file next.
 				if (config.getProperty(prop) == null) {
@@ -275,9 +276,8 @@ public class LitleBatchFileRequest {
             communication.sendLitleRequestFileToSFTP(requestFile, properties);
             communication.receiveLitleRequestResponseFileFromSFTP(requestFile, responseFile, properties);
 
-//            LitleBatchFileResponse retObj = new LitleBatchFileResponse(responseFile);
-//            return retObj;
-            return null;
+            LitleBatchFileResponse retObj = new LitleBatchFileResponse(responseFile);
+            return retObj;
         } catch (IOException e) {
             throw new LitleBatchException("There was an exception while creating the Litle Request file. Check to see if the current user has permission to read and write to " + this.properties.getProperty("batchRequestFolder"), e);
         }
