@@ -14,12 +14,14 @@ import com.litle.sdk.generate.RFRRequest;
 
 public class TestRFRFile {
 
+    String merchantId = "07103229";
+
 	@Test
     public void testSendToLitleSFTP() throws Exception {
-        String requestFileName = "litleSdk-testBatchFile-fileConfigSFTP.xml";
+        String requestFileName = "litleSdk-testRFRFile-fileConfigSFTP.xml";
         RFRRequest rfrRequest = new RFRRequest();
         AccountUpdateFileRequestData data = new AccountUpdateFileRequestData();
-        data.setMerchantId("101");
+        data.setMerchantId(merchantId);
         data.setPostDay(Calendar.getInstance());
         rfrRequest.setAccountUpdateFileRequestData(data);
 
@@ -48,10 +50,10 @@ public class TestRFRFile {
 
 	@Test
     public void testSendToLitleStream() throws Exception {
-        String requestFileName = "litleSdk-testBatchFile-fileConfigSFTP.xml";
+        String requestFileName = "litleSdk-testRFRFile-fileConfig.xml";
         RFRRequest rfrRequest = new RFRRequest();
         AccountUpdateFileRequestData data = new AccountUpdateFileRequestData();
-        data.setMerchantId("101");
+        data.setMerchantId(merchantId);
         data.setPostDay(Calendar.getInstance());
         rfrRequest.setAccountUpdateFileRequestData(data);
 

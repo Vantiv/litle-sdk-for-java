@@ -140,7 +140,8 @@ public class ResponseFileParser {
 	                    || currentStartingTagInFile.compareToIgnoreCase("<echeckVerificationResponse") == 0
 	                    || currentStartingTagInFile.compareToIgnoreCase("<echeckRedepositResponse") == 0
 	                    || currentStartingTagInFile.compareToIgnoreCase("<authReversalResponse") == 0
-	                    || currentStartingTagInFile.compareToIgnoreCase("<registerTokenResponse") == 0)) {
+	                    || currentStartingTagInFile.compareToIgnoreCase("<registerTokenResponse") == 0
+	                    || currentStartingTagInFile.compareToIgnoreCase("<accountUpdateResponse") == 0)) {
 			retVal = true;
 		} else if (openingTagToLookFor
 				.compareToIgnoreCase(currentStartingTagInFile) == 0) {
@@ -168,7 +169,8 @@ public class ResponseFileParser {
 					|| currentStartingTagInFile.compareToIgnoreCase("</echeckVerificationResponse>") == 0
 					|| currentStartingTagInFile.compareToIgnoreCase("</echeckRedepositResponse>") == 0
 					|| currentStartingTagInFile.compareToIgnoreCase("</authReversalResponse>") == 0
-					|| currentStartingTagInFile.compareToIgnoreCase("</registerTokenResponse>") == 0)) {
+					|| currentStartingTagInFile.compareToIgnoreCase("</registerTokenResponse>") == 0
+					|| currentStartingTagInFile.compareToIgnoreCase("</accountUpdateResponse>") == 0)) {
 
 			retVal = true;
 		} else if (closingTagToLookFor

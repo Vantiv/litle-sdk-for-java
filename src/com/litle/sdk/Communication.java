@@ -108,7 +108,6 @@ public class Communication {
 	    String password = configuration.getProperty("sftpPassword");
 	    String hostname = configuration.getProperty("batchHost");
 
-
 	    SftpUtil util = SftpUtilFactory.getSftpUtil();
 	    SftpSession session = null;
 	    try{
@@ -121,7 +120,7 @@ public class Communication {
 	    util.rename(session, "inbound/" + requestFile.getName() + ".prg", "inbound/" + requestFile.getName() + ".asc");
 	    util.disconnect(session);
 
-	    System.out.println("SFTPing at " + username + " to " + hostname + " with " + password );
+
 	}
 
 	/**
@@ -147,19 +146,20 @@ public class Communication {
         }
         Long start = System.currentTimeMillis();
         Long timeout = Long.parseLong(configuration.getProperty("sftpTimeout"));
+        System.out.println("Retrieving from sFTP...");
         while(System.currentTimeMillis() - start < timeout){
-            System.out.println("Checking...");
             try {
-                Thread.sleep(15000);
+                Thread.sleep(45000);
             } catch (InterruptedException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
             SftpResult res = util.get(session, "outbound/" + requestFile.getName() + ".asc", responseFile.getAbsolutePath());
             if(res.getSuccessFlag()) {
+                util.rm(session, "outbound/" + requestFile.getName() + ".asc");
                 break;
             }
-            System.out.println("We missed it :(");
+            System.out.print(".");
         }
         util.disconnect(session);
 	}

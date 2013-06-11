@@ -28,9 +28,11 @@ public class Test {
      * @param args
      */
     public static void main(String[] args) {
+        String merchantId = "07103229";
+
         RFRRequest rfr = new RFRRequest();
         AccountUpdateFileRequestData data = new AccountUpdateFileRequestData();
-        data.setMerchantId("101");
+        data.setMerchantId(merchantId);
         data.setPostDay(Calendar.getInstance());
         rfr.setAccountUpdateFileRequestData(data);
 
@@ -44,7 +46,7 @@ public class Test {
 
         LitleBatchFileRequest batchfile = new LitleBatchFileRequest("testFile.xml");
 
-        LitleBatchRequest batch = batchfile.createBatch("101");
+        LitleBatchRequest batch = batchfile.createBatch(merchantId);
 
         Credit credit = new Credit();
         credit.setAmount(106L);

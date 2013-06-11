@@ -93,7 +93,6 @@ public class LitleBatchResponse {
 			allTransactionsRetrieved = true;
 			throw new LitleBatchNoMoreBatchTransactionException("All transactions from this batch have already been retrieved");
 		}
-		System.out.println(txnXML);
 		try {
 			@SuppressWarnings("unchecked")
 			TransactionType objToRet = ((JAXBElement<TransactionType>)unmarshaller.unmarshal(new StringReader(txnXML))).getValue();

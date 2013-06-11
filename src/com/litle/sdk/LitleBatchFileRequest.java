@@ -19,7 +19,7 @@ import javax.xml.bind.Marshaller;
 import com.litle.sdk.generate.Authentication;
 import com.litle.sdk.generate.LitleRequest;
 
-public class LitleBatchFileRequest extends LitleRequestFile{
+public class LitleBatchFileRequest{
 
 	private JAXBContext jc;
 	private Properties properties;
