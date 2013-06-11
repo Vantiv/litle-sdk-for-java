@@ -1,6 +1,8 @@
 package com.litle.sdk;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 
@@ -15,13 +17,13 @@ public class TestResponseFileParser {
 
 	@BeforeClass
 	public static void beforeClass() throws Exception {
-		File fileToReturn = new File("test/unit/responseFolder/testParseResponseFile.xml");
+		File fileToReturn = new File("test/unit/testParseResponseFile.xml");
 		responseFileParser = new ResponseFileParser(fileToReturn);
 	}
-	
+
 	@Test
     public void testgetNextTag() throws Exception {
-       
+
 		String retString = responseFileParser.getNextTag("litleResponse");
 		String outputString = "<litleResponse version=\"8.18\" xmlns=\"http://www.litle.com/schema\" response=\"0\" message=\"Valid Format\" litleSessionId=\"82822223274065939\"></litleResponse>";
         assertEquals (outputString,retString);
@@ -43,14 +45,14 @@ public class TestResponseFileParser {
         retString = responseFileParser.getNextTag("transactionResponse");
 
     }
-	
+
 	@Test
 	public void testOkToStartRecordingString() {
 		assertFalse(responseFileParser.okToStartRecordingString("litleResponse", "saleResponse"));
 		assertTrue(responseFileParser.okToStartRecordingString("SaleResponse", "saleResponse"));
 		assertTrue(responseFileParser.okToStartRecordingString("<transactionResponse", "<saleResponse"));
 	}
-	
+
 	@Test
 	public void testokToStopRecordingString() {
 		assertTrue(responseFileParser.okToStopRecordingString("</transactionResponse>", "</saleResponse>"));

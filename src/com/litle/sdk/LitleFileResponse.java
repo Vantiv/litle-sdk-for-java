@@ -65,4 +65,16 @@ abstract class LitleFileResponse {
     public String getId() {
         return this.litleResponse.getId();
     }
+
+
+    public ResponseFileParser getResponseFileParser() {
+        return responseFileParser;
+    }
+
+
+    public void setResponseFileParser(ResponseFileParser responseFileParser) {
+        this.responseFileParser = responseFileParser;
+    }
+
+
 }

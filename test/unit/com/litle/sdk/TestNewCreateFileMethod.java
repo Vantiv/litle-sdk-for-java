@@ -2,10 +2,13 @@ package com.litle.sdk;
 
 import java.io.FileNotFoundException;
 import java.util.Properties;
+
 import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 import com.litle.sdk.generate.CardType;
 import com.litle.sdk.generate.MethodOfPaymentTypeEnum;
@@ -33,11 +36,11 @@ public class TestNewCreateFileMethod {
 		property.setProperty("proxyHost", "");
 		property.setProperty("proxyPort", "");
 		property.setProperty("reportGroup", "test");
-		property.setProperty("batchRequestFolder", "test/unit/requestFolder/");
-		property.setProperty("batchResponseFolder", "test/unit/responseFolder/");
-		
+		property.setProperty("batchRequestFolder", "test/unit/");
+		property.setProperty("batchResponseFolder", "test/unit/");
+
 	}
-	
+
 	@Test
 	public void testAddAFileToTestNewFileMethod() throws FileNotFoundException, JAXBException {
 		litleBatchFileRequest = new LitleBatchFileRequest("testFile.xml");
@@ -53,8 +56,13 @@ public class TestNewCreateFileMethod {
 		card.setExpDate("1210");
 		sale.setCard(card);
 		sale.setReportGroup("test");
+		litleBatchRequest.setNumOfTxn(1);
+        Marshaller mockMarshaller = Mockito.mock(Marshaller.class);
+        litleBatchRequest.setMarshaller(mockMarshaller);
+
+
 		litleBatchRequest.addTransaction(sale);
-		
+
 		Sale sale1 = new Sale();
 		sale1.setAmount(101L);
 		sale1.setOrderId("257");
@@ -66,7 +74,7 @@ public class TestNewCreateFileMethod {
 		sale1.setCard(card1);
 		sale1.setReportGroup("test1");
 		litleBatchRequest.addTransaction(sale1);
-		
+
 		//litleBatchRequest = new LitleBatchRequest("102", new LitleBatchFileRequest(""));
 		litleBatchRequest = litleBatchFileRequest.createBatch("101");
 		Sale sale3 = new Sale();

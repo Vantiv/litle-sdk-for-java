@@ -8,11 +8,8 @@ import org.junit.runners.Suite;
 	TestEnumerations.class,
 	TestLitleOnline.class,
 	TestLitleBatchFileRequest.class,
-	TestLitleBatchFileResponse.class,
 	TestLitleBatchRequest.class,
 	TestLitleBatchResponse.class,
-	TestLitleRFRFileRequest.class,
-	TestLitleRFRFileResponse.class,
 	TestLitleRFRResponse.class
 })
 public class UnitSuite {

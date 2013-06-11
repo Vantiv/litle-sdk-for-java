@@ -279,5 +279,22 @@ public class LitleBatchRequest {
 		return this.file;
 	}
 
+    public Marshaller getMarshaller() {
+        return marshaller;
+    }
+
+    public void setMarshaller(Marshaller marshaller) {
+        this.marshaller = marshaller;
+    }
+
+    public int getNumOfTxn() {
+        return numOfTxn;
+    }
+
+    public void setNumOfTxn(int numOfTxn) {
+        this.numOfTxn = numOfTxn;
+    }
+
+
 
 }

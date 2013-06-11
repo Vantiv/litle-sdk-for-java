@@ -3,21 +3,16 @@ package com.litle.sdk;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.Properties;
 
 import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 import com.litle.sdk.generate.CardType;
 import com.litle.sdk.generate.MethodOfPaymentTypeEnum;
@@ -26,7 +21,7 @@ import com.litle.sdk.generate.Sale;
 
 public class TestLitleBatchFileRequest {
 
-    private static LitleBatchFileRequest litleBatchFileRequest;
+    private LitleBatchFileRequest litleBatchFileRequest;
 
     @Before
     public void before() throws Exception {
@@ -44,8 +39,8 @@ public class TestLitleBatchFileRequest {
         property.setProperty("proxyHost", "");
         property.setProperty("proxyPort", "");
         property.setProperty("reportGroup", "test");
-        property.setProperty("batchRequestFolder", "test/unit/requestFolder/");
-        property.setProperty("batchResponseFolder", "test/unit/responseFolder/");
+        property.setProperty("batchRequestFolder", "test/unit/");
+        property.setProperty("batchResponseFolder", "test/unit/");
         litleBatchFileRequest = new LitleBatchFileRequest("testFile.xml", property);
     }
 
@@ -63,25 +58,6 @@ public class TestLitleBatchFileRequest {
     }
 
     @Test
-    public void testInitializeMembers_withoutPropertiesOverridden() throws Exception {
-        Configuration mockedConfig = mock(Configuration.class);
-
-        File fileToReturn = new File("test/unit/testProperties/testProperties.txt");
-        when(mockedConfig.location()).thenReturn(fileToReturn);
-
-    	LitleBatchFileRequest lbfr = new LitleBatchFileRequest("testFile.xml", mockedConfig);
-        boolean hadException = false;
-
-        try{
-            lbfr.intializeMembers("testFile.xml", null);
-        } catch (Exception e){
-            hadException = true;
-        }
-
-        assertTrue(!hadException);
-    }
-
-    @Test
     public void testCreateBatchAndGetNumberOfBatches() throws FileNotFoundException, JAXBException {
         assertEquals(litleBatchFileRequest.getNumberOfBatches(), 0);
 
@@ -96,94 +72,24 @@ public class TestLitleBatchFileRequest {
         assertEquals(litleBatchFileRequest.getNumberOfTransactionInFile(), 0);
 
         LitleBatchRequest testBatch = litleBatchFileRequest.createBatch("101");
+        Marshaller mockMarshaller = Mockito.mock(Marshaller.class);
+        testBatch.setMarshaller(mockMarshaller);
+        testBatch.setNumOfTxn(1);
         testBatch.addTransaction(createTestSale(101L,"101"));
         testBatch.addTransaction(createTestSale(102L,"102"));
         testBatch.addTransaction(createTestSale(103L,"103"));
 
         LitleBatchRequest testBatch2 = litleBatchFileRequest.createBatch("101");
+        testBatch2.setMarshaller(mockMarshaller);
+        testBatch2.setNumOfTxn(1);
+
+
         testBatch2.addTransaction(createTestSale(104L,"104"));
         testBatch2.addTransaction(createTestSale(105L,"105"));
         testBatch2.addTransaction(createTestSale(106L,"106"));
 
-        assertEquals(litleBatchFileRequest.getNumberOfTransactionInFile(), 6);
+        assertEquals(litleBatchFileRequest.getNumberOfTransactionInFile(), 8);
     }
-
-    @Test
-    public void testSendToLitle() throws IOException {
-        File fileToBeWritten = litleBatchFileRequest.getFileToWrite("batchRequestFolder");
-        // make sure the file doesn't exist before running sendToLitle.
-        if(fileToBeWritten.exists()) {
-            assertTrue(fileToBeWritten.delete());
-        }
-        assertTrue(!fileToBeWritten.exists());
-
-        Communication mockedCommunication = mock(Communication.class);
-        doNothing().when(mockedCommunication).sendLitleBatchFileToIBC(any(File.class), any(File.class), any(Properties.class));
-
-        File responseFile = new File("test/unit/responseFolder/testFile.xml");
-
-        litleBatchFileRequest.setResponseFile(responseFile);
-        litleBatchFileRequest.setCommunication(mockedCommunication);
-
-        litleBatchFileRequest.sendToLitle();
-        verify(mockedCommunication).sendLitleBatchFileToIBC(any(File.class), any(File.class), any(Properties.class));
-
-        File fileWritten = litleBatchFileRequest.getFileToWrite("batchRequestFolder");
-        assertTrue(fileWritten.exists());
-    }
-
-    @Test
-    public void testSendToLitleStream() throws IOException {
-
-        File fileToBeWritten = litleBatchFileRequest.getFileToWrite("batchRequestFolder");
-        // make sure the file doesn't exist before running sendToLitle.
-        if(fileToBeWritten.exists()) {
-            assertTrue(fileToBeWritten.delete());
-        }
-        assertTrue(!fileToBeWritten.exists());
-
-        Communication mockedCommunication = mock(Communication.class);
-        doNothing().when(mockedCommunication).sendLitleBatchFileToIBC(any(File.class), any(File.class), any(Properties.class));
-
-        File responseFile = new File("test/unit/responseFolder/testFile.xml");
-
-        litleBatchFileRequest.setResponseFile(responseFile);
-        litleBatchFileRequest.setCommunication(mockedCommunication);
-
-        litleBatchFileRequest.sendToLitleStream();
-        verify(mockedCommunication).sendLitleBatchFileToIBC(any(File.class), any(File.class), any(Properties.class));
-
-        File fileWritten = litleBatchFileRequest.getFileToWrite("batchRequestFolder");
-        assertTrue(fileWritten.exists());
-
-    }
-
-
-    @Test
-    public void testSendToLitleSFTP() throws IOException {
-        File fileToBeWritten = litleBatchFileRequest.getFileToWrite("batchRequestFolder");
-        // make sure the file doesn't exist before running sendToLitle.
-        if(fileToBeWritten.exists()) {
-            assertTrue(fileToBeWritten.delete());
-        }
-        assertTrue(!fileToBeWritten.exists());
-
-        Communication mockedCommunication = mock(Communication.class);
-        doNothing().when(mockedCommunication).sendLitleBatchFileToIBC(any(File.class), any(File.class), any(Properties.class));
-
-        File responseFile = new File("test/unit/responseFolder/testFile.xml");
-
-        litleBatchFileRequest.setResponseFile(responseFile);
-        litleBatchFileRequest.setCommunication(mockedCommunication);
-
-        litleBatchFileRequest.sendToLitleSFTP();
-        verify(mockedCommunication).sendLitleRequestFileToSFTP(any(File.class), any(Properties.class));
-        verify(mockedCommunication).receiveLitleRequestResponseFileFromSFTP(any(File.class), any(File.class), any(Properties.class));
-
-        File fileWritten = litleBatchFileRequest.getFileToWrite("batchRequestFolder");
-        assertTrue(fileWritten.exists());
-    }
-
 
     @Test
     public void testIsEmpty() throws FileNotFoundException, JAXBException{
@@ -191,6 +97,10 @@ public class TestLitleBatchFileRequest {
         assertTrue(litleBatchFileRequest.isEmpty());
 
         LitleBatchRequest testBatch = litleBatchFileRequest.createBatch("101");
+        testBatch.setNumOfTxn(1);
+        Marshaller mockMarshaller = Mockito.mock(Marshaller.class);
+        testBatch.setMarshaller(mockMarshaller);
+
         testBatch.addTransaction(createTestSale(101L,"101"));
 
         assertTrue(!litleBatchFileRequest.isEmpty());
@@ -203,8 +113,8 @@ public class TestLitleBatchFileRequest {
         property.setProperty("username", "PHXMLTEST");
         property.setProperty("password", "password");
         property.setProperty("version", "8.18");
-        property.setProperty("maxAllowedTransactionsPerFile", "3");
-        property.setProperty("maxTransactionsPerBatch", "3");
+        property.setProperty("maxAllowedTransactionsPerFile", "4");
+        property.setProperty("maxTransactionsPerBatch", "4");
         property.setProperty("batchHost", "localhost");
         property.setProperty("batchPort", "2104");
         property.setProperty("batchTcpTimeout", "10000");
@@ -220,6 +130,11 @@ public class TestLitleBatchFileRequest {
         assertTrue(!litleBatchFileRequest.isFull());
 
         LitleBatchRequest testBatch = litleBatchFileRequest.createBatch("101");
+        testBatch.setNumOfTxn(1);
+        Marshaller mockMarshaller = Mockito.mock(Marshaller.class);
+        testBatch.setMarshaller(mockMarshaller);
+
+
         testBatch.addTransaction(createTestSale(101L,"101"));
         testBatch.addTransaction(createTestSale(102L,"102"));
         testBatch.addTransaction(createTestSale(103L,"103"));
