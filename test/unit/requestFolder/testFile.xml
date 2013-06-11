@@ -1,8 +1,0 @@
-<litleRequest version="8.18" numBatchRequests="0" xmlns="http://www.litle.com/schema">
-    <authentication>
-        <user>PHXMLTEST</user>
-        <password>password</password>
-    </authentication>
- <RFRRequest xmlns="http://www.litle.com/schema">
-    <litleSessionId>8675309999</litleSessionId>
-</RFRRequest></litleRequest>

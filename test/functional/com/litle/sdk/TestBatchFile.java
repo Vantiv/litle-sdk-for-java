@@ -202,8 +202,8 @@ public class TestBatchFile {
 
 		CardType card = new CardType();
 		card.setType(MethodOfPaymentTypeEnum.VI);
-		card.setNumber("4100000000000001");
-		card.setExpDate("1220");
+		card.setNumber("4457010000000009");
+		card.setExpDate("0114");
 		sale11.setCard(card);
 
 		batchRequest1.addTransaction(sale11);

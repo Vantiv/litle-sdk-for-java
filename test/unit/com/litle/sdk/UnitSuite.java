@@ -11,6 +11,9 @@ import org.junit.runners.Suite;
 	TestLitleBatchFileResponse.class,
 	TestLitleBatchRequest.class,
 	TestLitleBatchResponse.class,
+	TestLitleRFRFileRequest.class,
+	TestLitleRFRFileResponse.class,
+	TestLitleRFRResponse.class
 })
 public class UnitSuite {
 }
