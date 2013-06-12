@@ -44,8 +44,7 @@
 		<pathelement location="${commons}/commons-logging-1.1.1.jar" />
 		<pathelement location="${opensftp}/opensftp-api-0.3.jar" />
 		<pathelement location="${opensftp}/opensftp-impl-0.3.0.jar" />
-		<pathelement location="${opensftp}/lib/bsh-2.0b4.jar" />"
-		
+		<pathelement location="${opensftp}/lib/bsh-2.0b4.jar" />
 		<pathelement path="${opensftp}/lib" />
 	</path>
 
