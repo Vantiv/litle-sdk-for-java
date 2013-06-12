@@ -235,6 +235,9 @@
 				<include name="httpcore-4.2.2.jar" />
 				<include name="httpmime-4.2.3.jar" />
 			</fileset>
+			<fileset dir="${opensftp}">
+			    <include name="**/*.jar" />
+			</fileset>
 			<fileset dir="${commons}">
 				<include name="commons-logging-1.1.1.jar"/>
 			</fileset>
@@ -268,6 +271,9 @@
 				<include name="xercesSamples.jar"/>
 				<include name="xml-apis.jar"/>
 			</fileset>
+			<fileset dir="${opensftp}">
+                <include name="**/*.jar" />
+            </fileset>
 		</copy>
 		<copy todir="kit/java14/doc">
 			<fileset dir="dist/doc"/>
