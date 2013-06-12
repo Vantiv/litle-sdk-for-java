@@ -399,7 +399,7 @@ public class LitleBatchFileRequest{
 			litleRequest.setId(requestId);
 		}
 		litleRequest.setAuthentication(authentication);
-		litleRequest.setVersion(this.properties.getProperty("version"));
+		litleRequest.setVersion("8.18");
 		BigInteger numOfBatches = BigInteger.valueOf(this.litleBatchRequestList.size());
 		litleRequest.setNumBatchRequests(numOfBatches);
 		return litleRequest;
