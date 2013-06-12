@@ -4,8 +4,8 @@
         Builds and tests litle-sdk-for-java
     </description>
 	<!-- set global properties for this build -->
-	<property name="version.schema" value="8.17"/>
-	<property name="version.jar" value="8.17.0"/>
+	<property name="version.schema" value="8.18"/>
+	<property name="version.jar" value="8.18.0"/>
 	<property file="build/build.properties"/>
 	
 	<property name="src" location="src" />
@@ -23,7 +23,9 @@
 	<property name="mockito" location="${lib}/mockito" />
 	<property name="xerces" location="${lib}/xerces-2_11_0" />
 	<property name="retrotranslator" location="${lib}/Retrotranslator-1.2.9-bin"/>
-
+	<property name="opensftp" location="${lib}/opensftp-0.3.0"/>
+	
+	
 	<path id="lib.path.ref">
 		<fileset dir="${jaxb}" includes="*.jar" />
 	</path>
@@ -40,6 +42,19 @@
 		<pathelement location="${httpclient}/httpcore-4.2.2.jar" />
 		<pathelement location="${httpclient}/httpmime-4.2.3.jar" />
 		<pathelement location="${commons}/commons-logging-1.1.1.jar" />
+		<pathelement location="${opensftp}/opensftp-api-0.3.jar" />
+		<pathelement location="${opensftp}/opensftp-impl-0.3.0.jar" />
+		<pathelement location="${opensftp}/lib/bsh-2.0b4.jar" />
+		<pathelement location="${opensftp}/lib/commons-beanutils-1.8.3.jar" />
+		<pathelement location="${opensftp}/lib/commons-logging-1.1.1.jar" />
+		<pathelement location="${opensftp}/lib/dom4j-1.6.1.jar" />
+		<pathelement location="${opensftp}/lib/jaxen-1.1-beta-6.jar" />
+		<pathelement location="${opensftp}/lib/jsch-0.1.42.jar" />
+		<pathelement location="${opensftp}/lib/jsch-0.1.47.jar" />
+		<pathelement location="${opensftp}/lib/jzlib-1.0.7.jar" />
+		<pathelement location="${opensftp}/lib/log4j-1.2.16.jar" />
+		<pathelement location="${opensftp}/lib/objenesis-1.2.jar" />
+		<pathelement location="${opensftp}/lib/xercesImpl-2.6.2.jar" />
 	</path>
 
 	<taskdef name="xjc" classname="com.sun.tools.xjc.XJCTask">
@@ -47,6 +62,7 @@
 			<fileset dir="${basedir}/lib/jaxb/lib" includes="*.jar" />
 		</classpath>
 	</taskdef>
+	
 	
     <taskdef name="retrotranslator" classname="net.sf.retrotranslator.transformer.RetrotranslatorTask">
         <classpath>
@@ -63,6 +79,7 @@
 		<copy file="xsd/litleOnline_v${version.schema}.xsd" todir="generated"/>
 		<copy file="xsd/litleTransaction_v${version.schema}.xsd" todir="generated"/>
 		<copy file="xsd/litleCommon_v${version.schema}.xsd" todir="generated"/>
+		<copy file="xsd/litleBatch_v${version.schema}.xsd" todir="generated"/>
 		<!-- Allow jaxb tags in our schema -->
 		<replaceregexp file="generated/litleTransaction_v${version.schema}.xsd" match="(attributeFormDefault=&quot;unqualified&quot;)>" replace="\1 xmlns:jaxb=&quot;http://java.sun.com/xml/ns/jaxb&quot; jaxb:version=&quot;2.0&quot;>" byline="true"/>
 		<replaceregexp file="generated/litleCommon_v${version.schema}.xsd"      match="(elementFormDefault=&quot;qualified&quot;)>" replace="\1 xmlns:jaxb=&quot;http://java.sun.com/xml/ns/jaxb&quot; jaxb:version=&quot;2.0&quot;>" byline="true"/>
@@ -104,8 +121,17 @@
 		<replaceregexp file="generated/litleTransaction_v${version.schema}.xsd" match="(&lt;xs:element name=&quot;echeckVerification.*?)&lt;xs:all>(.*?)&lt;/xs:all>(.*?&lt;/xs:element)" replace="\1&lt;xs:sequence>\2&lt;/xs:sequence>\3" flags="s"/>
 		<replaceregexp file="generated/litleTransaction_v${version.schema}.xsd" match="&lt;xs:element ref=&quot;xp:echeckOrEcheckToken&quot;\s?/>" replace="&lt;xs:choice>&lt;xs:element name=&quot;echeck&quot; type=&quot;xp:echeckType&quot;/>&lt;xs:element name=&quot;echeckToken&quot; type=&quot;xp:echeckTokenType&quot;/>&lt;/xs:choice>" byline="true"/>
 		<replaceregexp file="generated/litleTransaction_v${version.schema}.xsd" match="&lt;xs:element ref=&quot;xp:echeckOrEcheckToken&quot; minOccurs=&quot;0&quot;\s?/>" replace="&lt;xs:choice>&lt;xs:element name=&quot;echeck&quot; type=&quot;xp:echeckType&quot;/>&lt;xs:element name=&quot;echeckToken&quot; type=&quot;xp:echeckTokenType&quot;/>&lt;/xs:choice>" byline="true"/>
+		
+		<!-- Make num* and *Amount have a default="0" in litleBatch*.xsd -->
+		<replaceregexp file="generated/litleBatch_v${version.schema}.xsd" match="(&lt;xs:attribute name=&quot;num\w+&quot;.*use=&quot;optional&quot;.*)/>" replace="\1 default=&quot;0&quot;/>" byline="true"/>
+		<replaceregexp file="generated/litleBatch_v${version.schema}.xsd" match="(&lt;xs:attribute name=&quot;\w+Amount&quot;.*use=&quot;optional&quot;.*)/>" replace="\1 default=&quot;0&quot;/>" byline="true"/>
+		
 		<!--Actually generate code from the modified schema -->
-		<xjc schema="generated/litleOnline_v${version.schema}.xsd" package="com.litle.sdk.generate" destdir="${generated}" binding="xsd/bindings.xml" extension="true"/>
+		<!--<xjc schema="generated/litleOnline_v${version.schema}.xsd" package="com.litle.sdk.generate" destdir="${generated}" binding="xsd/bindings.xml" extension="true"/> -->
+		<xjc package="com.litle.sdk.generate" destdir="${generated}" binding="xsd/bindings.xml" extension="true">
+		        <schema dir="${generated}" 
+		                includes="litleOnline_v${version.schema}.xsd,litleBatch_v${version.schema}.xsd"/>
+		</xjc>
 	</target>
 
 	<target name="compile" depends="clean,generate" description="compile the source ">
@@ -219,6 +245,9 @@
 				<include name="httpcore-4.2.2.jar" />
 				<include name="httpmime-4.2.3.jar" />
 			</fileset>
+			<fileset dir="${opensftp}">
+			    <include name="**/*.jar" />
+			</fileset>
 			<fileset dir="${commons}">
 				<include name="commons-logging-1.1.1.jar"/>
 			</fileset>
@@ -252,6 +281,9 @@
 				<include name="xercesSamples.jar"/>
 				<include name="xml-apis.jar"/>
 			</fileset>
+			<fileset dir="${opensftp}">
+                <include name="**/*.jar" />
+            </fileset>
 		</copy>
 		<copy todir="kit/java14/doc">
 			<fileset dir="dist/doc"/>

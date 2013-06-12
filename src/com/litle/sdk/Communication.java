@@ -1,7 +1,16 @@
 package com.litle.sdk;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
+
+import net.sf.opensftp.SftpException;
+import net.sf.opensftp.SftpResult;
+import net.sf.opensftp.SftpSession;
+import net.sf.opensftp.SftpUtil;
+import net.sf.opensftp.SftpUtilFactory;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
@@ -16,9 +25,11 @@ import org.apache.http.util.EntityUtils;
 public class Communication {
 
 	private DefaultHttpClient httpclient;
+	private StreamData streamData;
 
 	public Communication() {
 		httpclient = new DefaultHttpClient();
+		streamData = new StreamData();
 	}
 
 	public String requestToServer(String xmlRequest, Properties configuration) {
@@ -44,13 +55,13 @@ public class Communication {
 				System.out.println("Request XML: " + xmlRequest);
 			}
 			post.setEntity(new StringEntity(xmlRequest));
-			
+
 			HttpResponse response = httpclient.execute(post);
 			if(response.getStatusLine().getStatusCode() != 200) {
 				throw new LitleOnlineException(response.getStatusLine().getStatusCode() + ":" + response.getStatusLine().getReasonPhrase());
 			}
 			entity = response.getEntity();
-			xmlResponse = EntityUtils.toString(entity);			
+			xmlResponse = EntityUtils.toString(entity);
 
 			if (printxml) {
 				System.out.println("Response XML: " + xmlResponse);
@@ -66,4 +77,121 @@ public class Communication {
 		return xmlResponse;
 	}
 
+	/**
+	 * This method is exclusively used for sending batch file to the communicator.
+	 * @param requestFile
+	 * @param responseFile
+	 * @param configuration
+	 * @throws IOException
+	 */
+	public void sendLitleBatchFileToIBC(File requestFile, File responseFile, Properties configuration) throws IOException {
+		String hostName = configuration.getProperty("batchHost");
+		String hostPort = configuration.getProperty("batchPort");
+		int tcpTimeout = Integer.parseInt(configuration.getProperty("batchTcpTimeout"));
+		boolean useSSL = configuration.getProperty("batchUseSSL") != null
+				&& configuration.getProperty("batchUseSSL").equalsIgnoreCase("true");
+		streamData.init(hostName, hostPort, tcpTimeout, useSSL);
+
+		streamData.dataOut(requestFile);
+
+		streamData.dataIn(responseFile);
+
+		streamData.closeSocket();
+	}
+
+	/**
+	 * This method sends the request file to Litle's server sFTP
+	 * @param requestFile
+	 * @param configuration
+	 * @throws IOException
+	 */
+	public void sendLitleRequestFileToSFTP(File requestFile, Properties configuration) throws IOException{
+	    String username = configuration.getProperty("sftpUsername");
+	    String password = configuration.getProperty("sftpPassword");
+	    String hostname = configuration.getProperty("batchHost");
+
+	    SftpUtil util = SftpUtilFactory.getSftpUtil();
+	    SftpSession session = null;
+	    try{
+	        session = util.connectByPasswdAuth(hostname, username, password, SftpUtil.STRICT_HOST_KEY_CHECKING_OPTION_NO);
+	    } catch(SftpException e){
+	        throw new LitleBatchException("Exception connection to Litle", e);
+	    }
+
+	    boolean printxml = configuration.getProperty("printxml") != null
+                && configuration.getProperty("printxml").equalsIgnoreCase(
+                        "true");
+
+	    if(printxml){
+            BufferedReader reader = new BufferedReader(new FileReader(requestFile));
+            String line = "";
+            while((line = reader.readLine()) != null){
+                System.out.println(line);
+            }
+	    }
+
+
+	    util.put(session, requestFile.getAbsolutePath(), "inbound/" + requestFile.getName() + ".prg");
+	    util.rename(session, "inbound/" + requestFile.getName() + ".prg", "inbound/" + requestFile.getName() + ".asc");
+	    util.disconnect(session);
+
+
+	}
+
+	/**
+	 * Grabs the response file from Litle's sFTP server. This method is blocking! It will continue to poll until the timeout has elapsed
+	 * or the file has been retrieved!
+	 * @param requestFile
+	 * @param responseFile
+	 * @param configuration
+	 * @throws IOException
+	 */
+	public void receiveLitleRequestResponseFileFromSFTP(File requestFile, File responseFile, Properties configuration) throws IOException{
+	    String username = configuration.getProperty("sftpUsername");
+        String password = configuration.getProperty("sftpPassword");
+        String hostname = configuration.getProperty("batchHost");
+
+
+        SftpUtil util = SftpUtilFactory.getSftpUtil();
+        SftpSession session = null;
+        try{
+            session = util.connectByPasswdAuth(hostname, username, password, SftpUtil.STRICT_HOST_KEY_CHECKING_OPTION_NO);
+        } catch(SftpException e){
+            throw new LitleBatchException("Exception connection to Litle", e);
+        }
+        Long start = System.currentTimeMillis();
+        Long timeout = Long.parseLong(configuration.getProperty("sftpTimeout"));
+        System.out.println("Retrieving from sFTP...");
+        while(System.currentTimeMillis() - start < timeout){
+            try {
+                Thread.sleep(45000);
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            SftpResult res = util.get(session, "outbound/" + requestFile.getName() + ".asc", responseFile.getAbsolutePath());
+            if(res.getSuccessFlag()) {
+                util.rm(session, "outbound/" + requestFile.getName() + ".asc");
+                break;
+            }
+            System.out.print(".");
+        }
+        boolean printxml = configuration.getProperty("printxml") != null
+                && configuration.getProperty("printxml").equalsIgnoreCase(
+                        "true");
+        if(printxml){
+            BufferedReader reader = new BufferedReader(new FileReader(responseFile));
+            String line = "";
+            while((line = reader.readLine()) != null){
+                System.out.println(line);
+            }
+        }
+
+        util.disconnect(session);
+	}
+
+
+	void setStreamData(StreamData streamData) {
+		this.streamData = streamData;
+	}
 }

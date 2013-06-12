@@ -16,7 +16,9 @@ import org.junit.runners.Suite;
 	TestEcheckVerification.class,
 	TestForceCapture.class,
 	TestSale.class,
-	TestToken.class
+	TestToken.class,
+	TestRFRFile.class,
+	TestBatchFile.class
 })
 public class FunctionalSuite {
 }
