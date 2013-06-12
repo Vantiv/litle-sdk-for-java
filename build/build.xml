@@ -45,7 +45,16 @@
 		<pathelement location="${opensftp}/opensftp-api-0.3.jar" />
 		<pathelement location="${opensftp}/opensftp-impl-0.3.0.jar" />
 		<pathelement location="${opensftp}/lib/bsh-2.0b4.jar" />
-		<pathelement location="${opensftp}/lib/" />
+		<pathelement location="${opensftp}/lib/commons-beanutils-1.8.3.jar" />
+		<pathelement location="${opensftp}/lib/commons-logging-1.1.1.jar" />
+		<pathelement location="${opensftp}/lib/dom4j-1.6.1.jar" />
+		<pathelement location="${opensftp}/lib/jaxen-1.1-beta-6.jar" />
+		<pathelement location="${opensftp}/lib/jsch-0.1.42.jar" />
+		<pathelement location="${opensftp}/lib/jsch-0.1.47.jar" />
+		<pathelement location="${opensftp}/lib/jzlib-1.0.7.jar" />
+		<pathelement location="${opensftp}/lib/log4j-1.2.16.jar" />
+		<pathelement location="${opensftp}/lib/objenesis-1.2.jar" />
+		<pathelement location="${opensftp}/lib/xercesImpl-2.6.2.jar" />
 	</path>
 
 	<taskdef name="xjc" classname="com.sun.tools.xjc.XJCTask">
