@@ -183,11 +183,20 @@ public class LitleBatchFileRequest{
 			litleReqWriter.write(xmlRequest.getBytes());
 			int i = fis.read(readData);
 
+			boolean printxml = properties.getProperty("printxml") != null
+                    && properties.getProperty("printxml").equalsIgnoreCase(
+                            "true");
+
+			if (printxml) {
+                System.out.println("Request XML: ");
+            }
 			while (i != -1) {
 				litleReqWriter.write(readData, 0, i);
 				i = fis.read(readData);
+				System.out.print(i);
 			}
 			litleReqWriter.write(("</litleRequest>\n").getBytes());
+			System.out.println("</litleRequest>\n");
 			//marshaller.marshal(litleRequest, os);
 			requestFile = localFile;
 			fis.close();
@@ -336,6 +345,9 @@ public class LitleBatchFileRequest{
             OutputStream batchReqWriter = new FileOutputStream(tempBatchRequestFile.getAbsoluteFile());
             // close the all the batch files
             byte[] readData = new byte[1024];
+
+
+
             for (LitleBatchRequest batchReq : litleBatchRequestList) {
                 batchReq.closeFile();
                 StringWriter sw = new StringWriter();
