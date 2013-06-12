@@ -49,8 +49,6 @@ public class LitleBatchResponse {
 
 		try {
 			batchResponseXML = responseFileParser.getNextTag("batchResponse");
-			System.out.println(batchResponseXML);
-
 			//batchResponseXML = "<batchResponse litleBatchId=\"1431\" merchantId=\"101\" xmlns=\"http://www.litle.com/schema\"></batchResponse>";
 			jc = JAXBContext.newInstance("com.litle.sdk.generate");
 			unmarshaller = jc.createUnmarshaller();

@@ -1,6 +1,8 @@
 package com.litle.sdk;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
 
@@ -116,6 +118,18 @@ public class Communication {
 	        throw new LitleBatchException("Exception connection to Litle", e);
 	    }
 
+	    boolean printxml = configuration.getProperty("printxml") != null
+                && configuration.getProperty("printxml").equalsIgnoreCase(
+                        "true");
+
+        if (printxml) {
+            BufferedReader reader = new BufferedReader(new FileReader(requestFile));
+            String line = "";
+            while((line = reader.readLine()) != null){
+                System.out.println(line);
+            }
+        }
+
 	    util.put(session, requestFile.getAbsolutePath(), "inbound/" + requestFile.getName() + ".prg");
 	    util.rename(session, "inbound/" + requestFile.getName() + ".prg", "inbound/" + requestFile.getName() + ".asc");
 	    util.disconnect(session);
@@ -161,6 +175,18 @@ public class Communication {
             }
             System.out.print(".");
         }
+        boolean printxml = configuration.getProperty("printxml") != null
+                && configuration.getProperty("printxml").equalsIgnoreCase(
+                        "true");
+
+        if (printxml) {
+            BufferedReader reader = new BufferedReader(new FileReader(responseFile));
+            String line = "";
+            while((line = reader.readLine()) != null){
+                System.out.println(line);
+            }
+        }
+
         util.disconnect(session);
 	}
 
