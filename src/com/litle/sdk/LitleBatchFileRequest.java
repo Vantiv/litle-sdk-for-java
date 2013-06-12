@@ -212,7 +212,7 @@ public class LitleBatchFileRequest{
 		boolean propertiesReadFromFile = false;
 		try {
 			String[] allProperties = { "username", "password", "proxyHost",
-					"proxyPort", "version", "batchHost", "batchPort",
+					"proxyPort", "batchHost", "batchPort",
 					"batchTcpTimeout", "batchUseSSL",
 					"maxAllowedTransactionsPerFile", "maxTransactionsPerBatch",
 					"batchRequestFolder", "batchResponseFolder", "sftpUsername", "sftpPassword"};

@@ -490,7 +490,7 @@ public class TestBatchFile {
 		assertNotNull(response.getLitleSessionId());
 		assertEquals("0", response.getResponse());
 		assertEquals("Valid Format", response.getMessage());
-		assertEquals(request.getConfig().getProperty("version"), response.getVersion());
+		assertEquals("8.18", response.getVersion());
 
 		LitleBatchResponse batchResponse1 = response.getNextLitleBatchResponse();
 		assertNotNull(batchResponse1);
