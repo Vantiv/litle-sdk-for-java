@@ -65,7 +65,7 @@ public class SampleLitleTxn {
     Message: Approved
     Litle Transaction ID: <your-numeric-litle-txn-id>
 
-More examples can be found here [Java Gists](https://gist.github.com/gists/search?q=Litle+java+SDK&page=1)
+More examples can be found here [Java Gists](https://gist.github.com/litleSDK)
 
 Please contact Litle & Co. with any further questions.   You can reach us at sdksupport@litle.com.
 
