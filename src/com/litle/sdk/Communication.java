@@ -122,13 +122,13 @@ public class Communication {
                 && configuration.getProperty("printxml").equalsIgnoreCase(
                         "true");
 
-        if (printxml) {
+
             BufferedReader reader = new BufferedReader(new FileReader(requestFile));
             String line = "";
             while((line = reader.readLine()) != null){
                 System.out.println(line);
             }
-        }
+
 
 	    util.put(session, requestFile.getAbsolutePath(), "inbound/" + requestFile.getName() + ".prg");
 	    util.rename(session, "inbound/" + requestFile.getName() + ".prg", "inbound/" + requestFile.getName() + ".asc");
@@ -179,13 +179,11 @@ public class Communication {
                 && configuration.getProperty("printxml").equalsIgnoreCase(
                         "true");
 
-        if (printxml) {
             BufferedReader reader = new BufferedReader(new FileReader(responseFile));
             String line = "";
             while((line = reader.readLine()) != null){
                 System.out.println(line);
             }
-        }
 
         util.disconnect(session);
 	}
