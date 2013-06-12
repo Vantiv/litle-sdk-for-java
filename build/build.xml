@@ -146,6 +146,9 @@
 
 	<target name="test" depends="dist">
 		<mkdir dir="${bin}/test" />
+		<mkdir dir="reports/unit" />
+		<mkdir dir="reports/functional" />
+		<mkdir dir="reports/certification" />
 		<javac destdir="${bin}/test" includeantruntime="false" source="1.5" target="1.5" classpathref="classpath.ref"
 			debug="true" debuglevel="lines,vars,source">
 			<compilerarg value="-Xbootclasspath/p:${toString:lib.path.ref}" />
@@ -338,5 +341,6 @@
 		<delete dir="${generated}" />
 		<delete dir="dist" />
 		<delete dir="kit"/>
+		<delete dir="reports" />
 	</target>
 </project>
