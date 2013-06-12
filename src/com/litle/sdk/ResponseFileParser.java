@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -130,8 +129,19 @@ public class ResponseFileParser {
 		// we're looking for all transactionResponses
 		if (openingTagToLookFor.compareToIgnoreCase("<transactionResponse") == 0
 				&& (currentStartingTagInFile
-						.compareToIgnoreCase("<authorizationResponse") == 0 || currentStartingTagInFile
-						.compareToIgnoreCase("<saleResponse") == 0)) {
+						.compareToIgnoreCase("<authorizationResponse") == 0
+						|| currentStartingTagInFile.compareToIgnoreCase("<saleResponse") == 0
+						|| currentStartingTagInFile.compareToIgnoreCase("<captureResponse") == 0
+	                    || currentStartingTagInFile.compareToIgnoreCase("<forceCaptureResponse") == 0
+	                    || currentStartingTagInFile.compareToIgnoreCase("<captureGivenAuthResponse") == 0
+	                    || currentStartingTagInFile.compareToIgnoreCase("<creditResponse") == 0
+	                    || currentStartingTagInFile.compareToIgnoreCase("<echeckSaleResponse") == 0
+	                    || currentStartingTagInFile.compareToIgnoreCase("<echeckCreditResponse") == 0
+	                    || currentStartingTagInFile.compareToIgnoreCase("<echeckVerificationResponse") == 0
+	                    || currentStartingTagInFile.compareToIgnoreCase("<echeckRedepositResponse") == 0
+	                    || currentStartingTagInFile.compareToIgnoreCase("<authReversalResponse") == 0
+	                    || currentStartingTagInFile.compareToIgnoreCase("<registerTokenResponse") == 0
+	                    || currentStartingTagInFile.compareToIgnoreCase("<accountUpdateResponse") == 0)) {
 			retVal = true;
 		} else if (openingTagToLookFor
 				.compareToIgnoreCase(currentStartingTagInFile) == 0) {
@@ -148,8 +158,19 @@ public class ResponseFileParser {
 		// we're looking for all transactionResponses
 		if (closingTagToLookFor.compareToIgnoreCase("</transactionResponse>") == 0
 				&& (currentStartingTagInFile
-						.compareToIgnoreCase("</authorizationResponse>") == 0 || currentStartingTagInFile
-						.compareToIgnoreCase("</saleResponse>") == 0)) {
+						.compareToIgnoreCase("</authorizationResponse>") == 0
+					|| currentStartingTagInFile.compareToIgnoreCase("</saleResponse>") == 0
+					|| currentStartingTagInFile.compareToIgnoreCase("</captureResponse>") == 0
+					|| currentStartingTagInFile.compareToIgnoreCase("</forceCaptureResponse>") == 0
+					|| currentStartingTagInFile.compareToIgnoreCase("</captureGivenAuthResponse>") == 0
+					|| currentStartingTagInFile.compareToIgnoreCase("</creditResponse>") == 0
+					|| currentStartingTagInFile.compareToIgnoreCase("</echeckSaleResponse>") == 0
+					|| currentStartingTagInFile.compareToIgnoreCase("</echeckCreditResponse>") == 0
+					|| currentStartingTagInFile.compareToIgnoreCase("</echeckVerificationResponse>") == 0
+					|| currentStartingTagInFile.compareToIgnoreCase("</echeckRedepositResponse>") == 0
+					|| currentStartingTagInFile.compareToIgnoreCase("</authReversalResponse>") == 0
+					|| currentStartingTagInFile.compareToIgnoreCase("</registerTokenResponse>") == 0
+					|| currentStartingTagInFile.compareToIgnoreCase("</accountUpdateResponse>") == 0)) {
 
 			retVal = true;
 		} else if (closingTagToLookFor

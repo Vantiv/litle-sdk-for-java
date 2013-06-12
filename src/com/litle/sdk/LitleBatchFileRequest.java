@@ -19,7 +19,7 @@ import javax.xml.bind.Marshaller;
 import com.litle.sdk.generate.Authentication;
 import com.litle.sdk.generate.LitleRequest;
 
-public class LitleBatchFileRequest {
+public class LitleBatchFileRequest{
 
 	private JAXBContext jc;
 	private Properties properties;
@@ -54,23 +54,23 @@ public class LitleBatchFileRequest {
 	 * the file has to generated in certain format like xml or txt etc) and
 	 * configuration in code. This should be used by integrations that have
 	 * another way to specify their configuration settings (ofbiz, etc)
-	 * 
+	 *
 	 * Properties that *must* be set are:
-	 * 
+	 *
 	 * batchHost (eg https://payments.litle.com) batchPort (eg 8080) username
 	 * merchantId password version (eg 8.10) batchTcpTimeout (in seconds)
 	 * batchUseSSL BatchRequestPath folder - specify the absolute path
 	 * BatchResponsePath folder - specify the absolute path Optional properties
 	 * are: proxyHost proxyPort printxml (possible values "true" and "false" -
 	 * defaults to false)
-	 * 
+	 *
 	 * @param RequestFileName
 	 *            , config
 	 */
 	public LitleBatchFileRequest(String requestFileName, Properties properties) {
 		intializeMembers(requestFileName, properties);
 	}
-	
+
 	/**
 	 * This constructor is primarily here for test purposes only.
 	 * @param requestFileName
@@ -139,6 +139,12 @@ public class LitleBatchFileRequest {
 		return this.properties;
 	}
 
+	/**
+	 * Returns a LitleBatchRequest object, the container for transactions.
+	 * @param merchantId
+	 * @return
+	 * @throws LitleBatchException
+	 */
 	public LitleBatchRequest createBatch(String merchantId)
 			throws LitleBatchException {
 		LitleBatchRequest litleBatchRequest = new LitleBatchRequest(merchantId, this);
@@ -149,7 +155,7 @@ public class LitleBatchFileRequest {
 	/**
 	 * This method generates the request file alone. To generate the response
 	 * object call sendToLitle method.
-	 * 
+	 *
 	 * @throws LitleBatchException
 	 * @throws JAXBException
 	 */
@@ -168,9 +174,9 @@ public class LitleBatchFileRequest {
 				throw new LitleBatchException("Unable to load jaxb dependencies.  Perhaps a classpath issue?");
 			}
 			String xmlRequest = sw.toString();
-			
+
 			xmlRequest = xmlRequest.replace("</litleRequest>", " ");
-			
+
 			OutputStream litleReqWriter = new FileOutputStream(localFile);
 			FileInputStream fis = new FileInputStream(tempBatchRequestFile);
 			byte[] readData = new byte[1024];
@@ -206,10 +212,11 @@ public class LitleBatchFileRequest {
 		boolean propertiesReadFromFile = false;
 		try {
 			String[] allProperties = { "username", "password", "proxyHost",
-					"proxyPort", "version", "batchHost", "batchPort",
+					"proxyPort", "batchHost", "batchPort",
 					"batchTcpTimeout", "batchUseSSL",
 					"maxAllowedTransactionsPerFile", "maxTransactionsPerBatch",
-					"batchRequestFolder", "batchResponseFolder" };
+					"batchRequestFolder", "batchResponseFolder", "sftpUsername", "sftpPassword"};
+
 			for (String prop : allProperties) {
 				// if the value of a property is not set, look at the Properties member of the class first, and the .properties file next.
 				if (config.getProperty(prop) == null) {
@@ -249,58 +256,124 @@ public class LitleBatchFileRequest {
 	/**
 	 * This method generates the request and response file and the objects to access the
 	 * transaction responses.
-	 * 
+	 *
 	 * @throws LitleBatchException
 	 */
 	public LitleBatchFileResponse sendToLitle() throws LitleBatchException {
-		try {
-			
-			String writeFolderPath = this.properties.getProperty("batchRequestFolder");
-			
-			tempBatchRequestFile = new File(writeFolderPath+ "/tmp/tempBatchFileTesting");
-			OutputStream batchReqWriter = new FileOutputStream(tempBatchRequestFile.getAbsoluteFile());
-			// close the all the batch files
-			byte[] readData = new byte[1024];
-			for (LitleBatchRequest batchReq : litleBatchRequestList) {
-				batchReq.closeFile();
-				StringWriter sw = new StringWriter();
-				marshaller.marshal(batchReq.getBatchRequest(), sw);
-				String xmlRequest = sw.toString();
-
-				xmlRequest = xmlRequest.replaceFirst("/>", ">");
-
-				FileInputStream fis = new FileInputStream(batchReq.getFile());
-				
-				batchReqWriter.write(xmlRequest.getBytes());
-				int i = fis.read(readData);
-
-				while (i != -1) {
-					batchReqWriter.write(readData, 0, i);
-					i = fis.read(readData);
-				}
-				
-				batchReqWriter.write(("</batchRequest>\n").getBytes());
-				fis.close();
-				batchReq.getFile().delete();
-				
-			}
-			// close the file
-			batchReqWriter.close();
-			generateRequestFile();
-			File tmpFile = new File(writeFolderPath+"/tmp");
-			if(tmpFile.exists()) {
-				tmpFile.delete();
-			}
-			communication.sendLitleBatchFileToIBC(requestFile, responseFile, properties);
-			LitleBatchFileResponse retObj = new LitleBatchFileResponse(responseFile);
-			return retObj;
-
-		} catch (JAXBException e) {
-			throw new LitleBatchException("There was an exception while marshalling BatchRequest or LitleRequest objects.", e);
-		} catch (IOException e) {
-			throw new LitleBatchException("There was an exception while creating the Litle Request file. Check to see if the current user has permission to read and write to " + this.properties.getProperty("batchRequestFolder"), e);
-		}
+	    return sendToLitleStream();
 	}
+
+	/**
+	 * Sends the file to Litle over a TCP socket, the less favorable method of sending batches to Litle.
+	 * @return A response object for the batch file
+	 * @throws LitleBatchException
+	 */
+	public LitleBatchFileResponse sendToLitleStream() throws LitleBatchException{
+	    try {
+            prepareForDelivery();
+
+            communication.sendLitleBatchFileToIBC(requestFile, responseFile, properties);
+            LitleBatchFileResponse retObj = new LitleBatchFileResponse(responseFile);
+            return retObj;
+
+        } catch (IOException e) {
+            throw new LitleBatchException("There was an exception while creating the Litle Request file. Check to see if the current user has permission to read and write to " + this.properties.getProperty("batchRequestFolder"), e);
+        }
+	}
+
+	/**
+	 * Sends the file to Litle over sFTP, the preferred method of sending batches to Litle.
+	 * @return A response object for the batch file
+	 * @throws LitleBatchException
+	 */
+	public LitleBatchFileResponse sendToLitleSFTP() throws LitleBatchException{
+	    try {
+	        prepareForDelivery();
+            communication.sendLitleRequestFileToSFTP(requestFile, properties);
+            communication.receiveLitleRequestResponseFileFromSFTP(requestFile, responseFile, properties);
+
+            LitleBatchFileResponse retObj = new LitleBatchFileResponse(responseFile);
+            return retObj;
+        } catch (IOException e) {
+            throw new LitleBatchException("There was an exception while creating the Litle Request file. Check to see if the current user has permission to read and write to " + this.properties.getProperty("batchRequestFolder"), e);
+        }
+	}
+
+	/**
+	 * Only sends the file to Litle after sFTP. This method requires separate invocation of the retrieve method.
+	 * @throws LitleBatchException
+	 */
+	public void sendOnlyToLitleSFTP() throws LitleBatchException{
+        try {
+            prepareForDelivery();
+            communication.sendLitleRequestFileToSFTP(requestFile, properties);
+        } catch (IOException e) {
+            throw new LitleBatchException("There was an exception while creating the Litle Request file. Check to see if the current user has permission to read and write to " + this.properties.getProperty("batchRequestFolder"), e);
+        }
+    }
+
+	/**
+	 * Only retrieves the file from Litle over sFTP. This method requires separate invocation of the send method.
+	 * @return A response object for the file
+	 * @throws LitleBatchException
+	 */
+	public LitleBatchFileResponse retrieveOnlyFromLitleSFTP() throws LitleBatchException{
+        try {
+            communication.receiveLitleRequestResponseFileFromSFTP(requestFile, responseFile, properties);
+            LitleBatchFileResponse retObj = new LitleBatchFileResponse(responseFile);
+            return retObj;
+        } catch (IOException e) {
+            throw new LitleBatchException("There was an exception while creating the Litle Request file. Check to see if the current user has permission to read and write to " + this.properties.getProperty("batchRequestFolder"), e);
+        }
+    }
+
+
+	private void prepareForDelivery() {
+        try {
+            String writeFolderPath = this.properties.getProperty("batchRequestFolder");
+
+            tempBatchRequestFile = new File(writeFolderPath + "/tmp/tempBatchFileTesting");
+            OutputStream batchReqWriter = new FileOutputStream(tempBatchRequestFile.getAbsoluteFile());
+            // close the all the batch files
+            byte[] readData = new byte[1024];
+            for (LitleBatchRequest batchReq : litleBatchRequestList) {
+                batchReq.closeFile();
+                StringWriter sw = new StringWriter();
+                marshaller.marshal(batchReq.getBatchRequest(), sw);
+                String xmlRequest = sw.toString();
+
+                xmlRequest = xmlRequest.replaceFirst("/>", ">");
+
+                FileInputStream fis = new FileInputStream(batchReq.getFile());
+
+                batchReqWriter.write(xmlRequest.getBytes());
+                int i = fis.read(readData);
+
+                while (i != -1) {
+                    batchReqWriter.write(readData, 0, i);
+                    i = fis.read(readData);
+                }
+
+                batchReqWriter.write(("</batchRequest>\n").getBytes());
+                fis.close();
+                batchReq.getFile().delete();
+            }
+            // close the file
+            batchReqWriter.close();
+            generateRequestFile();
+            File tmpFile = new File(writeFolderPath + "/tmp");
+            if (tmpFile.exists()) {
+                tmpFile.delete();
+            }
+        } catch (JAXBException e) {
+            throw new LitleBatchException(
+                    "There was an exception while marshalling BatchRequest or LitleRequest objects.", e);
+        } catch (IOException e) {
+            throw new LitleBatchException(
+                    "There was an exception while creating the Litle Request file. Check to see if the current user has permission to read and write to "
+                            + this.properties.getProperty("batchRequestFolder"), e);
+        }
+    }
 
 	void setResponseFile(File inFile) {
 		this.responseFile = inFile;
@@ -313,7 +386,7 @@ public class LitleBatchFileRequest {
 	/**
 	 * This method initializes the high level properties for the XML(ex:
 	 * initializes the user name and password for the presenter)
-	 * 
+	 *
 	 * @return
 	 */
 	private LitleRequest buildLitleRequest() {
@@ -326,7 +399,7 @@ public class LitleBatchFileRequest {
 			litleRequest.setId(requestId);
 		}
 		litleRequest.setAuthentication(authentication);
-		litleRequest.setVersion(this.properties.getProperty("version"));
+		litleRequest.setVersion("8.18");
 		BigInteger numOfBatches = BigInteger.valueOf(this.litleBatchRequestList.size());
 		litleRequest.setNumBatchRequests(numOfBatches);
 		return litleRequest;
@@ -334,7 +407,7 @@ public class LitleBatchFileRequest {
 
 	/**
 	 * This method gets the folder path of either the request or reposne.
-	 * 
+	 *
 	 * @param locationKey
 	 * @return
 	 */
