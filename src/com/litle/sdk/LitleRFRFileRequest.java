@@ -135,7 +135,7 @@ public class LitleRFRFileRequest {
             litleRequest.setId(requestId);
         }
         litleRequest.setAuthentication(authentication);
-        litleRequest.setVersion(this.properties.getProperty("version"));
+        litleRequest.setVersion("8.18");
         BigInteger numOfBatches = BigInteger.valueOf(0);
         litleRequest.setNumBatchRequests(numOfBatches);
         return litleRequest;
@@ -197,7 +197,7 @@ public class LitleRFRFileRequest {
         boolean propertiesReadFromFile = false;
         try {
             String[] allProperties = { "username", "password", "proxyHost",
-                    "proxyPort", "version", "batchHost", "batchPort",
+                    "proxyPort", "batchHost", "batchPort",
                     "batchTcpTimeout", "batchUseSSL",
                     "maxAllowedTransactionsPerFile", "maxTransactionsPerBatch",
                     "batchRequestFolder", "batchResponseFolder" };
