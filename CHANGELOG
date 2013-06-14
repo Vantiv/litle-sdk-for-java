@@ -1,5 +1,10 @@
 = LitleOnline CHANGELOG
 
+== Version 8.18.0 (June 14, 2013)
+
+* Feature: Batch support - see https://gist.github.com/litleSDK/5768846 and https://gist.github.com/litleSDK/5768893
+* Feature: Add support for Recurring
+
 == Version 8.17.0 (March 29, 2013)
 
 * Feature: Add support for surcharging credit card transactions
