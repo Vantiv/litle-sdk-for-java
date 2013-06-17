@@ -468,7 +468,7 @@ public class LitleOnline {
 			String xmlRequest = sw.toString();
 
 			if(this.removeStubs){
-			    xmlRequest.replaceAll("<[A-Za-z]+\\s*/>", "");
+			    xmlRequest = xmlRequest.replaceAll("<[A-Za-z]+\\s*/>", "");
 			}
 
 			String xmlResponse = communication.requestToServer(xmlRequest, config);
