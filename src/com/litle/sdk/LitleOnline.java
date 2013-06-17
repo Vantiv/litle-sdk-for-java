@@ -57,6 +57,7 @@ public class LitleOnline {
 	private Marshaller marshaller;
 	private Unmarshaller unmarshaller;
 	private Communication communication;
+	private Boolean removeStubs = false;
 
 	/**
 	 * Construct a LitleOnline using the configuration specified in $HOME/.litle_SDK_config.properties
@@ -116,6 +117,20 @@ public class LitleOnline {
 			throw new LitleOnlineException("Unable to load jaxb dependencies.  Perhaps a classpath issue?", e);
 		}
 	}
+
+    public LitleOnline(Properties config, Boolean removeStubs) {
+        this.config = config;
+        this.removeStubs = removeStubs;
+        try {
+            jc = JAXBContext.newInstance("com.litle.sdk.generate");
+            marshaller = jc.createMarshaller();
+            unmarshaller = jc.createUnmarshaller();
+            communication = new Communication();
+            objectFactory = new ObjectFactory();
+        } catch (JAXBException e) {
+            throw new LitleOnlineException("Unable to load jaxb dependencies.  Perhaps a classpath issue?", e);
+        }
+    }
 
 	protected void setCommunication(Communication communication) {
 		this.communication = communication;
@@ -451,6 +466,10 @@ public class LitleOnline {
 			StringWriter sw = new StringWriter();
 			marshaller.marshal(request, sw);
 			String xmlRequest = sw.toString();
+
+			if(this.removeStubs){
+			    xmlRequest.replaceAll("<[A-Za-z]+ />", "");
+			}
 
 			String xmlResponse = communication.requestToServer(xmlRequest, config);
 			LitleOnlineResponse response = (LitleOnlineResponse)unmarshaller.unmarshal(new StringReader(xmlResponse));
