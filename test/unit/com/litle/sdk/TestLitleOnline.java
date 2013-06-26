@@ -85,7 +85,7 @@ public class TestLitleOnline {
 		AuthorizationResponse authorize = litle.authorize(authorization);
 		assertEquals(123L, authorize.getLitleTxnId());
 	}
-	
+
 	@Test
 	public void testAuthWithOverrides() throws Exception {
 
@@ -114,7 +114,7 @@ public class TestLitleOnline {
 		AuthorizationResponse authorize = litle.authorize(authorization, overrides);
 		assertEquals(123L, authorize.getLitleTxnId());
 	}
-	
+
 	@Test
 	public void testAuthReversal() throws Exception {
 
@@ -122,7 +122,7 @@ public class TestLitleOnline {
 		reversal.setLitleTxnId(12345678000L);
 		reversal.setAmount(106L);
 		reversal.setPayPalNotes("Notes");
-		
+
 
 		Communication mockedCommunication = mock(Communication.class);
 		when(
@@ -136,7 +136,7 @@ public class TestLitleOnline {
 		AuthReversalResponse authreversal = litle.authReversal(reversal);
 		assertEquals(123L, authreversal.getLitleTxnId());
 	}
-	
+
 	@Test
 	public void testAuthReversalWithOverrides() throws Exception {
 
@@ -144,7 +144,7 @@ public class TestLitleOnline {
 		reversal.setLitleTxnId(12345678000L);
 		reversal.setAmount(106L);
 		reversal.setPayPalNotes("Notes");
-		
+
 
 		Communication mockedCommunication = mock(Communication.class);
 		when(
@@ -161,7 +161,7 @@ public class TestLitleOnline {
 		assertEquals(123L, authreversal.getLitleTxnId());
 	}
 
-	
+
 	@Test
 	public void testCapture() throws Exception {
 
@@ -182,7 +182,7 @@ public class TestLitleOnline {
 		CaptureResponse captureresponse = litle.capture(capture);
 		assertEquals(123L, captureresponse.getLitleTxnId());
 	}
-	
+
 	@Test
 	public void testCaptureWithOverrides() throws Exception {
 
@@ -207,7 +207,7 @@ public class TestLitleOnline {
 		assertEquals(123L, captureresponse.getLitleTxnId());
 	}
 
-	
+
 	@Test
 	public void testCaptureGivenAuth() throws Exception {
 
@@ -240,7 +240,7 @@ public class TestLitleOnline {
 		CaptureGivenAuthResponse capturegivenauthresponse = litle.captureGivenAuth(capturegivenauth);
 		assertEquals(123L, capturegivenauthresponse.getLitleTxnId());
 	}
-	
+
 	@Test
 	public void testCaptureGivenAuthWithOverrides() throws Exception {
 
@@ -277,7 +277,7 @@ public class TestLitleOnline {
 		assertEquals(123L, capturegivenauthresponse.getLitleTxnId());
 	}
 
-	
+
 	@Test
 	public void testCredit() throws Exception {
 
@@ -303,7 +303,7 @@ public class TestLitleOnline {
 		CreditResponse creditresponse = litle.credit(credit);
 		assertEquals(123L, creditresponse.getLitleTxnId());
 	}
-	
+
 	@Test
 	public void testEcheckCredit() throws Exception {
 		EcheckCredit echeckcredit = new EcheckCredit();
@@ -322,7 +322,7 @@ public class TestLitleOnline {
 		EcheckCreditResponse echeckcreditresponse = litle.echeckCredit(echeckcredit);
 		assertEquals(123L, echeckcreditresponse.getLitleTxnId());
 	}
-	
+
 	@Test
 	public void testEcheckRedeposit() throws Exception {
 		EcheckRedeposit echeckredeposit = new EcheckRedeposit();
@@ -340,7 +340,7 @@ public class TestLitleOnline {
 		EcheckRedepositResponse echeckredepositresponse = litle.echeckRedeposit(echeckredeposit);
 		assertEquals(123L, echeckredepositresponse.getLitleTxnId());
 	}
-	
+
 	@Test
 	public void testEcheckSale() throws Exception {
 		EcheckSale echecksale = new EcheckSale();
@@ -372,7 +372,7 @@ public class TestLitleOnline {
 		EcheckSalesResponse echecksaleresponse = litle.echeckSale(echecksale);
 		assertEquals(123L, echecksaleresponse.getLitleTxnId());
 	}
-	
+
 	@Test
 	public void testEcheckVerification() throws Exception {
 		EcheckVerification echeckverification = new EcheckVerification();
@@ -404,7 +404,7 @@ public class TestLitleOnline {
 		EcheckVerificationResponse echeckverificationresponse = litle.echeckVerification(echeckverification);
 		assertEquals(123L, echeckverificationresponse.getLitleTxnId());
 	}
-	
+
 	@Test
 	public void testForceCapture() throws Exception {
 		ForceCapture forcecapture = new ForceCapture();
@@ -429,7 +429,7 @@ public class TestLitleOnline {
 		ForceCaptureResponse forcecaptureresponse = litle.forceCapture(forcecapture);
 		assertEquals(123L, forcecaptureresponse.getLitleTxnId());
 	}
-	
+
 	@Test
 	public void testSale() throws Exception {
 		Sale sale = new Sale();
@@ -455,7 +455,7 @@ public class TestLitleOnline {
 		SaleResponse saleresponse = litle.sale(sale);
 		assertEquals(123L, saleresponse.getLitleTxnId());
 	}
-	
+
 	@Test
 	public void testToken() throws Exception {
 		RegisterTokenRequestType token = new RegisterTokenRequestType();
@@ -474,7 +474,7 @@ public class TestLitleOnline {
 		RegisterTokenResponse registertokenresponse = litle.registerToken(token);
 		assertEquals(123L, registertokenresponse.getLitleTxnId());
 	}
-	
+
 	@Test
 	public void testLitleOnlineException() throws Exception {
 
@@ -505,7 +505,7 @@ public class TestLitleOnline {
 			assertEquals("Error validating xml data against the schema", e.getMessage());
 		}
 	}
-	
+
 	@Test
 	public void testJAXBException() throws Exception {
 
@@ -536,10 +536,10 @@ public class TestLitleOnline {
 			assertEquals("Error validating xml data against the schema", e.getMessage());
 		}
 	}
-	
+
 	@Test
 	public void testDefaultReportGroup() throws Exception {
-		
+
 
 		Authorization authorization = new Authorization();
 		authorization.setOrderId("12344");
@@ -563,7 +563,7 @@ public class TestLitleOnline {
 		AuthorizationResponse authorize = litle.authorize(authorization);
 		assertEquals("Default Report Group", authorize.getReportGroup());
 	}
-	
+
 	@Test
 	public void testOverrideLoggedInUser() throws Exception {
 		Properties config = new Properties();
@@ -592,7 +592,7 @@ public class TestLitleOnline {
 		assertEquals("Default Report Group", authorize.getReportGroup());
 	}
 
-	
+
 	@Test
 	public void testEcheckVoid() throws Exception {
 		EcheckVoid echeckvoid = new EcheckVoid();
@@ -610,7 +610,7 @@ public class TestLitleOnline {
 		EcheckVoidResponse echeckvoidresponse = litle.echeckVoid(echeckvoid);
 		assertEquals(123L, echeckvoidresponse.getLitleTxnId());
 	}
-	
+
 	@Test
 	public void test_CustomerInfo_dob() throws Exception {
 		Authorization authorization = new Authorization();
@@ -621,7 +621,7 @@ public class TestLitleOnline {
 		CardType card = new CardType();
 		card.setType(MethodOfPaymentTypeEnum.VI);
 		card.setNumber("4100000000000002");
-		card.setExpDate("1210");		
+		card.setExpDate("1210");
 		authorization.setCard(card);
 		CustomerInfo customerInfo = new CustomerInfo();
 		Calendar c = Calendar.getInstance();
@@ -640,6 +640,34 @@ public class TestLitleOnline {
 		litle.setCommunication(mockedCommunication);
 		AuthorizationResponse authorize = litle.authorize(authorization);
 		assertEquals(123L, authorize.getLitleTxnId());
+	}
+
+	@Test(expected=LitleOnlineException.class)
+	public void testSendToLitleNamespaceHotswap() {
+	    Communication mockedCommunication = mock(Communication.class);
+        when(
+                mockedCommunication
+                        .requestToServer(
+                                any(String.class),
+                                any(Properties.class)))
+                .thenReturn(
+                        "<litleOnlineResponse version=\"1.0\" xmlns=\"http://www.litle.com/schema/online\" response=\"1\" message=\"System Error - Call Litle &amp; Co.\"></litleOnlineResponse>");
+        litle.setCommunication(mockedCommunication);
+
+
+        CardType card = new CardType();
+        card.setNumber("4100000000000001");
+        card.setExpDate("1210");
+        card.setType(MethodOfPaymentTypeEnum.VI);
+
+        Sale sale = new Sale();
+        sale.setReportGroup("Planets");
+        sale.setOrderId("12344");
+        sale.setAmount(6000L);
+        sale.setOrderSource(OrderSourceType.ECOMMERCE);
+        sale.setCard(card);
+
+        SaleResponse respo = litle.sale(sale);
 	}
 
 }

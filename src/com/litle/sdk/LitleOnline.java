@@ -478,7 +478,6 @@ public class LitleOnline {
 			}
 
 			LitleOnlineResponse response = (LitleOnlineResponse)unmarshaller.unmarshal(new StringReader(xmlResponse));
-			System.out.println(xmlResponse);
 			if("1".equals(response.getResponse())) {
 				throw new LitleOnlineException(response.getMessage());
 			}
