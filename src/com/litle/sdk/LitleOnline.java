@@ -472,7 +472,13 @@ public class LitleOnline {
 			}
 
 			String xmlResponse = communication.requestToServer(xmlRequest, config);
+			//bandaid for a problem on the backend
+			if(xmlResponse.contains("http://www.litle.com/schema/online")){
+			    xmlResponse = xmlResponse.replace("http://www.litle.com/schema/online", "http://www.litle.com/schema");
+			}
+
 			LitleOnlineResponse response = (LitleOnlineResponse)unmarshaller.unmarshal(new StringReader(xmlResponse));
+			System.out.println(xmlResponse);
 			if("1".equals(response.getResponse())) {
 				throw new LitleOnlineException(response.getMessage());
 			}
