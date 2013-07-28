@@ -1,5 +1,10 @@
 = LitleOnline CHANGELOG
 
+== Version 8.19.0 (XXX)
+
+* Feature: Added deptRepayment as a choice for authorizations, forceCapture, captureGivenAuth, sale
+* Feature: More initial support for Recurring, including a backwards incompatible changing a field from numberOfPaymentsRemaining to numberOfPayments
+
 == Version 8.18.0 (June 14, 2013)
 
 * Feature: Batch support - see https://gist.github.com/litleSDK/5768846 and https://gist.github.com/litleSDK/5768893
