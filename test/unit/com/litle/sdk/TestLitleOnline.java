@@ -150,13 +150,13 @@ public class TestLitleOnline {
 		when(
 				mockedCommunication
 						.requestToServer(
-								matches(".*?<litleOnlineRequest.*?version=\"8.11\".*?<authReversal.*?<litleTxnId>12345678000</litleTxnId>.*?</authReversal>.*?"),
+								matches(".*?<litleOnlineRequest.*?merchantId=\"54321\".*?<authReversal.*?<litleTxnId>12345678000</litleTxnId>.*?</authReversal>.*?"),
 								any(Properties.class)))
 				.thenReturn(
 						"<litleOnlineResponse version='8.11' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><authReversalResponse><litleTxnId>123</litleTxnId></authReversalResponse></litleOnlineResponse>");
 		litle.setCommunication(mockedCommunication);
 		LitleOnlineRequest overrides = new LitleOnlineRequest();
-		overrides.setVersion("8.11");
+		overrides.setMerchantId("54321");
 		AuthReversalResponse authreversal = litle.authReversal(reversal, overrides);
 		assertEquals(123L, authreversal.getLitleTxnId());
 	}

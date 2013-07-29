@@ -11,6 +11,8 @@ import com.litle.sdk.generate.Authorization;
 import com.litle.sdk.generate.AuthorizationResponse;
 import com.litle.sdk.generate.CardType;
 import com.litle.sdk.generate.Contact;
+import com.litle.sdk.generate.DetailTax;
+import com.litle.sdk.generate.EnhancedData;
 import com.litle.sdk.generate.MethodOfPaymentTypeEnum;
 import com.litle.sdk.generate.OrderSourceType;
 import com.litle.sdk.generate.PayPal;
@@ -27,7 +29,7 @@ public class TestAuth {
 	public static void beforeClass() throws Exception {
 		litle = new LitleOnline();
 	}
-	
+
 	@Test
 	public void simpleAuthWithCard() throws Exception {
 		Authorization authorization = new Authorization();
@@ -40,11 +42,11 @@ public class TestAuth {
 		card.setNumber("4100000000000000");
 		card.setExpDate("1210");
 		authorization.setCard(card);
-		
+
 		AuthorizationResponse response = litle.authorize(authorization);
 		assertEquals(response.getMessage(), "000",response.getResponse());
 	}
-	
+
 	@Test
 	public void simpleAuthWithPaypal() throws Exception {
 		Authorization authorization = new Authorization();
@@ -57,11 +59,11 @@ public class TestAuth {
 		paypal.setToken("1234");
 		paypal.setTransactionId("123456");
 		authorization.setPaypal(paypal);
-		
+
 		AuthorizationResponse response = litle.authorize(authorization);
 		assertEquals(response.getMessage(), "Approved",response.getMessage());
 	}
-	
+
 	@Test
 	public void posWithoutCapabilityAndEntryMode() throws Exception {
 		Authorization authorization = new Authorization();
@@ -77,7 +79,7 @@ public class TestAuth {
 		card.setNumber("4100000000000002");
 		card.setExpDate("1210");
 		authorization.setCard(card);
-		
+
 		try {
 			litle.authorize(authorization);
 			fail("expected exception");
@@ -85,7 +87,7 @@ public class TestAuth {
 			assertTrue(e.getMessage(),e.getMessage().startsWith("Error validating xml data against the schema"));
 		}
 	}
-	
+
 	@Test
 	public void accountUpdate() throws Exception {
 		Authorization authorization = new Authorization();
@@ -98,11 +100,11 @@ public class TestAuth {
 		card.setNumber("4100100000000000");
 		card.setExpDate("1210");
 		authorization.setCard(card);
-		
+
 		AuthorizationResponse response = litle.authorize(authorization);
 		assertEquals("4100100000000000", response.getAccountUpdater().getOriginalCardInfo().getNumber());
 	}
-	
+
 	@Test
 	public void testTrackData() throws Exception {
 		Authorization authorization = new Authorization();
@@ -122,9 +124,35 @@ public class TestAuth {
 		pos.setEntryMode(PosEntryModeTypeEnum.COMPLETEREAD);
 		pos.setCardholderId(PosCardholderIdTypeEnum.SIGNATURE);
 		authorization.setPos(pos);
-		
+
 		AuthorizationResponse response = litle.authorize(authorization);
 		assertEquals(response.getMessage(), "Approved",response.getMessage());
+	}
+
+	@Test
+	public void testListOfTaxAmounts() throws Exception {
+	    Authorization authorization = new Authorization();
+	    authorization.setId("12345");
+	    authorization.setReportGroup("Default");
+	    authorization.setOrderId("67890");
+	    authorization.setAmount(10000L);
+	    authorization.setOrderSource(OrderSourceType.ECOMMERCE);
+	    EnhancedData enhanced = new EnhancedData();
+	    DetailTax dt1 = new DetailTax();
+	    dt1.setTaxAmount(100L);
+	    enhanced.getDetailTaxes().add(dt1);
+	    DetailTax dt2 = new DetailTax();
+	    dt2.setTaxAmount(200L);
+	    enhanced.getDetailTaxes().add(dt2);
+	    authorization.setEnhancedData(enhanced);
+	    CardType card = new CardType();
+	    card.setNumber("4100000000000001");
+	    card.setExpDate("1215");
+	    card.setType(MethodOfPaymentTypeEnum.VI);
+        authorization.setCard(card);
+
+        AuthorizationResponse response = litle.authorize(authorization);
+        assertEquals(response.getMessage(), "Approved", response.getMessage());
 	}
 
 }

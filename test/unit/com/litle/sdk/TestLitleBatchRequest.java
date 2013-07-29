@@ -54,6 +54,8 @@ public class TestLitleBatchRequest {
         property.setProperty("proxyPort", "");
 		property.setProperty("batchRequestFolder", "test/unit/");
         property.setProperty("batchResponseFolder", "test/unit/");
+        property.setProperty("sftpUsername","");
+        property.setProperty("sftpPassword","");
 		litleBatchFileRequest = new LitleBatchFileRequest("testFile", property);
 
 		litleBatchRequest = litleBatchFileRequest.createBatch("101");

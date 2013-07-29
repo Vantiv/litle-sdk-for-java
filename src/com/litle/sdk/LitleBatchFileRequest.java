@@ -57,12 +57,21 @@ public class LitleBatchFileRequest{
 	 *
 	 * Properties that *must* be set are:
 	 *
-	 * batchHost (eg https://payments.litle.com) batchPort (eg 8080) username
-	 * merchantId password version (eg 8.10) batchTcpTimeout (in seconds)
-	 * batchUseSSL BatchRequestPath folder - specify the absolute path
-	 * BatchResponsePath folder - specify the absolute path Optional properties
-	 * are: proxyHost proxyPort printxml (possible values "true" and "false" -
-	 * defaults to false)
+	 * batchHost (eg https://payments.litle.com)
+	 * batchPort (eg 8080) username
+	 * merchantId
+	 * password
+	 * batchTcpTimeout (in seconds)
+	 * batchUseSSL
+	 * BatchRequestPath folder - specify the absolute path
+	 * BatchResponsePath folder - specify the absolute path
+	 * sftpUsername
+	 * sftpPassword
+	 * Optional properties
+	 * are:
+	 * proxyHost
+	 * proxyPort
+	 * printxml (possible values "true" and "false" defaults to false)
 	 *
 	 * @param RequestFileName
 	 *            , config

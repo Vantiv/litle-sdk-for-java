@@ -41,6 +41,8 @@ public class TestLitleBatchFileRequest {
         property.setProperty("reportGroup", "test");
         property.setProperty("batchRequestFolder", "test/unit/");
         property.setProperty("batchResponseFolder", "test/unit/");
+        property.setProperty("sftpUsername", "sftp");
+        property.setProperty("sftpPassword", "password");
         litleBatchFileRequest = new LitleBatchFileRequest("testFile.xml", property);
     }
 
@@ -124,6 +126,8 @@ public class TestLitleBatchFileRequest {
         property.setProperty("merchantId", "101");
         property.setProperty("batchRequestFolder", "test/unit/requestFolder/");
         property.setProperty("batchResponseFolder", "test/unit/responseFolder/");
+        property.setProperty("sftpUsername","");
+        property.setProperty("sftpPassword","");
 
         litleBatchFileRequest = new LitleBatchFileRequest("testFile.xml", property);
 
