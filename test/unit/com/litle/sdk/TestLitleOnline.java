@@ -19,6 +19,8 @@ import com.litle.sdk.generate.AuthReversalResponse;
 import com.litle.sdk.generate.Authentication;
 import com.litle.sdk.generate.Authorization;
 import com.litle.sdk.generate.AuthorizationResponse;
+import com.litle.sdk.generate.CancelSubscription;
+import com.litle.sdk.generate.CancelSubscriptionResponse;
 import com.litle.sdk.generate.Capture;
 import com.litle.sdk.generate.CaptureGivenAuth;
 import com.litle.sdk.generate.CaptureGivenAuthResponse;
@@ -49,6 +51,8 @@ import com.litle.sdk.generate.RegisterTokenRequestType;
 import com.litle.sdk.generate.RegisterTokenResponse;
 import com.litle.sdk.generate.Sale;
 import com.litle.sdk.generate.SaleResponse;
+import com.litle.sdk.generate.UpdateSubscription;
+import com.litle.sdk.generate.UpdateSubscriptionResponse;
 
 public class TestLitleOnline {
 
@@ -667,7 +671,114 @@ public class TestLitleOnline {
         sale.setOrderSource(OrderSourceType.ECOMMERCE);
         sale.setCard(card);
 
-        SaleResponse respo = litle.sale(sale);
+        litle.sale(sale);
 	}
+
+    @Test
+    public void testCancelSubscription() throws Exception {
+        CancelSubscription cancel = new CancelSubscription();
+        cancel.setSubscriptionId(12345L);
+
+        Communication mockedCommunication = mock(Communication.class);
+        when(
+                mockedCommunication
+                        .requestToServer(
+                                matches(".*?<litleOnlineRequest.*?<cancelSubscription><subscriptionId>12345</subscriptionId></cancelSubscription></litleOnlineRequest>*?"),
+                                any(Properties.class)))
+                .thenReturn(
+                        "<litleOnlineResponse version='8.20' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><cancelSubscriptionResponse><subscriptionId>12345</subscriptionId></cancelSubscriptionResponse></litleOnlineResponse>");
+        litle.setCommunication(mockedCommunication);
+        CancelSubscriptionResponse cancelResponse = litle.cancelSubscription(cancel);
+        assertEquals(12345L, cancelResponse.getSubscriptionId());
+    }
+
+    @Test
+    public void testCancelSubscriptionWithOverrides() throws Exception {
+
+        CancelSubscription cancel = new CancelSubscription();
+        cancel.setSubscriptionId(12345L);
+
+        Communication mockedCommunication = mock(Communication.class);
+        when(
+                mockedCommunication
+                        .requestToServer(
+                                matches(".*?<litleOnlineRequest.*?merchantId=\"9001\".*?<cancelSubscription><subscriptionId>12345</subscriptionId></cancelSubscription></litleOnlineRequest>*?"),
+                                any(Properties.class)))
+                .thenReturn(
+                        "<litleOnlineResponse version='8.20' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><cancelSubscriptionResponse><subscriptionId>12345</subscriptionId></cancelSubscriptionResponse></litleOnlineResponse>");
+        litle.setCommunication(mockedCommunication);
+        LitleOnlineRequest overrides = new LitleOnlineRequest();
+        overrides.setMerchantId("9001");
+        CancelSubscriptionResponse cancelResponse = litle.cancelSubscription(cancel, overrides);
+        assertEquals(12345L, cancelResponse.getSubscriptionId());
+    }
+
+    @Test
+    public void testUpdateSubscription() throws Exception {
+        UpdateSubscription update = new UpdateSubscription();
+        Calendar c = Calendar.getInstance();
+        c.set(2013, Calendar.AUGUST, 7);
+        update.setBillingDate(c);
+        Contact billToAddress = new Contact();
+        billToAddress.setName("Greg Dake");
+        billToAddress.setCity("Lowell");
+        billToAddress.setState("MA");
+        billToAddress.setEmail("sdksupport@litle.com");
+        update.setBillToAddress(billToAddress);
+        CardType card = new CardType();
+        card.setNumber("4100000000000001");
+        card.setExpDate("1215");
+        card.setType(MethodOfPaymentTypeEnum.VI);
+        update.setCard(card);
+        update.setPlanCode("abcdefg");
+        update.setSubscriptionId(12345L);
+
+        Communication mockedCommunication = mock(Communication.class);
+        when(
+                mockedCommunication
+                        .requestToServer(
+                                matches(".*?<litleOnlineRequest.*?<updateSubscription><subscriptionId>12345</subscriptionId><planCode>abcdefg</planCode><billToAddress><name>Greg Dake</name><city>Lowell</city><state>MA</state><email>sdksupport@litle.com</email></billToAddress><card><type>VI</type><number>4100000000000001</number><expDate>1215</expDate></card><billingDate>2013-08-07</billingDate></updateSubscription></litleOnlineRequest>.*?"),
+                                any(Properties.class)))
+                .thenReturn(
+                        "<litleOnlineResponse version='8.20' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><updateSubscriptionResponse><subscriptionId>12345</subscriptionId></updateSubscriptionResponse></litleOnlineResponse>");
+        litle.setCommunication(mockedCommunication);
+        UpdateSubscriptionResponse updateResponse = litle.updateSubscription(update);
+        assertEquals(12345L, updateResponse.getSubscriptionId());
+    }
+
+    @Test
+    public void testUpdateSubscriptionWithOverrides() throws Exception {
+        UpdateSubscription update = new UpdateSubscription();
+        Calendar c = Calendar.getInstance();
+        c.set(2013, Calendar.AUGUST, 7);
+        update.setBillingDate(c);
+        Contact billToAddress = new Contact();
+        billToAddress.setName("Greg Dake");
+        billToAddress.setCity("Lowell");
+        billToAddress.setState("MA");
+        billToAddress.setEmail("sdksupport@litle.com");
+        update.setBillToAddress(billToAddress);
+        CardType card = new CardType();
+        card.setNumber("4100000000000001");
+        card.setExpDate("1215");
+        card.setType(MethodOfPaymentTypeEnum.VI);
+        update.setCard(card);
+        update.setPlanCode("abcdefg");
+        update.setSubscriptionId(12345L);
+
+        Communication mockedCommunication = mock(Communication.class);
+        when(
+                mockedCommunication
+                        .requestToServer(
+                                matches(".*?<litleOnlineRequest.*?merchantId=\"905\".*?<updateSubscription><subscriptionId>12345</subscriptionId><planCode>abcdefg</planCode><billToAddress><name>Greg Dake</name><city>Lowell</city><state>MA</state><email>sdksupport@litle.com</email></billToAddress><card><type>VI</type><number>4100000000000001</number><expDate>1215</expDate></card><billingDate>2013-08-07</billingDate></updateSubscription></litleOnlineRequest>.*?"),
+                                any(Properties.class)))
+                .thenReturn(
+                        "<litleOnlineResponse version='8.20' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><updateSubscriptionResponse><subscriptionId>12345</subscriptionId></updateSubscriptionResponse></litleOnlineResponse>");
+        litle.setCommunication(mockedCommunication);
+        LitleOnlineRequest overrides = new LitleOnlineRequest();
+        overrides.setMerchantId("905");
+        UpdateSubscriptionResponse updateResponse = litle.updateSubscription(update, overrides);
+        assertEquals(12345L, updateResponse.getSubscriptionId());
+    }
 
 }
