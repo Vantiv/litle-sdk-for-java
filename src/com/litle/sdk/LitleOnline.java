@@ -49,6 +49,12 @@ import com.litle.sdk.generate.UpdateCardValidationNumOnToken;
 import com.litle.sdk.generate.UpdateCardValidationNumOnTokenResponse;
 import com.litle.sdk.generate.VoidResponse;
 
+/**
+ * Please note that construction of the LitleOnline object is extremely expensive, and LitleOnline
+ * objects shoud be re-used.  LitleOnline is *not* threadsafe, so each thread should have
+ * its own LitleOnline and use it for the lifetime of the application.
+ * @author gdake
+ */
 public class LitleOnline {
 
 	private JAXBContext jc;
