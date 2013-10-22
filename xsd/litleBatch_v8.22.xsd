@@ -2,7 +2,7 @@
 <xs:schema targetNamespace="http://www.litle.com/schema" xmlns:xs="http://www.w3.org/2001/XMLSchema"
     xmlns:xp="http://www.litle.com/schema" elementFormDefault="qualified" attributeFormDefault="unqualified">
     
-    <xs:include schemaLocation="litleTransaction_v8.21.xsd" />
+    <xs:include schemaLocation="litleTransaction_v8.22.xsd" />
     
     <xs:element name="litleRequest">
         <xs:complexType>

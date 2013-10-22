@@ -9,7 +9,7 @@
  		<jaxb:javaType name="java.lang.Long" xmlType="xp:transactionAmountType"
  			parseMethod="com.litle.sdk.JAXBConverters.parseLong" printMethod="com.litle.sdk.JAXBConverters.printLong" />
  		<jaxb:javaType name="java.lang.String" xmlType="xs:base64Binary"
- 			parseMethod="com.litle.sdk.JAXBConverters.parseString" printMethod="com.litle.sdk.JAXBConverters.printString" /> 
+ 			parseMethod="com.litle.sdk.JAXBConverters.parseString" printMethod="com.litle.sdk.JAXBConverters.printString" />
  		<xjc:simple />
  	</jaxb:globalBindings>
 	

@@ -18,34 +18,34 @@ public class TestCapture {
 	public static void beforeClass() throws Exception {
 		litle = new LitleOnline();
 	}
-	
+
 	@Test
 	public void simpleCapture() throws Exception{
 		Capture capture = new Capture();
-		capture.setLitleTxnId(123456000);
+		capture.setLitleTxnId(123456000L);
 		capture.setAmount(106L);
 		capture.setPayPalNotes("Notes");
-		
+
 		CaptureResponse response = litle.capture(capture);
 		assertEquals("Approved", response.getMessage());
 	}
-	
+
 	@Test
 	public void simpleCaptureWithPartial() throws Exception{
 		Capture capture = new Capture();
-		capture.setLitleTxnId(123456000);
+		capture.setLitleTxnId(123456000L);
 		capture.setAmount(106L);
 		capture.setPartial(true);
 		capture.setPayPalNotes("Notes");
-		
+
 		CaptureResponse response = litle.capture(capture);
 		assertEquals("Approved", response.getMessage());
 	}
-	
+
 	@Test
 	public void complexCapture() throws Exception{
 		Capture capture = new Capture();
-		capture.setLitleTxnId(123456000);
+		capture.setLitleTxnId(123456000L);
 		capture.setAmount(106L);
 		capture.setPayPalNotes("Notes");
 		EnhancedData enhancedData = new EnhancedData();
@@ -54,7 +54,7 @@ public class TestCapture {
 		enhancedData.setDeliveryType(DeliveryType.TBD);
 		capture.setEnhancedData(enhancedData);
 		capture.setPayPalOrderComplete(true);
-		
+
 		CaptureResponse response = litle.capture(capture);
 		assertEquals("Approved", response.getMessage());
 	}

@@ -1,5 +1,11 @@
 = LitleOnline CHANGELOG
 
+== Version 8.22.0 (Oct 22, 2013)
+* Feature: Support for the following new gift card transactions: ActivateReversal, DeactivateReversal, LoadReversal, RefundReversal, UnloadReversal, DepositReversal
+* Feature: UpdateSubscription now can take token or paypage updates, and can return token in the response
+* Feature: Support for virtualGiftCard in giftCard activations and can be returned in EnhancedAuthResponses
+* Feature: Gift Card responses can be returned from AuthReversal
+
 == Version 8.21.0 (September 20, 2013)
 
 * Feature: Support for the following new recurring transactions: CreatePlan, UpdatePlan
