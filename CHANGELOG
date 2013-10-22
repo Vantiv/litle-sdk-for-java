@@ -1,5 +1,10 @@
 = LitleOnline CHANGELOG
 
+== Version 8.20.0 (August 7, 2013)
+
+* Backwards-Incompatible Feature: More initial support for Recurring, including the ability to update or cancel subscriptions.  LitleBatchResponse::getNextResponse now returns LitleTransactionInterface instead of TransactionType.  This is to support the new recurring transaction types which also implement TransactionType.  Most existing uses of TransactionType can just cast from LitleTransactionInterface without any other changes.  The LitleResponseParser interface also includes 3 additional processor methods to handle the 3 transaction types.
+* Feature: Addition of an adapter to the LitleResponseProcessor so that clients don't need to implement all of the methods if most are not used.
+
 == Version 8.19.0 (July 29, 2013)
 
 * Feature: Added deptRepayment as a choice for authorizations, forceCapture, captureGivenAuth, sale

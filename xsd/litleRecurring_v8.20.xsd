@@ -1,0 +1,120 @@
+<xs:schema targetNamespace="http://www.litle.com/schema" xmlns:xp="http://www.litle.com/schema"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+    
+    <xs:include schemaLocation="litleCommon_v8.20.xsd" />
+
+    <xs:element name="recurringTransaction" type="xp:recurringTransactionType" abstract="true" />
+    <xs:element name="recurringTransactionResponse" type="xp:recurringTransactionResponseType" abstract="true" />
+     
+    <xs:complexType name="recurringTransactionType">
+        <xs:complexContent>
+            <xs:extension base="xp:litleTransactionInterface">
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="recurringTransactionResponseType">
+        <xs:complexContent>
+            <xs:extension base="xp:litleTransactionInterface">
+                <xs:sequence>
+                    <xs:element name="litleTxnId" type="xp:litleIdType" />
+                    <xs:element name="response" type="xp:responseType" />
+                    <xs:element name="message" type="xs:string" />
+                    <xs:element name="responseTime" type="xs:dateTime" />
+                </xs:sequence>
+             </xs:extension>
+         </xs:complexContent>
+    </xs:complexType>
+
+    <xs:element name="cancelSubscription" substitutionGroup="xp:recurringTransaction" >
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="xp:recurringTransactionType">
+                    <xs:sequence>
+                         <xs:element name="subscriptionId" type="xp:litleIdType" />
+                      </xs:sequence>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="updateSubscription" substitutionGroup="xp:recurringTransaction" >
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="xp:recurringTransactionType">
+                    <xs:sequence>
+                         <xs:element name="subscriptionId" type="xp:litleIdType" />
+                         <xs:element name="planCode" type="xp:string25Type" minOccurs="0" />
+                         <xs:element ref="xp:billToAddress" minOccurs="0" />
+                         <xs:element name="card" type="xp:cardType" minOccurs="0" />
+                         <xs:element name="billingDate" type="xs:date" minOccurs="0"/>
+                      </xs:sequence>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="cancelSubscriptionResponse" substitutionGroup="xp:recurringTransactionResponse">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="xp:recurringTransactionResponseType">
+                    <xs:sequence>
+                         <xs:element name="subscriptionId" type="xp:litleIdType" />
+                      </xs:sequence>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="updateSubscriptionResponse" substitutionGroup="xp:recurringTransactionResponse">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="xp:recurringTransactionResponseType">
+                    <xs:sequence>
+                         <xs:element name="subscriptionId" type="xp:litleIdType" />
+                      </xs:sequence>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>    
+ 
+    <!--Recurring Types -->
+    <xs:complexType name="recurringSubscriptionType">
+        <xs:sequence>
+            <xs:element name="planCode" type="xp:string25Type" />
+            <xs:element name="numberOfPayments" type="xp:numberOfPaymentsType" minOccurs="0"/>
+            <xs:element name="startDate" type="xs:date" minOccurs="0"/>
+            <xs:element name="amount" type="xp:transactionAmountType" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:simpleType name="numberOfPaymentsType">
+        <xs:restriction base="xs:integer">
+            <xs:minInclusive value="1" />
+            <xs:maxInclusive value="99" />
+        </xs:restriction>
+    </xs:simpleType>
+    
+    <xs:complexType name="litleInternalRecurringRequestType">
+        <xs:sequence>
+            <xs:element name="subscriptionId" type="xp:litleIdType" />
+            <xs:element name="recurringTxnId" type="xp:litleIdType" />
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="recurringRequestType">
+        <xs:sequence>
+            <xs:element name="subscription" type="xp:recurringSubscriptionType" />
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="recurringResponseType">
+        <xs:sequence>
+            <xs:element name="subscriptionId" type="xp:litleIdType" />
+            <xs:element name="responseCode" type="xp:responseType" />
+            <xs:element name="responseMessage" type="xp:messageType" />
+            <xs:element name="recurringTxnId" type="xp:litleIdType" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>
+

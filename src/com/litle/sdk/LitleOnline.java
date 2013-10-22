@@ -18,6 +18,8 @@ import com.litle.sdk.generate.AuthReversalResponse;
 import com.litle.sdk.generate.Authentication;
 import com.litle.sdk.generate.Authorization;
 import com.litle.sdk.generate.AuthorizationResponse;
+import com.litle.sdk.generate.CancelSubscription;
+import com.litle.sdk.generate.CancelSubscriptionResponse;
 import com.litle.sdk.generate.Capture;
 import com.litle.sdk.generate.CaptureGivenAuth;
 import com.litle.sdk.generate.CaptureGivenAuthResponse;
@@ -39,6 +41,7 @@ import com.litle.sdk.generate.ForceCaptureResponse;
 import com.litle.sdk.generate.LitleOnlineRequest;
 import com.litle.sdk.generate.LitleOnlineResponse;
 import com.litle.sdk.generate.ObjectFactory;
+import com.litle.sdk.generate.RecurringTransactionResponseType;
 import com.litle.sdk.generate.RegisterTokenRequestType;
 import com.litle.sdk.generate.RegisterTokenResponse;
 import com.litle.sdk.generate.Sale;
@@ -47,6 +50,8 @@ import com.litle.sdk.generate.TransactionTypeWithReportGroup;
 import com.litle.sdk.generate.TransactionTypeWithReportGroupAndPartial;
 import com.litle.sdk.generate.UpdateCardValidationNumOnToken;
 import com.litle.sdk.generate.UpdateCardValidationNumOnTokenResponse;
+import com.litle.sdk.generate.UpdateSubscription;
+import com.litle.sdk.generate.UpdateSubscriptionResponse;
 import com.litle.sdk.generate.VoidResponse;
 
 /**
@@ -72,6 +77,7 @@ public class LitleOnline {
 		try {
 			jc = JAXBContext.newInstance("com.litle.sdk.generate");
 			marshaller = jc.createMarshaller();
+			//marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 			unmarshaller = jc.createUnmarshaller();
 			communication = new Communication();
 			objectFactory = new ObjectFactory();
@@ -395,7 +401,7 @@ public class LitleOnline {
 		return updateCardValidationNumOnToken(update, request);
 	}
 
-	private UpdateCardValidationNumOnTokenResponse updateCardValidationNumOnToken(UpdateCardValidationNumOnToken update, LitleOnlineRequest overrides) {
+	public UpdateCardValidationNumOnTokenResponse updateCardValidationNumOnToken(UpdateCardValidationNumOnToken update, LitleOnlineRequest overrides) {
 		LitleOnlineRequest request = fillInMissingFieldsFromConfig(overrides);
 		fillInReportGroup(update);
 
@@ -404,6 +410,34 @@ public class LitleOnline {
 		JAXBElement<? extends TransactionTypeWithReportGroup> newresponse = response.getTransactionResponse();
 		return (UpdateCardValidationNumOnTokenResponse)newresponse.getValue();
 	}
+
+    public CancelSubscriptionResponse cancelSubscription(CancelSubscription cancellation) {
+        LitleOnlineRequest request = createLitleOnlineRequest();
+        return cancelSubscription(cancellation, request);
+    }
+
+    public CancelSubscriptionResponse cancelSubscription(CancelSubscription cancellation, LitleOnlineRequest overrides) {
+        LitleOnlineRequest request = fillInMissingFieldsFromConfig(overrides);
+
+        request.setRecurringTransaction(objectFactory.createCancelSubscription(cancellation));
+        LitleOnlineResponse response = sendToLitle(request);
+        JAXBElement<? extends RecurringTransactionResponseType> newresponse = response.getRecurringTransactionResponse();
+        return (CancelSubscriptionResponse)newresponse.getValue();
+    }
+
+    public UpdateSubscriptionResponse updateSubscription(UpdateSubscription update) {
+        LitleOnlineRequest request = createLitleOnlineRequest();
+        return updateSubscription(update, request);
+    }
+
+    public UpdateSubscriptionResponse updateSubscription(UpdateSubscription update, LitleOnlineRequest overrides) {
+        LitleOnlineRequest request = fillInMissingFieldsFromConfig(overrides);
+
+        request.setRecurringTransaction(objectFactory.createUpdateSubscription(update));
+        LitleOnlineResponse response = sendToLitle(request);
+        JAXBElement<? extends RecurringTransactionResponseType> newresponse = response.getRecurringTransactionResponse();
+        return (UpdateSubscriptionResponse)newresponse.getValue();
+    }
 
 	private LitleOnlineRequest createLitleOnlineRequest() {
 		LitleOnlineRequest request = new LitleOnlineRequest();
@@ -446,9 +480,9 @@ public class LitleOnline {
 		else {
 			retVal.setMerchantId(request.getMerchantId());
 		}
-        retVal.setVersion("8.19");
+        retVal.setVersion("8.20");
 		if(request.getMerchantSdk() == null) {
-			retVal.setMerchantSdk("Java;8.19.0");
+			retVal.setMerchantSdk("Java;8.20.0");
 		}
 		else {
 			retVal.setMerchantSdk(request.getMerchantSdk());
@@ -499,5 +533,6 @@ public class LitleOnline {
 			txn.setReportGroup(config.getProperty("reportGroup"));
 		}
 	}
+
 
 }

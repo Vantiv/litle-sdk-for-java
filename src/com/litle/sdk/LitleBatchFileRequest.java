@@ -117,7 +117,7 @@ public class LitleBatchFileRequest{
 				this.properties = in_properties;
 			}
 
-			this.maxAllowedTransactionsPerFile = Integer.parseInt(properties.getProperty("maxAllowedTransactionsPerFile"));
+			this.maxAllowedTransactionsPerFile = Integer.parseInt(properties.getProperty("maxAllowedTransactionsPerFile", "1000"));
 			if (maxAllowedTransactionsPerFile > litleLimit_maxAllowedTransactionsPerFile) {
 				throw new LitleBatchException("maxAllowedTransactionsPerFile property value cannot exceed "
 								+ String.valueOf(litleLimit_maxAllowedTransactionsPerFile));
@@ -408,7 +408,7 @@ public class LitleBatchFileRequest{
 			litleRequest.setId(requestId);
 		}
 		litleRequest.setAuthentication(authentication);
-		litleRequest.setVersion("8.19");
+		litleRequest.setVersion("8.20");
 		BigInteger numOfBatches = BigInteger.valueOf(this.litleBatchRequestList.size());
 		litleRequest.setNumBatchRequests(numOfBatches);
 		return litleRequest;

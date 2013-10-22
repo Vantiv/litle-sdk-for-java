@@ -3,6 +3,7 @@ package com.litle.sdk;
 import com.litle.sdk.generate.AccountUpdateResponse;
 import com.litle.sdk.generate.AuthReversalResponse;
 import com.litle.sdk.generate.AuthorizationResponse;
+import com.litle.sdk.generate.CancelSubscriptionResponse;
 import com.litle.sdk.generate.CaptureGivenAuthResponse;
 import com.litle.sdk.generate.CaptureResponse;
 import com.litle.sdk.generate.CreditResponse;
@@ -13,6 +14,8 @@ import com.litle.sdk.generate.EcheckVerificationResponse;
 import com.litle.sdk.generate.ForceCaptureResponse;
 import com.litle.sdk.generate.RegisterTokenResponse;
 import com.litle.sdk.generate.SaleResponse;
+import com.litle.sdk.generate.UpdateCardValidationNumOnTokenResponse;
+import com.litle.sdk.generate.UpdateSubscriptionResponse;
 
 /**
  * Implement this interface in order to process transactions on LitleBatchResponse objects with the .processNextTransaction method.
@@ -45,5 +48,12 @@ public interface LitleResponseProcessor {
     void processRegisterTokenResponse(RegisterTokenResponse registerTokenResponse);
 
     void processAccountUpdate(AccountUpdateResponse accountUpdateResponse);
+
+    void processUpdateSubscriptionResponse(UpdateSubscriptionResponse updateSubscriptionResponse);
+
+    void processCancelSubscriptionResponse(CancelSubscriptionResponse cancelSubscriptionResponse);
+
+    void processUpdateCardValidationNumOnTokenResponse(
+            UpdateCardValidationNumOnTokenResponse updateCardValidationNumOnTokenResponse);
 
 }

@@ -4,10 +4,10 @@
         Builds and tests litle-sdk-for-java
     </description>
 	<!-- set global properties for this build -->
-	<property name="version.schema" value="8.19"/>
-	<property name="version.jar" value="8.19.0"/>
-	<property file="build/build.properties"/>
-	
+	<property name="version.schema" value="8.20" />
+	<property name="version.jar" value="8.20.0" />
+	<property file="build/build.properties" />
+
 	<property name="src" location="src" />
 	<property name="bin" location="bin" />
 	<property name="dist15" location="dist/java15" />
@@ -22,14 +22,14 @@
 	<property name="junit" location="${lib}/junit" />
 	<property name="mockito" location="${lib}/mockito" />
 	<property name="xerces" location="${lib}/xerces-2_11_0" />
-	<property name="retrotranslator" location="${lib}/Retrotranslator-1.2.9-bin"/>
-	<property name="opensftp" location="${lib}/opensftp-0.3.0"/>
-	
-	
+	<property name="retrotranslator" location="${lib}/Retrotranslator-1.2.9-bin" />
+	<property name="opensftp" location="${lib}/opensftp-0.3.0" />
+
+
 	<path id="lib.path.ref">
 		<fileset dir="${jaxb}" includes="*.jar" />
 	</path>
-	
+
 	<path id="classpath.ref">
 		<pathelement location="${jaxb}/activation.jar" />
 		<pathelement location="${jaxb}/jaxb-api.jar" />
@@ -62,82 +62,81 @@
 			<fileset dir="${basedir}/lib/jaxb/lib" includes="*.jar" />
 		</classpath>
 	</taskdef>
-	
-	
-    <taskdef name="retrotranslator" classname="net.sf.retrotranslator.transformer.RetrotranslatorTask">
-        <classpath>
-            <fileset dir="lib/Retrotranslator-1.2.9-bin">
-                <include name="retrotranslator-transformer-1.2.9.jar" />
-                <include name="retrotranslator-runtime-1.2.9.jar" />
-                <include name="backport-util-concurrent-3.1.jar" />
-            </fileset>
-        </classpath>
-    </taskdef>
-	
+
+
+	<taskdef name="retrotranslator" classname="net.sf.retrotranslator.transformer.RetrotranslatorTask">
+		<classpath>
+			<fileset dir="lib/Retrotranslator-1.2.9-bin">
+				<include name="retrotranslator-transformer-1.2.9.jar" />
+				<include name="retrotranslator-runtime-1.2.9.jar" />
+				<include name="backport-util-concurrent-3.1.jar" />
+			</fileset>
+		</classpath>
+	</taskdef>
+
 	<target name="generate" depends="clean">
 		<mkdir dir="${generated}" />
-		<copy file="xsd/litleOnline_v${version.schema}.xsd" todir="generated"/>
-		<copy file="xsd/litleTransaction_v${version.schema}.xsd" todir="generated"/>
-		<copy file="xsd/litleCommon_v${version.schema}.xsd" todir="generated"/>
-		<copy file="xsd/litleBatch_v${version.schema}.xsd" todir="generated"/>
+		<copy file="xsd/litleOnline_v${version.schema}.xsd" todir="generated" />
+		<copy file="xsd/litleTransaction_v${version.schema}.xsd" todir="generated" />
+		<copy file="xsd/litleCommon_v${version.schema}.xsd" todir="generated" />
+		<copy file="xsd/litleBatch_v${version.schema}.xsd" todir="generated" />
+		<copy file="xsd/litleRecurring_v${version.schema}.xsd" todir="generated" />
 		<!-- Allow jaxb tags in our schema -->
-		<replaceregexp file="generated/litleTransaction_v${version.schema}.xsd" match="(attributeFormDefault=&quot;unqualified&quot;)>" replace="\1 xmlns:jaxb=&quot;http://java.sun.com/xml/ns/jaxb&quot; jaxb:version=&quot;2.0&quot;>" byline="true"/>
-		<replaceregexp file="generated/litleCommon_v${version.schema}.xsd"      match="(elementFormDefault=&quot;qualified&quot;)>" replace="\1 xmlns:jaxb=&quot;http://java.sun.com/xml/ns/jaxb&quot; jaxb:version=&quot;2.0&quot;>" byline="true"/>
-		
+		<replaceregexp file="generated/litleTransaction_v${version.schema}.xsd" match="(attributeFormDefault=&quot;unqualified&quot;)>" replace="\1 xmlns:jaxb=&quot;http://java.sun.com/xml/ns/jaxb&quot; jaxb:version=&quot;2.0&quot;>" byline="true" />
+		<replaceregexp file="generated/litleCommon_v${version.schema}.xsd" match="(elementFormDefault=&quot;qualified&quot;)>" replace="\1 xmlns:jaxb=&quot;http://java.sun.com/xml/ns/jaxb&quot; jaxb:version=&quot;2.0&quot;>" byline="true" />
+
 		<!--Make enums even if they begin with numbers -->
-		<replaceregexp file="generated/litleTransaction_v${version.schema}.xsd" match="enumeration value=(.*?3dsAuthenticated.*?)/>" replace="enumeration value=\1>&lt;xs:annotation>&lt;xs:appinfo>&lt;jaxb:typesafeEnumMember name=&quot;AUTHENTICATED_3DS&quot;/>&lt;/xs:appinfo>&lt;/xs:annotation>&lt;/xs:enumeration>" byline="true"/>
-		<replaceregexp file="generated/litleTransaction_v${version.schema}.xsd" match="enumeration value=(.*?3dsAttempted.*?)/>"     replace="enumeration value=\1>&lt;xs:annotation>&lt;xs:appinfo>&lt;jaxb:typesafeEnumMember name=&quot;ATTEMPTED_3DS&quot;/>&lt;/xs:appinfo>&lt;/xs:annotation>&lt;/xs:enumeration>" byline="true"/>
-		
+		<replaceregexp file="generated/litleTransaction_v${version.schema}.xsd" match="enumeration value=(.*?3dsAuthenticated.*?)/>" replace="enumeration value=\1>&lt;xs:annotation>&lt;xs:appinfo>&lt;jaxb:typesafeEnumMember name=&quot;AUTHENTICATED_3DS&quot;/>&lt;/xs:appinfo>&lt;/xs:annotation>&lt;/xs:enumeration>" byline="true" />
+		<replaceregexp file="generated/litleTransaction_v${version.schema}.xsd" match="enumeration value=(.*?3dsAttempted.*?)/>" replace="enumeration value=\1>&lt;xs:annotation>&lt;xs:appinfo>&lt;jaxb:typesafeEnumMember name=&quot;ATTEMPTED_3DS&quot;/>&lt;/xs:appinfo>&lt;/xs:annotation>&lt;/xs:enumeration>" byline="true" />
+
 		<!-- Make enums event for optional fields -->
 		<!-- Customer Type -->
-		<replaceregexp file="generated/litleTransaction_v${version.schema}.xsd" match="(element name=&quot;customerType&quot; minOccurs=&quot;0&quot;.*?&lt;xs:simpleType>)" replace="\1&lt;xs:annotation>&lt;xs:appinfo>&lt;jaxb:typesafeEnumClass name=&quot;CustomerType&quot;/>&lt;/xs:appinfo>&lt;/xs:annotation>" flags="s"/>
+		<replaceregexp file="generated/litleTransaction_v${version.schema}.xsd" match="(element name=&quot;customerType&quot; minOccurs=&quot;0&quot;.*?&lt;xs:simpleType>)" replace="\1&lt;xs:annotation>&lt;xs:appinfo>&lt;jaxb:typesafeEnumClass name=&quot;CustomerType&quot;/>&lt;/xs:appinfo>&lt;/xs:annotation>" flags="s" />
 		<!-- Residence Status -->
-		<replaceregexp file="generated/litleTransaction_v${version.schema}.xsd" match="(element name=&quot;residenceStatus&quot; minOccurs=&quot;0&quot;.*?&lt;xs:simpleType>)" replace="\1&lt;xs:annotation>&lt;xs:appinfo>&lt;jaxb:typesafeEnumClass name=&quot;ResidenceStatus&quot;/>&lt;/xs:appinfo>&lt;/xs:annotation>" flags="s"/>
+		<replaceregexp file="generated/litleTransaction_v${version.schema}.xsd" match="(element name=&quot;residenceStatus&quot; minOccurs=&quot;0&quot;.*?&lt;xs:simpleType>)" replace="\1&lt;xs:annotation>&lt;xs:appinfo>&lt;jaxb:typesafeEnumClass name=&quot;ResidenceStatus&quot;/>&lt;/xs:appinfo>&lt;/xs:annotation>" flags="s" />
 		<!-- Delivery Type -->
-		<replaceregexp file="generated/litleTransaction_v${version.schema}.xsd" match="(element name=&quot;deliveryType&quot; minOccurs=&quot;0&quot;.*?default=&quot;TBD&quot;.*?&lt;xs:simpleType>)" replace="\1&lt;xs:annotation>&lt;xs:appinfo>&lt;jaxb:typesafeEnumClass name=&quot;DeliveryType&quot;/>&lt;/xs:appinfo>&lt;/xs:annotation>" flags="s"/>
+		<replaceregexp file="generated/litleTransaction_v${version.schema}.xsd" match="(element name=&quot;deliveryType&quot; minOccurs=&quot;0&quot;.*?default=&quot;TBD&quot;.*?&lt;xs:simpleType>)" replace="\1&lt;xs:annotation>&lt;xs:appinfo>&lt;jaxb:typesafeEnumClass name=&quot;DeliveryType&quot;/>&lt;/xs:appinfo>&lt;/xs:annotation>" flags="s" />
 
 		<!-- Tax type identifier -->
-		<replaceregexp file="generated/litleTransaction_v${version.schema}.xsd" match="(&lt;xs:enumeration value=&quot;00&quot;)\s?+/>" replace="\1>&lt;xs:annotation>&lt;xs:appinfo>&lt;jaxb:typesafeEnumMember name=&quot;UNKNOWN&quot;/>&lt;/xs:appinfo>&lt;/xs:annotation>&lt;/xs:enumeration>" byline="true"/>
-		<replaceregexp file="generated/litleTransaction_v${version.schema}.xsd" match="(&lt;xs:enumeration value=&quot;01&quot;)\s?+/>" replace="\1>&lt;xs:annotation>&lt;xs:appinfo>&lt;jaxb:typesafeEnumMember name=&quot;FEDERAL_NATIONAL_SALES_TAX&quot;/>&lt;/xs:appinfo>&lt;/xs:annotation>&lt;/xs:enumeration>" byline="true"/>
-		<replaceregexp file="generated/litleTransaction_v${version.schema}.xsd" match="(&lt;xs:enumeration value=&quot;02&quot;)\s?+/>" replace="\1>&lt;xs:annotation>&lt;xs:appinfo>&lt;jaxb:typesafeEnumMember name=&quot;STATE_SALEX_TAX&quot;/>&lt;/xs:appinfo>&lt;/xs:annotation>&lt;/xs:enumeration>" byline="true"/>
-		<replaceregexp file="generated/litleTransaction_v${version.schema}.xsd" match="(&lt;xs:enumeration value=&quot;03&quot;)\s?+/>" replace="\1>&lt;xs:annotation>&lt;xs:appinfo>&lt;jaxb:typesafeEnumMember name=&quot;CITY_SALES_TAX&quot;/>&lt;/xs:appinfo>&lt;/xs:annotation>&lt;/xs:enumeration>" byline="true"/>
-		<replaceregexp file="generated/litleTransaction_v${version.schema}.xsd" match="(&lt;xs:enumeration value=&quot;04&quot;)\s?+/>" replace="\1>&lt;xs:annotation>&lt;xs:appinfo>&lt;jaxb:typesafeEnumMember name=&quot;LOCAL_SALES_TAX&quot;/>&lt;/xs:appinfo>&lt;/xs:annotation>&lt;/xs:enumeration>" byline="true"/>
-		<replaceregexp file="generated/litleTransaction_v${version.schema}.xsd" match="(&lt;xs:enumeration value=&quot;05&quot;)\s?+/>" replace="\1>&lt;xs:annotation>&lt;xs:appinfo>&lt;jaxb:typesafeEnumMember name=&quot;MUNICIPAL_SALES_TAX&quot;/>&lt;/xs:appinfo>&lt;/xs:annotation>&lt;/xs:enumeration>" byline="true"/>
-		<replaceregexp file="generated/litleTransaction_v${version.schema}.xsd" match="(&lt;xs:enumeration value=&quot;06&quot;)\s?+/>" replace="\1>&lt;xs:annotation>&lt;xs:appinfo>&lt;jaxb:typesafeEnumMember name=&quot;OTHER_TAX&quot;/>&lt;/xs:appinfo>&lt;/xs:annotation>&lt;/xs:enumeration>" byline="true"/>
-		<replaceregexp file="generated/litleTransaction_v${version.schema}.xsd" match="(&lt;xs:enumeration value=&quot;10&quot;)\s?+/>" replace="\1>&lt;xs:annotation>&lt;xs:appinfo>&lt;jaxb:typesafeEnumMember name=&quot;VALUE_ADDED_TAX&quot;/>&lt;/xs:appinfo>&lt;/xs:annotation>&lt;/xs:enumeration>" byline="true"/>
-		<replaceregexp file="generated/litleTransaction_v${version.schema}.xsd" match="(&lt;xs:enumeration value=&quot;11&quot;)\s?+/>" replace="\1>&lt;xs:annotation>&lt;xs:appinfo>&lt;jaxb:typesafeEnumMember name=&quot;GOODS_AND_SERVICES_TAX&quot;/>&lt;/xs:appinfo>&lt;/xs:annotation>&lt;/xs:enumeration>" byline="true"/>
-		<replaceregexp file="generated/litleTransaction_v${version.schema}.xsd" match="(&lt;xs:enumeration value=&quot;12&quot;)\s?+/>" replace="\1>&lt;xs:annotation>&lt;xs:appinfo>&lt;jaxb:typesafeEnumMember name=&quot;PROVINCIAL_SALES_TAX&quot;/>&lt;/xs:appinfo>&lt;/xs:annotation>&lt;/xs:enumeration>" byline="true"/>
-		<replaceregexp file="generated/litleTransaction_v${version.schema}.xsd" match="(&lt;xs:enumeration value=&quot;13&quot;)\s?+/>" replace="\1>&lt;xs:annotation>&lt;xs:appinfo>&lt;jaxb:typesafeEnumMember name=&quot;HARMONIZED_SALES_TAX&quot;/>&lt;/xs:appinfo>&lt;/xs:annotation>&lt;/xs:enumeration>" byline="true"/>
-		<replaceregexp file="generated/litleTransaction_v${version.schema}.xsd" match="(&lt;xs:enumeration value=&quot;14&quot;)\s?+/>" replace="\1>&lt;xs:annotation>&lt;xs:appinfo>&lt;jaxb:typesafeEnumMember name=&quot;QUEBEC_SALES_TAX&quot;/>&lt;/xs:appinfo>&lt;/xs:annotation>&lt;/xs:enumeration>" byline="true"/>
-		<replaceregexp file="generated/litleTransaction_v${version.schema}.xsd" match="(&lt;xs:enumeration value=&quot;20&quot;)\s?+/>" replace="\1>&lt;xs:annotation>&lt;xs:appinfo>&lt;jaxb:typesafeEnumMember name=&quot;ROOM_TAX&quot;/>&lt;/xs:appinfo>&lt;/xs:annotation>&lt;/xs:enumeration>" byline="true"/>
-		<replaceregexp file="generated/litleTransaction_v${version.schema}.xsd" match="(&lt;xs:enumeration value=&quot;21&quot;)\s?+/>" replace="\1>&lt;xs:annotation>&lt;xs:appinfo>&lt;jaxb:typesafeEnumMember name=&quot;OCCUPANCY_TAX&quot;/>&lt;/xs:appinfo>&lt;/xs:annotation>&lt;/xs:enumeration>" byline="true"/>
-		<replaceregexp file="generated/litleTransaction_v${version.schema}.xsd" match="(&lt;xs:enumeration value=&quot;22&quot;)\s?+/>" replace="\1>&lt;xs:annotation>&lt;xs:appinfo>&lt;jaxb:typesafeEnumMember name=&quot;ENERGY_TAX&quot;/>&lt;/xs:appinfo>&lt;/xs:annotation>&lt;/xs:enumeration>" byline="true"/>
+		<replaceregexp file="generated/litleTransaction_v${version.schema}.xsd" match="(&lt;xs:enumeration value=&quot;00&quot;)\s?+/>" replace="\1>&lt;xs:annotation>&lt;xs:appinfo>&lt;jaxb:typesafeEnumMember name=&quot;UNKNOWN&quot;/>&lt;/xs:appinfo>&lt;/xs:annotation>&lt;/xs:enumeration>" byline="true" />
+		<replaceregexp file="generated/litleTransaction_v${version.schema}.xsd" match="(&lt;xs:enumeration value=&quot;01&quot;)\s?+/>" replace="\1>&lt;xs:annotation>&lt;xs:appinfo>&lt;jaxb:typesafeEnumMember name=&quot;FEDERAL_NATIONAL_SALES_TAX&quot;/>&lt;/xs:appinfo>&lt;/xs:annotation>&lt;/xs:enumeration>" byline="true" />
+		<replaceregexp file="generated/litleTransaction_v${version.schema}.xsd" match="(&lt;xs:enumeration value=&quot;02&quot;)\s?+/>" replace="\1>&lt;xs:annotation>&lt;xs:appinfo>&lt;jaxb:typesafeEnumMember name=&quot;STATE_SALEX_TAX&quot;/>&lt;/xs:appinfo>&lt;/xs:annotation>&lt;/xs:enumeration>" byline="true" />
+		<replaceregexp file="generated/litleTransaction_v${version.schema}.xsd" match="(&lt;xs:enumeration value=&quot;03&quot;)\s?+/>" replace="\1>&lt;xs:annotation>&lt;xs:appinfo>&lt;jaxb:typesafeEnumMember name=&quot;CITY_SALES_TAX&quot;/>&lt;/xs:appinfo>&lt;/xs:annotation>&lt;/xs:enumeration>" byline="true" />
+		<replaceregexp file="generated/litleTransaction_v${version.schema}.xsd" match="(&lt;xs:enumeration value=&quot;04&quot;)\s?+/>" replace="\1>&lt;xs:annotation>&lt;xs:appinfo>&lt;jaxb:typesafeEnumMember name=&quot;LOCAL_SALES_TAX&quot;/>&lt;/xs:appinfo>&lt;/xs:annotation>&lt;/xs:enumeration>" byline="true" />
+		<replaceregexp file="generated/litleTransaction_v${version.schema}.xsd" match="(&lt;xs:enumeration value=&quot;05&quot;)\s?+/>" replace="\1>&lt;xs:annotation>&lt;xs:appinfo>&lt;jaxb:typesafeEnumMember name=&quot;MUNICIPAL_SALES_TAX&quot;/>&lt;/xs:appinfo>&lt;/xs:annotation>&lt;/xs:enumeration>" byline="true" />
+		<replaceregexp file="generated/litleTransaction_v${version.schema}.xsd" match="(&lt;xs:enumeration value=&quot;06&quot;)\s?+/>" replace="\1>&lt;xs:annotation>&lt;xs:appinfo>&lt;jaxb:typesafeEnumMember name=&quot;OTHER_TAX&quot;/>&lt;/xs:appinfo>&lt;/xs:annotation>&lt;/xs:enumeration>" byline="true" />
+		<replaceregexp file="generated/litleTransaction_v${version.schema}.xsd" match="(&lt;xs:enumeration value=&quot;10&quot;)\s?+/>" replace="\1>&lt;xs:annotation>&lt;xs:appinfo>&lt;jaxb:typesafeEnumMember name=&quot;VALUE_ADDED_TAX&quot;/>&lt;/xs:appinfo>&lt;/xs:annotation>&lt;/xs:enumeration>" byline="true" />
+		<replaceregexp file="generated/litleTransaction_v${version.schema}.xsd" match="(&lt;xs:enumeration value=&quot;11&quot;)\s?+/>" replace="\1>&lt;xs:annotation>&lt;xs:appinfo>&lt;jaxb:typesafeEnumMember name=&quot;GOODS_AND_SERVICES_TAX&quot;/>&lt;/xs:appinfo>&lt;/xs:annotation>&lt;/xs:enumeration>" byline="true" />
+		<replaceregexp file="generated/litleTransaction_v${version.schema}.xsd" match="(&lt;xs:enumeration value=&quot;12&quot;)\s?+/>" replace="\1>&lt;xs:annotation>&lt;xs:appinfo>&lt;jaxb:typesafeEnumMember name=&quot;PROVINCIAL_SALES_TAX&quot;/>&lt;/xs:appinfo>&lt;/xs:annotation>&lt;/xs:enumeration>" byline="true" />
+		<replaceregexp file="generated/litleTransaction_v${version.schema}.xsd" match="(&lt;xs:enumeration value=&quot;13&quot;)\s?+/>" replace="\1>&lt;xs:annotation>&lt;xs:appinfo>&lt;jaxb:typesafeEnumMember name=&quot;HARMONIZED_SALES_TAX&quot;/>&lt;/xs:appinfo>&lt;/xs:annotation>&lt;/xs:enumeration>" byline="true" />
+		<replaceregexp file="generated/litleTransaction_v${version.schema}.xsd" match="(&lt;xs:enumeration value=&quot;14&quot;)\s?+/>" replace="\1>&lt;xs:annotation>&lt;xs:appinfo>&lt;jaxb:typesafeEnumMember name=&quot;QUEBEC_SALES_TAX&quot;/>&lt;/xs:appinfo>&lt;/xs:annotation>&lt;/xs:enumeration>" byline="true" />
+		<replaceregexp file="generated/litleTransaction_v${version.schema}.xsd" match="(&lt;xs:enumeration value=&quot;20&quot;)\s?+/>" replace="\1>&lt;xs:annotation>&lt;xs:appinfo>&lt;jaxb:typesafeEnumMember name=&quot;ROOM_TAX&quot;/>&lt;/xs:appinfo>&lt;/xs:annotation>&lt;/xs:enumeration>" byline="true" />
+		<replaceregexp file="generated/litleTransaction_v${version.schema}.xsd" match="(&lt;xs:enumeration value=&quot;21&quot;)\s?+/>" replace="\1>&lt;xs:annotation>&lt;xs:appinfo>&lt;jaxb:typesafeEnumMember name=&quot;OCCUPANCY_TAX&quot;/>&lt;/xs:appinfo>&lt;/xs:annotation>&lt;/xs:enumeration>" byline="true" />
+		<replaceregexp file="generated/litleTransaction_v${version.schema}.xsd" match="(&lt;xs:enumeration value=&quot;22&quot;)\s?+/>" replace="\1>&lt;xs:annotation>&lt;xs:appinfo>&lt;jaxb:typesafeEnumMember name=&quot;ENERGY_TAX&quot;/>&lt;/xs:appinfo>&lt;/xs:annotation>&lt;/xs:enumeration>" byline="true" />
 
 		<!-- Method of payment -->
-		<replaceregexp file="generated/litleCommon_v${version.schema}.xsd" match="(&lt;xs:enumeration value=&quot;&quot;)\s?+/>" replace="\1>&lt;xs:annotation>&lt;xs:appinfo>&lt;jaxb:typesafeEnumMember name=&quot;BLANK&quot;/>&lt;/xs:appinfo>&lt;/xs:annotation>&lt;/xs:enumeration>" byline="true"/>
+		<replaceregexp file="generated/litleCommon_v${version.schema}.xsd" match="(&lt;xs:enumeration value=&quot;&quot;)\s?+/>" replace="\1>&lt;xs:annotation>&lt;xs:appinfo>&lt;jaxb:typesafeEnumMember name=&quot;BLANK&quot;/>&lt;/xs:appinfo>&lt;/xs:annotation>&lt;/xs:enumeration>" byline="true" />
 
-		
+
 		<!-- Get rid of the weird substitution for jaxbelement/echeck/echeckToken -->
-		<replaceregexp file="generated/litleTransaction_v${version.schema}.xsd" match="(&lt;xs:element name=&quot;echeckVerification.*?)&lt;xs:all>(.*?)&lt;/xs:all>(.*?&lt;/xs:element)" replace="\1&lt;xs:sequence>\2&lt;/xs:sequence>\3" flags="s"/>
-		<replaceregexp file="generated/litleTransaction_v${version.schema}.xsd" match="&lt;xs:element ref=&quot;xp:echeckOrEcheckToken&quot;\s?/>" replace="&lt;xs:choice>&lt;xs:element name=&quot;echeck&quot; type=&quot;xp:echeckType&quot;/>&lt;xs:element name=&quot;echeckToken&quot; type=&quot;xp:echeckTokenType&quot;/>&lt;/xs:choice>" byline="true"/>
-		<replaceregexp file="generated/litleTransaction_v${version.schema}.xsd" match="&lt;xs:element ref=&quot;xp:echeckOrEcheckToken&quot; minOccurs=&quot;0&quot;\s?/>" replace="&lt;xs:choice>&lt;xs:element name=&quot;echeck&quot; type=&quot;xp:echeckType&quot;/>&lt;xs:element name=&quot;echeckToken&quot; type=&quot;xp:echeckTokenType&quot;/>&lt;/xs:choice>" byline="true"/>
-		
+		<replaceregexp file="generated/litleTransaction_v${version.schema}.xsd" match="(&lt;xs:element name=&quot;echeckVerification.*?)&lt;xs:all>(.*?)&lt;/xs:all>(.*?&lt;/xs:element)" replace="\1&lt;xs:sequence>\2&lt;/xs:sequence>\3" flags="s" />
+		<replaceregexp file="generated/litleTransaction_v${version.schema}.xsd" match="&lt;xs:element ref=&quot;xp:echeckOrEcheckToken&quot;\s?/>" replace="&lt;xs:choice>&lt;xs:element name=&quot;echeck&quot; type=&quot;xp:echeckType&quot;/>&lt;xs:element name=&quot;echeckToken&quot; type=&quot;xp:echeckTokenType&quot;/>&lt;/xs:choice>" byline="true" />
+		<replaceregexp file="generated/litleTransaction_v${version.schema}.xsd" match="&lt;xs:element ref=&quot;xp:echeckOrEcheckToken&quot; minOccurs=&quot;0&quot;\s?/>" replace="&lt;xs:choice>&lt;xs:element name=&quot;echeck&quot; type=&quot;xp:echeckType&quot;/>&lt;xs:element name=&quot;echeckToken&quot; type=&quot;xp:echeckTokenType&quot;/>&lt;/xs:choice>" byline="true" />
+
 		<!-- Make num* and *Amount have a default="0" in litleBatch*.xsd -->
-		<replaceregexp file="generated/litleBatch_v${version.schema}.xsd" match="(&lt;xs:attribute name=&quot;num\w+&quot;.*use=&quot;optional&quot;.*)/>" replace="\1 default=&quot;0&quot;/>" byline="true"/>
-		<replaceregexp file="generated/litleBatch_v${version.schema}.xsd" match="(&lt;xs:attribute name=&quot;\w+Amount&quot;.*use=&quot;optional&quot;.*)/>" replace="\1 default=&quot;0&quot;/>" byline="true"/>
-		
+		<replaceregexp file="generated/litleBatch_v${version.schema}.xsd" match="(&lt;xs:attribute name=&quot;num\w+&quot;.*use=&quot;optional&quot;.*)/>" replace="\1 default=&quot;0&quot;/>" byline="true" />
+		<replaceregexp file="generated/litleBatch_v${version.schema}.xsd" match="(&lt;xs:attribute name=&quot;\w+Amount&quot;.*use=&quot;optional&quot;.*)/>" replace="\1 default=&quot;0&quot;/>" byline="true" />
+
 		<!--Actually generate code from the modified schema -->
 		<!--<xjc schema="generated/litleOnline_v${version.schema}.xsd" package="com.litle.sdk.generate" destdir="${generated}" binding="xsd/bindings.xml" extension="true"/> -->
 		<xjc package="com.litle.sdk.generate" destdir="${generated}" binding="xsd/bindings.xml" extension="true">
-		        <schema dir="${generated}" 
-		                includes="litleOnline_v${version.schema}.xsd,litleBatch_v${version.schema}.xsd"/>
+			<schema dir="${generated}" includes="litleOnline_v${version.schema}.xsd,litleBatch_v${version.schema}.xsd" />
 		</xjc>
 	</target>
 
 	<target name="compile" depends="clean,generate" description="compile the source ">
 		<mkdir dir="${bin}" />
-		<javac destdir="${bin}" includeantruntime="false" source="1.5" target="1.5" classpathref="classpath.ref" 
-			debug="true" debuglevel="lines,vars,source">
+		<javac destdir="${bin}" includeantruntime="false" source="1.5" target="1.5" classpathref="classpath.ref" debug="true" debuglevel="lines,vars,source">
 			<compilerarg value="-Xbootclasspath/p:${toString:lib.path.ref}" />
 			<src path="src" />
 			<src path="generated" />
@@ -146,16 +145,15 @@
 
 	<target name="test" depends="dist">
 		<mkdir dir="${bin}/test" />
-		<javac destdir="${bin}/test" includeantruntime="false" source="1.5" target="1.5" classpathref="classpath.ref"
-			debug="true" debuglevel="lines,vars,source">
+		<javac destdir="${bin}/test" includeantruntime="false" source="1.5" target="1.5" classpathref="classpath.ref" debug="true" debuglevel="lines,vars,source">
 			<compilerarg value="-Xbootclasspath/p:${toString:lib.path.ref}" />
 			<src path="test/functional" />
 			<src path="test/certification" />
 			<src path="test/unit" />
 			<classpath>
-				<pathelement location="${dist15}/lib/litle-sdk-for-java-${version.jar}.jar"/>
-				<pathelement location="${junit}/junit-4.8.2.jar"/>
-				<pathelement location="${mockito}/mockito-all-1.9.0.jar"/>
+				<pathelement location="${dist15}/lib/litle-sdk-for-java-${version.jar}.jar" />
+				<pathelement location="${junit}/junit-4.8.2.jar" />
+				<pathelement location="${mockito}/mockito-all-1.9.0.jar" />
 			</classpath>
 		</javac>
 		<mkdir dir="dist/lib" />
@@ -164,11 +162,11 @@
 		<junit haltonfailure="true" printsummary="true" fork="yes">
 			<!--<jvmarg value="-Djavax.net.debug=ssl"/>-->
 			<classpath>
-				<path refid="classpath.ref"/>
+				<path refid="classpath.ref" />
 				<pathelement location="${junit}/junit-4.8.2.jar" />
-				<pathelement location="${mockito}/mockito-all-1.9.0.jar"/>
+				<pathelement location="${mockito}/mockito-all-1.9.0.jar" />
 				<pathelement location="dist/lib/litle-sdk-for-java-${version.jar}-tests.jar" />
-				<pathelement location="${dist15}/lib/litle-sdk-for-java-${version.jar}.jar"/>
+				<pathelement location="${dist15}/lib/litle-sdk-for-java-${version.jar}.jar" />
 			</classpath>
 
 			<formatter type="plain" usefile="false" />
@@ -179,7 +177,7 @@
 					<include name="**/Test*.java" />
 				</fileset>
 			</batchtest>
-			
+
 			<batchtest todir="reports/functional">
 				<fileset dir="test/functional">
 					<include name="**/Test*.java" />
@@ -197,43 +195,43 @@
 
 	<target name="dist" depends="compile,-dist14,-dist15" description="generate the distribution">
 	</target>
-	
+
 	<target name="-dist14" description="Generate the jars for java 1.4">
 		<mkdir dir="${dist14}/lib" />
-		
-		<copy file="LICENSE" todir="${bin}"/>
-		
+
+		<copy file="LICENSE" todir="${bin}" />
+
 		<jar jarfile="${dist14}/lib/litle-sdk-for-java-${version.jar}-ForJava14.jar" basedir="${bin}">
 			<manifest>
-				<attribute name="Implementation-Title" value="Litle SDK For Java 1.4 and greater"/>
-				<attribute name="Implementation-Version" value="${version.jar}"/>
-				<attribute name="Implementation-Vendor" value="Litle&amp;Co"/>
-				<attribute name="Main-Class" value="com.litle.sdk.Setup"/>
+				<attribute name="Implementation-Title" value="Litle SDK For Java 1.4 and greater" />
+				<attribute name="Implementation-Version" value="${version.jar}" />
+				<attribute name="Implementation-Vendor" value="Litle&amp;Co" />
+				<attribute name="Main-Class" value="com.litle.sdk.Setup" />
 			</manifest>
 		</jar>
 	</target>
-	
+
 	<target name="-dist15" description="Generate the jars for java 1.5">
 		<mkdir dir="${dist15}/lib" />
-		
+
 		<jar jarfile="${dist15}/lib/litle-sdk-for-java-${version.jar}.jar" basedir="${bin}">
 			<manifest>
-				<attribute name="Implementation-Title" value="Litle SDK For Java 1.5 and greater"/>
-				<attribute name="Implementation-Version" value="${version.jar}"/>
-				<attribute name="Implementation-Vendor" value="Litle&amp;Co"/>
-				<attribute name="Main-Class" value="com.litle.sdk.Setup"/>
+				<attribute name="Implementation-Title" value="Litle SDK For Java 1.5 and greater" />
+				<attribute name="Implementation-Version" value="${version.jar}" />
+				<attribute name="Implementation-Vendor" value="Litle&amp;Co" />
+				<attribute name="Main-Class" value="com.litle.sdk.Setup" />
 			</manifest>
-		</jar>			
+		</jar>
 	</target>
-	
+
 	<target name="kit" depends="dist,doc" description="Kit up the jars for a downloadable package on our website">
-		<mkdir dir="kit/java15"/>
+		<mkdir dir="kit/java15" />
 		<!--Stage things for the java 1.5 kit" -->
-		<copy file="${dist15}/lib/litle-sdk-for-java-${version.jar}.jar" todir="kit/java15"/>
+		<copy file="${dist15}/lib/litle-sdk-for-java-${version.jar}.jar" todir="kit/java15" />
 		<copy todir="kit/java15/dependencies">
 			<fileset dir="${jaxb}">
-				<include name="activation.jar"/>
-				<include name="jaxb-api.jar"/>
+				<include name="activation.jar" />
+				<include name="jaxb-api.jar" />
 				<include name="jaxb-impl.jar" />
 				<include name="jsr173_1.0_api.jar" />
 			</fileset>
@@ -246,26 +244,26 @@
 				<include name="httpmime-4.2.3.jar" />
 			</fileset>
 			<fileset dir="${opensftp}">
-			    <include name="**/*.jar" />
+				<include name="**/*.jar" />
 			</fileset>
 			<fileset dir="${commons}">
-				<include name="commons-logging-1.1.1.jar"/>
+				<include name="commons-logging-1.1.1.jar" />
 			</fileset>
 		</copy>
 		<copy todir="kit/java15/doc">
-			<fileset dir="dist/doc"/>
+			<fileset dir="dist/doc" />
 		</copy>
-		<copy file="LICENSE" todir="kit/java15"/>
-	
+		<copy file="LICENSE" todir="kit/java15" />
+
 		<!--Create 1.5 kit -->
-		<tar destfile="kit/litle-sdk-for-java-${version.jar}.tar" basedir="kit/java15"/>
-		<gzip src="kit/litle-sdk-for-java-${version.jar}.tar" destfile="kit/litle-sdk-for-java-${version.jar}.tar.gz"/>
-		<delete file = "kit/litle-sdk-for-java-${version.jar}.tar"/>
-		<zip destfile="kit/litle-sdk-for-java-${version.jar}.zip" basedir="kit/java15"/>
-		
+		<tar destfile="kit/litle-sdk-for-java-${version.jar}.tar" basedir="kit/java15" />
+		<gzip src="kit/litle-sdk-for-java-${version.jar}.tar" destfile="kit/litle-sdk-for-java-${version.jar}.tar.gz" />
+		<delete file="kit/litle-sdk-for-java-${version.jar}.tar" />
+		<zip destfile="kit/litle-sdk-for-java-${version.jar}.zip" basedir="kit/java15" />
+
 		<!-- Stage things for the java 1.4 kit" -->
-		<mkdir dir="kit/java14"/>
-		<copy file="${dist14}/lib/litle-sdk-for-java-${version.jar}-ForJava14.jar" todir="kit/java14"/>
+		<mkdir dir="kit/java14" />
+		<copy file="${dist14}/lib/litle-sdk-for-java-${version.jar}-ForJava14.jar" todir="kit/java14" />
 
 		<copy todir="kit/java14/dependencies">
 			<fileset dir="${httpclient}">
@@ -275,68 +273,65 @@
 				<include name="httpmime-4.0.1.jar" />
 			</fileset>
 			<fileset dir="${xerces}">
-				<include name="resolver.jar"/>
-				<include name="serializer.jar"/>
-				<include name="xercesImpl.jar"/>
-				<include name="xercesSamples.jar"/>
-				<include name="xml-apis.jar"/>
+				<include name="resolver.jar" />
+				<include name="serializer.jar" />
+				<include name="xercesImpl.jar" />
+				<include name="xercesSamples.jar" />
+				<include name="xml-apis.jar" />
 			</fileset>
 			<fileset dir="${opensftp}">
-                <include name="**/*.jar" />
-            </fileset>
+				<include name="**/*.jar" />
+			</fileset>
 		</copy>
 		<copy todir="kit/java14/doc">
-			<fileset dir="dist/doc"/>
+			<fileset dir="dist/doc" />
 		</copy>
-		<copy file="LICENSE" todir="kit/java14"/>
-		
+		<copy file="LICENSE" todir="kit/java14" />
+
 		<!-- Translate it to java 1.4 -->
-	    <retrotranslator target="1.4" 
-	    	destjar="kit/java14/litle-sdk-for-java-${version.jar}-ForJava14.jar" 	    	
-	    	smart="true" verify="false" failonwarning="false"
-	    	support="ThreadLocal.remove" embed="com.litle.sdk">
-	    	<jarfileset dir="kit/java14" includes="litle-sdk-for-java-${version.jar}-ForJava14.jar"/>
-	    	<jarfileset dir="${jaxb}">
-	    		<include name="activation.jar" />
-	    		<include name="jaxb-api.jar" />
-	    		<include name="jaxb-impl.jar" />
-	    		<include name="jsr173_1.0_api.jar" />
-	    	</jarfileset>
-	        <classpath>
-	            <fileset dir="${java4home}/jre/lib" includes="**/*.jar"/>
-	            <fileset dir="lib/Retrotranslator-1.2.9-bin">
-	                <include name="retrotranslator-runtime-1.2.9.jar" />
-	            	<include name="retrotranslator-transformer-1.2.9.jar" />
-	            	<include name="backport-util-concurrent-3.1.jar" />
-	            </fileset>
-	        	<fileset dir="lib/xerces-2_11_0" includes="*.jar"/>
-	        	<path refid="classpath.ref"/>
-	        </classpath>
+		<retrotranslator target="1.4" destjar="kit/java14/litle-sdk-for-java-${version.jar}-ForJava14.jar" smart="true" verify="false" failonwarning="false" support="ThreadLocal.remove" embed="com.litle.sdk">
+			<jarfileset dir="kit/java14" includes="litle-sdk-for-java-${version.jar}-ForJava14.jar" />
+			<jarfileset dir="${jaxb}">
+				<include name="activation.jar" />
+				<include name="jaxb-api.jar" />
+				<include name="jaxb-impl.jar" />
+				<include name="jsr173_1.0_api.jar" />
+			</jarfileset>
+			<classpath>
+				<fileset dir="${java4home}/jre/lib" includes="**/*.jar" />
+				<fileset dir="lib/Retrotranslator-1.2.9-bin">
+					<include name="retrotranslator-runtime-1.2.9.jar" />
+					<include name="retrotranslator-transformer-1.2.9.jar" />
+					<include name="backport-util-concurrent-3.1.jar" />
+				</fileset>
+				<fileset dir="lib/xerces-2_11_0" includes="*.jar" />
+				<path refid="classpath.ref" />
+			</classpath>
 		</retrotranslator>
-	
+
 		<!--Create 1.4 kit -->
-		<tar destfile="kit/litle-sdk-for-java-${version.jar}-ForJava14.tar" basedir="kit/java14"/>
-		<gzip src="kit/litle-sdk-for-java-${version.jar}-ForJava14.tar" destfile="kit/litle-sdk-for-java-${version.jar}-ForJava14.tar.gz"/>
-		<delete file = "kit/litle-sdk-for-java-${version.jar}-ForJava14.tar"/>
-		<zip destfile="kit/litle-sdk-for-java-${version.jar}-ForJava14.zip" basedir="kit/java14"/>
+		<tar destfile="kit/litle-sdk-for-java-${version.jar}-ForJava14.tar" basedir="kit/java14" />
+		<gzip src="kit/litle-sdk-for-java-${version.jar}-ForJava14.tar" destfile="kit/litle-sdk-for-java-${version.jar}-ForJava14.tar.gz" />
+		<delete file="kit/litle-sdk-for-java-${version.jar}-ForJava14.tar" />
+		<zip destfile="kit/litle-sdk-for-java-${version.jar}-ForJava14.zip" basedir="kit/java14" />
 	</target>
-	
+
 	<target name="doc" description="Build javadoc">
 		<mkdir dir="dist/doc" />
 
 		<javadoc destdir="dist/doc">
-			<fileset dir="src"/>
-			<fileset dir="generated"/>
-			<classpath refid="classpath.ref"/>
+			<fileset dir="src" />
+			<fileset dir="generated" />
+			<classpath refid="classpath.ref" />
 		</javadoc>
 	</target>
-	
-	<target name="all" depends="clean,dist,test,doc,kit" description="Make sure everything is good"/>
+
+	<target name="all" depends="clean,dist,test,doc,kit" description="Make sure everything is good" />
 
 	<target name="clean" description="clean up">
 		<delete dir="${bin}" />
 		<delete dir="${generated}" />
 		<delete dir="dist" />
-		<delete dir="kit"/>
+		<delete dir="kit" />
 	</target>
 </project>
