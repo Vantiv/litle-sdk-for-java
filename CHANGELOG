@@ -1,5 +1,12 @@
 = LitleOnline CHANGELOG
 
+== Version 8.21.0 (September 20, 2013)
+
+* Feature: Support for the following new recurring transactions: CreatePlan, UpdatePlan
+* Feature: Support for the following new gift card transactions: Activate, Deactivate, Load, Unload, Balance Inquiry
+* Feature: Gift card responses are now returned as part of authorzationResponse, authReversalResponse, captureResponse, forceCapture, captureGivenAuthResponse, saleResponse, creditResponse
+* Feature: fraudResult is now returned as part of captureResponse, forceCaptureResponse, captureGivenAuthResponse, creditResponse
+
 == Version 8.20.0 (August 7, 2013)
 
 * Backwards-Incompatible Feature: More initial support for Recurring, including the ability to update or cancel subscriptions.  LitleBatchResponse::getNextResponse now returns LitleTransactionInterface instead of TransactionType.  This is to support the new recurring transaction types which also implement TransactionType.  Most existing uses of TransactionType can just cast from LitleTransactionInterface without any other changes.  The LitleResponseParser interface also includes 3 additional processor methods to handle the 3 transaction types.

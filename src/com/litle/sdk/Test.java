@@ -4,25 +4,32 @@ import java.util.Calendar;
 
 import com.litle.sdk.generate.AccountUpdateFileRequestData;
 import com.litle.sdk.generate.AccountUpdateResponse;
+import com.litle.sdk.generate.ActivateResponse;
 import com.litle.sdk.generate.AuthReversalResponse;
 import com.litle.sdk.generate.AuthorizationResponse;
+import com.litle.sdk.generate.BalanceInquiryResponse;
 import com.litle.sdk.generate.CancelSubscriptionResponse;
 import com.litle.sdk.generate.CaptureGivenAuthResponse;
 import com.litle.sdk.generate.CaptureResponse;
 import com.litle.sdk.generate.CardType;
+import com.litle.sdk.generate.CreatePlanResponse;
 import com.litle.sdk.generate.Credit;
 import com.litle.sdk.generate.CreditResponse;
+import com.litle.sdk.generate.DeactivateResponse;
 import com.litle.sdk.generate.EcheckCreditResponse;
 import com.litle.sdk.generate.EcheckRedepositResponse;
 import com.litle.sdk.generate.EcheckSalesResponse;
 import com.litle.sdk.generate.EcheckVerificationResponse;
 import com.litle.sdk.generate.ForceCaptureResponse;
+import com.litle.sdk.generate.LoadResponse;
 import com.litle.sdk.generate.MethodOfPaymentTypeEnum;
 import com.litle.sdk.generate.OrderSourceType;
 import com.litle.sdk.generate.RFRRequest;
 import com.litle.sdk.generate.RegisterTokenResponse;
 import com.litle.sdk.generate.SaleResponse;
+import com.litle.sdk.generate.UnloadResponse;
 import com.litle.sdk.generate.UpdateCardValidationNumOnTokenResponse;
+import com.litle.sdk.generate.UpdatePlanResponse;
 import com.litle.sdk.generate.UpdateSubscriptionResponse;
 
 public class Test {
@@ -100,24 +107,37 @@ public class Test {
                 public void processRegisterTokenResponse(RegisterTokenResponse registerTokenResponse) { }
 
                 public void processAccountUpdate(AccountUpdateResponse accountUpdateResponse) {
-                    // TODO Auto-generated method stub
-
                 }
 
                 public void processUpdateSubscriptionResponse(UpdateSubscriptionResponse updateSubscriptionResponse) {
-                    // TODO Auto-generated method stub
-
                 }
 
                 public void processCancelSubscriptionResponse(CancelSubscriptionResponse cancelSubscriptionResponse) {
-                    // TODO Auto-generated method stub
-
                 }
 
                 public void processUpdateCardValidationNumOnTokenResponse(
                         UpdateCardValidationNumOnTokenResponse updateCardValidationNumOnTokenResponse) {
-                    // TODO Auto-generated method stub
+                }
 
+                public void processCreatePlanResponse(CreatePlanResponse createPlanResponse) {
+                }
+
+                public void processUpdatePlanResponse(UpdatePlanResponse updatePlanResponse) {
+                }
+
+                public void processActivateResponse(ActivateResponse activateResponse) {
+                }
+
+                public void processDeactivateResponse(DeactivateResponse deactivateResponse) {
+                }
+
+                public void processLoadResponse(LoadResponse loadResponse) {
+                }
+
+                public void processUnloadResponse(UnloadResponse unloadResponse) {
+                }
+
+                public void processBalanceInquiryResponse(BalanceInquiryResponse balanceInquiryResponse) {
                 }
             })){
                 System.out.println("Processed another txn!");

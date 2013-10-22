@@ -144,6 +144,13 @@ public class ResponseFileParser {
 	                    || currentStartingTagInFile.compareToIgnoreCase("<updateSubscriptionResponse") == 0
 	                    || currentStartingTagInFile.compareToIgnoreCase("<cancelSubscriptionResponse") == 0
 	                    || currentStartingTagInFile.compareToIgnoreCase("<updateCardValidationNumOnTokenResponse") == 0
+	                    || currentStartingTagInFile.compareToIgnoreCase("<updatePlanResponse") == 0
+	                    || currentStartingTagInFile.compareToIgnoreCase("<createPlanResponse") == 0
+                        || currentStartingTagInFile.compareToIgnoreCase("<activateResponse") == 0
+                        || currentStartingTagInFile.compareToIgnoreCase("<deactivateResponse") == 0
+                        || currentStartingTagInFile.compareToIgnoreCase("<loadResponse") == 0
+                        || currentStartingTagInFile.compareToIgnoreCase("<unloadResponse") == 0
+                        || currentStartingTagInFile.compareToIgnoreCase("<balanceInquiryResponse") == 0
 	                    || currentStartingTagInFile.compareToIgnoreCase("<accountUpdateResponse") == 0)) {
 			retVal = true;
 		} else if (openingTagToLookFor
@@ -176,6 +183,13 @@ public class ResponseFileParser {
 					|| currentStartingTagInFile.compareToIgnoreCase("</cancelSubscriptionResponse>") == 0
 					|| currentStartingTagInFile.compareToIgnoreCase("</updateSubscriptionResponse>") == 0
 					|| currentStartingTagInFile.compareToIgnoreCase("</updateCardValidationNumOnTokenResponse>") == 0
+                    || currentStartingTagInFile.compareToIgnoreCase("</createPlanResponse>") == 0
+                    || currentStartingTagInFile.compareToIgnoreCase("</updatePlanResponse>") == 0
+                    || currentStartingTagInFile.compareToIgnoreCase("</activateResponse>") == 0
+                    || currentStartingTagInFile.compareToIgnoreCase("</deactivateResponse>") == 0
+                    || currentStartingTagInFile.compareToIgnoreCase("</loadResponse>") == 0
+                    || currentStartingTagInFile.compareToIgnoreCase("</unloadResponse>") == 0
+                    || currentStartingTagInFile.compareToIgnoreCase("</balanceInquiryResponse>") == 0
 					|| currentStartingTagInFile.compareToIgnoreCase("</accountUpdateResponse>") == 0)) {
 
 			retVal = true;
