@@ -15,6 +15,8 @@ import javax.xml.bind.Unmarshaller;
 
 import com.litle.sdk.generate.Activate;
 import com.litle.sdk.generate.ActivateResponse;
+import com.litle.sdk.generate.ActivateReversal;
+import com.litle.sdk.generate.ActivateReversalResponse;
 import com.litle.sdk.generate.AuthReversal;
 import com.litle.sdk.generate.AuthReversalResponse;
 import com.litle.sdk.generate.Authentication;
@@ -34,6 +36,10 @@ import com.litle.sdk.generate.Credit;
 import com.litle.sdk.generate.CreditResponse;
 import com.litle.sdk.generate.Deactivate;
 import com.litle.sdk.generate.DeactivateResponse;
+import com.litle.sdk.generate.DeactivateReversal;
+import com.litle.sdk.generate.DeactivateReversalResponse;
+import com.litle.sdk.generate.DepositReversal;
+import com.litle.sdk.generate.DepositReversalResponse;
 import com.litle.sdk.generate.EcheckCredit;
 import com.litle.sdk.generate.EcheckCreditResponse;
 import com.litle.sdk.generate.EcheckRedeposit;
@@ -50,8 +56,12 @@ import com.litle.sdk.generate.LitleOnlineRequest;
 import com.litle.sdk.generate.LitleOnlineResponse;
 import com.litle.sdk.generate.Load;
 import com.litle.sdk.generate.LoadResponse;
+import com.litle.sdk.generate.LoadReversal;
+import com.litle.sdk.generate.LoadReversalResponse;
 import com.litle.sdk.generate.ObjectFactory;
 import com.litle.sdk.generate.RecurringTransactionResponseType;
+import com.litle.sdk.generate.RefundReversal;
+import com.litle.sdk.generate.RefundReversalResponse;
 import com.litle.sdk.generate.RegisterTokenRequestType;
 import com.litle.sdk.generate.RegisterTokenResponse;
 import com.litle.sdk.generate.Sale;
@@ -60,6 +70,8 @@ import com.litle.sdk.generate.TransactionTypeWithReportGroup;
 import com.litle.sdk.generate.TransactionTypeWithReportGroupAndPartial;
 import com.litle.sdk.generate.Unload;
 import com.litle.sdk.generate.UnloadResponse;
+import com.litle.sdk.generate.UnloadReversal;
+import com.litle.sdk.generate.UnloadReversalResponse;
 import com.litle.sdk.generate.UpdateCardValidationNumOnToken;
 import com.litle.sdk.generate.UpdateCardValidationNumOnTokenResponse;
 import com.litle.sdk.generate.UpdatePlan;
@@ -549,6 +561,90 @@ public class LitleOnline {
         LitleOnlineResponse response = sendToLitle(request);
         JAXBElement<? extends TransactionTypeWithReportGroup> newresponse = response.getTransactionResponse();
         return (BalanceInquiryResponse)newresponse.getValue();
+    }
+
+    public ActivateReversalResponse activateReversal(ActivateReversal activateReversal) {
+        LitleOnlineRequest request = createLitleOnlineRequest();
+        return activateReversal(activateReversal, request);
+    }
+
+    public ActivateReversalResponse activateReversal(ActivateReversal activateReversal, LitleOnlineRequest overrides) {
+        LitleOnlineRequest request = fillInMissingFieldsFromConfig(overrides);
+
+        request.setTransaction(objectFactory.createActivateReversal(activateReversal));
+        LitleOnlineResponse response = sendToLitle(request);
+        JAXBElement<? extends TransactionTypeWithReportGroup> newresponse = response.getTransactionResponse();
+        return (ActivateReversalResponse)newresponse.getValue();
+    }
+
+    public DeactivateReversalResponse deactivateReversal(DeactivateReversal deactivateReversal) {
+        LitleOnlineRequest request = createLitleOnlineRequest();
+        return deactivateReversal(deactivateReversal, request);
+    }
+
+    public DeactivateReversalResponse deactivateReversal(DeactivateReversal deactivateReversal, LitleOnlineRequest overrides) {
+        LitleOnlineRequest request = fillInMissingFieldsFromConfig(overrides);
+
+        request.setTransaction(objectFactory.createDeactivateReversal(deactivateReversal));
+        LitleOnlineResponse response = sendToLitle(request);
+        JAXBElement<? extends TransactionTypeWithReportGroup> newresponse = response.getTransactionResponse();
+        return (DeactivateReversalResponse)newresponse.getValue();
+    }
+
+    public LoadReversalResponse loadReversal(LoadReversal loadReversal) {
+        LitleOnlineRequest request = createLitleOnlineRequest();
+        return loadReversal(loadReversal, request);
+    }
+
+    public LoadReversalResponse loadReversal(LoadReversal loadReversal, LitleOnlineRequest overrides) {
+        LitleOnlineRequest request = fillInMissingFieldsFromConfig(overrides);
+
+        request.setTransaction(objectFactory.createLoadReversal(loadReversal));
+        LitleOnlineResponse response = sendToLitle(request);
+        JAXBElement<? extends TransactionTypeWithReportGroup> newresponse = response.getTransactionResponse();
+        return (LoadReversalResponse)newresponse.getValue();
+    }
+
+    public UnloadReversalResponse unloadReversal(UnloadReversal unloadReversal) {
+        LitleOnlineRequest request = createLitleOnlineRequest();
+        return unloadReversal(unloadReversal, request);
+    }
+
+    public UnloadReversalResponse unloadReversal(UnloadReversal unloadReversal, LitleOnlineRequest overrides) {
+        LitleOnlineRequest request = fillInMissingFieldsFromConfig(overrides);
+
+        request.setTransaction(objectFactory.createUnloadReversal(unloadReversal));
+        LitleOnlineResponse response = sendToLitle(request);
+        JAXBElement<? extends TransactionTypeWithReportGroup> newresponse = response.getTransactionResponse();
+        return (UnloadReversalResponse)newresponse.getValue();
+    }
+
+    public RefundReversalResponse refundReversal(RefundReversal refundReversal) {
+        LitleOnlineRequest request = createLitleOnlineRequest();
+        return refundReversal(refundReversal, request);
+    }
+
+    public RefundReversalResponse refundReversal(RefundReversal refundReversal, LitleOnlineRequest overrides) {
+        LitleOnlineRequest request = fillInMissingFieldsFromConfig(overrides);
+
+        request.setTransaction(objectFactory.createRefundReversal(refundReversal));
+        LitleOnlineResponse response = sendToLitle(request);
+        JAXBElement<? extends TransactionTypeWithReportGroup> newresponse = response.getTransactionResponse();
+        return (RefundReversalResponse)newresponse.getValue();
+    }
+
+    public DepositReversalResponse depositReversal(DepositReversal depositReversal) {
+        LitleOnlineRequest request = createLitleOnlineRequest();
+        return depositReversal(depositReversal, request);
+    }
+
+    public DepositReversalResponse depositReversal(DepositReversal depositReversal, LitleOnlineRequest overrides) {
+        LitleOnlineRequest request = fillInMissingFieldsFromConfig(overrides);
+
+        request.setTransaction(objectFactory.createDepositReversal(depositReversal));
+        LitleOnlineResponse response = sendToLitle(request);
+        JAXBElement<? extends TransactionTypeWithReportGroup> newresponse = response.getTransactionResponse();
+        return (DepositReversalResponse)newresponse.getValue();
     }
 
 	private LitleOnlineRequest createLitleOnlineRequest() {

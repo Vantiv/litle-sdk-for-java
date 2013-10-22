@@ -15,6 +15,8 @@ import org.junit.Test;
 
 import com.litle.sdk.generate.Activate;
 import com.litle.sdk.generate.ActivateResponse;
+import com.litle.sdk.generate.ActivateReversal;
+import com.litle.sdk.generate.ActivateReversalResponse;
 import com.litle.sdk.generate.AuthInformation;
 import com.litle.sdk.generate.AuthReversal;
 import com.litle.sdk.generate.AuthReversalResponse;
@@ -38,6 +40,10 @@ import com.litle.sdk.generate.CreditResponse;
 import com.litle.sdk.generate.CustomerInfo;
 import com.litle.sdk.generate.Deactivate;
 import com.litle.sdk.generate.DeactivateResponse;
+import com.litle.sdk.generate.DeactivateReversal;
+import com.litle.sdk.generate.DeactivateReversalResponse;
+import com.litle.sdk.generate.DepositReversal;
+import com.litle.sdk.generate.DepositReversalResponse;
 import com.litle.sdk.generate.EcheckAccountTypeEnum;
 import com.litle.sdk.generate.EcheckCredit;
 import com.litle.sdk.generate.EcheckCreditResponse;
@@ -55,14 +61,20 @@ import com.litle.sdk.generate.ForceCaptureResponse;
 import com.litle.sdk.generate.LitleOnlineRequest;
 import com.litle.sdk.generate.Load;
 import com.litle.sdk.generate.LoadResponse;
+import com.litle.sdk.generate.LoadReversal;
+import com.litle.sdk.generate.LoadReversalResponse;
 import com.litle.sdk.generate.MethodOfPaymentTypeEnum;
 import com.litle.sdk.generate.OrderSourceType;
+import com.litle.sdk.generate.RefundReversal;
+import com.litle.sdk.generate.RefundReversalResponse;
 import com.litle.sdk.generate.RegisterTokenRequestType;
 import com.litle.sdk.generate.RegisterTokenResponse;
 import com.litle.sdk.generate.Sale;
 import com.litle.sdk.generate.SaleResponse;
 import com.litle.sdk.generate.Unload;
 import com.litle.sdk.generate.UnloadResponse;
+import com.litle.sdk.generate.UnloadReversal;
+import com.litle.sdk.generate.UnloadReversalResponse;
 import com.litle.sdk.generate.UpdatePlan;
 import com.litle.sdk.generate.UpdatePlanResponse;
 import com.litle.sdk.generate.UpdateSubscription;
@@ -1064,4 +1076,233 @@ public class TestLitleOnline {
         BalanceInquiryResponse response = litle.balanceInquiry(balanceInquiry, overrides);
         assertEquals(123456L, response.getLitleTxnId());
     }
+
+    @Test
+    public void testActivateReversal() throws Exception {
+        ActivateReversal activateReversal = new ActivateReversal();
+        activateReversal.setLitleTxnId(123L);
+
+        Communication mockedCommunication = mock(Communication.class);
+        when(
+                mockedCommunication
+                        .requestToServer(
+                                matches(".*?<litleOnlineRequest.*?<activateReversal><litleTxnId>123</litleTxnId></activateReversal></litleOnlineRequest>.*?"),
+                                any(Properties.class)))
+                .thenReturn(
+                        "<litleOnlineResponse version='8.21' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><activateReversalResponse><litleTxnId>123456</litleTxnId></activateReversalResponse></litleOnlineResponse>");
+        litle.setCommunication(mockedCommunication);
+        ActivateReversalResponse response = litle.activateReversal(activateReversal);
+        assertEquals(123456L, response.getLitleTxnId());
+    }
+
+    @Test
+    public void testActivateReversalWithOverrides() throws Exception {
+        ActivateReversal activateReversal = new ActivateReversal();
+        activateReversal.setLitleTxnId(123L);
+
+        Communication mockedCommunication = mock(Communication.class);
+        when(
+                mockedCommunication
+                        .requestToServer(
+                                matches(".*?<litleOnlineRequest.*?merchantId=\"905\".*?<activateReversal><litleTxnId>123</litleTxnId></activateReversal></litleOnlineRequest>.*?"),
+                                any(Properties.class)))
+                .thenReturn(
+                        "<litleOnlineResponse version='8.21' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><activateReversalResponse><litleTxnId>123456</litleTxnId></activateReversalResponse></litleOnlineResponse>");
+        litle.setCommunication(mockedCommunication);
+        LitleOnlineRequest overrides = new LitleOnlineRequest();
+        overrides.setMerchantId("905");
+        ActivateReversalResponse response = litle.activateReversal(activateReversal, overrides);
+        assertEquals(123456L, response.getLitleTxnId());
+    }
+
+    @Test
+    public void testDeactivateReversal() throws Exception {
+        DeactivateReversal deactivateReversal = new DeactivateReversal();
+        deactivateReversal.setLitleTxnId(123L);
+
+        Communication mockedCommunication = mock(Communication.class);
+        when(
+                mockedCommunication
+                        .requestToServer(
+                                matches(".*?<litleOnlineRequest.*?<deactivateReversal><litleTxnId>123</litleTxnId></deactivateReversal></litleOnlineRequest>.*?"),
+                                any(Properties.class)))
+                .thenReturn(
+                        "<litleOnlineResponse version='8.21' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><deactivateReversalResponse><litleTxnId>123456</litleTxnId></deactivateReversalResponse></litleOnlineResponse>");
+        litle.setCommunication(mockedCommunication);
+        DeactivateReversalResponse response = litle.deactivateReversal(deactivateReversal);
+        assertEquals(123456L, response.getLitleTxnId());
+    }
+
+    @Test
+    public void testDeActivateReversalWithOverrides() throws Exception {
+        DeactivateReversal deactivateReversal = new DeactivateReversal();
+        deactivateReversal.setLitleTxnId(123);
+
+        Communication mockedCommunication = mock(Communication.class);
+        when(
+                mockedCommunication
+                        .requestToServer(
+                                matches(".*?<litleOnlineRequest.*?merchantId=\"905\".*?<deactivateReversal><litleTxnId>123</litleTxnId></deactivateReversal></litleOnlineRequest>.*?"),
+                                any(Properties.class)))
+                .thenReturn(
+                        "<litleOnlineResponse version='8.21' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><deactivateReversalResponse><litleTxnId>123456</litleTxnId></deactivateReversalResponse></litleOnlineResponse>");
+        litle.setCommunication(mockedCommunication);
+        LitleOnlineRequest overrides = new LitleOnlineRequest();
+        overrides.setMerchantId("905");
+        DeactivateReversalResponse response = litle.deactivateReversal(deactivateReversal, overrides);
+        assertEquals(123456L, response.getLitleTxnId());
+    }
+
+    @Test
+    public void testLoadReversal() throws Exception {
+        LoadReversal loadReversal = new LoadReversal();
+        loadReversal.setLitleTxnId(123L);
+
+        Communication mockedCommunication = mock(Communication.class);
+        when(
+                mockedCommunication
+                        .requestToServer(
+                                matches(".*?<litleOnlineRequest.*?<loadReversal><litleTxnId>123</litleTxnId></loadReversal></litleOnlineRequest>.*?"),
+                                any(Properties.class)))
+                .thenReturn(
+                        "<litleOnlineResponse version='8.21' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><loadReversalResponse><litleTxnId>123456</litleTxnId></loadReversalResponse></litleOnlineResponse>");
+        litle.setCommunication(mockedCommunication);
+        LoadReversalResponse response = litle.loadReversal(loadReversal);
+        assertEquals(123456L, response.getLitleTxnId());
+    }
+
+    @Test
+    public void testLoadReversalWithOverrides() throws Exception {
+        LoadReversal loadReversal = new LoadReversal();
+        loadReversal.setLitleTxnId(123L);
+
+        Communication mockedCommunication = mock(Communication.class);
+        when(
+                mockedCommunication
+                        .requestToServer(
+                                matches(".*?<litleOnlineRequest.*?merchantId=\"905\".*?<loadReversal><litleTxnId>123</litleTxnId></loadReversal></litleOnlineRequest>.*?"),
+                                any(Properties.class)))
+                .thenReturn(
+                        "<litleOnlineResponse version='8.21' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><loadReversalResponse><litleTxnId>123456</litleTxnId></loadReversalResponse></litleOnlineResponse>");
+        litle.setCommunication(mockedCommunication);
+        LitleOnlineRequest overrides = new LitleOnlineRequest();
+        overrides.setMerchantId("905");
+        LoadReversalResponse response = litle.loadReversal(loadReversal, overrides);
+        assertEquals(123456L, response.getLitleTxnId());
+    }
+
+    @Test
+    public void testUnLoadReversal() throws Exception {
+        UnloadReversal unloadReversal = new UnloadReversal();
+        unloadReversal.setLitleTxnId(123L);
+
+        Communication mockedCommunication = mock(Communication.class);
+        when(
+                mockedCommunication
+                        .requestToServer(
+                                matches(".*?<litleOnlineRequest.*?<unloadReversal><litleTxnId>123</litleTxnId></unloadReversal></litleOnlineRequest>.*?"),
+                                any(Properties.class)))
+                .thenReturn(
+                        "<litleOnlineResponse version='8.21' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><unloadReversalResponse><litleTxnId>123456</litleTxnId></unloadReversalResponse></litleOnlineResponse>");
+        litle.setCommunication(mockedCommunication);
+        UnloadReversalResponse response = litle.unloadReversal(unloadReversal);
+        assertEquals(123456L, response.getLitleTxnId());
+    }
+
+    @Test
+    public void testUnLoadReversalWithOverrides() throws Exception {
+        UnloadReversal unloadReversal = new UnloadReversal();
+        unloadReversal.setLitleTxnId(123L);
+
+        Communication mockedCommunication = mock(Communication.class);
+        when(
+                mockedCommunication
+                        .requestToServer(
+                                matches(".*?<litleOnlineRequest.*?merchantId=\"905\".*?<unloadReversal><litleTxnId>123</litleTxnId></unloadReversal></litleOnlineRequest>.*?"),
+                                any(Properties.class)))
+                .thenReturn(
+                        "<litleOnlineResponse version='8.21' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><unloadReversalResponse><litleTxnId>123456</litleTxnId></unloadReversalResponse></litleOnlineResponse>");
+        litle.setCommunication(mockedCommunication);
+        LitleOnlineRequest overrides = new LitleOnlineRequest();
+        overrides.setMerchantId("905");
+        UnloadReversalResponse response = litle.unloadReversal(unloadReversal, overrides);
+        assertEquals(123456L, response.getLitleTxnId());
+    }
+
+    @Test
+    public void testRefundReversal() throws Exception {
+        RefundReversal refundReversal = new RefundReversal();
+        refundReversal.setLitleTxnId(123L);
+
+        Communication mockedCommunication = mock(Communication.class);
+        when(
+                mockedCommunication
+                        .requestToServer(
+                                matches(".*?<litleOnlineRequest.*?<refundReversal><litleTxnId>123</litleTxnId></refundReversal></litleOnlineRequest>.*?"),
+                                any(Properties.class)))
+                .thenReturn(
+                        "<litleOnlineResponse version='8.21' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><refundReversalResponse><litleTxnId>123456</litleTxnId></refundReversalResponse></litleOnlineResponse>");
+        litle.setCommunication(mockedCommunication);
+        RefundReversalResponse response = litle.refundReversal(refundReversal);
+        assertEquals(123456L, response.getLitleTxnId());
+    }
+
+    @Test
+    public void testRefundReversalWithOverrides() throws Exception {
+        RefundReversal refundReversal = new RefundReversal();
+        refundReversal.setLitleTxnId(123L);
+
+        Communication mockedCommunication = mock(Communication.class);
+        when(
+                mockedCommunication
+                        .requestToServer(
+                                matches(".*?<litleOnlineRequest.*?merchantId=\"905\".*?<refundReversal><litleTxnId>123</litleTxnId></refundReversal></litleOnlineRequest>.*?"),
+                                any(Properties.class)))
+                .thenReturn(
+                        "<litleOnlineResponse version='8.21' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><refundReversalResponse><litleTxnId>123456</litleTxnId></refundReversalResponse></litleOnlineResponse>");
+        litle.setCommunication(mockedCommunication);
+        LitleOnlineRequest overrides = new LitleOnlineRequest();
+        overrides.setMerchantId("905");
+        RefundReversalResponse response = litle.refundReversal(refundReversal, overrides);
+        assertEquals(123456L, response.getLitleTxnId());
+    }
+
+    @Test
+    public void testDepositReversal() throws Exception {
+        DepositReversal depositReversal = new DepositReversal();
+        depositReversal.setLitleTxnId(123L);
+
+        Communication mockedCommunication = mock(Communication.class);
+        when(
+                mockedCommunication
+                        .requestToServer(
+                                matches(".*?<litleOnlineRequest.*?<depositReversal><litleTxnId>123</litleTxnId></depositReversal></litleOnlineRequest>.*?"),
+                                any(Properties.class)))
+                .thenReturn(
+                        "<litleOnlineResponse version='8.21' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><depositReversalResponse><litleTxnId>123456</litleTxnId></depositReversalResponse></litleOnlineResponse>");
+        litle.setCommunication(mockedCommunication);
+        DepositReversalResponse response = litle.depositReversal(depositReversal);
+        assertEquals(123456L, response.getLitleTxnId());
+    }
+
+    @Test
+    public void testDepositReversalWithOverrides() throws Exception {
+        DepositReversal depositReversal = new DepositReversal();
+        depositReversal.setLitleTxnId(123L);
+
+        Communication mockedCommunication = mock(Communication.class);
+        when(
+                mockedCommunication
+                        .requestToServer(
+                                matches(".*?<litleOnlineRequest.*?merchantId=\"905\".*?<depositReversal><litleTxnId>123</litleTxnId></depositReversal></litleOnlineRequest>.*?"),
+                                any(Properties.class)))
+                .thenReturn(
+                        "<litleOnlineResponse version='8.21' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><depositReversalResponse><litleTxnId>123456</litleTxnId></depositReversalResponse></litleOnlineResponse>");
+        litle.setCommunication(mockedCommunication);
+        LitleOnlineRequest overrides = new LitleOnlineRequest();
+        overrides.setMerchantId("905");
+        DepositReversalResponse response = litle.depositReversal(depositReversal, overrides);
+        assertEquals(123456L, response.getLitleTxnId());
+    }
+
 }

@@ -600,6 +600,35 @@
             <xs:element name="cardValidationNum" type="xp:cvNumType" minOccurs="0" />
         </xs:sequence>
     </xs:complexType>
+
+    <xs:complexType name="cardTokenType">
+        <xs:sequence>
+            <xs:element name="litleToken" type="xp:ccAccountNumberType"/>
+            <xs:element name="expDate" type="xp:expDateType" minOccurs="0" />
+            <xs:element name="cardValidationNum" type="xp:cvNumType" minOccurs="0" />
+            <xs:element name="type" type="xp:methodOfPaymentTypeEnum" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="cardPaypageType">
+        <xs:sequence>
+            <xs:element name="paypageRegistrationId" type="xp:string512Type"/>
+            <xs:element name="expDate" type="xp:expDateType" minOccurs="0" />
+            <xs:element name="cardValidationNum" type="xp:cvNumType" minOccurs="0" />
+            <xs:element name="type" type="xp:methodOfPaymentTypeEnum" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="tokenResponseType">
+        <xs:sequence>
+            <xs:element name="litleToken" type="xp:ccAccountNumberType" minOccurs="0"/>                        
+            <xs:element name="tokenResponseCode" type="xp:responseType"/>
+            <xs:element name="tokenMessage" type="xs:string"/>
+            <xs:element name="type" type="xp:methodOfPaymentTypeEnum" minOccurs="0"/>
+            <xs:element name="bin" type="xs:string" minOccurs="0"/>
+            <xs:element name="eCheckAccountSuffix" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
     
     <xs:simpleType name="ccAccountNumberType">
         <xs:restriction base="xs:string">
