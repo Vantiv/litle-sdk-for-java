@@ -474,9 +474,9 @@ public class LitleOnline {
 		else {
 			retVal.setMerchantId(request.getMerchantId());
 		}
-        retVal.setVersion("8.19");
+        retVal.setVersion("8.20");
 		if(request.getMerchantSdk() == null) {
-			retVal.setMerchantSdk("Java;8.19.0");
+			retVal.setMerchantSdk("Java;8.20.0");
 		}
 		else {
 			retVal.setMerchantSdk(request.getMerchantSdk());

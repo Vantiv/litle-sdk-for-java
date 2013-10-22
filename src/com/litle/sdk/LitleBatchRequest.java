@@ -17,6 +17,7 @@ import com.litle.sdk.generate.AccountUpdate;
 import com.litle.sdk.generate.AuthReversal;
 import com.litle.sdk.generate.Authorization;
 import com.litle.sdk.generate.BatchRequest;
+import com.litle.sdk.generate.CancelSubscription;
 import com.litle.sdk.generate.Capture;
 import com.litle.sdk.generate.CaptureGivenAuth;
 import com.litle.sdk.generate.Credit;
@@ -25,11 +26,13 @@ import com.litle.sdk.generate.EcheckRedeposit;
 import com.litle.sdk.generate.EcheckSale;
 import com.litle.sdk.generate.EcheckVerification;
 import com.litle.sdk.generate.ForceCapture;
+import com.litle.sdk.generate.LitleTransactionInterface;
 import com.litle.sdk.generate.ObjectFactory;
 import com.litle.sdk.generate.RegisterTokenRequestType;
 import com.litle.sdk.generate.Sale;
 import com.litle.sdk.generate.TransactionType;
 import com.litle.sdk.generate.UpdateCardValidationNumOnToken;
+import com.litle.sdk.generate.UpdateSubscription;
 
 public class LitleBatchRequest {
 	private BatchRequest batchRequest;
@@ -78,7 +81,7 @@ public class LitleBatchRequest {
 		} catch (JAXBException e) {
 			throw new LitleBatchException("Unable to load jaxb dependencies.  Perhaps a classpath issue?", e);
 		}
-		this.maxTransactionsPerBatch = Integer.parseInt(lbfr.getConfig().getProperty("maxTransactionsPerBatch"));
+		this.maxTransactionsPerBatch = Integer.parseInt(lbfr.getConfig().getProperty("maxTransactionsPerBatch","10000"));
 		if( maxTransactionsPerBatch > litleLimit_maxTransactionsPerBatch ){
 			throw new LitleBatchException("maxTransactionsPerBatch property value cannot exceed " + String.valueOf(litleLimit_maxTransactionsPerBatch));
 		}
@@ -95,7 +98,7 @@ public class LitleBatchRequest {
 	 * @throws FileNotFoundException
 	 * @throws JAXBException
 	 */
-	public TransactionCodeEnum addTransaction(TransactionType transactionType) throws LitleBatchException, LitleBatchFileFullException, LitleBatchBatchFullException {
+	public TransactionCodeEnum addTransaction(LitleTransactionInterface transactionType) throws LitleBatchException, LitleBatchFileFullException, LitleBatchBatchFullException {
 		if (numOfTxn == 0) {
             this.file = new File(filePath);
             try {
@@ -201,6 +204,16 @@ public class LitleBatchRequest {
         } else if (transactionType instanceof UpdateCardValidationNumOnToken){
             batchRequest.setNumUpdateCardValidationNumOnTokens(batchRequest.getNumUpdateCardValidationNumOnTokens().add(BigInteger.valueOf(1)));
             transaction = objFac.createUpdateCardValidationNumOnToken((UpdateCardValidationNumOnToken)transactionType);
+            transactionAdded = true;
+            numOfTxn ++;
+        } else if (transactionType instanceof UpdateSubscription) {
+            batchRequest.setNumUpdateSubscriptions(batchRequest.getNumUpdateSubscriptions().add(BigInteger.valueOf(1)));
+            transaction = objFac.createUpdateSubscription((UpdateSubscription)transactionType);
+            transactionAdded = true;
+            numOfTxn ++;
+        } else if(transactionType instanceof CancelSubscription) {
+            batchRequest.setNumCancelSubscriptions(batchRequest.getNumCancelSubscriptions().add(BigInteger.valueOf(1)));
+            transaction = objFac.createCancelSubscription((CancelSubscription)transactionType);
             transactionAdded = true;
             numOfTxn ++;
         } else if (transactionType instanceof AccountUpdate){

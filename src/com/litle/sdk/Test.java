@@ -6,6 +6,7 @@ import com.litle.sdk.generate.AccountUpdateFileRequestData;
 import com.litle.sdk.generate.AccountUpdateResponse;
 import com.litle.sdk.generate.AuthReversalResponse;
 import com.litle.sdk.generate.AuthorizationResponse;
+import com.litle.sdk.generate.CancelSubscriptionResponse;
 import com.litle.sdk.generate.CaptureGivenAuthResponse;
 import com.litle.sdk.generate.CaptureResponse;
 import com.litle.sdk.generate.CardType;
@@ -21,6 +22,8 @@ import com.litle.sdk.generate.OrderSourceType;
 import com.litle.sdk.generate.RFRRequest;
 import com.litle.sdk.generate.RegisterTokenResponse;
 import com.litle.sdk.generate.SaleResponse;
+import com.litle.sdk.generate.UpdateCardValidationNumOnTokenResponse;
+import com.litle.sdk.generate.UpdateSubscriptionResponse;
 
 public class Test {
 
@@ -97,6 +100,22 @@ public class Test {
                 public void processRegisterTokenResponse(RegisterTokenResponse registerTokenResponse) { }
 
                 public void processAccountUpdate(AccountUpdateResponse accountUpdateResponse) {
+                    // TODO Auto-generated method stub
+
+                }
+
+                public void processUpdateSubscriptionResponse(UpdateSubscriptionResponse updateSubscriptionResponse) {
+                    // TODO Auto-generated method stub
+
+                }
+
+                public void processCancelSubscriptionResponse(CancelSubscriptionResponse cancelSubscriptionResponse) {
+                    // TODO Auto-generated method stub
+
+                }
+
+                public void processUpdateCardValidationNumOnTokenResponse(
+                        UpdateCardValidationNumOnTokenResponse updateCardValidationNumOnTokenResponse) {
                     // TODO Auto-generated method stub
 
                 }

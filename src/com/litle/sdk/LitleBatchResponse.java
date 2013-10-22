@@ -11,6 +11,7 @@ import com.litle.sdk.generate.AccountUpdateResponse;
 import com.litle.sdk.generate.AuthReversalResponse;
 import com.litle.sdk.generate.AuthorizationResponse;
 import com.litle.sdk.generate.BatchResponse;
+import com.litle.sdk.generate.CancelSubscriptionResponse;
 import com.litle.sdk.generate.CaptureGivenAuthResponse;
 import com.litle.sdk.generate.CaptureResponse;
 import com.litle.sdk.generate.CreditResponse;
@@ -19,9 +20,12 @@ import com.litle.sdk.generate.EcheckRedepositResponse;
 import com.litle.sdk.generate.EcheckSalesResponse;
 import com.litle.sdk.generate.EcheckVerificationResponse;
 import com.litle.sdk.generate.ForceCaptureResponse;
+import com.litle.sdk.generate.LitleTransactionInterface;
 import com.litle.sdk.generate.RegisterTokenResponse;
 import com.litle.sdk.generate.SaleResponse;
 import com.litle.sdk.generate.TransactionType;
+import com.litle.sdk.generate.UpdateCardValidationNumOnTokenResponse;
+import com.litle.sdk.generate.UpdateSubscriptionResponse;
 
 /**
  * Wrapper class to initialize the batch Responses
@@ -80,7 +84,7 @@ public class LitleBatchResponse {
 	 * Retrieves the next transaction from the batch response object.
 	 * @return the TransactionType object, or null (if all transactions have been accessed)
 	 */
-	public TransactionType getNextTransaction(){
+	public LitleTransactionInterface getNextTransaction(){
 		if( allTransactionsRetrieved ){
 			throw new LitleBatchNoMoreBatchTransactionException("All transactions from this batch have already been retrieved");
 		}
@@ -110,7 +114,7 @@ public class LitleBatchResponse {
 	 */
 	public boolean processNextTransaction(LitleResponseProcessor processor){
 	    String txnXml = "";
-	    TransactionType objToRet;
+	    LitleTransactionInterface objToRet;
 	    try {
             txnXml = responseFileParser.getNextTag("transactionResponse");
         } catch (Exception e) {
@@ -149,6 +153,12 @@ public class LitleBatchResponse {
             processor.processEcheckSalesResponse((EcheckSalesResponse) objToRet);
         } else if (objToRet instanceof AccountUpdateResponse){
             processor.processAccountUpdate((AccountUpdateResponse) objToRet);
+        } else if (objToRet instanceof UpdateSubscriptionResponse) {
+            processor.processUpdateSubscriptionResponse((UpdateSubscriptionResponse)objToRet);
+        } else if (objToRet instanceof CancelSubscriptionResponse) {
+            processor.processCancelSubscriptionResponse((CancelSubscriptionResponse)objToRet);
+        } else if (objToRet instanceof UpdateCardValidationNumOnTokenResponse) {
+            processor.processUpdateCardValidationNumOnTokenResponse((UpdateCardValidationNumOnTokenResponse)objToRet);
         }
 	    return true;
 	}
