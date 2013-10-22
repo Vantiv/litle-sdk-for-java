@@ -14,24 +14,31 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 
 import com.litle.sdk.generate.AccountUpdate;
+import com.litle.sdk.generate.Activate;
 import com.litle.sdk.generate.AuthReversal;
 import com.litle.sdk.generate.Authorization;
+import com.litle.sdk.generate.BalanceInquiry;
 import com.litle.sdk.generate.BatchRequest;
 import com.litle.sdk.generate.CancelSubscription;
 import com.litle.sdk.generate.Capture;
 import com.litle.sdk.generate.CaptureGivenAuth;
+import com.litle.sdk.generate.CreatePlan;
 import com.litle.sdk.generate.Credit;
+import com.litle.sdk.generate.Deactivate;
 import com.litle.sdk.generate.EcheckCredit;
 import com.litle.sdk.generate.EcheckRedeposit;
 import com.litle.sdk.generate.EcheckSale;
 import com.litle.sdk.generate.EcheckVerification;
 import com.litle.sdk.generate.ForceCapture;
 import com.litle.sdk.generate.LitleTransactionInterface;
+import com.litle.sdk.generate.Load;
 import com.litle.sdk.generate.ObjectFactory;
 import com.litle.sdk.generate.RegisterTokenRequestType;
 import com.litle.sdk.generate.Sale;
 import com.litle.sdk.generate.TransactionType;
+import com.litle.sdk.generate.Unload;
 import com.litle.sdk.generate.UpdateCardValidationNumOnToken;
+import com.litle.sdk.generate.UpdatePlan;
 import com.litle.sdk.generate.UpdateSubscription;
 
 public class LitleBatchRequest {
@@ -214,6 +221,44 @@ public class LitleBatchRequest {
         } else if(transactionType instanceof CancelSubscription) {
             batchRequest.setNumCancelSubscriptions(batchRequest.getNumCancelSubscriptions().add(BigInteger.valueOf(1)));
             transaction = objFac.createCancelSubscription((CancelSubscription)transactionType);
+            transactionAdded = true;
+            numOfTxn ++;
+        } else if(transactionType instanceof CreatePlan) {
+            batchRequest.setNumCreatePlans(batchRequest.getNumCreatePlans().add(BigInteger.valueOf(1)));
+            transaction = objFac.createCreatePlan((CreatePlan)transactionType);
+            transactionAdded = true;
+            numOfTxn ++;
+        } else if(transactionType instanceof UpdatePlan) {
+            batchRequest.setNumUpdatePlans(batchRequest.getNumUpdatePlans().add(BigInteger.valueOf(1)));
+            transaction = objFac.createUpdatePlan((UpdatePlan)transactionType);
+            transactionAdded = true;
+            numOfTxn ++;
+        } else if(transactionType instanceof Activate) {
+            batchRequest.setNumActivates(batchRequest.getNumActivates().add(BigInteger.valueOf(1)));
+            batchRequest.setActivateAmount(batchRequest.getActivateAmount().add(BigInteger.valueOf(((Activate) transactionType).getAmount())));
+            transaction = objFac.createActivate((Activate)transactionType);
+            transactionAdded = true;
+            numOfTxn ++;
+        } else if(transactionType instanceof Deactivate) {
+            batchRequest.setNumDeactivates(batchRequest.getNumDeactivates().add(BigInteger.valueOf(1)));
+            transaction = objFac.createDeactivate((Deactivate)transactionType);
+            transactionAdded = true;
+            numOfTxn ++;
+        } else if(transactionType instanceof Load) {
+            batchRequest.setNumLoads(batchRequest.getNumLoads().add(BigInteger.valueOf(1)));
+            batchRequest.setLoadAmount(batchRequest.getLoadAmount().add(BigInteger.valueOf(((Load) transactionType).getAmount())));
+            transaction = objFac.createLoad((Load)transactionType);
+            transactionAdded = true;
+            numOfTxn ++;
+        } else if(transactionType instanceof Unload) {
+            batchRequest.setNumUnloads(batchRequest.getNumUnloads().add(BigInteger.valueOf(1)));
+            batchRequest.setUnloadAmount(batchRequest.getUnloadAmount().add(BigInteger.valueOf(((Unload) transactionType).getAmount())));
+            transaction = objFac.createUnload((Unload)transactionType);
+            transactionAdded = true;
+            numOfTxn ++;
+        } else if(transactionType instanceof BalanceInquiry) {
+            batchRequest.setNumBalanceInquirys(batchRequest.getNumBalanceInquirys().add(BigInteger.valueOf(1)));
+            transaction = objFac.createBalanceInquiry((BalanceInquiry)transactionType);
             transactionAdded = true;
             numOfTxn ++;
         } else if (transactionType instanceof AccountUpdate){

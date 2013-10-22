@@ -13,12 +13,16 @@ import java.util.Properties;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.litle.sdk.generate.Activate;
+import com.litle.sdk.generate.ActivateResponse;
 import com.litle.sdk.generate.AuthInformation;
 import com.litle.sdk.generate.AuthReversal;
 import com.litle.sdk.generate.AuthReversalResponse;
 import com.litle.sdk.generate.Authentication;
 import com.litle.sdk.generate.Authorization;
 import com.litle.sdk.generate.AuthorizationResponse;
+import com.litle.sdk.generate.BalanceInquiry;
+import com.litle.sdk.generate.BalanceInquiryResponse;
 import com.litle.sdk.generate.CancelSubscription;
 import com.litle.sdk.generate.CancelSubscriptionResponse;
 import com.litle.sdk.generate.Capture;
@@ -27,9 +31,13 @@ import com.litle.sdk.generate.CaptureGivenAuthResponse;
 import com.litle.sdk.generate.CaptureResponse;
 import com.litle.sdk.generate.CardType;
 import com.litle.sdk.generate.Contact;
+import com.litle.sdk.generate.CreatePlan;
+import com.litle.sdk.generate.CreatePlanResponse;
 import com.litle.sdk.generate.Credit;
 import com.litle.sdk.generate.CreditResponse;
 import com.litle.sdk.generate.CustomerInfo;
+import com.litle.sdk.generate.Deactivate;
+import com.litle.sdk.generate.DeactivateResponse;
 import com.litle.sdk.generate.EcheckAccountTypeEnum;
 import com.litle.sdk.generate.EcheckCredit;
 import com.litle.sdk.generate.EcheckCreditResponse;
@@ -45,12 +53,18 @@ import com.litle.sdk.generate.EcheckVoidResponse;
 import com.litle.sdk.generate.ForceCapture;
 import com.litle.sdk.generate.ForceCaptureResponse;
 import com.litle.sdk.generate.LitleOnlineRequest;
+import com.litle.sdk.generate.Load;
+import com.litle.sdk.generate.LoadResponse;
 import com.litle.sdk.generate.MethodOfPaymentTypeEnum;
 import com.litle.sdk.generate.OrderSourceType;
 import com.litle.sdk.generate.RegisterTokenRequestType;
 import com.litle.sdk.generate.RegisterTokenResponse;
 import com.litle.sdk.generate.Sale;
 import com.litle.sdk.generate.SaleResponse;
+import com.litle.sdk.generate.Unload;
+import com.litle.sdk.generate.UnloadResponse;
+import com.litle.sdk.generate.UpdatePlan;
+import com.litle.sdk.generate.UpdatePlanResponse;
 import com.litle.sdk.generate.UpdateSubscription;
 import com.litle.sdk.generate.UpdateSubscriptionResponse;
 
@@ -781,4 +795,273 @@ public class TestLitleOnline {
         assertEquals(12345L, updateResponse.getSubscriptionId());
     }
 
+    @Test
+    public void testUpdatePlan() throws Exception {
+        UpdatePlan update = new UpdatePlan();
+        update.setActive(true);
+        update.setPlanCode("abc");
+
+        Communication mockedCommunication = mock(Communication.class);
+        when(
+                mockedCommunication
+                        .requestToServer(
+                                matches(".*?<litleOnlineRequest.*?<updatePlan><planCode>abc</planCode><active>true</active></updatePlan></litleOnlineRequest>.*?"),
+                                any(Properties.class)))
+                .thenReturn(
+                        "<litleOnlineResponse version='8.20' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><updatePlanResponse><planCode>abc</planCode></updatePlanResponse></litleOnlineResponse>");
+        litle.setCommunication(mockedCommunication);
+        UpdatePlanResponse updateResponse = litle.updatePlan(update);
+        assertEquals("abc", updateResponse.getPlanCode());
+    }
+
+    @Test
+    public void testUpdatePlanWithOverrides() throws Exception {
+        UpdatePlan update = new UpdatePlan();
+        update.setActive(true);
+        update.setPlanCode("abc");
+
+        Communication mockedCommunication = mock(Communication.class);
+        when(
+                mockedCommunication
+                        .requestToServer(
+                                matches(".*?<litleOnlineRequest.*?merchantId=\"905\".*?<updatePlan><planCode>abc</planCode><active>true</active></updatePlan></litleOnlineRequest>.*?"),
+                                any(Properties.class)))
+                .thenReturn(
+                        "<litleOnlineResponse version='8.20' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><updatePlanResponse><planCode>abc</planCode></updatePlanResponse></litleOnlineResponse>");
+        litle.setCommunication(mockedCommunication);
+        LitleOnlineRequest overrides = new LitleOnlineRequest();
+        overrides.setMerchantId("905");
+        UpdatePlanResponse updateResponse = litle.updatePlan(update, overrides);
+        assertEquals("abc", updateResponse.getPlanCode());
+    }
+
+    @Test
+    public void testCreatePlan() throws Exception {
+        CreatePlan create = new CreatePlan();
+        create.setPlanCode("abc");
+        create.setActive(true);
+
+        Communication mockedCommunication = mock(Communication.class);
+        when(
+                mockedCommunication
+                        .requestToServer(
+                                matches(".*?<litleOnlineRequest.*?<createPlan><planCode>abc</planCode><active>true</active></createPlan></litleOnlineRequest>.*?"),
+                                any(Properties.class)))
+                .thenReturn(
+                        "<litleOnlineResponse version='8.21' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><createPlanResponse><planCode>abc</planCode></createPlanResponse></litleOnlineResponse>");
+        litle.setCommunication(mockedCommunication);
+        CreatePlanResponse createResponse = litle.createPlan(create);
+        assertEquals("abc", createResponse.getPlanCode());
+    }
+
+    @Test
+    public void testCreatePlanWithOverrides() throws Exception {
+        CreatePlan create = new CreatePlan();
+        create.setPlanCode("abc");
+        create.setActive(true);
+
+        Communication mockedCommunication = mock(Communication.class);
+        when(
+                mockedCommunication
+                        .requestToServer(
+                                matches(".*?<litleOnlineRequest.*?merchantId=\"905\".*?<createPlan><planCode>abc</planCode><active>true</active></createPlan></litleOnlineRequest>.*?"),
+                                any(Properties.class)))
+                .thenReturn(
+                        "<litleOnlineResponse version='8.21' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><createPlanResponse><planCode>abc</planCode></createPlanResponse></litleOnlineResponse>");
+        litle.setCommunication(mockedCommunication);
+        LitleOnlineRequest overrides = new LitleOnlineRequest();
+        overrides.setMerchantId("905");
+        CreatePlanResponse createResponse = litle.createPlan(create, overrides);
+        assertEquals("abc", createResponse.getPlanCode());
+    }
+
+    @Test
+    public void testActivate() throws Exception {
+        Activate activate = new Activate();
+        activate.setAmount(100L);
+
+        Communication mockedCommunication = mock(Communication.class);
+        when(
+                mockedCommunication
+                        .requestToServer(
+                                matches(".*?<litleOnlineRequest.*?<activate><amount>100</amount></activate></litleOnlineRequest>.*?"),
+                                any(Properties.class)))
+                .thenReturn(
+                        "<litleOnlineResponse version='8.21' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><activateResponse><litleTxnId>123456</litleTxnId></activateResponse></litleOnlineResponse>");
+        litle.setCommunication(mockedCommunication);
+        ActivateResponse response = litle.activate(activate);
+        assertEquals(123456L, response.getLitleTxnId());
+    }
+
+    @Test
+    public void testActivateWithOverrides() throws Exception {
+        Activate activate = new Activate();
+        activate.setAmount(100L);
+
+        Communication mockedCommunication = mock(Communication.class);
+        when(
+                mockedCommunication
+                        .requestToServer(
+                                matches(".*?<litleOnlineRequest.*?merchantId=\"905\".*?<activate><amount>100</amount></activate></litleOnlineRequest>.*?"),
+                                any(Properties.class)))
+                .thenReturn(
+                        "<litleOnlineResponse version='8.21' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><activateResponse><litleTxnId>123456</litleTxnId></activateResponse></litleOnlineResponse>");
+        litle.setCommunication(mockedCommunication);
+        LitleOnlineRequest overrides = new LitleOnlineRequest();
+        overrides.setMerchantId("905");
+        ActivateResponse response = litle.activate(activate, overrides);
+        assertEquals(123456L, response.getLitleTxnId());
+    }
+
+    @Test
+    public void testDectivate() throws Exception {
+        Deactivate deactivate = new Deactivate();
+        deactivate.setOrderId("123");
+
+        Communication mockedCommunication = mock(Communication.class);
+        when(
+                mockedCommunication
+                        .requestToServer(
+                                matches(".*?<litleOnlineRequest.*?<deactivate><orderId>123</orderId></deactivate></litleOnlineRequest>.*?"),
+                                any(Properties.class)))
+                .thenReturn(
+                        "<litleOnlineResponse version='8.21' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><deactivateResponse><litleTxnId>123456</litleTxnId></deactivateResponse></litleOnlineResponse>");
+        litle.setCommunication(mockedCommunication);
+        DeactivateResponse response = litle.deactivate(deactivate);
+        assertEquals(123456L, response.getLitleTxnId());
+    }
+
+    @Test
+    public void testDeactivateWithOverrides() throws Exception {
+        Deactivate deactivate = new Deactivate();
+        deactivate.setOrderId("123");
+
+        Communication mockedCommunication = mock(Communication.class);
+        when(
+                mockedCommunication
+                        .requestToServer(
+                                matches(".*?<litleOnlineRequest.*?merchantId=\"905\".*?<deactivate><orderId>123</orderId></deactivate></litleOnlineRequest>.*?"),
+                                any(Properties.class)))
+                .thenReturn(
+                        "<litleOnlineResponse version='8.21' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><deactivateResponse><litleTxnId>123456</litleTxnId></deactivateResponse></litleOnlineResponse>");
+        litle.setCommunication(mockedCommunication);
+        LitleOnlineRequest overrides = new LitleOnlineRequest();
+        overrides.setMerchantId("905");
+        DeactivateResponse response = litle.deactivate(deactivate, overrides);
+        assertEquals(123456L, response.getLitleTxnId());
+    }
+
+    @Test
+    public void testLoad() throws Exception {
+        Load load = new Load();
+        load.setOrderId("123");
+
+        Communication mockedCommunication = mock(Communication.class);
+        when(
+                mockedCommunication
+                        .requestToServer(
+                                matches(".*?<litleOnlineRequest.*?<load><orderId>123</orderId></load></litleOnlineRequest>.*?"),
+                                any(Properties.class)))
+                .thenReturn(
+                        "<litleOnlineResponse version='8.21' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><loadResponse><litleTxnId>123456</litleTxnId></loadResponse></litleOnlineResponse>");
+        litle.setCommunication(mockedCommunication);
+        LoadResponse response = litle.load(load);
+        assertEquals(123456L, response.getLitleTxnId());
+    }
+
+    @Test
+    public void testLoadWithOverrides() throws Exception {
+        Load load = new Load();
+        load.setOrderId("123");
+
+        Communication mockedCommunication = mock(Communication.class);
+        when(
+                mockedCommunication
+                        .requestToServer(
+                                matches(".*?<litleOnlineRequest.*?merchantId=\"905\".*?<load><orderId>123</orderId></load></litleOnlineRequest>.*?"),
+                                any(Properties.class)))
+                .thenReturn(
+                        "<litleOnlineResponse version='8.21' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><loadResponse><litleTxnId>123456</litleTxnId></loadResponse></litleOnlineResponse>");
+        litle.setCommunication(mockedCommunication);
+        LitleOnlineRequest overrides = new LitleOnlineRequest();
+        overrides.setMerchantId("905");
+        LoadResponse response = litle.load(load, overrides);
+        assertEquals(123456L, response.getLitleTxnId());
+    }
+
+    @Test
+    public void testUnload() throws Exception {
+        Unload unload = new Unload();
+        unload.setOrderId("123");
+
+        Communication mockedCommunication = mock(Communication.class);
+        when(
+                mockedCommunication
+                        .requestToServer(
+                                matches(".*?<litleOnlineRequest.*?<unload><orderId>123</orderId></unload></litleOnlineRequest>.*?"),
+                                any(Properties.class)))
+                .thenReturn(
+                        "<litleOnlineResponse version='8.21' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><unloadResponse><litleTxnId>123456</litleTxnId></unloadResponse></litleOnlineResponse>");
+        litle.setCommunication(mockedCommunication);
+        UnloadResponse response = litle.unload(unload);
+        assertEquals(123456L, response.getLitleTxnId());
+    }
+
+    @Test
+    public void testUnloadWithOverrides() throws Exception {
+        Unload unload = new Unload();
+        unload.setOrderId("123");
+
+        Communication mockedCommunication = mock(Communication.class);
+        when(
+                mockedCommunication
+                        .requestToServer(
+                                matches(".*?<litleOnlineRequest.*?merchantId=\"905\".*?<unload><orderId>123</orderId></unload></litleOnlineRequest>.*?"),
+                                any(Properties.class)))
+                .thenReturn(
+                        "<litleOnlineResponse version='8.21' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><unloadResponse><litleTxnId>123456</litleTxnId></unloadResponse></litleOnlineResponse>");
+        litle.setCommunication(mockedCommunication);
+        LitleOnlineRequest overrides = new LitleOnlineRequest();
+        overrides.setMerchantId("905");
+        UnloadResponse response = litle.unload(unload, overrides);
+        assertEquals(123456L, response.getLitleTxnId());
+    }
+
+    @Test
+    public void testBalanceInquiry() throws Exception {
+        BalanceInquiry balanceInquiry = new BalanceInquiry();
+        balanceInquiry.setOrderId("123");
+
+        Communication mockedCommunication = mock(Communication.class);
+        when(
+                mockedCommunication
+                        .requestToServer(
+                                matches(".*?<litleOnlineRequest.*?<balanceInquiry><orderId>123</orderId></balanceInquiry></litleOnlineRequest>.*?"),
+                                any(Properties.class)))
+                .thenReturn(
+                        "<litleOnlineResponse version='8.21' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><balanceInquiryResponse><litleTxnId>123456</litleTxnId></balanceInquiryResponse></litleOnlineResponse>");
+        litle.setCommunication(mockedCommunication);
+        BalanceInquiryResponse response = litle.balanceInquiry(balanceInquiry);
+        assertEquals(123456L, response.getLitleTxnId());
+    }
+
+    @Test
+    public void testBalanceInquiryWithOverrides() throws Exception {
+        BalanceInquiry balanceInquiry = new BalanceInquiry();
+        balanceInquiry.setOrderId("123");
+
+        Communication mockedCommunication = mock(Communication.class);
+        when(
+                mockedCommunication
+                        .requestToServer(
+                                matches(".*?<litleOnlineRequest.*?merchantId=\"905\".*?<balanceInquiry><orderId>123</orderId></balanceInquiry></litleOnlineRequest>.*?"),
+                                any(Properties.class)))
+                .thenReturn(
+                        "<litleOnlineResponse version='8.21' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><balanceInquiryResponse><litleTxnId>123456</litleTxnId></balanceInquiryResponse></litleOnlineResponse>");
+        litle.setCommunication(mockedCommunication);
+        LitleOnlineRequest overrides = new LitleOnlineRequest();
+        overrides.setMerchantId("905");
+        BalanceInquiryResponse response = litle.balanceInquiry(balanceInquiry, overrides);
+        assertEquals(123456L, response.getLitleTxnId());
+    }
 }

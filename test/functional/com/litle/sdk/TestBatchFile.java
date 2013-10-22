@@ -16,11 +16,15 @@ import org.junit.Test;
 
 import com.litle.sdk.generate.AccountUpdate;
 import com.litle.sdk.generate.AccountUpdateResponse;
+import com.litle.sdk.generate.Activate;
+import com.litle.sdk.generate.ActivateResponse;
 import com.litle.sdk.generate.AuthInformation;
 import com.litle.sdk.generate.AuthReversal;
 import com.litle.sdk.generate.AuthReversalResponse;
 import com.litle.sdk.generate.Authorization;
 import com.litle.sdk.generate.AuthorizationResponse;
+import com.litle.sdk.generate.BalanceInquiry;
+import com.litle.sdk.generate.BalanceInquiryResponse;
 import com.litle.sdk.generate.CancelSubscription;
 import com.litle.sdk.generate.CancelSubscriptionResponse;
 import com.litle.sdk.generate.Capture;
@@ -29,8 +33,12 @@ import com.litle.sdk.generate.CaptureGivenAuthResponse;
 import com.litle.sdk.generate.CaptureResponse;
 import com.litle.sdk.generate.CardType;
 import com.litle.sdk.generate.Contact;
+import com.litle.sdk.generate.CreatePlan;
+import com.litle.sdk.generate.CreatePlanResponse;
 import com.litle.sdk.generate.Credit;
 import com.litle.sdk.generate.CreditResponse;
+import com.litle.sdk.generate.Deactivate;
+import com.litle.sdk.generate.DeactivateResponse;
 import com.litle.sdk.generate.EcheckAccountTypeEnum;
 import com.litle.sdk.generate.EcheckCredit;
 import com.litle.sdk.generate.EcheckCreditResponse;
@@ -43,7 +51,10 @@ import com.litle.sdk.generate.EcheckVerification;
 import com.litle.sdk.generate.EcheckVerificationResponse;
 import com.litle.sdk.generate.ForceCapture;
 import com.litle.sdk.generate.ForceCaptureResponse;
+import com.litle.sdk.generate.IntervalTypeEnum;
 import com.litle.sdk.generate.LitleTransactionInterface;
+import com.litle.sdk.generate.Load;
+import com.litle.sdk.generate.LoadResponse;
 import com.litle.sdk.generate.MethodOfPaymentTypeEnum;
 import com.litle.sdk.generate.ObjectFactory;
 import com.litle.sdk.generate.OrderSourceType;
@@ -51,8 +62,12 @@ import com.litle.sdk.generate.RegisterTokenRequestType;
 import com.litle.sdk.generate.RegisterTokenResponse;
 import com.litle.sdk.generate.Sale;
 import com.litle.sdk.generate.SaleResponse;
+import com.litle.sdk.generate.Unload;
+import com.litle.sdk.generate.UnloadResponse;
 import com.litle.sdk.generate.UpdateCardValidationNumOnToken;
 import com.litle.sdk.generate.UpdateCardValidationNumOnTokenResponse;
+import com.litle.sdk.generate.UpdatePlan;
+import com.litle.sdk.generate.UpdatePlanResponse;
 import com.litle.sdk.generate.UpdateSubscription;
 import com.litle.sdk.generate.UpdateSubscriptionResponse;
 
@@ -403,8 +418,29 @@ public class TestBatchFile {
             }
             public void processAccountUpdate(AccountUpdateResponse accountUpdateResponse) {
                 assertNotNull(accountUpdateResponse.getLitleTxnId());
-
             }
+            public void processCreatePlanResponse(CreatePlanResponse createPlanResponse) {
+                assertNotNull(createPlanResponse.getLitleTxnId());
+            }
+            public void processUpdatePlanResponse(UpdatePlanResponse updatePlanResponse) {
+                assertNotNull(updatePlanResponse.getLitleTxnId());
+            }
+            public void processActivateResponse(ActivateResponse activateResponse) {
+                assertNotNull(activateResponse.getLitleTxnId());
+            }
+            public void processDeactivateResponse(DeactivateResponse deactivateResponse) {
+                assertNotNull(deactivateResponse.getLitleTxnId());
+            }
+            public void processLoadResponse(LoadResponse loadResponse) {
+                assertNotNull(loadResponse.getLitleTxnId());
+            }
+            public void processUnloadResponse(UnloadResponse unloadResponse) {
+                assertNotNull(unloadResponse.getLitleTxnId());
+            }
+            public void processBalanceInquiryResponse(BalanceInquiryResponse balanceInquiryResponse) {
+                assertNotNull(balanceInquiryResponse.getLitleTxnId());
+            }
+
         })) {
             txns++;
         }
@@ -414,8 +450,148 @@ public class TestBatchFile {
 	}
 
 	   @Test
+	    public void testGiftCardTransactions(){
+	        String requestFileName = "litleSdk-testBatchFile-RECURRING.xml";
+	        LitleBatchFileRequest request = new LitleBatchFileRequest(requestFileName);
+
+	        Properties configFromFile = request.getConfig();
+
+	        // pre-assert the config file has required param values
+	        assertEquals("cert.litle.com", configFromFile.getProperty("batchHost"));
+	        assertEquals("15000", configFromFile.getProperty("batchPort"));
+
+	        LitleBatchRequest batch = request.createBatch(merchantId);
+
+	        CardType giftCard = new CardType();
+	        giftCard.setType(MethodOfPaymentTypeEnum.GC);
+	        giftCard.setExpDate("1218");
+	        giftCard.setNumber("4100000000000001");
+
+	        Activate activate = new Activate();
+	        activate.setReportGroup("Planets");
+	        activate.setOrderSource(OrderSourceType.ECOMMERCE);
+	        activate.setAmount(100L);
+	        activate.setOrderId("abc");
+	        activate.setCard(giftCard);
+	        batch.addTransaction(activate);
+
+	        Deactivate deactivate = new Deactivate();
+	        deactivate.setReportGroup("Planets");
+	        deactivate.setOrderId("def");
+	        deactivate.setOrderSource(OrderSourceType.ECOMMERCE);
+	        deactivate.setCard(giftCard);
+	        batch.addTransaction(deactivate);
+
+	        Load load = new Load();
+	        load.setReportGroup("Planets");
+	        load.setOrderId("ghi");
+	        load.setAmount(100L);
+	        load.setOrderSource(OrderSourceType.ECOMMERCE);
+	        load.setCard(giftCard);
+	        batch.addTransaction(load);
+
+	        Unload unload = new Unload();
+	        unload.setReportGroup("Planets");
+	        unload.setOrderId("jkl");
+	        unload.setAmount(100L);
+	        unload.setOrderSource(OrderSourceType.ECOMMERCE);
+	        unload.setCard(giftCard);
+	        batch.addTransaction(unload);
+
+	        BalanceInquiry balanceInquiry = new BalanceInquiry();
+	        balanceInquiry.setReportGroup("Planets");
+	        balanceInquiry.setOrderId("mno");
+	        balanceInquiry.setOrderSource(OrderSourceType.ECOMMERCE);
+	        balanceInquiry.setCard(giftCard);
+	        batch.addTransaction(balanceInquiry);
+
+	        LitleBatchFileResponse fileResponse = request.sendToLitle();
+	        LitleBatchResponse batchResponse = fileResponse.getNextLitleBatchResponse();
+	        int txns = 0;
+	        // iterate over all transactions in the file with a custom response
+	        // processor
+	        while (batchResponse.processNextTransaction(new LitleResponseProcessor() {
+	            public void processAuthorizationResponse(AuthorizationResponse authorizationResponse) {
+	                assertNotNull(authorizationResponse.getLitleTxnId());
+	            }
+	            public void processCaptureResponse(CaptureResponse captureResponse) {
+	                assertNotNull(captureResponse.getLitleTxnId());
+	            }
+	            public void processForceCaptureResponse(ForceCaptureResponse forceCaptureResponse) {
+	                assertNotNull(forceCaptureResponse.getLitleTxnId());
+	            }
+	            public void processCaptureGivenAuthResponse(CaptureGivenAuthResponse captureGivenAuthResponse) {
+	                assertNotNull(captureGivenAuthResponse.getLitleTxnId());
+	            }
+	            public void processSaleResponse(SaleResponse saleResponse) {
+	                assertNotNull(saleResponse.getLitleTxnId());
+	            }
+	            public void processCreditResponse(CreditResponse creditResponse) {
+	                assertNotNull(creditResponse.getLitleTxnId());
+	            }
+	            public void processEcheckSalesResponse(EcheckSalesResponse echeckSalesResponse) {
+	                assertNotNull(echeckSalesResponse.getLitleTxnId());
+	            }
+	            public void processEcheckCreditResponse(EcheckCreditResponse echeckCreditResponse) {
+	                assertNotNull(echeckCreditResponse.getLitleTxnId());
+	            }
+	            public void processEcheckVerificationResponse(EcheckVerificationResponse echeckVerificationResponse) {
+	                assertNotNull(echeckVerificationResponse.getLitleTxnId());
+	            }
+	            public void processEcheckRedepositResponse(EcheckRedepositResponse echeckRedepositResponse) {
+	                assertNotNull(echeckRedepositResponse.getLitleTxnId());
+	            }
+	            public void processAuthReversalResponse(AuthReversalResponse authReversalResponse) {
+	                assertNotNull(authReversalResponse.getLitleTxnId());
+	            }
+	            public void processRegisterTokenResponse(RegisterTokenResponse registerTokenResponse) {
+	                assertNotNull(registerTokenResponse.getLitleTxnId());
+	            }
+	            public void processUpdateSubscriptionResponse(UpdateSubscriptionResponse updateSubscriptionResponse) {
+	                assertNotNull(updateSubscriptionResponse.getLitleTxnId());
+	            }
+	            public void processCancelSubscriptionResponse(CancelSubscriptionResponse cancelSubscriptionResponse) {
+	                assertNotNull(cancelSubscriptionResponse.getLitleTxnId());
+	            }
+	            public void processUpdateCardValidationNumOnTokenResponse(UpdateCardValidationNumOnTokenResponse updateCardValidationNumOnTokenResponse) {
+	                assertNotNull(updateCardValidationNumOnTokenResponse.getLitleTxnId());
+	            }
+	            public void processAccountUpdate(AccountUpdateResponse accountUpdateResponse) {
+	                assertNotNull(accountUpdateResponse.getLitleTxnId());
+	            }
+	            public void processCreatePlanResponse(CreatePlanResponse createPlanResponse) {
+	                assertNotNull(createPlanResponse.getLitleTxnId());
+	            }
+	            public void processUpdatePlanResponse(UpdatePlanResponse updatePlanResponse) {
+	                assertNotNull(updatePlanResponse.getLitleTxnId());
+	            }
+	            public void processActivateResponse(ActivateResponse activateResponse) {
+	                assertNotNull(activateResponse.getLitleTxnId());
+	            }
+	            public void processDeactivateResponse(DeactivateResponse deactivateResponse) {
+	                assertNotNull(deactivateResponse.getLitleTxnId());
+	            }
+	            public void processLoadResponse(LoadResponse loadResponse) {
+	                assertNotNull(loadResponse.getLitleTxnId());
+	            }
+	            public void processUnloadResponse(UnloadResponse unloadResponse) {
+	                assertNotNull(unloadResponse.getLitleTxnId());
+	            }
+	            public void processBalanceInquiryResponse(BalanceInquiryResponse balanceInquiryResponse) {
+	                assertNotNull(balanceInquiryResponse.getLitleTxnId());
+	            }
+
+	        })) {
+	            txns++;
+	        }
+
+	        assertEquals(5, txns);
+
+	    }
+
+	   @Test
 	    public void testMechaBatchAndProcess_RecurringDemonstratesUseOfProcessorAdapter(){
-	        String requestFileName = "litleSdk-testBatchFile-MECHA.xml";
+	        String requestFileName = "litleSdk-testBatchFile-RECURRING.xml";
 	        LitleBatchFileRequest request = new LitleBatchFileRequest(requestFileName);
 
 	        Properties configFromFile = request.getConfig();
@@ -433,6 +609,18 @@ public class TestBatchFile {
 	        updateSubscription.setSubscriptionId(12345L);
 	        batch.addTransaction(updateSubscription);
 
+	        CreatePlan createPlan = new CreatePlan();
+	        createPlan.setPlanCode("abc");
+	        createPlan.setName("name");
+	        createPlan.setIntervalType(IntervalTypeEnum.ANNUAL);
+	        createPlan.setAmount(100L);
+	        batch.addTransaction(createPlan);
+
+	        UpdatePlan updatePlan = new UpdatePlan();
+	        updatePlan.setPlanCode("def");
+	        updatePlan.setActive(true);
+	        batch.addTransaction(updatePlan);
+
 	        LitleBatchFileResponse fileResponse = request.sendToLitle();
 	        LitleBatchResponse batchResponse = fileResponse.getNextLitleBatchResponse();
 	        int txns = 0;
@@ -447,11 +635,19 @@ public class TestBatchFile {
 	            public void processCancelSubscriptionResponse(CancelSubscriptionResponse cancelSubscriptionResponse) {
 	                assertEquals(12345L, cancelSubscriptionResponse.getSubscriptionId());
 	            }
+	            @Override
+	            public void processCreatePlanResponse(CreatePlanResponse createPlanResponse) {
+	                assertEquals("abc",createPlanResponse.getPlanCode());
+	            }
+	            @Override
+	            public void processUpdatePlanResponse(UpdatePlanResponse updatePlanResponse) {
+	                assertEquals("def", updatePlanResponse.getPlanCode());
+	            }
 	        })) {
 	            txns++;
 	        }
 
-	        assertEquals(2, txns);
+	        assertEquals(4, txns);
 
 	    }
 
@@ -544,6 +740,27 @@ public class TestBatchFile {
             public void processUpdateCardValidationNumOnTokenResponse(
                     UpdateCardValidationNumOnTokenResponse updateCardValidationNumOnTokenResponse) {
             }
+
+            public void processCreatePlanResponse(CreatePlanResponse createPlanResponse) {
+            }
+
+            public void processUpdatePlanResponse(UpdatePlanResponse updatePlanResponse) {
+            }
+
+            public void processActivateResponse(ActivateResponse activateResponse) {
+            }
+
+            public void processDeactivateResponse(DeactivateResponse deactivateResponse) {
+            }
+
+            public void processLoadResponse(LoadResponse loadResponse) {
+            }
+
+            public void processUnloadResponse(UnloadResponse unloadResponse) {
+            }
+
+            public void processBalanceInquiryResponse(BalanceInquiryResponse balanceInquiryResponse) {
+            }
         })) {
             txns++;
         }
@@ -556,7 +773,7 @@ public class TestBatchFile {
 		assertNotNull(response.getLitleSessionId());
 		assertEquals("0", response.getResponse());
 		assertEquals("Valid Format", response.getMessage());
-		assertEquals("8.20", response.getVersion());
+		assertEquals("8.21", response.getVersion());
 
 		LitleBatchResponse batchResponse1 = response.getNextLitleBatchResponse();
 		assertNotNull(batchResponse1);
