@@ -7,23 +7,15 @@
     <xs:element name="recurringTransactionResponse" type="xp:recurringTransactionResponseType" abstract="true" />
      
     <xs:complexType name="recurringTransactionType">
-        <xs:complexContent>
-            <xs:extension base="xp:litleTransactionInterface">
-            </xs:extension>
-        </xs:complexContent>
     </xs:complexType>
 
     <xs:complexType name="recurringTransactionResponseType">
-        <xs:complexContent>
-            <xs:extension base="xp:litleTransactionInterface">
-                <xs:sequence>
-                    <xs:element name="litleTxnId" type="xp:litleIdType" />
-                    <xs:element name="response" type="xp:responseType" />
-                    <xs:element name="message" type="xs:string" />
-                    <xs:element name="responseTime" type="xs:dateTime" />
-                </xs:sequence>
-             </xs:extension>
-         </xs:complexContent>
+        <xs:sequence>
+            <xs:element name="litleTxnId" type="xp:litleIdType" />
+            <xs:element name="response" type="xp:responseType" />
+            <xs:element name="message" type="xs:string" />
+            <xs:element name="responseTime" type="xs:dateTime" />
+        </xs:sequence>
     </xs:complexType>
 
     <xs:element name="cancelSubscription" substitutionGroup="xp:recurringTransaction" >

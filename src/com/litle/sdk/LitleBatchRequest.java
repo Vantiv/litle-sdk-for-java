@@ -69,6 +69,7 @@ public class LitleBatchRequest {
 	LitleBatchRequest(String merchantId, LitleBatchFileRequest lbfr) throws LitleBatchException{
 		this.batchRequest = new BatchRequest();
 		this.batchRequest.setMerchantId(merchantId);
+		this.batchRequest.setMerchantSdk("Java;8.22.1");
 		this.objFac = new ObjectFactory();
 		this.lbfr = lbfr;
 		File tmpFile = new File(lbfr.getConfig().getProperty("batchRequestFolder")+"/tmp");
