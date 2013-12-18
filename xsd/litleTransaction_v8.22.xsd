@@ -5,15 +5,9 @@
 
     <xs:element name="transaction" type="xp:transactionType" abstract="true"/>
 
-    <xs:complexType name="litleTransactionInterface" abstract="true"/>
-
     <xs:complexType name="transactionType">
-        <xs:complexContent>
-            <xs:extension base="xp:litleTransactionInterface">
-                <xs:attribute name="id" type="xp:string25Type"/>
-                <xs:attribute name="customerId" type="xp:customerIdType" use="optional"/>
-            </xs:extension>
-        </xs:complexContent>
+        <xs:attribute name="id" type="xp:string25Type"/>
+        <xs:attribute name="customerId" type="xp:customerIdType" use="optional"/>
     </xs:complexType>
 
     <xs:complexType name="transactionTypeWithReportGroup">

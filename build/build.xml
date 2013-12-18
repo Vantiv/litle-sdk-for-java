@@ -5,7 +5,7 @@
     </description>
 	<!-- set global properties for this build -->
 	<property name="version.schema" value="8.22" />
-	<property name="version.jar" value="8.22.0" />
+	<property name="version.jar" value="8.22.1" />
 	<property file="build/build.properties" />
 
 	<property name="src" location="src" />
@@ -84,7 +84,36 @@
 		<!-- Allow jaxb tags in our schema -->
 		<replaceregexp file="generated/litleTransaction_v${version.schema}.xsd" match="(attributeFormDefault=&quot;unqualified&quot;)>" replace="\1 xmlns:jaxb=&quot;http://java.sun.com/xml/ns/jaxb&quot; jaxb:version=&quot;2.0&quot;>" byline="true" />
 		<replaceregexp file="generated/litleCommon_v${version.schema}.xsd" match="(elementFormDefault=&quot;qualified&quot;)>" replace="\1 xmlns:jaxb=&quot;http://java.sun.com/xml/ns/jaxb&quot; jaxb:version=&quot;2.0&quot;>" byline="true" />
-
+		
+		<!-- Make litle transaction interface generated -->
+		<replaceregexp file="generated/litleTransaction_v${version.schema}.xsd" match="transaction&quot; type=&quot;xp:transactionType&quot; abstract=&quot;true&quot;/>" replace="transaction&quot; type=&quot;xp:transactionType&quot; abstract=&quot;true&quot;/>
+			${line.separator}${line.separator}    &lt;xs:complexType name=&quot;litleTransactionInterface&quot; abstract=&quot;true&quot;/>" byline="true" />
+		<replaceregexp file="generated/litleTransaction_v${version.schema}.xsd" match="name=&quot;transactionType&quot;>" replace="name=&quot;transactionType&quot;>
+			${line.separator}        &lt;xs:complexContent>
+			${line.separator}            &lt;xs:extension base=&quot;xp:litleTransactionInterface&quot;>" byline="true" />
+		<replaceregexp file="generated/litleTransaction_v${version.schema}.xsd" match="&lt;xs:attribute name=&quot;id&quot; type=&quot;xp:string25Type&quot;/>" replace="       &lt;xs:attribute name=&quot;id&quot; type=&quot;xp:string25Type&quot;/>" byline="true" />
+	    <replaceregexp file="generated/litleTransaction_v${version.schema}.xsd" match="&lt;xs:attribute name=&quot;customerId&quot; type=&quot;xp:customerIdType&quot; use=&quot;optional&quot;/>" replace="       &lt;xs:attribute name=&quot;customerId&quot; type=&quot;xp:customerIdType&quot; use=&quot;optional&quot;/>
+	    	${line.separator}            &lt;/xs:extension>
+	    	${line.separator}        &lt;/xs:complexContent>" byline="true" />
+		<replaceregexp file="generated/litleRecurring_v${version.schema}.xsd" match="name=&quot;recurringTransactionType&quot;>" replace="name=&quot;recurringTransactionType&quot;>
+			${line.separator}        &lt;xs:complexContent>
+			${line.separator}            &lt;xs:extension base=&quot;xp:litleTransactionInterface&quot;>
+			${line.separator}            &lt;/xs:extension>
+			${line.separator}        &lt;/xs:complexContent>" byline="" />
+		<replaceregexp file="generated/litleRecurring_v${version.schema}.xsd" match="name=&quot;recurringTransactionResponseType&quot;>" replace="name=&quot;recurringTransactionResponseType&quot;>
+			${line.separator}        &lt;xs:complexContent>
+			${line.separator}            &lt;xs:extension base=&quot;xp:litleTransactionInterface&quot;>" byline="true" />
+		<replaceregexp file="generated/litleRecurring_v${version.schema}.xsd" match="&lt;xs:sequence>" replace="        &lt;xs:sequence>" byline="" />
+		<replaceregexp file="generated/litleRecurring_v${version.schema}.xsd" match="&lt;xs:element name=&quot;litleTxnId&quot; type=&quot;xp:litleIdType&quot; />" replace="         &lt;xs:element name=&quot;litleTxnId&quot; type=&quot;xp:litleIdType&quot; />" byline="" />
+		<replaceregexp file="generated/litleRecurring_v${version.schema}.xsd" match="&lt;xs:element name=&quot;response&quot; type=&quot;xp:responseType&quot; />" replace="         &lt;xs:element name=&quot;response&quot; type=&quot;xp:responseType&quot; />" byline="" />
+		<replaceregexp file="generated/litleRecurring_v${version.schema}.xsd" match="&lt;xs:element name=&quot;message&quot; type=&quot;xs:string&quot; />" replace="         &lt;xs:element name=&quot;message&quot; type=&quot;xs:string&quot; />" byline="" />
+		<replaceregexp file="generated/litleRecurring_v${version.schema}.xsd" match="&lt;xs:element name=&quot;responseTime&quot; type=&quot;xs:dateTime&quot; />" replace="         &lt;xs:element name=&quot;responseTime&quot; type=&quot;xs:dateTime&quot; />" byline="" />
+		<replaceregexp file="generated/litleRecurring_v${version.schema}.xsd" match="&lt;/xs:sequence>" replace="        &lt;/xs:sequence>
+			${line.separator}            &lt;/xs:extension>
+			${line.separator}        &lt;/xs:complexContent>" byline="" />
+		<replaceregexp file="generated/litleRecurring_v${version.schema}.xsd" match="" replace="" byline="" />
+		<replaceregexp file="generated/litleRecurring_v${version.schema}.xsd" match="" replace="" byline="" />
+		
 		<!--Make enums even if they begin with numbers -->
 		<replaceregexp file="generated/litleTransaction_v${version.schema}.xsd" match="enumeration value=(.*?3dsAuthenticated.*?)/>" replace="enumeration value=\1>&lt;xs:annotation>&lt;xs:appinfo>&lt;jaxb:typesafeEnumMember name=&quot;AUTHENTICATED_3DS&quot;/>&lt;/xs:appinfo>&lt;/xs:annotation>&lt;/xs:enumeration>" byline="true" />
 		<replaceregexp file="generated/litleTransaction_v${version.schema}.xsd" match="enumeration value=(.*?3dsAttempted.*?)/>" replace="enumeration value=\1>&lt;xs:annotation>&lt;xs:appinfo>&lt;jaxb:typesafeEnumMember name=&quot;ATTEMPTED_3DS&quot;/>&lt;/xs:appinfo>&lt;/xs:annotation>&lt;/xs:enumeration>" byline="true" />
@@ -157,6 +186,9 @@
 			</classpath>
 		</javac>
 		<mkdir dir="dist/lib" />
+		<mkdir dir="reports/unit"/>
+		<mkdir dir="reports/functional"/>
+		<mkdir dir="reports/certification"/>
 		<jar jarfile="dist/lib/litle-sdk-for-java-${version.jar}-tests.jar" basedir="${bin}/test" />
 
 		<junit haltonfailure="true" printsummary="true" fork="yes">
