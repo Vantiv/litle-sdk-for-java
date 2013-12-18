@@ -408,7 +408,7 @@ public class LitleBatchFileRequest{
 			litleRequest.setId(requestId);
 		}
 		litleRequest.setAuthentication(authentication);
-		litleRequest.setVersion("8.22");
+		litleRequest.setVersion("8.23");
 		BigInteger numOfBatches = BigInteger.valueOf(this.litleBatchRequestList.size());
 		litleRequest.setNumBatchRequests(numOfBatches);
 		return litleRequest;
