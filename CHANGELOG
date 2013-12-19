@@ -1,5 +1,8 @@
 = LitleOnline CHANGELOG
 
+== Version 8.23.1 (Decemeber 19, 2013)
+* Bugfix: Made the sdk and xml versions global constants
+
 == Version 8.23.0 (December 18, 2013)
 * Feature: Advanced Fraud Tool Support
 * Feature: Added new elements in support of CAT transactions.

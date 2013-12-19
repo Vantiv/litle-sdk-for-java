@@ -10,6 +10,7 @@ import java.util.Properties;
 
 public class Setup {
 
+
 	@SuppressWarnings("serial")
 	private static final HashMap<String,String> URL_MAP = new HashMap<String,String>() {
 		{
