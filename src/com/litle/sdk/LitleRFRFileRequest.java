@@ -135,7 +135,7 @@ public class LitleRFRFileRequest {
             litleRequest.setId(requestId);
         }
         litleRequest.setAuthentication(authentication);
-        litleRequest.setVersion("8.23");
+        litleRequest.setVersion(Versions.XML_VERSION);
         BigInteger numOfBatches = BigInteger.valueOf(0);
         litleRequest.setNumBatchRequests(numOfBatches);
         return litleRequest;
