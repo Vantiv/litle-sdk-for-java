@@ -1,4 +1,6 @@
 = LitleOnline CHANGELOG
+== Version 8.24.0 (February 5,2014)
+* Feature: Added new element triggered rule in supoort of advancedFraudResultsType
 
 == Version 8.23.1 (Decemeber 19, 2013)
 * Bugfix: Made the sdk and xml versions global constants

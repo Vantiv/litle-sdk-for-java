@@ -666,6 +666,7 @@
         <xs:sequence>
             <xs:element name="deviceReviewStatus" type="xs:string" minOccurs="0"/>
             <xs:element name="deviceReputationScore" type="xs:int" minOccurs="0"/>
+            <xs:element name="triggeredRule" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
     </xs:complexType>
 
