@@ -1,7 +1,7 @@
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xp="http://www.litle.com/schema" targetNamespace="http://www.litle.com/schema" elementFormDefault="qualified" attributeFormDefault="unqualified">
     
-    <xs:include schemaLocation="litleCommon_v8.23.xsd"/>
-    <xs:include schemaLocation="litleRecurring_v8.23.xsd"/>
+    <xs:include schemaLocation="litleCommon_v8.24.xsd"/>
+    <xs:include schemaLocation="litleRecurring_v8.24.xsd"/>
 
     <xs:element name="transaction" type="xp:transactionType" abstract="true"/>
 
@@ -1352,24 +1352,24 @@
         <xs:complexType>
             <xs:complexContent>
                 <xs:extension base="xp:transactionTypeWithReportGroup">
-                    <xs:sequence>
-                        <xs:choice>
-                            <xs:sequence>
-                                <xs:element name="litleTxnId" type="xp:litleIdType"/>
-                                <xs:element name="amount" type="xp:transactionAmountType" minOccurs="0"/>
-                                <xs:element ref="xp:customBilling" minOccurs="0"/>
-                            </xs:sequence>
-                            <xs:sequence>
-                                <xs:element name="orderId" type="xp:string25Type"/>
-                                <xs:element name="amount" type="xp:transactionAmountType"/>
-                                <xs:element name="orderSource" type="xp:orderSourceType"/>
-                                <xs:element ref="xp:billToAddress"/>
-                                <xs:element ref="xp:echeckOrEcheckToken"/>
-                                <xs:element ref="xp:customBilling" minOccurs="0"/>
-                                <xs:element name="merchantData" type="xp:merchantDataType" minOccurs="0"/> 
-                            </xs:sequence>
-                        </xs:choice>
-                    </xs:sequence>
+	                <xs:sequence>
+	                    <xs:choice>
+	                        <xs:sequence>
+	                            <xs:element name="litleTxnId" type="xp:litleIdType"/>
+	                            <xs:element name="amount" type="xp:transactionAmountType" minOccurs="0"/>
+	                            <xs:element ref="xp:customBilling" minOccurs="0"/>
+	                        </xs:sequence>
+	                        <xs:sequence>
+	                            <xs:element name="orderId" type="xp:string25Type"/>
+	                            <xs:element name="amount" type="xp:transactionAmountType"/>
+	                            <xs:element name="orderSource" type="xp:orderSourceType"/>
+	                            <xs:element ref="xp:billToAddress"/>
+	                            <xs:element ref="xp:echeckOrEcheckToken"/>
+	                            <xs:element ref="xp:customBilling" minOccurs="0"/>
+	                            <xs:element name="merchantData" type="xp:merchantDataType" minOccurs="0"/> 
+	                        </xs:sequence>
+	                    </xs:choice>
+	                </xs:sequence>
                 </xs:extension>
             </xs:complexContent>
         </xs:complexType>

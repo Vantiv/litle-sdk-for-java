@@ -3,7 +3,7 @@
 <xs:schema targetNamespace="http://www.litle.com/schema" xmlns:xp="http://www.litle.com/schema"
     xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
 
-    <xs:include schemaLocation="litleTransaction_v8.23.xsd" />
+    <xs:include schemaLocation="litleTransaction_v8.24.xsd" />
 
     <xs:complexType name="baseRequest">
         <xs:sequence>
