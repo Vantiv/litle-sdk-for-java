@@ -585,6 +585,16 @@
     
     <xs:element name="billToAddress" type="xp:contact" />
     
+    <xs:complexType name="mposType">
+        <xs:sequence>
+            <xs:element name = "ksn" type="xp:ksnType" />
+            <xs:element name = "formatId" type="xp:formatIdType" />
+            <xs:element name = "encryptedTrack" type="xp:encryptedTrackType" />
+            <xs:element name = "track1Status" type="xp:trackStatusType" />
+            <xs:element name = "track2Status" type="xp:trackStatusType" />
+        </xs:sequence>
+    </xs:complexType>
+    
     <xs:complexType name="cardType">
         <xs:sequence>
             <xs:choice>
@@ -630,6 +640,34 @@
         </xs:sequence>
     </xs:complexType>
     
+    <xs:simpleType name="ksnType">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="1028" />
+        </xs:restriction> 
+    </xs:simpleType>
+    
+    <xs:simpleType name="formatIdType">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="1028" />
+        </xs:restriction> 
+    </xs:simpleType>
+    
+    <xs:simpleType name="encryptedTrackType">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="1028" />
+        </xs:restriction> 
+    </xs:simpleType>    
+    
+    <xs:simpleType name="trackStatusType">
+        <xs:restriction base="xs:int">
+            <xs:minInclusive value="0"/>
+            <xs:maxInclusive value="1028"/>
+        </xs:restriction>
+    </xs:simpleType>
+    
     <xs:simpleType name="ccAccountNumberType">
         <xs:restriction base="xs:string">
             <xs:minLength value="13" />
@@ -652,7 +690,7 @@
     
     <xs:complexType name="advancedFraudChecksType">
         <xs:sequence>
-            <xs:element name="threatMetrixSessionId" type="xp:threatMetrixSessionIdType" minOccurs="0"/>
+            <xs:element name="threatMetrixSessionId" type="xp:threatMetrixSessionIdType" minOccurs="1"/>
         </xs:sequence>
     </xs:complexType>
 

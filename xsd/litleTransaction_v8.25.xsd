@@ -1,7 +1,7 @@
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xp="http://www.litle.com/schema" targetNamespace="http://www.litle.com/schema" elementFormDefault="qualified" attributeFormDefault="unqualified">
     
-    <xs:include schemaLocation="litleCommon_v8.24.xsd"/>
-    <xs:include schemaLocation="litleRecurring_v8.24.xsd"/>
+    <xs:include schemaLocation="litleCommon_v8.25.xsd"/>
+    <xs:include schemaLocation="litleRecurring_v8.25.xsd"/>
 
     <xs:element name="transaction" type="xp:transactionType" abstract="true"/>
 
@@ -207,6 +207,7 @@
                             <xs:element ref="xp:billToAddress" minOccurs="0"/>
                             <xs:element ref="xp:shipToAddress" minOccurs="0"/>
                             <xs:choice>
+                                <xs:element name="mpos" type="xp:mposType"/>
                                 <xs:element name="card" type="xp:cardType"/>
                                 <xs:element name="paypal" type="xp:payPal"/>
                                 <xs:element name="token" type="xp:cardTokenType"/>
@@ -283,6 +284,7 @@
                         <xs:element name="orderSource" type="xp:orderSourceType"/>
                         <xs:element ref="xp:billToAddress" minOccurs="0"/>
                         <xs:choice>
+                                <xs:element name="mpos" type="xp:mposType"/>
                                 <xs:element name="card" type="xp:cardType"/>
                                 <xs:element name="token" type="xp:cardTokenType"/>
                                 <xs:element name="paypage" type="xp:cardPaypageType"/>
@@ -314,6 +316,7 @@
                         <xs:element ref="xp:billToAddress" minOccurs="0"/>
                         <xs:element ref="xp:shipToAddress" minOccurs="0"/>
                         <xs:choice>
+                                <xs:element name="mpos" type="xp:mposType"/>
                                 <xs:element name="card" type="xp:cardType"/>
                                 <xs:element name="token" type="xp:cardTokenType"/>
                                 <xs:element name="paypage" type="xp:cardPaypageType"/>
@@ -348,6 +351,7 @@
                         <xs:element ref="xp:billToAddress" minOccurs="0"/>
                         <xs:element ref="xp:shipToAddress" minOccurs="0"/>
                         <xs:choice>
+                            <xs:element name="mpos" type="xp:mposType"/>
                             <xs:element name="card" type="xp:cardType"/>
                             <xs:element name="paypal" type="xp:payPal"/>
                             <xs:element name="token" type="xp:cardTokenType"/>
@@ -407,6 +411,7 @@
                                 <xs:element name="orderSource" type="xp:orderSourceType"/>
                                 <xs:element ref="xp:billToAddress" minOccurs="0"/>
                                 <xs:choice>
+                                    <xs:element name="mpos" type="xp:mposType"/>
                                     <xs:element name="card" type="xp:cardType"/>
                                     <xs:element name="token" type="xp:cardTokenType"/>
                                     <xs:element name="paypage" type="xp:cardPaypageType"/>
@@ -1838,5 +1843,33 @@
                     <xs:element name="giftCardBin" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>
+
+    <xs:element name="fraudCheck" substitutionGroup="xp:transaction">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="xp:transactionTypeWithReportGroup">
+                    <xs:sequence>
+                        <xs:element name="advancedFraudChecks" type="xp:advancedFraudChecksType"/>
+                    </xs:sequence>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="fraudCheckResponse" substitutionGroup="xp:transactionResponse">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="xp:transactionTypeWithReportGroup">
+                    <xs:all>
+                        <xs:element name="litleTxnId" type="xp:litleIdType"/>
+                        <xs:element name="response" type="xp:responseType"/>
+                        <xs:element name="message" type="xs:string"/>
+                        <xs:element name="responseTime" type="xs:dateTime"/>
+                        <xs:element name="advancedFraudResults" type="xp:advancedFraudResultsType" minOccurs="0"/>
+                    </xs:all>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
 
 </xs:schema>

@@ -1,4 +1,7 @@
 = LitleOnline CHANGELOG
+== Version 8.25.0 (March 6,2014)
+* Feature: Added support for ROAM: Authorization, ForceCapture, CaptureGivenAuth, Sale, Credit
+
 == Version 8.24.0 (February 5,2014)
 * Feature: Added new element triggered rule in supoort of advancedFraudResultsType
 
