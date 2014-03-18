@@ -83,7 +83,7 @@ public class TestBatchFile {
 		Properties configFromFile = request.getConfig();
 
 		// pre-assert the config file has required param values
-		assertEquals("cert.litle.com", configFromFile.getProperty("batchHost"));
+		assertEquals("prelive.litle.com", configFromFile.getProperty("batchHost"));
 		assertEquals("15000", configFromFile.getProperty("batchPort"));
 
 		String workingDirRequests = configFromFile.getProperty("batchRequestFolder");
@@ -118,7 +118,7 @@ public class TestBatchFile {
 		prepDir(workingDirResponses);
 
 		Properties configOverrides = new Properties();
-		configOverrides.setProperty("batchHost", "cert.litle.com");  // TODO - point this to the www.testlitle.com sandbox instead of cert
+		configOverrides.setProperty("batchHost", "prelive.litle.com");  // TODO - point this to the www.testlitle.com sandbox instead of prelive 
 		configOverrides.setProperty("batchPort", "15000");
 
 
@@ -153,7 +153,7 @@ public class TestBatchFile {
         Properties configFromFile = request.getConfig();
 
         // pre-assert the config file has required param values
-        assertEquals("cert.litle.com", configFromFile.getProperty("batchHost"));
+        assertEquals("prelive.litle.com", configFromFile.getProperty("batchHost"));
         assertEquals("15000", configFromFile.getProperty("batchPort"));
 
         String workingDirRequests = configFromFile.getProperty("batchRequestFolder");
@@ -188,7 +188,7 @@ public class TestBatchFile {
         prepDir(workingDirResponses);
 
         Properties configOverrides = new Properties();
-        configOverrides.setProperty("batchHost", "cert.litle.com");  // TODO - point this to the www.testlitle.com sandbox instead of cert
+        configOverrides.setProperty("batchHost", "prelive.litle.com");  // TODO - point this to the www.testlitle.com sandbox instead of prelive 
         configOverrides.setProperty("sftpTimeout", "720000");
 
         configOverrides.setProperty("batchRequestFolder", workingDirRequests);
@@ -236,7 +236,7 @@ public class TestBatchFile {
         Properties configFromFile = request.getConfig();
 
         // pre-assert the config file has required param values
-        assertEquals("cert.litle.com", configFromFile.getProperty("batchHost"));
+        assertEquals("prelive.litle.com", configFromFile.getProperty("batchHost"));
         assertEquals("15000", configFromFile.getProperty("batchPort"));
 
         LitleBatchRequest batch = request.createBatch(merchantId);
@@ -457,7 +457,7 @@ public class TestBatchFile {
 	        Properties configFromFile = request.getConfig();
 
 	        // pre-assert the config file has required param values
-	        assertEquals("cert.litle.com", configFromFile.getProperty("batchHost"));
+	        assertEquals("prelive.litle.com", configFromFile.getProperty("batchHost"));
 	        assertEquals("15000", configFromFile.getProperty("batchPort"));
 
 	        LitleBatchRequest batch = request.createBatch(merchantId);
@@ -597,7 +597,7 @@ public class TestBatchFile {
 	        Properties configFromFile = request.getConfig();
 
 	        // pre-assert the config file has required param values
-	        assertEquals("cert.litle.com", configFromFile.getProperty("batchHost"));
+	        assertEquals("prelive.litle.com", configFromFile.getProperty("batchHost"));
 	        assertEquals("15000", configFromFile.getProperty("batchPort"));
 
 	        LitleBatchRequest batch = request.createBatch(merchantId);
@@ -660,7 +660,7 @@ public class TestBatchFile {
         Properties configFromFile = request.getConfig();
 
         // pre-assert the config file has required param values
-        assertEquals("cert.litle.com", configFromFile.getProperty("batchHost"));
+        assertEquals("prelive.litle.com", configFromFile.getProperty("batchHost"));
         assertEquals("15000", configFromFile.getProperty("batchPort"));
 
         LitleBatchRequest batch = request.createBatch(merchantId);
