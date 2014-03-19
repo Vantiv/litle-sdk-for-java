@@ -73,7 +73,7 @@ import com.litle.sdk.generate.UpdateSubscriptionResponse;
 
 public class TestBatchFile {
 
-    String merchantId = "07103229";
+    String merchantId = "0180";
 
     @Test
 	public void testSendToLitle_WithFileConfig() throws Exception {
