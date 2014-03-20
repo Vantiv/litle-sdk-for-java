@@ -14,7 +14,7 @@ import com.litle.sdk.generate.RFRRequest;
 
 public class TestRFRFile {
 
-    String merchantId = "07103229";
+    String merchantId = "0180";
 
 	@Test
     public void testSendToLitleSFTP() throws Exception {
