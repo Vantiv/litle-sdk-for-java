@@ -43,6 +43,11 @@ public class Communication {
 			httpclient.getParams().setParameter(CoreConnectionPNames.SO_LINGER, 0);
 		}
 
+		String httpTimeout = configuration.getProperty("timeout");
+		if (httpTimeout != null && httpTimeout.length() > 0) {
+			httpclient.getParams().setParameter(CoreConnectionPNames.CONNECTION_TIMEOUT,Integer.valueOf(httpTimeout));
+		}
+
 		HttpPost post = new HttpPost(configuration.getProperty("url"));
 		post.setHeader("Content-Type", "text/xml");
 		post.setHeader("Connection","close");
