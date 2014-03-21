@@ -365,5 +365,6 @@
 		<delete dir="${generated}" />
 		<delete dir="dist" />
 		<delete dir="kit" />
+		<delete dir="reports" />
 	</target>
 </project>
