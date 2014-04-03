@@ -76,12 +76,6 @@ import com.litle.sdk.generate.UpdateSubscription;
 import com.litle.sdk.generate.UpdateSubscriptionResponse;
 import com.litle.sdk.generate.VoidResponse;
 
-/**
- * Please note that construction of the LitleOnline object is extremely expensive, and LitleOnline
- * objects shoud be re-used.  LitleOnline is *not* threadsafe, so each thread should have
- * its own LitleOnline and use it for the lifetime of the application.
- * @author gdake
- */
 public class LitleOnline {
 
 	private Properties config;
@@ -94,7 +88,7 @@ public class LitleOnline {
 	public LitleOnline() {
 
 		communication = new Communication();
-		
+
 		try {
 			config = new Properties();
 			config.load(new FileInputStream((new Configuration()).location()));
