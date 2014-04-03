@@ -2,6 +2,7 @@
 
 == Version 8.25.2 (April 3, 2014)
 * Feature: Add support to multi step SFTP batching. Now this process can be done in up to three steps: generate batch file, send file and retrieve file.
+* Feature: Improved performance when creating multiple instances of LitleOnline. 
 
 == Version 8.25.1 (March 21, 2014)
 * Bugfix: delete the reports directory on clean in build.xml
