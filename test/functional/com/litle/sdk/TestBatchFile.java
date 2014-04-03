@@ -2,11 +2,13 @@ package com.litle.sdk;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.Properties;
 
@@ -80,6 +82,9 @@ public class TestBatchFile {
 		String requestFileName = "litleSdk-testBatchFile-fileConfig.xml";
 		LitleBatchFileRequest request = new LitleBatchFileRequest(requestFileName);
 
+        // request file is being set in the constructor
+        assertNotNull(request.getFile());
+
 		Properties configFromFile = request.getConfig();
 
 		// pre-assert the config file has required param values
@@ -93,9 +98,6 @@ public class TestBatchFile {
 		prepDir(workingDirResponses);
 
 		prepareTestRequest(request);
-
-		// request file is not generated before calling sendToLitle();
-		assertNull(request.getFile());
 
 		/* call method under test */
 		LitleBatchFileResponse response = request.sendToLitle();
@@ -128,10 +130,10 @@ public class TestBatchFile {
 		String requestFileName = "litleSdk-testBatchFile-configOverrides.xml";
 		LitleBatchFileRequest request = new LitleBatchFileRequest(requestFileName, configOverrides);
 
-		prepareTestRequest(request);
+        // request file is being set in the constructor
+        assertNotNull(request.getFile());
 
-		// request file is not generated before calling sendToLitle();
-		assertNull(request.getFile());
+		prepareTestRequest(request);
 
 		//actually add a transaction
 
@@ -145,10 +147,14 @@ public class TestBatchFile {
 		// assert request and response files were created properly
 		assertGeneratedFiles(workingDirRequests, workingDirResponses, requestFileName, request, response);
 	}
+
 	@Test
-    public void testSendToLitleSFTP_WithFileConfig() throws Exception {
-        String requestFileName = "litleSdk-testBatchFile-fileConfigSFTP.xml";
+	public void testSendToLitleSFTP_WithPreviouslyCreatedFile() throws Exception {
+	    String requestFileName = "litleSdk-testBatchFile-fileConfigSFTP.xml";
         LitleBatchFileRequest request = new LitleBatchFileRequest(requestFileName);
+
+        // request file is being set in the constructor
+        assertNotNull(request.getFile());
 
         Properties configFromFile = request.getConfig();
 
@@ -164,8 +170,100 @@ public class TestBatchFile {
 
         prepareTestRequest(request);
 
-        // request file is not generated before calling sendToLitle();
-        assertNull(request.getFile());
+        // This should have generated the file
+        request.prepareForDelivery();
+
+        // Make sure the file exists
+        File requestFile = request.getFile();
+        assertTrue(requestFile.exists());
+        assertTrue(requestFile.length() > 0);
+
+        LitleBatchFileRequest request2 = new LitleBatchFileRequest(requestFileName);
+
+        LitleBatchFileResponse response = request2.sendToLitleSFTP(true);
+
+        // Assert response matches what was requested
+        assertJavaApi(request2, response);
+
+        // Make sure files were created correctly
+        assertGeneratedFiles(workingDirRequests, workingDirResponses, requestFileName, request2, response);
+	}
+
+	@Test
+    public void testSendOnlyToLitleSFTP_WithPreviouslyCreatedFile() throws Exception {
+	    // --- Prepare the batch file ---
+        String requestFileName = "litleSdk-testBatchFile-fileConfigSFTP.xml";
+        LitleBatchFileRequest request1 = new LitleBatchFileRequest(requestFileName);
+
+        // request file is being set in the constructor
+        assertNotNull(request1.getFile());
+
+        Properties configFromFile = request1.getConfig();
+
+        // pre-assert the config file has required param values
+        assertEquals("prelive.litle.com", configFromFile.getProperty("batchHost"));
+        assertEquals("15000", configFromFile.getProperty("batchPort"));
+
+        String workingDirRequests = configFromFile.getProperty("batchRequestFolder");
+        prepDir(workingDirRequests);
+
+        String workingDirResponses = configFromFile.getProperty("batchResponseFolder");
+        prepDir(workingDirResponses);
+
+        prepareTestRequest(request1);
+
+        // This should have generated the file
+        request1.prepareForDelivery();
+
+        // Make sure the file exists
+        File requestFile1 = request1.getFile();
+        assertTrue(requestFile1.exists());
+        assertTrue(requestFile1.length() > 0);
+
+        // --- Send the batch to Litle's SFTP ---
+
+        // Move request file to temporary location
+        File requestFile2 = File.createTempFile("litle", "xml");
+        copyFile(requestFile1, requestFile2);
+
+        Properties configForRequest2 = (Properties) configFromFile.clone();
+        configForRequest2.setProperty("batchRequestFolder", requestFile2.getParentFile().getCanonicalPath());
+
+        LitleBatchFileRequest request2 = new LitleBatchFileRequest(requestFile2.getName(), configForRequest2);
+        request2.sendOnlyToLitleSFTP(true);
+
+        // --- Retrieve response ---
+        LitleBatchFileRequest request3 = new LitleBatchFileRequest(requestFile2.getName(), configForRequest2);
+        LitleBatchFileResponse response = request3.retrieveOnlyFromLitleSFTP();
+
+        // Assert response matches what was requested
+        assertJavaApi(request3, response);
+
+        // Make sure files were created correctly
+        assertGeneratedFiles(requestFile2.getParentFile().getCanonicalPath(), workingDirResponses, requestFile2.getName(), request3, response);
+    }
+
+	@Test
+    public void testSendToLitleSFTP_WithFileConfig() throws Exception {
+        String requestFileName = "litleSdk-testBatchFile-fileConfigSFTP.xml";
+        LitleBatchFileRequest request = new LitleBatchFileRequest(requestFileName);
+
+        // request file is being set in the constructor
+        assertNotNull(request.getFile());
+
+        Properties configFromFile = request.getConfig();
+
+        // pre-assert the config file has required param values
+        assertEquals("prelive.litle.com", configFromFile.getProperty("batchHost"));
+        assertEquals("15000", configFromFile.getProperty("batchPort"));
+
+        String workingDirRequests = configFromFile.getProperty("batchRequestFolder");
+        prepDir(workingDirRequests);
+
+        String workingDirResponses = configFromFile.getProperty("batchResponseFolder");
+        prepDir(workingDirResponses);
+
+        prepareTestRequest(request);
 
         /* call method under test */
         LitleBatchFileResponse response = request.sendToLitleSFTP();
@@ -197,10 +295,10 @@ public class TestBatchFile {
         String requestFileName = "litleSdk-testBatchFile-configOverridesSFTP.xml";
         LitleBatchFileRequest request = new LitleBatchFileRequest(requestFileName, configOverrides);
 
-        prepareTestRequest(request);
+        // request file is being set in the constructor
+        assertNotNull(request.getFile());
 
-        // request file is not generated before calling sendToLitle();
-        assertNull(request.getFile());
+        prepareTestRequest(request);
 
         /* call method under test */
         LitleBatchFileResponse response = request.sendToLitleSFTP();
@@ -813,6 +911,28 @@ public class TestBatchFile {
 	private void prepDir(String dirName) {
 		File fRequestDir = new File(dirName);
 		fRequestDir.mkdirs();
+	}
+
+	private void copyFile(File source, File destination) throws IOException {
+	    FileInputStream sourceIn = null;
+	    FileOutputStream destOut = null;
+	    try {
+	        sourceIn = new FileInputStream(source);
+	        destOut = new FileOutputStream(destination);
+
+	        byte [] buffer = new byte[2048];
+	        int bytesRead = -1;
+	        while ( (bytesRead = sourceIn.read(buffer)) != -1 ) {
+	            destOut.write(buffer, 0, bytesRead);
+	        }
+	    } finally {
+	        if (sourceIn != null) {
+	            sourceIn.close();
+	        }
+	        if (destOut != null) {
+	            destOut.close();
+	        }
+	    }
 	}
 
 	public static void main(String[] args) throws Exception {
