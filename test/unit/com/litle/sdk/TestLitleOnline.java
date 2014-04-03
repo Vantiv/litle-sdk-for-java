@@ -10,7 +10,7 @@ import static org.mockito.Mockito.when;
 import java.util.Calendar;
 import java.util.Properties;
 
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
 
 import com.litle.sdk.generate.Activate;
@@ -82,10 +82,10 @@ import com.litle.sdk.generate.UpdateSubscriptionResponse;
 
 public class TestLitleOnline {
 
-	private static LitleOnline litle;
+	private LitleOnline litle;
 
-	@BeforeClass
-	public static void beforeClass() throws Exception {
+	@Before
+	public void before() throws Exception {
 		litle = new LitleOnline();
 	}
 

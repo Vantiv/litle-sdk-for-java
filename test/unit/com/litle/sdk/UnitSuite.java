@@ -6,6 +6,7 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
 	TestEnumerations.class,
+	TestLitleContext.class,
 	TestLitleOnline.class,
 	TestLitleBatchFileRequest.class,
 	TestLitleBatchRequest.class,
