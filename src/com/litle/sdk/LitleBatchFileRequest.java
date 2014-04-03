@@ -123,6 +123,7 @@ public class LitleBatchFileRequest{
 								+ String.valueOf(litleLimit_maxAllowedTransactionsPerFile));
 			}
 
+			requestFile = getFileToWrite("batchRequestFolder");
 			responseFile = getFileToWrite("batchResponseFolder");
 
 		} catch (FileNotFoundException e) {
@@ -173,7 +174,6 @@ public class LitleBatchFileRequest{
 			LitleRequest litleRequest = buildLitleRequest();
 
 			// Code to write to the file directly
-			File localFile = getFileToWrite("batchRequestFolder");
 			StringWriter sw = new StringWriter();
 			Marshaller marshaller;
 			try {
@@ -186,7 +186,7 @@ public class LitleBatchFileRequest{
 
 			xmlRequest = xmlRequest.replace("</litleRequest>", " ");
 
-			OutputStream litleReqWriter = new FileOutputStream(localFile);
+			OutputStream litleReqWriter = new FileOutputStream(requestFile);
 			FileInputStream fis = new FileInputStream(tempBatchRequestFile);
 			byte[] readData = new byte[1024];
 			litleReqWriter.write(xmlRequest.getBytes());
@@ -198,7 +198,6 @@ public class LitleBatchFileRequest{
 			}
 			litleReqWriter.write(("</litleRequest>\n").getBytes());
 			//marshaller.marshal(litleRequest, os);
-			requestFile = localFile;
 			fis.close();
 			tempBatchRequestFile.delete();
 			litleReqWriter.close();
@@ -291,13 +290,26 @@ public class LitleBatchFileRequest{
 	}
 
 	/**
+     * Sends the file to Litle over sFTP, the preferred method of sending batches to Litle.
+     * @return A response object for the batch file
+     * @throws LitleBatchException
+     */
+	public LitleBatchFileResponse sendToLitleSFTP() throws LitleBatchException{
+	    return sendToLitleSFTP(false);
+	}
+
+	/**
 	 * Sends the file to Litle over sFTP, the preferred method of sending batches to Litle.
+	 * @param useExistingFile If the batch file was prepared in an earlier step, this method
+	 * can be told to use the existing file.
 	 * @return A response object for the batch file
 	 * @throws LitleBatchException
 	 */
-	public LitleBatchFileResponse sendToLitleSFTP() throws LitleBatchException{
+	public LitleBatchFileResponse sendToLitleSFTP(boolean useExistingFile) throws LitleBatchException{
 	    try {
-	        prepareForDelivery();
+	        if (useExistingFile != true) {
+	            prepareForDelivery();
+	        }
             communication.sendLitleRequestFileToSFTP(requestFile, properties);
             communication.receiveLitleRequestResponseFileFromSFTP(requestFile, responseFile, properties);
 
@@ -309,12 +321,24 @@ public class LitleBatchFileRequest{
 	}
 
 	/**
+     * Only sends the file to Litle after sFTP. This method requires separate invocation of the retrieve method.
+     * @throws LitleBatchException
+     */
+    public void sendOnlyToLitleSFTP() throws LitleBatchException{
+        sendOnlyToLitleSFTP(false);
+    }
+
+	/**
 	 * Only sends the file to Litle after sFTP. This method requires separate invocation of the retrieve method.
+     * @param useExistingFile If the batch file was prepared in an earlier step, this method
+     * can be told to use the existing file.
 	 * @throws LitleBatchException
 	 */
-	public void sendOnlyToLitleSFTP() throws LitleBatchException{
+	public void sendOnlyToLitleSFTP(boolean useExistingFile) throws LitleBatchException{
         try {
-            prepareForDelivery();
+            if (useExistingFile != true) {
+                prepareForDelivery();
+            }
             communication.sendLitleRequestFileToSFTP(requestFile, properties);
         } catch (IOException e) {
             throw new LitleBatchException("There was an exception while creating the Litle Request file. Check to see if the current user has permission to read and write to " + this.properties.getProperty("batchRequestFolder"), e);
@@ -336,8 +360,10 @@ public class LitleBatchFileRequest{
         }
     }
 
-
-	private void prepareForDelivery() {
+	/**
+	 * Prepare the batch file to be submitted and generate it in the request folder.
+	 */
+	public void prepareForDelivery() {
         try {
             String writeFolderPath = this.properties.getProperty("batchRequestFolder");
 
@@ -415,19 +441,19 @@ public class LitleBatchFileRequest{
 	}
 
 	/**
-	 * This method gets the folder path of either the request or reposne.
+	 * This method gets the file of either the request or response. It will also
+	 * make sure that the folder structure where the file lives will be there.
 	 *
-	 * @param locationKey
-	 * @return
+	 * @param locationKey Key to use to get the path to the folder.
+	 * @return File ready to be written to.
 	 */
 	File getFileToWrite(String locationKey) {
 		String fileName = this.requestFileName;
 		String writeFolderPath = this.properties.getProperty(locationKey);
-		File fileToReturn = new File(writeFolderPath + File.separator
-				+ fileName);
+		File fileToReturn = new File(writeFolderPath, fileName);
 
 		if (!fileToReturn.getParentFile().exists()) {
-			fileToReturn.getParentFile().mkdir();
+			fileToReturn.getParentFile().mkdirs();
 		}
 
 		return fileToReturn;
