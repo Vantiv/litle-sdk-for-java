@@ -15,7 +15,15 @@ public class Configuration {
 		}
 		else {
 			if(System.getenv("LITLE_CONFIG_DIR") != null) {
-				file = new File(System.getenv("LITLE_CONFIG_DIR") + File.separator + LITLE_SDK_CONFIG);
+				if(System.getenv("LITLE_CONFIG_DIR").equals("classpath:.litle_SDK_config.properties")) {
+					if (getClass().getClassLoader().getResource(LITLE_SDK_CONFIG) != null) {
+						String filePath = getClass().getClassLoader().getResource(LITLE_SDK_CONFIG).getPath();
+						file = new File(filePath);
+					}
+				}
+				else {
+					file = new File(System.getenv("LITLE_CONFIG_DIR") + File.separator + LITLE_SDK_CONFIG);
+				}
 			}
 		}
 		return file;
