@@ -15,7 +15,7 @@ public class Configuration {
 		}
 		else {
 			if(System.getenv("LITLE_CONFIG_DIR") != null) {
-				if(System.getenv("LITLE_CONFIG_DIR").equals("classpath:.litle_SDK_config.properties")) {
+				if(System.getenv("LITLE_CONFIG_DIR").equals("classpath:" + LITLE_SDK_CONFIG)) {
 					if (getClass().getClassLoader().getResource(LITLE_SDK_CONFIG) != null) {
 						String filePath = getClass().getClassLoader().getResource(LITLE_SDK_CONFIG).getPath();
 						file = new File(filePath);
