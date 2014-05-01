@@ -463,87 +463,20 @@ public class TestBatchFile {
         echeckSale.setVerify(true);
         batch.addTransaction(echeckSale);
 
+        int transactionCount = batch.getNumberOfTransactions();
+
         LitleBatchFileResponse fileResponse = request.sendToLitle();
         LitleBatchResponse batchResponse = fileResponse.getNextLitleBatchResponse();
         int txns = 0;
-        // iterate over all transactions in the file with a custom response
-        // processor
-        while (batchResponse.processNextTransaction(new LitleResponseProcessor() {
-            public void processAuthorizationResponse(AuthorizationResponse authorizationResponse) {
-                assertNotNull(authorizationResponse.getLitleTxnId());
-            }
-            public void processCaptureResponse(CaptureResponse captureResponse) {
-                assertNotNull(captureResponse.getLitleTxnId());
-            }
-            public void processForceCaptureResponse(ForceCaptureResponse forceCaptureResponse) {
-                assertNotNull(forceCaptureResponse.getLitleTxnId());
-            }
-            public void processCaptureGivenAuthResponse(CaptureGivenAuthResponse captureGivenAuthResponse) {
-                assertNotNull(captureGivenAuthResponse.getLitleTxnId());
-            }
-            public void processSaleResponse(SaleResponse saleResponse) {
-                assertNotNull(saleResponse.getLitleTxnId());
-            }
-            public void processCreditResponse(CreditResponse creditResponse) {
-                assertNotNull(creditResponse.getLitleTxnId());
-            }
-            public void processEcheckSalesResponse(EcheckSalesResponse echeckSalesResponse) {
-                assertNotNull(echeckSalesResponse.getLitleTxnId());
-            }
-            public void processEcheckCreditResponse(EcheckCreditResponse echeckCreditResponse) {
-                assertNotNull(echeckCreditResponse.getLitleTxnId());
-            }
-            public void processEcheckVerificationResponse(EcheckVerificationResponse echeckVerificationResponse) {
-                assertNotNull(echeckVerificationResponse.getLitleTxnId());
-            }
-            public void processEcheckRedepositResponse(EcheckRedepositResponse echeckRedepositResponse) {
-                assertNotNull(echeckRedepositResponse.getLitleTxnId());
-            }
-            public void processAuthReversalResponse(AuthReversalResponse authReversalResponse) {
-                assertNotNull(authReversalResponse.getLitleTxnId());
-            }
-            public void processRegisterTokenResponse(RegisterTokenResponse registerTokenResponse) {
-                assertNotNull(registerTokenResponse.getLitleTxnId());
-            }
-            public void processUpdateSubscriptionResponse(UpdateSubscriptionResponse updateSubscriptionResponse) {
-                assertNotNull(updateSubscriptionResponse.getLitleTxnId());
-            }
-            public void processCancelSubscriptionResponse(CancelSubscriptionResponse cancelSubscriptionResponse) {
-                assertNotNull(cancelSubscriptionResponse.getLitleTxnId());
-            }
-            public void processUpdateCardValidationNumOnTokenResponse(UpdateCardValidationNumOnTokenResponse updateCardValidationNumOnTokenResponse) {
-                assertNotNull(updateCardValidationNumOnTokenResponse.getLitleTxnId());
-            }
-            public void processAccountUpdate(AccountUpdateResponse accountUpdateResponse) {
-                assertNotNull(accountUpdateResponse.getLitleTxnId());
-            }
-            public void processCreatePlanResponse(CreatePlanResponse createPlanResponse) {
-                assertNotNull(createPlanResponse.getLitleTxnId());
-            }
-            public void processUpdatePlanResponse(UpdatePlanResponse updatePlanResponse) {
-                assertNotNull(updatePlanResponse.getLitleTxnId());
-            }
-            public void processActivateResponse(ActivateResponse activateResponse) {
-                assertNotNull(activateResponse.getLitleTxnId());
-            }
-            public void processDeactivateResponse(DeactivateResponse deactivateResponse) {
-                assertNotNull(deactivateResponse.getLitleTxnId());
-            }
-            public void processLoadResponse(LoadResponse loadResponse) {
-                assertNotNull(loadResponse.getLitleTxnId());
-            }
-            public void processUnloadResponse(UnloadResponse unloadResponse) {
-                assertNotNull(unloadResponse.getLitleTxnId());
-            }
-            public void processBalanceInquiryResponse(BalanceInquiryResponse balanceInquiryResponse) {
-                assertNotNull(balanceInquiryResponse.getLitleTxnId());
-            }
 
-        })) {
+        ResponseValidatorProcessor processor = new ResponseValidatorProcessor();
+
+        while (batchResponse.processNextTransaction(processor)) {
             txns++;
         }
 
-        assertEquals(12, txns);
+        assertEquals(transactionCount, txns);
+        assertEquals(transactionCount, processor.responseCount);
 
 	}
 
@@ -934,6 +867,103 @@ public class TestBatchFile {
 	        }
 	    }
 	}
+
+	class ResponseValidatorProcessor implements LitleResponseProcessor {
+	    int responseCount = 0;
+
+        public void processAuthorizationResponse(AuthorizationResponse authorizationResponse) {
+            assertNotNull(authorizationResponse.getLitleTxnId());
+            responseCount++;
+        }
+        public void processCaptureResponse(CaptureResponse captureResponse) {
+            assertNotNull(captureResponse.getLitleTxnId());
+            responseCount++;
+        }
+        public void processForceCaptureResponse(ForceCaptureResponse forceCaptureResponse) {
+            assertNotNull(forceCaptureResponse.getLitleTxnId());
+            responseCount++;
+        }
+        public void processCaptureGivenAuthResponse(CaptureGivenAuthResponse captureGivenAuthResponse) {
+            assertNotNull(captureGivenAuthResponse.getLitleTxnId());
+            responseCount++;
+        }
+        public void processSaleResponse(SaleResponse saleResponse) {
+            assertNotNull(saleResponse.getLitleTxnId());
+            responseCount++;
+        }
+        public void processCreditResponse(CreditResponse creditResponse) {
+            assertNotNull(creditResponse.getLitleTxnId());
+            responseCount++;
+        }
+        public void processEcheckSalesResponse(EcheckSalesResponse echeckSalesResponse) {
+            assertNotNull(echeckSalesResponse.getLitleTxnId());
+            responseCount++;
+        }
+        public void processEcheckCreditResponse(EcheckCreditResponse echeckCreditResponse) {
+            assertNotNull(echeckCreditResponse.getLitleTxnId());
+            responseCount++;
+        }
+        public void processEcheckVerificationResponse(EcheckVerificationResponse echeckVerificationResponse) {
+            assertNotNull(echeckVerificationResponse.getLitleTxnId());
+            responseCount++;
+        }
+        public void processEcheckRedepositResponse(EcheckRedepositResponse echeckRedepositResponse) {
+            assertNotNull(echeckRedepositResponse.getLitleTxnId());
+            responseCount++;
+        }
+        public void processAuthReversalResponse(AuthReversalResponse authReversalResponse) {
+            assertNotNull(authReversalResponse.getLitleTxnId());
+            responseCount++;
+        }
+        public void processRegisterTokenResponse(RegisterTokenResponse registerTokenResponse) {
+            assertNotNull(registerTokenResponse.getLitleTxnId());
+            responseCount++;
+        }
+        public void processUpdateSubscriptionResponse(UpdateSubscriptionResponse updateSubscriptionResponse) {
+            assertNotNull(updateSubscriptionResponse.getLitleTxnId());
+            responseCount++;
+        }
+        public void processCancelSubscriptionResponse(CancelSubscriptionResponse cancelSubscriptionResponse) {
+            assertNotNull(cancelSubscriptionResponse.getLitleTxnId());
+            responseCount++;
+        }
+        public void processUpdateCardValidationNumOnTokenResponse(UpdateCardValidationNumOnTokenResponse updateCardValidationNumOnTokenResponse) {
+            assertNotNull(updateCardValidationNumOnTokenResponse.getLitleTxnId());
+            responseCount++;
+        }
+        public void processAccountUpdate(AccountUpdateResponse accountUpdateResponse) {
+            assertNotNull(accountUpdateResponse.getLitleTxnId());
+            responseCount++;
+        }
+        public void processCreatePlanResponse(CreatePlanResponse createPlanResponse) {
+            assertNotNull(createPlanResponse.getLitleTxnId());
+            responseCount++;
+        }
+        public void processUpdatePlanResponse(UpdatePlanResponse updatePlanResponse) {
+            assertNotNull(updatePlanResponse.getLitleTxnId());
+            responseCount++;
+        }
+        public void processActivateResponse(ActivateResponse activateResponse) {
+            assertNotNull(activateResponse.getLitleTxnId());
+            responseCount++;
+        }
+        public void processDeactivateResponse(DeactivateResponse deactivateResponse) {
+            assertNotNull(deactivateResponse.getLitleTxnId());
+            responseCount++;
+        }
+        public void processLoadResponse(LoadResponse loadResponse) {
+            assertNotNull(loadResponse.getLitleTxnId());
+            responseCount++;
+        }
+        public void processUnloadResponse(UnloadResponse unloadResponse) {
+            assertNotNull(unloadResponse.getLitleTxnId());
+            responseCount++;
+        }
+        public void processBalanceInquiryResponse(BalanceInquiryResponse balanceInquiryResponse) {
+            assertNotNull(balanceInquiryResponse.getLitleTxnId());
+            responseCount++;
+        }
+    }
 
 	public static void main(String[] args) throws Exception {
 		TestBatchFile t = new TestBatchFile();

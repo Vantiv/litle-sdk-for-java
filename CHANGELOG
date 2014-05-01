@@ -1,5 +1,9 @@
 = LitleOnline CHANGELOG
 
+== Version 8.25.3 (May 1, 2014)
+* Bug: Using the LitleResponseProcessor to check for responses would never work with EcheckSales.
+* Feature: Make it possible to load properties file from classpath
+
 == Version 8.25.2 (April 3, 2014)
 * Feature: Add support to multi step SFTP batching. Now this process can be done in up to three steps: generate batch file, send file and retrieve file.
 * Feature: Improved performance when creating multiple instances of LitleOnline. 

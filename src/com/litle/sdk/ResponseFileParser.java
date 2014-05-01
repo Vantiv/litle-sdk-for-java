@@ -135,7 +135,7 @@ public class ResponseFileParser {
 	                    || currentStartingTagInFile.compareToIgnoreCase("<forceCaptureResponse") == 0
 	                    || currentStartingTagInFile.compareToIgnoreCase("<captureGivenAuthResponse") == 0
 	                    || currentStartingTagInFile.compareToIgnoreCase("<creditResponse") == 0
-	                    || currentStartingTagInFile.compareToIgnoreCase("<echeckSaleResponse") == 0
+	                    || currentStartingTagInFile.compareToIgnoreCase("<echeckSalesResponse") == 0
 	                    || currentStartingTagInFile.compareToIgnoreCase("<echeckCreditResponse") == 0
 	                    || currentStartingTagInFile.compareToIgnoreCase("<echeckVerificationResponse") == 0
 	                    || currentStartingTagInFile.compareToIgnoreCase("<echeckRedepositResponse") == 0
@@ -174,7 +174,7 @@ public class ResponseFileParser {
 					|| currentStartingTagInFile.compareToIgnoreCase("</forceCaptureResponse>") == 0
 					|| currentStartingTagInFile.compareToIgnoreCase("</captureGivenAuthResponse>") == 0
 					|| currentStartingTagInFile.compareToIgnoreCase("</creditResponse>") == 0
-					|| currentStartingTagInFile.compareToIgnoreCase("</echeckSaleResponse>") == 0
+					|| currentStartingTagInFile.compareToIgnoreCase("</echeckSalesResponse>") == 0
 					|| currentStartingTagInFile.compareToIgnoreCase("</echeckCreditResponse>") == 0
 					|| currentStartingTagInFile.compareToIgnoreCase("</echeckVerificationResponse>") == 0
 					|| currentStartingTagInFile.compareToIgnoreCase("</echeckRedepositResponse>") == 0
