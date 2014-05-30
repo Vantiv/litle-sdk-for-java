@@ -31,7 +31,9 @@ dependencies{
         compile fileTree(dir:"${httpclient}", include: '*.jar')
         compile fileTree(dir:"${commons}", include: '*.jar')
         compile fileTree(dir:"${opensftp}", include: '*.jar')
-
+        testCompile fileTree("${dist15}/lib/litle-sdk-for-java-${versionJar}.jar")
+        testCompile fileTree(dir:"${junit}", include: "junit-4.8.2.jar")
+        testCompile fileTree(dir:"${mockito}", include:"mockito-all-1.9.0.jar")
 }
 
 
@@ -141,15 +143,15 @@ jar{
   	archiveName = "litle-sdk-for-java-${versionJar}.jar"
 }
 
-task testsCompile(type:JavaCompile, dependsOn:testClasses){
+compileTestJava{
     def testDir = file("bin/test")
     testDir.mkdirs()
 	source = fileTree(dir:"test", includes:['unit/**/*.java','functional/**/*.java','certification/**/*.java'])
-	classpath = fileTree(dir:".",includes:["${dist15}/lib/litle-sdk-for-java-${versionJar}.jar","${junit}/junit-4.8.2.jar","${mockito}/mockito-all-1.9.0.jar"])
     destinationDir = testDir
 }
+
+
 
 compileJava.source(['src','generated'])
 compileJava.dependsOn jaxbTask, makeDestinationDir
 assemble.dependsOn dist14jar
-test.dependsOn testsCompile
