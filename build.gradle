@@ -23,14 +23,14 @@ sourceSets{
         }
     output.classesDir = 'bin'
     }
-	test{
-		java{
-			srcDir 'test'
-		}
-		resources{
-			srcDir 'test'
-		}
-	}
+    test{
+        java{
+            srcDir 'test'
+        }
+        resources{
+            srcDir 'test'
+        }
+    }
 }
 
 dependencies{
@@ -144,7 +144,7 @@ task dist14jar(type:Jar, dependsOn:classes){
 jar{
     def jar15Dir = file("${dist15}/lib")
     jar15Dir.mkdirs()
-  	manifest{
+    manifest{
         attributes("Implementation-Title":"Litle SDK For Java 1.5 and greater", "Implementation-Version":"${versionJar}","Implementation-Vendor":"Litle&Co","Main-Class":"com.litle.sdk.Setup")
     }
     destinationDir = jar15Dir
@@ -155,7 +155,7 @@ compileTestJava{
     def testDir = file("bin/test")
     testDir.mkdirs()
     source = fileTree(dir:"test", includes:['unit/**/*.java','functional/**/*.java','certification/**/*.java'])
-	destinationDir = testDir
+    destinationDir = testDir
 }
 
 task testJar(type:Jar, dependsOn:testClasses){
@@ -167,21 +167,21 @@ task testJar(type:Jar, dependsOn:testClasses){
 }
 
 test{
-	useJUnit()
-	testClassesDir = file("bin/test")
-	include '**/UnitSuite.class'
+    useJUnit()
+    testClassesDir = file("bin/test")
+    include '**/UnitSuite.class'
 }
 
 task testFunctional(type:Test, dependsOn:test){
-	useJUnit()
-	testClassesDir = file("bin/test")
-	include '**/FunctionalSuite.class'
+    useJUnit()
+    testClassesDir = file("bin/test")
+    include '**/FunctionalSuite.class'
 }
 
 task testCertification(type:Test, dependsOn:testFunctional){
-	useJUnit()
-	testClassesDir = file("bin/test")
-	include '**/CertificationSuite.class'
+    useJUnit()
+    testClassesDir = file("bin/test")
+    include '**/CertificationSuite.class'
 }
 
 compileJava.source(['src','generated'])
