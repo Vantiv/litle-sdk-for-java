@@ -4,3 +4,4 @@ generated
 dist
 kit
 reports
+.gradle
