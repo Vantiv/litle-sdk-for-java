@@ -3,7 +3,7 @@ apply plugin : 'eclipse'
 
 def opensftp = "lib/opensftp-0.3.0"
 def versionSchema = "8.25"
-def versionJar = "8.25.3"
+def versionJar = "8.25.4"
 def dist15 = "$buildDir/dist/java15"
 
 repositories {
@@ -27,16 +27,12 @@ sourceSets {
         java {
             compileClasspath += main.output
             runtimeClasspath += main.output
-            compileClasspath += test.output
-            runtimeClasspath += test.output
         }
     }
     certificationTest {
         java {
             compileClasspath += main.output
             runtimeClasspath += main.output
-            compileClasspath += test.output
-            runtimeClasspath += test.output
         }
     }
 }
@@ -64,8 +60,8 @@ clean {
 }
 
 
-task copyXsd (type: Copy, dependsOn:clean) {
-    def jaxbTargetDir = file('build/generated')
+task copyXsd (type: Copy) {
+    def jaxbTargetDir = file("$buildDir/generated")
     jaxbTargetDir.mkdirs()
     from ('src/main/resources/xsd') {
         include '*.xsd'
@@ -73,53 +69,53 @@ task copyXsd (type: Copy, dependsOn:clean) {
     into jaxbTargetDir
 }
 
-task replaceRegexp(dependsOn: 'copyXsd') << {
-    ant.replaceregexp(file:"build/generated/litleTransaction_v${versionSchema}.xsd", match:"(attributeFormDefault=\"unqualified\")>", replace:"\\1 xmlns:jaxb=\"http://java.sun.com/xml/ns/jaxb\" jaxb:version=\"2.0\">", byline:true)
-    ant.replaceregexp(file:"build/generated/litleCommon_v${versionSchema}.xsd", match:"(elementFormDefault=\"qualified\")>", replace:"\\1 xmlns:jaxb=\"http://java.sun.com/xml/ns/jaxb\" jaxb:version=\"2.0\">", byline:true)
-    ant.replaceregexp(file:"build/generated/litleTransaction_v${versionSchema}.xsd", match:"transaction\" type=\"xp:transactionType\" abstract=\"true\"/>", replace:"transaction\" type=\"xp:transactionType\" abstract=\"true\"/>    \n\n    <xs:complexType name=\"litleTransactionInterface\" abstract=\"true\"/>", byline:true)
-    ant.replaceregexp(file:"build/generated/litleTransaction_v${versionSchema}.xsd", match:"name=\"transactionType\">", replace:"name=\"transactionType\">    \n        <xs:complexContent>    \n            <xs:extension base=\"xp:litleTransactionInterface\">", byline:true)
-    ant.replaceregexp(file:"build/generated/litleTransaction_v${versionSchema}.xsd", match:"<xs:attribute name=\"id\" type=\"xp:string25Type\"/>", replace:"       <xs:attribute name=\"id\" type=\"xp:string25Type\"/>", byline:true)
-    ant.replaceregexp(file:"build/generated/litleTransaction_v${versionSchema}.xsd", match:"<xs:attribute name=\"customerId\" type=\"xp:customerIdType\" use=\"optional\"/>", replace:"       <xs:attribute name=\"customerId\" type=\"xp:customerIdType\" use=\"optional\"/>       \n            </xs:extension>       \n        </xs:complexContent>", byline:true)
-    ant.replaceregexp(file:"build/generated/litleRecurring_v${versionSchema}.xsd", match:"name=\"recurringTransactionType\">", replace:"name=\"recurringTransactionType\">    \n        <xs:complexContent>    \n            <xs:extension base=\"xp:litleTransactionInterface\">    \n            </xs:extension>    \n        </xs:complexContent>")
-    ant.replaceregexp(file:"build/generated/litleRecurring_v${versionSchema}.xsd", match:"name=\"recurringTransactionResponseType\">", replace:"name=\"recurringTransactionResponseType\">    \n        <xs:complexContent>    \n            <xs:extension base=\"xp:litleTransactionInterface\">", byline:true)
-    ant.replaceregexp(file:"build/generated/litleRecurring_v${versionSchema}.xsd", match:"<xs:sequence>", replace:"        <xs:sequence>")
-    ant.replaceregexp(file:"build/generated/litleRecurring_v${versionSchema}.xsd", match:"<xs:element name=\"litleTxnId\" type=\"xp:litleIdType\" />", replace:"         <xs:element name=\"litleTxnId\" type=\"xp:litleIdType\" />")
-    ant.replaceregexp(file:"build/generated/litleRecurring_v${versionSchema}.xsd", match:"<xs:element name=\"response\" type=\"xp:responseType\" />", replace:"         <xs:element name=\"response\" type=\"xp:responseType\" />")
-    ant.replaceregexp(file:"build/generated/litleRecurring_v${versionSchema}.xsd", match:"<xs:element name=\"message\" type=\"xs:string\" />", replace:"         <xs:element name=\"message\" type=\"xs:string\" />")
-    ant.replaceregexp(file:"build/generated/litleRecurring_v${versionSchema}.xsd", match:"<xs:element name=\"responseTime\" type=\"xs:dateTime\" />", replace:"         <xs:element name=\"responseTime\" type=\"xs:dateTime\" />")
-    ant.replaceregexp(file:"build/generated/litleRecurring_v${versionSchema}.xsd", match:"</xs:sequence>", replace:"        </xs:sequence>    \n            </xs:extension>    \n        </xs:complexContent>")
-    ant.replaceregexp(file:"build/generated/litleRecurring_v${versionSchema}.xsd", match:"", replace:"")
-    ant.replaceregexp(file:"build/generated/litleRecurring_v${versionSchema}.xsd", match:"", replace:"")
-    ant.replaceregexp(file:"build/generated/litleTransaction_v${versionSchema}.xsd", match:"enumeration value=(.*?3dsAuthenticated.*?)/>", replace:"enumeration value=\\1><xs:annotation><xs:appinfo><jaxb:typesafeEnumMember name=\"AUTHENTICATED_3DS\"/></xs:appinfo></xs:annotation></xs:enumeration>", byline:true)
-    ant.replaceregexp(file:"build/generated/litleTransaction_v${versionSchema}.xsd", match:"enumeration value=(.*?3dsAttempted.*?)/>", replace:"enumeration value=\\1><xs:annotation><xs:appinfo><jaxb:typesafeEnumMember name=\"ATTEMPTED_3DS\"/></xs:appinfo></xs:annotation></xs:enumeration>", byline:true)
-    ant.replaceregexp(file:"build/generated/litleTransaction_v${versionSchema}.xsd", match:"(element name=\"customerType\" minOccurs=\"0\".*?<xs:simpleType>)", replace:"\\1<xs:annotation><xs:appinfo><jaxb:typesafeEnumClass name=\"CustomerType\"/></xs:appinfo></xs:annotation>", flags:"s")
-    ant.replaceregexp(file:"build/generated/litleTransaction_v${versionSchema}.xsd", match:"(element name=\"residenceStatus\" minOccurs=\"0\".*?<xs:simpleType>)", replace:"\\1<xs:annotation><xs:appinfo><jaxb:typesafeEnumClass name=\"ResidenceStatus\"/></xs:appinfo></xs:annotation>", flags:"s")
-    ant.replaceregexp(file:"build/generated/litleTransaction_v${versionSchema}.xsd", match:"(element name=\"deliveryType\" minOccurs=\"0\".*?default=\"TBD\".*?<xs:simpleType>)", replace:"\\1<xs:annotation><xs:appinfo><jaxb:typesafeEnumClass name=\"DeliveryType\"/></xs:appinfo></xs:annotation>", flags:"s")
-    ant.replaceregexp(file:"build/generated/litleTransaction_v${versionSchema}.xsd", match:"(<xs:enumeration value=\"00\")\\s?+/>", replace:"\\1><xs:annotation><xs:appinfo><jaxb:typesafeEnumMember name=\"UNKNOWN\"/></xs:appinfo></xs:annotation></xs:enumeration>", byline:true)
-    ant.replaceregexp(file:"build/generated/litleTransaction_v${versionSchema}.xsd", match:"(<xs:enumeration value=\"01\")\\s?+/>", replace:"\\1><xs:annotation><xs:appinfo><jaxb:typesafeEnumMember name=\"FEDERAL_NATIONAL_SALES_TAX\"/></xs:appinfo></xs:annotation></xs:enumeration>", byline:true)
-    ant.replaceregexp(file:"build/generated/litleTransaction_v${versionSchema}.xsd", match:"(<xs:enumeration value=\"02\")\\s?+/>", replace:"\\1><xs:annotation><xs:appinfo><jaxb:typesafeEnumMember name=\"STATE_SALEX_TAX\"/></xs:appinfo></xs:annotation></xs:enumeration>", byline:true)
-    ant.replaceregexp(file:"build/generated/litleTransaction_v${versionSchema}.xsd", match:"(<xs:enumeration value=\"03\")\\s?+/>", replace:"\\1><xs:annotation><xs:appinfo><jaxb:typesafeEnumMember name=\"CITY_SALES_TAX\"/></xs:appinfo></xs:annotation></xs:enumeration>", byline:true)
-    ant.replaceregexp(file:"build/generated/litleTransaction_v${versionSchema}.xsd", match:"(<xs:enumeration value=\"04\")\\s?+/>", replace:"\\1><xs:annotation><xs:appinfo><jaxb:typesafeEnumMember name=\"LOCAL_SALES_TAX\"/></xs:appinfo></xs:annotation></xs:enumeration>", byline:true)
-    ant.replaceregexp(file:"build/generated/litleTransaction_v${versionSchema}.xsd", match:"(<xs:enumeration value=\"05\")\\s?+/>", replace:"\\1><xs:annotation><xs:appinfo><jaxb:typesafeEnumMember name=\"MUNICIPAL_SALES_TAX\"/></xs:appinfo></xs:annotation></xs:enumeration>", byline:true)
-    ant.replaceregexp(file:"build/generated/litleTransaction_v${versionSchema}.xsd", match:"(<xs:enumeration value=\"06\")\\s?+/>", replace:"\\1><xs:annotation><xs:appinfo><jaxb:typesafeEnumMember name=\"OTHER_TAX\"/></xs:appinfo></xs:annotation></xs:enumeration>", byline:true)
-    ant.replaceregexp(file:"build/generated/litleTransaction_v${versionSchema}.xsd", match:"(<xs:enumeration value=\"10\")\\s?+/>", replace:"\\1><xs:annotation><xs:appinfo><jaxb:typesafeEnumMember name=\"VALUE_ADDED_TAX\"/></xs:appinfo></xs:annotation></xs:enumeration>", byline:true)
-    ant.replaceregexp(file:"build/generated/litleTransaction_v${versionSchema}.xsd", match:"(<xs:enumeration value=\"11\")\\s?+/>", replace:"\\1><xs:annotation><xs:appinfo><jaxb:typesafeEnumMember name=\"GOODS_AND_SERVICES_TAX\"/></xs:appinfo></xs:annotation></xs:enumeration>", byline:true)
-    ant.replaceregexp(file:"build/generated/litleTransaction_v${versionSchema}.xsd", match:"(<xs:enumeration value=\"12\")\\s?+/>", replace:"\\1><xs:annotation><xs:appinfo><jaxb:typesafeEnumMember name=\"PROVINCIAL_SALES_TAX\"/></xs:appinfo></xs:annotation></xs:enumeration>", byline:true)
-    ant.replaceregexp(file:"build/generated/litleTransaction_v${versionSchema}.xsd", match:"(<xs:enumeration value=\"13\")\\s?+/>", replace:"\\1><xs:annotation><xs:appinfo><jaxb:typesafeEnumMember name=\"HARMONIZED_SALES_TAX\"/></xs:appinfo></xs:annotation></xs:enumeration>", byline:true)
-    ant.replaceregexp(file:"build/generated/litleTransaction_v${versionSchema}.xsd", match:"(<xs:enumeration value=\"14\")\\s?+/>", replace:"\\1><xs:annotation><xs:appinfo><jaxb:typesafeEnumMember name=\"QUEBEC_SALES_TAX\"/></xs:appinfo></xs:annotation></xs:enumeration>", byline:true)
-    ant.replaceregexp(file:"build/generated/litleTransaction_v${versionSchema}.xsd", match:"(<xs:enumeration value=\"20\")\\s?+/>", replace:"\\1><xs:annotation><xs:appinfo><jaxb:typesafeEnumMember name=\"ROOM_TAX\"/></xs:appinfo></xs:annotation></xs:enumeration>", byline:true)
-    ant.replaceregexp(file:"build/generated/litleTransaction_v${versionSchema}.xsd", match:"(<xs:enumeration value=\"21\")\\s?+/>", replace:"\\1><xs:annotation><xs:appinfo><jaxb:typesafeEnumMember name=\"OCCUPANCY_TAX\"/></xs:appinfo></xs:annotation></xs:enumeration>", byline:true)
-    ant.replaceregexp(file:"build/generated/litleTransaction_v${versionSchema}.xsd", match:"(<xs:enumeration value=\"22\")\\s?+/>", replace:"\\1><xs:annotation><xs:appinfo><jaxb:typesafeEnumMember name=\"ENERGY_TAX\"/></xs:appinfo></xs:annotation></xs:enumeration>", byline:true)
-    ant.replaceregexp(file:"build/generated/litleCommon_v${versionSchema}.xsd", match:"(<xs:enumeration value=\"\")\\s?+/>", replace:"\\1><xs:annotation><xs:appinfo><jaxb:typesafeEnumMember name=\"BLANK\"/></xs:appinfo></xs:annotation></xs:enumeration>", byline:true)
-    ant.replaceregexp(file:"build/generated/litleTransaction_v${versionSchema}.xsd", match:"(<xs:element name=\"echeckVerification.*?)<xs:all>(.*?)</xs:all>(.*?</xs:element)", replace:"\\1<xs:sequence>\\2</xs:sequence>\\3", flags:"s")
-    ant.replaceregexp(file:"build/generated/litleTransaction_v${versionSchema}.xsd", match:"<xs:element ref=\"xp:echeckOrEcheckToken\"\\s?/>", replace:"<xs:choice><xs:element name=\"echeck\" type=\"xp:echeckType\"/><xs:element name=\"echeckToken\" type=\"xp:echeckTokenType\"/></xs:choice>", byline:true)
-    ant.replaceregexp(file:"build/generated/litleTransaction_v${versionSchema}.xsd", match:"<xs:element ref=\"xp:echeckOrEcheckToken\" minOccurs=\"0\"\\s?/>", replace:"<xs:choice><xs:element name=\"echeck\" type=\"xp:echeckType\"/><xs:element name=\"echeckToken\" type=\"xp:echeckTokenType\"/></xs:choice>", byline:true)
-    ant.replaceregexp(file:"build/generated/litleBatch_v${versionSchema}.xsd", match:"(<xs:attribute name=\"num\\w+\".*use=\"optional\".*)/>", replace:"\\1 default=\"0\"/>", byline:true)
-    ant.replaceregexp(file:"build/generated/litleBatch_v${versionSchema}.xsd", match:"(<xs:attribute name=\"\\w+Amount\".*use=\"optional\".*)/>", replace:"\\1 default=\"0\"/>", byline:true)
+task replaceRegexp(dependsOn: copyXsd) << {
+    ant.replaceregexp(file:"$buildDir/generated/litleTransaction_v${versionSchema}.xsd", match:"(attributeFormDefault=\"unqualified\")>", replace:"\\1 xmlns:jaxb=\"http://java.sun.com/xml/ns/jaxb\" jaxb:version=\"2.0\">", byline:true)
+    ant.replaceregexp(file:"$buildDir/generated/litleCommon_v${versionSchema}.xsd", match:"(elementFormDefault=\"qualified\")>", replace:"\\1 xmlns:jaxb=\"http://java.sun.com/xml/ns/jaxb\" jaxb:version=\"2.0\">", byline:true)
+    ant.replaceregexp(file:"$buildDir/generated/litleTransaction_v${versionSchema}.xsd", match:"transaction\" type=\"xp:transactionType\" abstract=\"true\"/>", replace:"transaction\" type=\"xp:transactionType\" abstract=\"true\"/>    \n\n    <xs:complexType name=\"litleTransactionInterface\" abstract=\"true\"/>", byline:true)
+    ant.replaceregexp(file:"$buildDir/generated/litleTransaction_v${versionSchema}.xsd", match:"name=\"transactionType\">", replace:"name=\"transactionType\">    \n        <xs:complexContent>    \n            <xs:extension base=\"xp:litleTransactionInterface\">", byline:true)
+    ant.replaceregexp(file:"$buildDir/generated/litleTransaction_v${versionSchema}.xsd", match:"<xs:attribute name=\"id\" type=\"xp:string25Type\"/>", replace:"       <xs:attribute name=\"id\" type=\"xp:string25Type\"/>", byline:true)
+    ant.replaceregexp(file:"$buildDir/generated/litleTransaction_v${versionSchema}.xsd", match:"<xs:attribute name=\"customerId\" type=\"xp:customerIdType\" use=\"optional\"/>", replace:"       <xs:attribute name=\"customerId\" type=\"xp:customerIdType\" use=\"optional\"/>       \n            </xs:extension>       \n        </xs:complexContent>", byline:true)
+    ant.replaceregexp(file:"$buildDir/generated/litleRecurring_v${versionSchema}.xsd", match:"name=\"recurringTransactionType\">", replace:"name=\"recurringTransactionType\">    \n        <xs:complexContent>    \n            <xs:extension base=\"xp:litleTransactionInterface\">    \n            </xs:extension>    \n        </xs:complexContent>")
+    ant.replaceregexp(file:"$buildDir/generated/litleRecurring_v${versionSchema}.xsd", match:"name=\"recurringTransactionResponseType\">", replace:"name=\"recurringTransactionResponseType\">    \n        <xs:complexContent>    \n            <xs:extension base=\"xp:litleTransactionInterface\">", byline:true)
+    ant.replaceregexp(file:"$buildDir/generated/litleRecurring_v${versionSchema}.xsd", match:"<xs:sequence>", replace:"        <xs:sequence>")
+    ant.replaceregexp(file:"$buildDir/generated/litleRecurring_v${versionSchema}.xsd", match:"<xs:element name=\"litleTxnId\" type=\"xp:litleIdType\" />", replace:"         <xs:element name=\"litleTxnId\" type=\"xp:litleIdType\" />")
+    ant.replaceregexp(file:"$buildDir/generated/litleRecurring_v${versionSchema}.xsd", match:"<xs:element name=\"response\" type=\"xp:responseType\" />", replace:"         <xs:element name=\"response\" type=\"xp:responseType\" />")
+    ant.replaceregexp(file:"$buildDir/generated/litleRecurring_v${versionSchema}.xsd", match:"<xs:element name=\"message\" type=\"xs:string\" />", replace:"         <xs:element name=\"message\" type=\"xs:string\" />")
+    ant.replaceregexp(file:"$buildDir/generated/litleRecurring_v${versionSchema}.xsd", match:"<xs:element name=\"responseTime\" type=\"xs:dateTime\" />", replace:"         <xs:element name=\"responseTime\" type=\"xs:dateTime\" />")
+    ant.replaceregexp(file:"$buildDir/generated/litleRecurring_v${versionSchema}.xsd", match:"</xs:sequence>", replace:"        </xs:sequence>    \n            </xs:extension>    \n        </xs:complexContent>")
+    ant.replaceregexp(file:"$buildDir/generated/litleRecurring_v${versionSchema}.xsd", match:"", replace:"")
+    ant.replaceregexp(file:"$buildDir/generated/litleRecurring_v${versionSchema}.xsd", match:"", replace:"")
+    ant.replaceregexp(file:"$buildDir/generated/litleTransaction_v${versionSchema}.xsd", match:"enumeration value=(.*?3dsAuthenticated.*?)/>", replace:"enumeration value=\\1><xs:annotation><xs:appinfo><jaxb:typesafeEnumMember name=\"AUTHENTICATED_3DS\"/></xs:appinfo></xs:annotation></xs:enumeration>", byline:true)
+    ant.replaceregexp(file:"$buildDir/generated/litleTransaction_v${versionSchema}.xsd", match:"enumeration value=(.*?3dsAttempted.*?)/>", replace:"enumeration value=\\1><xs:annotation><xs:appinfo><jaxb:typesafeEnumMember name=\"ATTEMPTED_3DS\"/></xs:appinfo></xs:annotation></xs:enumeration>", byline:true)
+    ant.replaceregexp(file:"$buildDir/generated/litleTransaction_v${versionSchema}.xsd", match:"(element name=\"customerType\" minOccurs=\"0\".*?<xs:simpleType>)", replace:"\\1<xs:annotation><xs:appinfo><jaxb:typesafeEnumClass name=\"CustomerType\"/></xs:appinfo></xs:annotation>", flags:"s")
+    ant.replaceregexp(file:"$buildDir/generated/litleTransaction_v${versionSchema}.xsd", match:"(element name=\"residenceStatus\" minOccurs=\"0\".*?<xs:simpleType>)", replace:"\\1<xs:annotation><xs:appinfo><jaxb:typesafeEnumClass name=\"ResidenceStatus\"/></xs:appinfo></xs:annotation>", flags:"s")
+    ant.replaceregexp(file:"$buildDir/generated/litleTransaction_v${versionSchema}.xsd", match:"(element name=\"deliveryType\" minOccurs=\"0\".*?default=\"TBD\".*?<xs:simpleType>)", replace:"\\1<xs:annotation><xs:appinfo><jaxb:typesafeEnumClass name=\"DeliveryType\"/></xs:appinfo></xs:annotation>", flags:"s")
+    ant.replaceregexp(file:"$buildDir/generated/litleTransaction_v${versionSchema}.xsd", match:"(<xs:enumeration value=\"00\")\\s?+/>", replace:"\\1><xs:annotation><xs:appinfo><jaxb:typesafeEnumMember name=\"UNKNOWN\"/></xs:appinfo></xs:annotation></xs:enumeration>", byline:true)
+    ant.replaceregexp(file:"$buildDir/generated/litleTransaction_v${versionSchema}.xsd", match:"(<xs:enumeration value=\"01\")\\s?+/>", replace:"\\1><xs:annotation><xs:appinfo><jaxb:typesafeEnumMember name=\"FEDERAL_NATIONAL_SALES_TAX\"/></xs:appinfo></xs:annotation></xs:enumeration>", byline:true)
+    ant.replaceregexp(file:"$buildDir/generated/litleTransaction_v${versionSchema}.xsd", match:"(<xs:enumeration value=\"02\")\\s?+/>", replace:"\\1><xs:annotation><xs:appinfo><jaxb:typesafeEnumMember name=\"STATE_SALEX_TAX\"/></xs:appinfo></xs:annotation></xs:enumeration>", byline:true)
+    ant.replaceregexp(file:"$buildDir/generated/litleTransaction_v${versionSchema}.xsd", match:"(<xs:enumeration value=\"03\")\\s?+/>", replace:"\\1><xs:annotation><xs:appinfo><jaxb:typesafeEnumMember name=\"CITY_SALES_TAX\"/></xs:appinfo></xs:annotation></xs:enumeration>", byline:true)
+    ant.replaceregexp(file:"$buildDir/generated/litleTransaction_v${versionSchema}.xsd", match:"(<xs:enumeration value=\"04\")\\s?+/>", replace:"\\1><xs:annotation><xs:appinfo><jaxb:typesafeEnumMember name=\"LOCAL_SALES_TAX\"/></xs:appinfo></xs:annotation></xs:enumeration>", byline:true)
+    ant.replaceregexp(file:"$buildDir/generated/litleTransaction_v${versionSchema}.xsd", match:"(<xs:enumeration value=\"05\")\\s?+/>", replace:"\\1><xs:annotation><xs:appinfo><jaxb:typesafeEnumMember name=\"MUNICIPAL_SALES_TAX\"/></xs:appinfo></xs:annotation></xs:enumeration>", byline:true)
+    ant.replaceregexp(file:"$buildDir/generated/litleTransaction_v${versionSchema}.xsd", match:"(<xs:enumeration value=\"06\")\\s?+/>", replace:"\\1><xs:annotation><xs:appinfo><jaxb:typesafeEnumMember name=\"OTHER_TAX\"/></xs:appinfo></xs:annotation></xs:enumeration>", byline:true)
+    ant.replaceregexp(file:"$buildDir/generated/litleTransaction_v${versionSchema}.xsd", match:"(<xs:enumeration value=\"10\")\\s?+/>", replace:"\\1><xs:annotation><xs:appinfo><jaxb:typesafeEnumMember name=\"VALUE_ADDED_TAX\"/></xs:appinfo></xs:annotation></xs:enumeration>", byline:true)
+    ant.replaceregexp(file:"$buildDir/generated/litleTransaction_v${versionSchema}.xsd", match:"(<xs:enumeration value=\"11\")\\s?+/>", replace:"\\1><xs:annotation><xs:appinfo><jaxb:typesafeEnumMember name=\"GOODS_AND_SERVICES_TAX\"/></xs:appinfo></xs:annotation></xs:enumeration>", byline:true)
+    ant.replaceregexp(file:"$buildDir/generated/litleTransaction_v${versionSchema}.xsd", match:"(<xs:enumeration value=\"12\")\\s?+/>", replace:"\\1><xs:annotation><xs:appinfo><jaxb:typesafeEnumMember name=\"PROVINCIAL_SALES_TAX\"/></xs:appinfo></xs:annotation></xs:enumeration>", byline:true)
+    ant.replaceregexp(file:"$buildDir/generated/litleTransaction_v${versionSchema}.xsd", match:"(<xs:enumeration value=\"13\")\\s?+/>", replace:"\\1><xs:annotation><xs:appinfo><jaxb:typesafeEnumMember name=\"HARMONIZED_SALES_TAX\"/></xs:appinfo></xs:annotation></xs:enumeration>", byline:true)
+    ant.replaceregexp(file:"$buildDir/generated/litleTransaction_v${versionSchema}.xsd", match:"(<xs:enumeration value=\"14\")\\s?+/>", replace:"\\1><xs:annotation><xs:appinfo><jaxb:typesafeEnumMember name=\"QUEBEC_SALES_TAX\"/></xs:appinfo></xs:annotation></xs:enumeration>", byline:true)
+    ant.replaceregexp(file:"$buildDir/generated/litleTransaction_v${versionSchema}.xsd", match:"(<xs:enumeration value=\"20\")\\s?+/>", replace:"\\1><xs:annotation><xs:appinfo><jaxb:typesafeEnumMember name=\"ROOM_TAX\"/></xs:appinfo></xs:annotation></xs:enumeration>", byline:true)
+    ant.replaceregexp(file:"$buildDir/generated/litleTransaction_v${versionSchema}.xsd", match:"(<xs:enumeration value=\"21\")\\s?+/>", replace:"\\1><xs:annotation><xs:appinfo><jaxb:typesafeEnumMember name=\"OCCUPANCY_TAX\"/></xs:appinfo></xs:annotation></xs:enumeration>", byline:true)
+    ant.replaceregexp(file:"$buildDir/generated/litleTransaction_v${versionSchema}.xsd", match:"(<xs:enumeration value=\"22\")\\s?+/>", replace:"\\1><xs:annotation><xs:appinfo><jaxb:typesafeEnumMember name=\"ENERGY_TAX\"/></xs:appinfo></xs:annotation></xs:enumeration>", byline:true)
+    ant.replaceregexp(file:"$buildDir/generated/litleCommon_v${versionSchema}.xsd", match:"(<xs:enumeration value=\"\")\\s?+/>", replace:"\\1><xs:annotation><xs:appinfo><jaxb:typesafeEnumMember name=\"BLANK\"/></xs:appinfo></xs:annotation></xs:enumeration>", byline:true)
+    ant.replaceregexp(file:"$buildDir/generated/litleTransaction_v${versionSchema}.xsd", match:"(<xs:element name=\"echeckVerification.*?)<xs:all>(.*?)</xs:all>(.*?</xs:element)", replace:"\\1<xs:sequence>\\2</xs:sequence>\\3", flags:"s")
+    ant.replaceregexp(file:"$buildDir/generated/litleTransaction_v${versionSchema}.xsd", match:"<xs:element ref=\"xp:echeckOrEcheckToken\"\\s?/>", replace:"<xs:choice><xs:element name=\"echeck\" type=\"xp:echeckType\"/><xs:element name=\"echeckToken\" type=\"xp:echeckTokenType\"/></xs:choice>", byline:true)
+    ant.replaceregexp(file:"$buildDir/generated/litleTransaction_v${versionSchema}.xsd", match:"<xs:element ref=\"xp:echeckOrEcheckToken\" minOccurs=\"0\"\\s?/>", replace:"<xs:choice><xs:element name=\"echeck\" type=\"xp:echeckType\"/><xs:element name=\"echeckToken\" type=\"xp:echeckTokenType\"/></xs:choice>", byline:true)
+    ant.replaceregexp(file:"$buildDir/generated/litleBatch_v${versionSchema}.xsd", match:"(<xs:attribute name=\"num\\w+\".*use=\"optional\".*)/>", replace:"\\1 default=\"0\"/>", byline:true)
+    ant.replaceregexp(file:"$buildDir/generated/litleBatch_v${versionSchema}.xsd", match:"(<xs:attribute name=\"\\w+Amount\".*use=\"optional\".*)/>", replace:"\\1 default=\"0\"/>", byline:true)
 }
 
-task jaxbTask(dependsOn: 'replaceRegexp') {
-    def jaxbTargetDir = "build/generated"
+task jaxbTask(dependsOn: replaceRegexp) {
+    def jaxbTargetDir = "$buildDir/generated"
     doLast {
         ant.taskdef(name: "xjc", classname:"com.sun.tools.xjc.XJCTask", classpath:project.sourceSets.main.runtimeClasspath.asPath)
         ant.jaxbTargetDir = jaxbTargetDir
@@ -148,7 +144,7 @@ test{
     reports.html.destination = "$buildDir/reports/tests/test"
 }
 
-task testFunctional(type:Test, dependsOn: compileFunctionalTestJava){
+task testFunctional(type:Test, dependsOn: functionalTestClasses){
     useJUnit()
     classpath = project.sourceSets.functionalTest.runtimeClasspath
     mustRunAfter test
@@ -158,7 +154,7 @@ task testFunctional(type:Test, dependsOn: compileFunctionalTestJava){
     reports.html.destination = "$buildDir/reports/tests/functional"
 }
 
-task testCertification(type:Test, dependsOn: compileCertificationTestJava){
+task testCertification(type:Test, dependsOn: certificationTestClasses){
     useJUnit()
     classpath = project.sourceSets.certificationTest.runtimeClasspath
     mustRunAfter testFunctional
@@ -168,7 +164,7 @@ task testCertification(type:Test, dependsOn: compileCertificationTestJava){
     reports.html.destination = "$buildDir/reports/tests/certification"
 }
 
-task doc(type:Javadoc, dependsOn: compileJava) {
+javadoc{
     def docDir = file("$buildDir/kit/java15/doc")
     docDir.mkdirs()
     source = project.sourceSets.main.allJava
@@ -178,7 +174,7 @@ task doc(type:Javadoc, dependsOn: compileJava) {
 }
 
 
-task copyJarToKit(type:Copy, dependsOn:[jar, doc]){
+task copyJarToKit(type:Copy, dependsOn:check){
     def kitDir = file("$buildDir/kit/java15")
     kitDir.mkdirs()
     from "${dist15}/lib/litle-sdk-for-java-${versionJar}.jar"
@@ -186,7 +182,7 @@ task copyJarToKit(type:Copy, dependsOn:[jar, doc]){
     into kitDir
 }
 
-task copyLibsToKit(type:Copy, dependsOn:compileJava){
+task copyLibsToKit(type:Copy, dependsOn:check){
     def kitDependencyDir = file("$buildDir/kit/java15/dependencies")
     kitDependencyDir.mkdirs()
     from configurations.compile.asFileTree.matching{
@@ -226,4 +222,4 @@ task kit(dependsOn:[tarKit, zipKit]){
 
 compileJava.dependsOn jaxbTask
 check.dependsOn testCertification, testFunctional
-build.dependsOn kit
+build.dependsOn kit, javadoc
