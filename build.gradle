@@ -4,7 +4,6 @@ apply plugin : 'eclipse'
 def opensftp = "lib/opensftp-0.3.0"
 def versionSchema = "8.25"
 def versionJar = "8.25.3"
-//def dist14 = "$buildDir/dist/java14"
 def dist15 = "$buildDir/dist/java15"
 
 repositories {
@@ -19,6 +18,11 @@ configurations {
 }
 
 sourceSets {
+    main{
+        java{
+            srcDirs += "$buildDir/generated"
+        }
+    }
     functionalTest {
         java {
             compileClasspath += main.output
@@ -125,20 +129,6 @@ task jaxbTask(dependsOn: 'replaceRegexp') {
     }
 }
 
-/* We no longer support Java 1.4
-/*
-task dist14jar(type:Jar, dependsOn:classes) {
-    def jar14Dir = file("${dist14}/lib")
-    jar14Dir.mkdirs()
-    manifest {
-        attributes("Implementation-Title":"Litle SDK For Java 1.4 and greater", "Implementation-Version":"${versionJar}","Implementation-Vendor":"Litle&Co","Main-Class":"com.litle.sdk.Setup")
-    }
-    destinationDir = jar14Dir
-    archiveName = "litle-sdk-for-java-${versionJar}-ForJava14.jar"
-    from file(project.sourceSets.main.output.classesDir)
-}
-*/
-
 jar{
     def jar15Dir = file("${dist15}/lib")
     jar15Dir.mkdirs()
@@ -234,8 +224,6 @@ task kit(dependsOn:[tarKit, zipKit]){
     
 }
 
-compileJava.source(['build/generated'])
 compileJava.dependsOn jaxbTask
-//assemble.dependsOn dist14jar
 check.dependsOn testCertification, testFunctional
 build.dependsOn kit
