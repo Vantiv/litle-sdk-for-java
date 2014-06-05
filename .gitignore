@@ -1,7 +1,5 @@
 #.project
-bin
-generated
-dist
-kit
-reports
+bin/
+build/
 .gradle
+test/

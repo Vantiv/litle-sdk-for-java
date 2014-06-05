@@ -12,5 +12,5 @@
  			parseMethod="com.litle.sdk.JAXBConverters.parseString" printMethod="com.litle.sdk.JAXBConverters.printString" />
  		<xjc:simple />
  	</jaxb:globalBindings>
-	
+    
 </jaxb:bindings>
