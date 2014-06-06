@@ -1,5 +1,8 @@
 = LitleOnline CHANGELOG
 
+== Version 8.25.4 (June 6, 2014)
+* Feature: Migrate build to Gradle
+
 == Version 8.25.3 (May 1, 2014)
 * Bug: Using the LitleResponseProcessor to check for responses would never work with EcheckSales.
 * Feature: Make it possible to load properties file from classpath

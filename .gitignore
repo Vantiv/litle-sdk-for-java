@@ -3,3 +3,6 @@ bin/
 build/
 .gradle
 test/
+.classpath
+.project
+.settings/
