@@ -34,7 +34,7 @@ sourceSets {
 }
 
 dependencies{
-    compile fileTree(dir:"${OPENSFTP_DIR}", include: '**/*.jar')
+    compile group:'com.jcraft', name:'jsch', version:'0.1.51'
     compile group:'com.sun.xml.bind', name:'jaxb-impl', version:'2.2.5'
     compile group:'commons-logging', name:'commons-logging', version:'1.1.1'
     compile group:'javax.activation', name:'activation', version:'1.1.1'
@@ -201,10 +201,9 @@ task copyLibsToKit(type:Copy, dependsOn:check){
         include '**/httpclient*'
         include '**/httpcore*'
         include '**/httpmime*'
+	include '**/jsch*'
     }
-    from ("${OPENSFTP_DIR}"){
-        include '**/*.jar'
-    }
+
     into KIT_DEPENDENCIES_DIR
 }
 

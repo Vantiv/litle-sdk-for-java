@@ -6,12 +6,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
 
-import net.sf.opensftp.SftpException;
-import net.sf.opensftp.SftpResult;
-import net.sf.opensftp.SftpSession;
-import net.sf.opensftp.SftpUtil;
-import net.sf.opensftp.SftpUtilFactory;
-
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
@@ -21,6 +15,13 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.CoreConnectionPNames;
 import org.apache.http.util.EntityUtils;
+
+import com.jcraft.jsch.Channel;
+import com.jcraft.jsch.ChannelSftp;
+import com.jcraft.jsch.JSch;
+import com.jcraft.jsch.JSchException;
+import com.jcraft.jsch.Session;
+import com.jcraft.jsch.SftpException;
 
 public class Communication {
 
@@ -115,14 +116,33 @@ public class Communication {
 	    String password = configuration.getProperty("sftpPassword");
 	    String hostname = configuration.getProperty("batchHost");
 
-	    SftpUtil util = SftpUtilFactory.getSftpUtil();
-	    SftpSession session = null;
+	    java.util.Properties config = new java.util.Properties();
+	    config.put("StrictHostKeyChecking", "no");
+	    JSch jsch = null;
+	    Session session = null;
 	    try{
-	        session = util.connectByPasswdAuth(hostname, username, password, SftpUtil.STRICT_HOST_KEY_CHECKING_OPTION_NO);
-	    } catch(SftpException e){
+    	    jsch = new JSch();
+    	    session = jsch.getSession(username, hostname);
+    	    session.setConfig(config);
+    	    session.setPassword(password);
+
+    	    session.connect();
+	    }
+	    catch(JSchException e){
 	        throw new LitleBatchException("Exception connection to Litle", e);
 	    }
 
+	    Channel channel = null;
+
+	    try{
+	        channel = session.openChannel("sftp");
+	        channel.connect();
+	    }
+	    catch(JSchException e){
+	        throw new LitleBatchException("Exception connection to Litle", e);
+	    }
+
+	    ChannelSftp sftp = (ChannelSftp) channel;
 	    boolean printxml = configuration.getProperty("printxml") != null
                 && configuration.getProperty("printxml").equalsIgnoreCase(
                         "true");
@@ -135,12 +155,16 @@ public class Communication {
             }
 	    }
 
+	    try {
+            sftp.put(requestFile.getAbsolutePath(), "inbound/" + requestFile.getName() + ".prg");
+            sftp.rename("inbound/" + requestFile.getName() + ".prg", "inbound/" + requestFile.getName() + ".asc");
+        }
+	    catch (SftpException e) {
+            throw new LitleBatchException("Exception SFTP operation", e);
+        }
 
-	    util.put(session, requestFile.getAbsolutePath(), "inbound/" + requestFile.getName() + ".prg");
-	    util.rename(session, "inbound/" + requestFile.getName() + ".prg", "inbound/" + requestFile.getName() + ".asc");
-	    util.disconnect(session);
-
-
+	    channel.disconnect();
+	    session.disconnect();
 	}
 
 	/**
@@ -156,14 +180,34 @@ public class Communication {
         String password = configuration.getProperty("sftpPassword");
         String hostname = configuration.getProperty("batchHost");
 
-
-        SftpUtil util = SftpUtilFactory.getSftpUtil();
-        SftpSession session = null;
+        java.util.Properties config = new java.util.Properties();
+        config.put("StrictHostKeyChecking", "no");
+        JSch jsch = null;
+        Session session = null;
         try{
-            session = util.connectByPasswdAuth(hostname, username, password, SftpUtil.STRICT_HOST_KEY_CHECKING_OPTION_NO);
-        } catch(SftpException e){
+            jsch = new JSch();
+            session = jsch.getSession(username, hostname);
+            session.setConfig(config);
+            session.setPassword(password);
+
+            session.connect();
+        }
+        catch(JSchException e){
             throw new LitleBatchException("Exception connection to Litle", e);
         }
+
+        Channel channel = null;
+
+        try{
+            channel = session.openChannel("sftp");
+            channel.connect();
+        }
+        catch(JSchException e){
+            throw new LitleBatchException("Exception connection to Litle", e);
+        }
+
+        ChannelSftp sftp = (ChannelSftp) channel;
+
         Long start = System.currentTimeMillis();
         Long timeout = Long.parseLong(configuration.getProperty("sftpTimeout"));
         System.out.println("Retrieving from sFTP...");
@@ -171,12 +215,21 @@ public class Communication {
             try {
                 Thread.sleep(45000);
             } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-            SftpResult res = util.get(session, "outbound/" + requestFile.getName() + ".asc", responseFile.getAbsolutePath());
-            if(res.getSuccessFlag()) {
-                util.rm(session, "outbound/" + requestFile.getName() + ".asc");
+            boolean success = true;
+            try{
+                sftp.get("outbound/" + requestFile.getName() + ".asc", responseFile.getAbsolutePath());
+            }
+            catch(SftpException e){
+                success = false;
+            }
+            if(success) {
+                try {
+                    sftp.rm("outbound/" + requestFile.getName() + ".asc");
+                } catch (SftpException e) {
+                    throw new LitleBatchException("Exception SFTP operation", e);
+                }
                 break;
             }
             System.out.print(".");
@@ -192,7 +245,8 @@ public class Communication {
             }
         }
 
-        util.disconnect(session);
+        channel.disconnect();
+        session.disconnect();
 	}
 
 
