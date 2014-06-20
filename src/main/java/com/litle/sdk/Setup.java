@@ -127,7 +127,7 @@ public class Setup {
 		System.out.print("Please input the proxy port, if no proxy hit enter: ");
 		lastUserInput = stdin.readLine();
 		config.put("proxyPort", (lastUserInput == null ? "" : lastUserInput));
-		config.put("timeout", "65");
+		config.put("timeout", "65000");
 		config.put("reportGroup", "Default Report Group");
 		config.put("printxml", "false");
 
