@@ -8,27 +8,32 @@ About Litle
 
 About this SDK
 --------------
-The Litle Java SDK is a Java implementation of the [Litle &amp; Co.](http://www.litle.com) XML API. This SDK was created to make it as easy as possible to connect process your payments with Litle.  This SDK utilizes  the HTTPS protocol to securely connect to Litle.  Using the SDK requires coordination with the Litle team in order to be provided with credentials for accessing our systems.
-
-Our Java SDK supports all of the functionality present in Litle XML v8. Please see the online copy of our XSD for Litle XML to get more details on what is supported by the Litle payments engine.
-
-This SDK is implemented to support the Java programming language and was created by Litle & Co. It is intended use is for online transactions processing utilizing your account on the Litle payments engine.
+The Litle Java SDK is a Java implementation of the [Litle &amp; Co.](http://www.litle.com) XML API. This SDK was created to make it as easy as possible to process your payments with Litle.  This SDK utilizes  the HTTPS protocol to securely connect to Litle.  Using the SDK requires coordination with the Litle team in order to be provided with credentials for accessing our systems.
 
 See LICENSE file for details on using this software.
-
-Source Code available from : https://github.com/LitleCo/litle-sdk-for-java
 
 Please contact [Litle &amp; Co.](http://www.litle.com) to receive valid merchant credentials in order to run tests successfully or if you require assistance in any way.  We are reachable at sdksupport@litle.com
 
 Setup
 -----
 
-1) Place the litle-sdk-for-java.jar in your classpath 
-
-2) Once the sdk is installed run our setup program to generate a configuration file.  The configuration file resides in your home directory
-$HOME/.litle_SDK_config.properties
-
-3.) Create a java class similar to:  
+1. Add our Bintray repository to your Maven or Gradle build: `http://dl.bintray.com/litlesdk/maven`
+2. Add the dependency
+    1. For Maven:
+        ```
+            <dependency>
+                <groupId>com.litle</groupId>
+                <artifactId>litle-sdk-for-java</artifactId>
+                <version>8.25.4</version>
+            </dependency>
+        ```
+    2. For Gradle:
+        `compile(group: 'com.litle', name: 'litle-sdk-for-java', version: '8.25.4')`
+    
+3. Create your configuration file with one of the following
+    * Run `java -jar /path/to/litle-sdk-for-java.jar` and answer the questions, or
+    * Add a file `.litle_SDK_config.properties` to your home directory with the correct properties in it
+4. Use it:
 
 ```java
 import com.litle.sdk.*;
@@ -60,12 +65,4 @@ public class SampleLitleTxn {
 }
 ```
 
-4) Compile and run this file.  You should see the following result provided you have connectivity to the Litle certification environment.  You will see an HTTP error if you don't have access to the Litle URL
-
-    Message: Approved
-    Litle Transaction ID: <your-numeric-litle-txn-id>
-
 More examples can be found here [Java Gists](https://gist.github.com/litleSDK)
-
-Please contact Litle & Co. with any further questions.   You can reach us at sdksupport@litle.com.
-

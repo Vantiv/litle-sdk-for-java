@@ -1,11 +1,10 @@
 package com.litle.sdk;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
@@ -148,11 +147,7 @@ public class Communication {
                         "true");
 
 	    if(printxml){
-            BufferedReader reader = new BufferedReader(new FileReader(requestFile));
-            String line = "";
-            while((line = reader.readLine()) != null){
-                System.out.println(line);
-            }
+	        System.out.println(FileUtils.readFileToString(requestFile));
 	    }
 
 	    try {
@@ -238,11 +233,7 @@ public class Communication {
                 && configuration.getProperty("printxml").equalsIgnoreCase(
                         "true");
         if(printxml){
-            BufferedReader reader = new BufferedReader(new FileReader(responseFile));
-            String line = "";
-            while((line = reader.readLine()) != null){
-                System.out.println(line);
-            }
+            System.out.println(FileUtils.readFileToString(responseFile));
         }
 
         channel.disconnect();

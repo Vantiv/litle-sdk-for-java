@@ -1,7 +1,9 @@
 = LitleOnline CHANGELOG
 
 == Version 8.25.4 (June 6, 2014)
-* Feature: Migrate build to Gradle
+* Migrate build to Gradle
+* Remove dependency with OpenFTP
+* Remove unnecessary dependencies
 
 == Version 8.25.3 (May 1, 2014)
 * Bug: Using the LitleResponseProcessor to check for responses would never work with EcheckSales.
