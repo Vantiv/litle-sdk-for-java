@@ -20,15 +20,20 @@ Setup
 1. Add our Bintray repository to your Maven or Gradle build: `http://dl.bintray.com/litlesdk/maven`
 2. Add the dependency
     1. For Maven:
-        ```
+    
+        ```xml
             <dependency>
                 <groupId>com.litle</groupId>
                 <artifactId>litle-sdk-for-java</artifactId>
                 <version>8.25.4</version>
             </dependency>
         ```
+
     2. For Gradle:
-        `compile(group: 'com.litle', name: 'litle-sdk-for-java', version: '8.25.4')`
+    
+        ```groovy
+            compile(group: 'com.litle', name: 'litle-sdk-for-java', version: '8.25.4')
+        ```
     
 3. Create your configuration file with one of the following
     * Run `java -jar /path/to/litle-sdk-for-java.jar` and answer the questions, or
