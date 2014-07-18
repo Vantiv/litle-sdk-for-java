@@ -17,10 +17,11 @@ Please contact [Litle &amp; Co.](http://www.litle.com) to receive valid merchant
 Setup
 -----
 
-1. Add our Bintray repository to your Maven or Gradle build: `http://dl.bintray.com/litlesdk/maven`
+1. Add JCenter repository to your Maven or Gradle build: `http://dl.bintray.com/litlesdk/maven`
+	1. For Maven, please read instructions at: https://bintray.com/bintray/jcenter
+	2. For Gradle, add `jcenter()` to your `repositories { ... }`
 2. Add the dependency
     1. For Maven:
-    
         ```xml
             <dependency>
                 <groupId>com.litle</groupId>
@@ -30,11 +31,10 @@ Setup
         ```
 
     2. For Gradle:
-    
         ```groovy
             compile(group: 'com.litle', name: 'litle-sdk-for-java', version: '8.25.4')
         ```
-    
+        
 3. Create your configuration file with one of the following
     * Run `java -jar /path/to/litle-sdk-for-java.jar` and answer the questions, or
     * Add a file `.litle_SDK_config.properties` to your home directory with the correct properties in it
