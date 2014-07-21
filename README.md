@@ -17,7 +17,7 @@ Please contact [Litle &amp; Co.](http://www.litle.com) to receive valid merchant
 Setup
 -----
 
-1. Add JCenter repository to your Maven or Gradle build: `http://dl.bintray.com/litlesdk/maven`
+1. Add JCenter repository to your Maven or Gradle build:
 	1. For Maven, please read instructions at: https://bintray.com/bintray/jcenter
 	2. For Gradle, add `jcenter()` to your `repositories { ... }`
 2. Add the dependency
