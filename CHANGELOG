@@ -1,9 +1,14 @@
 = LitleOnline CHANGELOG
+==Version 9.00.0 (Auguest 26,2014)
+*Support verision 9
+*modify xsd
+
+== Version 8.27.0 (August 26, 2014)
+* Add samples in the build
+* modify xsd
 
 == Version 8.25.4 (June 6, 2014)
-* Migrate build to Gradle
-* Remove dependency with OpenFTP
-* Remove unnecessary dependencies
+* Feature: Migrate build to Gradle
 
 == Version 8.25.3 (May 1, 2014)
 * Bug: Using the LitleResponseProcessor to check for responses would never work with EcheckSales.

@@ -134,9 +134,10 @@ public class LitleBatchRequest {
         }
 
         //Adding 1 to the number of transaction. This is on the assumption that we are adding one transaction to the batch at a time.
+        BigInteger numToAdd = new BigInteger("1");
         boolean transactionAdded = false;
 
-		JAXBElement<? extends LitleTransactionInterface> transaction;
+		JAXBElement transaction;
 
 		if(transactionType instanceof Sale){
             batchRequest.setNumSales(batchRequest.getNumSales().add(BigInteger.valueOf(1)));

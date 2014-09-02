@@ -1,0 +1,27 @@
+apply plugin : 'java'
+apply plugin : 'eclipse'
+repositories {
+    mavenCentral()
+}
+   dependencies{
+        compile rootProject
+ }
+  task execRegisterTokenExample (type:JavaExec){
+	check.dependsOn it
+        main='com.litle.sdk.samples.RegisterTokenExample'
+        classpath = sourceSets.main.runtimeClasspath	   
+}
+ task execSaleWithTokenExample (type:JavaExec){
+	check.dependsOn it
+        main='com.litle.sdk.samples.SaleWithTokenExample'
+        classpath = sourceSets.main.runtimeClasspath	   
+}
+
+
+   
+   
+  
+   
+   
+
+

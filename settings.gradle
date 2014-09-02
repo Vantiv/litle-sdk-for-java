@@ -1,1 +1,19 @@
 rootProject.name='litle-sdk-for-java'
+include 'samples/auth'
+project(":samples/auth").name = "auth"
+include 'samples/batch'
+project(":samples/batch").name = "batch"
+include 'samples/sale'
+project(":samples/sale").name = "sale"
+include 'samples/capture'
+project(":samples/capture").name = "capture"
+include 'samples/echeck'
+project(":samples/echeck").name = "echeck"
+include 'samples/credit'
+project(":samples/credit").name = "credit"
+include 'samples/other'
+project(":samples/other").name = "other"
+include 'samples/paypage'
+project(":samples/paypage").name = "paypage"
+include 'samples/token'
+project(":samples/token").name = "token"

@@ -1,0 +1,37 @@
+apply plugin : 'java'
+apply plugin : 'eclipse'
+repositories {
+    mavenCentral()
+}
+   dependencies{
+        compile rootProject
+ }
+  task execCaptureExample(type:JavaExec){
+	check.dependsOn it
+        main='com.litle.sdk.samples.CaptureExample'
+        classpath = sourceSets.main.runtimeClasspath	   
+}
+
+  task execCaptureGivenAuthExample(type:JavaExec){
+	check.dependsOn it
+        main='com.litle.sdk.samples.CaptureGivenAuthExample'
+        classpath = sourceSets.main.runtimeClasspath	    
+}
+task execCapturePartialExample(type:JavaExec){
+	check.dependsOn it
+        main='com.litle.sdk.samples.CapturePartialExample'
+        classpath = sourceSets.main.runtimeClasspath	    
+}
+  task execForceCaptureExample(type:JavaExec){
+	check.dependsOn it
+        main='com.litle.sdk.samples.ForceCaptureExample'
+        classpath = sourceSets.main.runtimeClasspath	     
+}
+  
+   
+   
+  
+   
+   
+
+

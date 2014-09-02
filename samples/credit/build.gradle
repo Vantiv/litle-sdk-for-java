@@ -1,0 +1,22 @@
+apply plugin : 'java'
+apply plugin : 'eclipse'
+repositories {
+    mavenCentral()
+}
+   dependencies{
+        compile rootProject
+ }
+  task execCreditExample(type:JavaExec){
+	check.dependsOn it
+        main='com.litle.sdk.samples.CreditExample'
+        classpath = sourceSets.main.runtimeClasspath	   
+}
+
+
+   
+   
+  
+   
+   
+
+

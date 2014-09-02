@@ -145,7 +145,7 @@ public class LitleBatchFileRequest{
 		this.communication = communication;
 	}
 
-	Properties getConfig() {
+	public Properties getConfig() {
 		return this.properties;
 	}
 

@@ -112,8 +112,7 @@ public class LitleBatchResponse {
 	 * @param processor
 	 * @return true or false, indicating whether another transaction was read.
 	 */
-	@SuppressWarnings("unchecked")
-    public boolean processNextTransaction(LitleResponseProcessor processor){
+	public boolean processNextTransaction(LitleResponseProcessor processor){
 	    String txnXml = "";
 	    LitleTransactionInterface objToRet;
 	    try {
@@ -123,7 +122,7 @@ public class LitleBatchResponse {
         }
 
 	    try{
-	        objToRet = ((JAXBElement<? extends TransactionType>)unmarshaller.unmarshal(new StringReader(txnXml))).getValue();
+	        objToRet = ((JAXBElement<TransactionType>)unmarshaller.unmarshal(new StringReader(txnXml))).getValue();
 	    } catch (JAXBException e){
 	        throw new LitleBatchException("There was an exception while trying to unmarshall transactionResponse: " + txnXml, e);
 	    }

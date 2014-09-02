@@ -1,0 +1,40 @@
+apply plugin : 'java'
+apply plugin : 'eclipse'
+repositories {
+    mavenCentral()
+}
+   dependencies{
+        compile rootProject
+ }
+  task execAuthExample(type:JavaExec){
+	check.dependsOn it
+        main='com.litle.sdk.samples.AuthExample'
+        classpath = sourceSets.main.runtimeClasspath	
+
+     
+}
+  task execAuthReversalExample(type:JavaExec) {
+	check.dependsOn it
+        main='com.litle.sdk.samples.AuthReversalExample'
+        classpath = sourceSets.main.runtimeClasspath
+}
+   task execAuthWithTokenExample(type:JavaExec) {
+	check.dependsOn it
+        main='com.litle.sdk.samples.AuthWithTokenExample'
+        classpath = sourceSets.main.runtimeClasspath
+
+}
+  task execFullLifeCycleExample(type:JavaExec) {
+	check.dependsOn it
+        main='com.litle.sdk.samples.FullLifeCycleExample'
+        classpath = sourceSets.main.runtimeClasspath
+}
+ task execSampleDetailTax(type:JavaExec) {
+	check.dependsOn it
+        main='com.litle.sdk.samples.SampleDetailTax'
+        classpath = sourceSets.main.runtimeClasspath
+}
+   
+   
+
+

@@ -1,0 +1,18 @@
+apply plugin : 'java'
+apply plugin : 'eclipse'
+repositories {
+    mavenCentral()
+}
+   dependencies{
+        compile rootProject
+ }
+  task execSamples(type:JavaExec){
+	check.dependsOn it
+        main='com.litle.sdk.samples.MechaBatch'
+        classpath = sourceSets.main.runtimeClasspath	
+
+     
+}
+ 
+   
+
