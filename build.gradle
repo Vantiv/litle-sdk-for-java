@@ -97,24 +97,47 @@ task processXsd (type: Copy) {
     }
     
     doLast {
+	//Put xmlns:jaxb and jaxb:version in the xml header
         ant.replaceregexp(file:"$xsdOutput/litleTransaction_v${SCHEMA_VERSION}.xsd", match:"(attributeFormDefault=\"unqualified\")>", replace:"\\1 xmlns:jaxb=\"http://java.sun.com/xml/ns/jaxb\" jaxb:version=\"2.0\">", byline:true)
+	//Put xmlns:jaxb and jaxb:version in the xml header
         ant.replaceregexp(file:"$xsdOutput/litleCommon_v${SCHEMA_VERSION}.xsd", match:"(elementFormDefault=\"qualified\")>", replace:"\\1 xmlns:jaxb=\"http://java.sun.com/xml/ns/jaxb\" jaxb:version=\"2.0\">", byline:true)
-        ant.replaceregexp(file:"$xsdOutput/litleTransaction_v${SCHEMA_VERSION}.xsd", match:"transaction\" type=\"xp:transactionType\" abstract=\"true\"/>", replace:"transaction\" type=\"xp:transactionType\" abstract=\"true\"/>    \n\n    <xs:complexType name=\"litleTransactionInterface\" abstract=\"true\"/>", byline:true)
+
+	//Create a new type complexType litleTransactionInterface below transactionType
+        ant.replaceregexp(file:"$xsdOutput/litleTransaction_v${SCHEMA_VERSION}.xsd", match:"transaction\" type=\"xp:transactionType\" abstract=\"true\"\\s?/>", replace:"transaction\" type=\"xp:transactionType\" abstract=\"true\"/>    \n\n    <xs:complexType name=\"litleTransactionInterface\" abstract=\"true\"/>", byline:true)
+	//Make transaction type extend from litleTransactionInterface
         ant.replaceregexp(file:"$xsdOutput/litleTransaction_v${SCHEMA_VERSION}.xsd", match:"name=\"transactionType\">", replace:"name=\"transactionType\">    \n        <xs:complexContent>    \n            <xs:extension base=\"xp:litleTransactionInterface\">", byline:true)
-        ant.replaceregexp(file:"$xsdOutput/litleTransaction_v${SCHEMA_VERSION}.xsd", match:"<xs:attribute name=\"id\" type=\"xp:string25Type\"/>", replace:"       <xs:attribute name=\"id\" type=\"xp:string25Type\"/>", byline:true)
-        ant.replaceregexp(file:"$xsdOutput/litleTransaction_v${SCHEMA_VERSION}.xsd", match:"<xs:attribute name=\"customerId\" type=\"xp:customerIdType\" use=\"optional\"/>", replace:"       <xs:attribute name=\"customerId\" type=\"xp:customerIdType\" use=\"optional\"/>       \n            </xs:extension>       \n        </xs:complexContent>", byline:true)
+	//Indent id under the new extension
+        ant.replaceregexp(file:"$xsdOutput/litleTransaction_v${SCHEMA_VERSION}.xsd", match:"<xs:attribute name=\"id\" type=\"xp:string25Type\"\\s?/>", replace:"       <xs:attribute name=\"id\" type=\"xp:string25Type\"/>", byline:true)
+	//Indent customerId and close the extension
+        ant.replaceregexp(file:"$xsdOutput/litleTransaction_v${SCHEMA_VERSION}.xsd", match:"<xs:attribute name=\"customerId\" type=\"xp:customerIdType\" use=\"optional\" />", replace:"       <xs:attribute name=\"customerId\" type=\"xp:customerIdType\" use=\"optional\"/>       \n            </xs:extension>       \n        </xs:complexContent>", byline:true)
+
+	//Make recurringTransactionType extend from litleTransactionInterface
         ant.replaceregexp(file:"$xsdOutput/litleRecurring_v${SCHEMA_VERSION}.xsd", match:"name=\"recurringTransactionType\">", replace:"name=\"recurringTransactionType\">    \n        <xs:complexContent>    \n            <xs:extension base=\"xp:litleTransactionInterface\">    \n            </xs:extension>    \n        </xs:complexContent>")
+	//Make recurringTransactionResponseType extend from litleTransactionInterface too
         ant.replaceregexp(file:"$xsdOutput/litleRecurring_v${SCHEMA_VERSION}.xsd", match:"name=\"recurringTransactionResponseType\">", replace:"name=\"recurringTransactionResponseType\">    \n        <xs:complexContent>    \n            <xs:extension base=\"xp:litleTransactionInterface\">", byline:true)
+	//Indent sequence under the new extension
         ant.replaceregexp(file:"$xsdOutput/litleRecurring_v${SCHEMA_VERSION}.xsd", match:"<xs:sequence>", replace:"        <xs:sequence>")
+	//Indent litleTxnId too
         ant.replaceregexp(file:"$xsdOutput/litleRecurring_v${SCHEMA_VERSION}.xsd", match:"<xs:element name=\"litleTxnId\" type=\"xp:litleIdType\" />", replace:"         <xs:element name=\"litleTxnId\" type=\"xp:litleIdType\" />")
+	//Indent response too
         ant.replaceregexp(file:"$xsdOutput/litleRecurring_v${SCHEMA_VERSION}.xsd", match:"<xs:element name=\"response\" type=\"xp:responseType\" />", replace:"         <xs:element name=\"response\" type=\"xp:responseType\" />")
+	//Indent message too
         ant.replaceregexp(file:"$xsdOutput/litleRecurring_v${SCHEMA_VERSION}.xsd", match:"<xs:element name=\"message\" type=\"xs:string\" />", replace:"         <xs:element name=\"message\" type=\"xs:string\" />")
+	//Indent responseTime too
         ant.replaceregexp(file:"$xsdOutput/litleRecurring_v${SCHEMA_VERSION}.xsd", match:"<xs:element name=\"responseTime\" type=\"xs:dateTime\" />", replace:"         <xs:element name=\"responseTime\" type=\"xs:dateTime\" />")
+	//Indent the closing sequence and close the extension
         ant.replaceregexp(file:"$xsdOutput/litleRecurring_v${SCHEMA_VERSION}.xsd", match:"</xs:sequence>", replace:"        </xs:sequence>    \n            </xs:extension>    \n        </xs:complexContent>")
-        ant.replaceregexp(file:"$xsdOutput/litleRecurring_v${SCHEMA_VERSION}.xsd", match:"", replace:"")
-        ant.replaceregexp(file:"$xsdOutput/litleRecurring_v${SCHEMA_VERSION}.xsd", match:"", replace:"")
+
+//NOT SURE WHAT THESE ARE DOING
+//        ant.replaceregexp(file:"$xsdOutput/litleRecurring_v${SCHEMA_VERSION}.xsd", match:"", replace:"")
+//        ant.replaceregexp(file:"$xsdOutput/litleRecurring_v${SCHEMA_VERSION}.xsd", match:"", replace:"")
+
+	//Replace 3dsAuthenticated with AUTHENTICATED_3DS because you can't start enumerations with a number in java
         ant.replaceregexp(file:"$xsdOutput/litleTransaction_v${SCHEMA_VERSION}.xsd", match:"enumeration value=(.*?3dsAuthenticated.*?)/>", replace:"enumeration value=\\1><xs:annotation><xs:appinfo><jaxb:typesafeEnumMember name=\"AUTHENTICATED_3DS\"/></xs:appinfo></xs:annotation></xs:enumeration>", byline:true)
+	//Replace 3dsAttempted with ATTEMPTED_3DS because you can't start enumerations with a number in java
         ant.replaceregexp(file:"$xsdOutput/litleTransaction_v${SCHEMA_VERSION}.xsd", match:"enumeration value=(.*?3dsAttempted.*?)/>", replace:"enumeration value=\\1><xs:annotation><xs:appinfo><jaxb:typesafeEnumMember name=\"ATTEMPTED_3DS\"/></xs:appinfo></xs:annotation></xs:enumeration>", byline:true)
+
+
         ant.replaceregexp(file:"$xsdOutput/litleTransaction_v${SCHEMA_VERSION}.xsd", match:"(element name=\"customerType\" minOccurs=\"0\".*?<xs:simpleType>)", replace:"\\1<xs:annotation><xs:appinfo><jaxb:typesafeEnumClass name=\"CustomerType\"/></xs:appinfo></xs:annotation>", flags:"s")
         ant.replaceregexp(file:"$xsdOutput/litleTransaction_v${SCHEMA_VERSION}.xsd", match:"(element name=\"residenceStatus\" minOccurs=\"0\".*?<xs:simpleType>)", replace:"\\1<xs:annotation><xs:appinfo><jaxb:typesafeEnumClass name=\"ResidenceStatus\"/></xs:appinfo></xs:annotation>", flags:"s")
         ant.replaceregexp(file:"$xsdOutput/litleTransaction_v${SCHEMA_VERSION}.xsd", match:"(element name=\"deliveryType\" minOccurs=\"0\".*?default=\"TBD\".*?<xs:simpleType>)", replace:"\\1<xs:annotation><xs:appinfo><jaxb:typesafeEnumClass name=\"DeliveryType\"/></xs:appinfo></xs:annotation>", flags:"s")
