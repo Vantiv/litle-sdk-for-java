@@ -26,13 +26,13 @@ Setup
             <dependency>
                 <groupId>com.litle</groupId>
                 <artifactId>litle-sdk-for-java</artifactId>
-                <version>8.25.4</version>
+                <version>8.27.0</version>
             </dependency>
         ```
 
     2. For Gradle:
         ```groovy
-            compile(group: 'com.litle', name: 'litle-sdk-for-java', version: '8.25.4')
+            compile(group: 'com.litle', name: 'litle-sdk-for-java', version: '8.27.0')
         ```
         
 3. Create your configuration file with one of the following

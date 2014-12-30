@@ -243,7 +243,8 @@ task zipKit(type:Zip, dependsOn:[copyJarToKit, copyLibsToKit]){
     from "$buildDir/kit/java15"
 }
 
-task writeNewPom {
+task writeNewPom(type:Copy) {
+    build.dependsOn it
     pom {
         project {
             modelVersion '4.0.0'
