@@ -243,7 +243,18 @@ task zipKit(type:Zip, dependsOn:[copyJarToKit, copyLibsToKit]){
     from "$buildDir/kit/java15"
 }
 
-task kit(dependsOn:[tarKit, zipKit]){
+task writeNewPom {
+    pom {
+        project {
+            modelVersion '4.0.0'
+            groupId 'com.litle'
+            artifactId 'litle-sdk-for-java'
+            version "${JAR_VERSION}"
+        }
+    }.writeTo("$buildDir/kit/pom.xml")
+}
+
+task kit(dependsOn:[tarKit, zipKit, writeNewPom, sourceJar]){
     build.dependsOn it
     dependsOn javadoc
 }
@@ -251,7 +262,7 @@ task kit(dependsOn:[tarKit, zipKit]){
 task sourceJar(type:Jar) {
     build.dependsOn it
     dependsOn generateJaxbClasses
-    destinationDir = file("${buildDir}/dist")
+    destinationDir = file("${buildDir}/kit")
     classifier = 'sources'
     from "src/main/java"
     from generateJaxbClasses.generatedDir

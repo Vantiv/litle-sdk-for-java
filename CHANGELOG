@@ -1,10 +1,11 @@
 = LitleOnline CHANGELOG
 
-== Version 8.27.0 (August 26, 2014)
-* Add samples in the build
-* modify xsd
+== Version 8.27.0 (December 30, 2014)
+* Feature: Add support for MasterPass wallet to authorization and sale
+* Feature: Add support for order source echeckppd for echeck sales
+* Feature: Add samples in the build
 
-== Version 8.25.4 (June 6, 2014)
+== Version 8.25.4 (July 18, 2014)
 * Feature: Migrate build to Gradle
 
 == Version 8.25.3 (May 1, 2014)
