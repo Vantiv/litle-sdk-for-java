@@ -254,11 +254,6 @@ task writeNewPom {
     }.writeTo("$buildDir/kit/pom.xml")
 }
 
-task kit(dependsOn:[tarKit, zipKit, writeNewPom, sourceJar]){
-    build.dependsOn it
-    dependsOn javadoc
-}
-
 task sourceJar(type:Jar) {
     build.dependsOn it
     dependsOn generateJaxbClasses
@@ -266,4 +261,9 @@ task sourceJar(type:Jar) {
     classifier = 'sources'
     from "src/main/java"
     from generateJaxbClasses.generatedDir
+}
+
+task kit(dependsOn:[tarKit, zipKit, writeNewPom, sourceJar]){
+    build.dependsOn it
+    dependsOn javadoc
 }
