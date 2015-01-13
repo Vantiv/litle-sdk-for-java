@@ -22,7 +22,7 @@ public class TestCredit {
 		litle = new LitleOnline();
 	}
 
-	
+
 	@Test
 	public void simpleCreditWithCard() throws Exception{
 		Credit credit = new Credit();
@@ -37,7 +37,7 @@ public class TestCredit {
 		CreditResponse response = litle.credit(credit);
 		assertEquals("Approved", response.getMessage());
 	}
-	
+
 	@Test
 	public void simpleCreditWithPaypal() throws Exception{
 		Credit credit = new Credit();
@@ -50,7 +50,7 @@ public class TestCredit {
 		CreditResponse response = litle.credit(credit);
 		assertEquals("Approved", response.getMessage());
 	}
-	
+
 	@Test
 	public void paypalNotes() throws Exception{
 		Credit credit = new Credit();
@@ -66,7 +66,7 @@ public class TestCredit {
 		CreditResponse response = litle.credit(credit);
 		assertEquals("Approved", response.getMessage());
 	}
-	
+
 	@Test
 	public void processingInstructionAndAmexData() throws Exception{
 		Credit credit = new Credit();
@@ -84,6 +84,22 @@ public class TestCredit {
 		CreditResponse response = litle.credit(credit);
 		assertEquals("Approved", response.getMessage());
 	}
+
+	@Test
+    public void simpleCreditWithSecondaryAmount() throws Exception{
+        Credit credit = new Credit();
+        credit.setAmount(106L);
+        credit.setSecondaryAmount(50L);
+        credit.setOrderId("12344");
+        credit.setOrderSource(OrderSourceType.ECOMMERCE);
+        CardType card = new CardType();
+        card.setType(MethodOfPaymentTypeEnum.VI);
+        card.setNumber("4100000000000001");
+        card.setExpDate("1210");
+        credit.setCard(card);
+        CreditResponse response = litle.credit(credit);
+        assertEquals("Approved", response.getMessage());
+    }
 
 }
 

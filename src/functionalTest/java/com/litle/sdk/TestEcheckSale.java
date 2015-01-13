@@ -24,7 +24,7 @@ public class TestEcheckSale {
 	public static void beforeClass() throws Exception {
 		litle = new LitleOnline();
 	}
-	
+
 	@Test
 	public void simpleEcheckSaleWithEcheck() throws Exception{
 		EcheckSale echecksale = new EcheckSale();
@@ -46,7 +46,7 @@ public class TestEcheckSale {
 		EcheckSalesResponse response = litle.echeckSale(echecksale);
 		assertEquals("Approved", response.getMessage());
 	}
-	
+
 	@Test
 	public void noAmount() throws Exception {
 		EcheckSale echeckSale = new EcheckSale();
@@ -83,7 +83,7 @@ public class TestEcheckSale {
 		EcheckSalesResponse response = litle.echeckSale(echecksale);
 		assertEquals("Approved", response.getMessage());
 	}
-	
+
 	@Test
 	public void echeckSaleWithEcheckToken() throws Exception{
 		EcheckSale echecksale = new EcheckSale();
@@ -111,7 +111,7 @@ public class TestEcheckSale {
 		EcheckSalesResponse response = litle.echeckSale(echecksale);
 		assertEquals("Approved", response.getMessage());
 	}
-	
+
 	@Test
 	public void echeckSaleMissingBilling() throws Exception{
 		EcheckSale echecksale = new EcheckSale();
@@ -126,7 +126,7 @@ public class TestEcheckSale {
 		echecksale.setVerify(true);
 		echecksale.setOrderId("12345");
 		echecksale.setOrderSource(OrderSourceType.ECOMMERCE);
-		
+
 		try {
 			litle.echeckSale(echecksale);
 			fail("Expected exception");
@@ -134,7 +134,7 @@ public class TestEcheckSale {
 			assertTrue(e.getMessage(),e.getMessage().startsWith("Error validating xml data against the schema"));
 		}
 	}
-	
+
 	@Test
 	public void simpleEcheckSale() throws Exception {
 		EcheckSale echecksale = new EcheckSale();
@@ -144,6 +144,17 @@ public class TestEcheckSale {
 		EcheckSalesResponse response = litle.echeckSale(echecksale);
 		assertEquals("Approved", response.getMessage());
 	}
+
+	@Test
+    public void echeckSaleWithSecoundaryAmount() throws Exception {
+        EcheckSale echecksale = new EcheckSale();
+        echecksale.setReportGroup("Planets");
+        echecksale.setLitleTxnId(123456789101112L);
+        echecksale.setAmount(12L);
+        echecksale.setSecondaryAmount(5L);
+        EcheckSalesResponse response = litle.echeckSale(echecksale);
+        assertEquals("Approved", response.getMessage());
+    }
 
 }
 

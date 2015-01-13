@@ -1,0 +1,70 @@
+<litleResponse version="8.29" xmlns="http://www.litle.com/schema" response="0" message="Valid Format" litleSessionId="82914545018716172">
+<batchResponse litleBatchId="82914545018716180" merchantId="0180">
+<activateResponse reportGroup="Planets">
+    <litleTxnId>82914545018716222</litleTxnId>
+    <orderId>abc</orderId>
+    <response>000</response>
+    <responseTime>2015-01-13T19:04:42</responseTime>
+    <message>Approved</message>
+    <fraudResult>
+        <cardValidationResult>M</cardValidationResult>
+    </fraudResult>
+    <giftCardResponse>
+        <availableBalance>1234</availableBalance>
+    </giftCardResponse>
+</activateResponse>
+<balanceInquiryResponse reportGroup="Planets">
+    <litleTxnId>82914545018716230</litleTxnId>
+    <orderId>mno</orderId>
+    <response>000</response>
+    <responseTime>2015-01-13T19:04:42</responseTime>
+    <message>Approved</message>
+    <fraudResult>
+        <cardValidationResult>M</cardValidationResult>
+    </fraudResult>
+    <giftCardResponse>
+        <availableBalance>1234</availableBalance>
+    </giftCardResponse>
+</balanceInquiryResponse>
+<loadResponse reportGroup="Planets">
+    <litleTxnId>82914545018716248</litleTxnId>
+    <orderId>ghi</orderId>
+    <response>000</response>
+    <responseTime>2015-01-13T19:04:42</responseTime>
+    <message>Approved</message>
+    <fraudResult>
+        <cardValidationResult>M</cardValidationResult>
+    </fraudResult>
+    <giftCardResponse>
+        <availableBalance>1234</availableBalance>
+    </giftCardResponse>
+</loadResponse>
+<unloadResponse reportGroup="Planets">
+    <litleTxnId>82914545018716255</litleTxnId>
+    <orderId>jkl</orderId>
+    <response>000</response>
+    <responseTime>2015-01-13T19:04:42</responseTime>
+    <message>Approved</message>
+    <fraudResult>
+        <cardValidationResult>M</cardValidationResult>
+    </fraudResult>
+    <giftCardResponse>
+        <availableBalance>1234</availableBalance>
+    </giftCardResponse>
+</unloadResponse>
+<deactivateResponse reportGroup="Planets">
+    <litleTxnId>82914545018716263</litleTxnId>
+    <orderId>def</orderId>
+    <response>000</response>
+    <responseTime>2015-01-13T19:04:42</responseTime>
+    <message>Approved</message>
+    <fraudResult>
+        <cardValidationResult>M</cardValidationResult>
+    </fraudResult>
+    <approvedAmount>0</approvedAmount>
+    <giftCardResponse>
+        <availableBalance>1234</availableBalance>
+    </giftCardResponse>
+</deactivateResponse>
+</batchResponse>
+</litleResponse>

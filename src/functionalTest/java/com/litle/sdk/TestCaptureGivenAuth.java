@@ -27,7 +27,7 @@ public class TestCaptureGivenAuth {
 	public static void beforeClass() throws Exception {
 		litle = new LitleOnline();
 	}
-	
+
 	@Test
 	public void simpleCaptureGivenAuthWithCard() throws Exception{
 		CaptureGivenAuth capturegivenauth = new CaptureGivenAuth();
@@ -49,7 +49,7 @@ public class TestCaptureGivenAuth {
 		CaptureGivenAuthResponse response = litle.captureGivenAuth(capturegivenauth);
 		assertEquals("Approved", response.getMessage());
 	}
-	
+
 	@Test
 	public void simpleCaptureGivenAuthWithToken() throws Exception{
 		CaptureGivenAuth capturegivenauth = new CaptureGivenAuth();
@@ -72,7 +72,7 @@ public class TestCaptureGivenAuth {
 		CaptureGivenAuthResponse response = litle.captureGivenAuth(capturegivenauth);
 		assertEquals("Approved", response.getMessage());
 	}
-	
+
 	@Test
 	public void complexCaptureGivenAuth() throws Exception{
 		CaptureGivenAuth capturegivenauth = new CaptureGivenAuth();
@@ -130,6 +130,29 @@ public class TestCaptureGivenAuth {
 		CaptureGivenAuthResponse response = litle.captureGivenAuth(capturegivenauth);
 		assertEquals("Approved", response.getMessage());
 	}
+
+	@Test
+    public void simpleCaptureGivenAuthWithSecondaryAmount() throws Exception{
+        CaptureGivenAuth capturegivenauth = new CaptureGivenAuth();
+        capturegivenauth.setAmount(106L);
+        capturegivenauth.setOrderId("12344");
+        capturegivenauth.setSecondaryAmount(50L);
+        AuthInformation authInfo = new AuthInformation();
+        Calendar authDate = Calendar.getInstance();
+        authDate.set(2002, Calendar.OCTOBER, 9);
+        authInfo.setAuthDate(authDate);
+        authInfo.setAuthCode("543216");
+        authInfo.setAuthAmount(12345L);
+        capturegivenauth.setAuthInformation(authInfo);
+        capturegivenauth.setOrderSource(OrderSourceType.ECOMMERCE);
+        CardType card = new CardType();
+        card.setType(MethodOfPaymentTypeEnum.VI);
+        card.setNumber("4100000000000000");
+        card.setExpDate("1210");
+        capturegivenauth.setCard(card);
+        CaptureGivenAuthResponse response = litle.captureGivenAuth(capturegivenauth);
+        assertEquals("Approved", response.getMessage());
+    }
 
 }
 

@@ -1,6 +1,6 @@
 package com.litle.sdk;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import java.io.StringWriter;
 
@@ -9,12 +9,12 @@ import javax.xml.bind.Marshaller;
 
 import org.junit.Test;
 
+import com.litle.sdk.generate.Authorization;
 import com.litle.sdk.generate.CardType;
+import com.litle.sdk.generate.CountryTypeEnum;
 import com.litle.sdk.generate.CurrencyCodeEnum;
 import com.litle.sdk.generate.CustomerInfo;
 import com.litle.sdk.generate.CustomerInfo.CustomerType;
-import com.litle.sdk.generate.Authorization;
-import com.litle.sdk.generate.CountryTypeEnum;
 import com.litle.sdk.generate.CustomerInfo.ResidenceStatus;
 import com.litle.sdk.generate.DetailTax;
 import com.litle.sdk.generate.EcheckSale;
@@ -34,25 +34,25 @@ import com.litle.sdk.generate.TaxTypeIdentifierEnum;
 /**
  * The tests in this file are to ensure that the generated code maintains
  * enumerations.  It is really only testing compilation.
- * 
+ *
  * If a restriction is introduced in the schema that starts with a number
  * instead of a letter or underscore, jaxb will not generate an enum type for
  * it.
- * 
+ *
  * If a restriction is introduced with a minOccurs=0, jaxb will not generate an
  * enum type for it.
- * 
+ *
  * This is not idiomatic. If this test breaks as part of work you are doing,
  * look at build.xml's generate target to add another enum exclusion.
- * 
+ *
  * @author gdake
- * 
+ *
  */
 public class TestEnumerations {
 
 	private JAXBContext jc;
 	private Marshaller marshaller;
-	
+
 	@Test
 	public void customerType() {
 		CustomerInfo info = new CustomerInfo();
@@ -90,6 +90,11 @@ public class TestEnumerations {
 		EcheckSale info = new EcheckSale();
 		info.setOrderSource(OrderSourceType.TELEPHONE);
 	}
+	@Test
+	public void orderSourceWithApplepay() {
+        EcheckSale info = new EcheckSale();
+        info.setOrderSource(OrderSourceType.APPLEPAY);
+    }
 	@Test
 	public void methodOfPayment() {
 		CardType info = new CardType();

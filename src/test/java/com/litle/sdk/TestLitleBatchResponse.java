@@ -47,4 +47,5 @@ public class TestLitleBatchResponse {
 		return sale;
 	}
 
+
 }

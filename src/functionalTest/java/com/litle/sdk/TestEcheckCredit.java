@@ -32,7 +32,7 @@ public class TestEcheckCredit {
 		EcheckCreditResponse response = litle.echeckCredit(echeckcredit);
 		assertEquals("Approved", response.getMessage());
 	}
-	
+
 	@Test
 	public void noLitleTxnId() throws Exception{
 		EcheckCredit echeckcredit = new EcheckCredit();
@@ -43,7 +43,7 @@ public class TestEcheckCredit {
 			assertTrue(e.getMessage(),e.getMessage().startsWith("Error validating xml data against the schema"));
 		}
 	}
-	
+
 	@Test
 	public void echeckCreditWithEcheck() throws Exception{
 		EcheckCredit echeckcredit = new EcheckCredit();
@@ -65,7 +65,7 @@ public class TestEcheckCredit {
 		EcheckCreditResponse response = litle.echeckCredit(echeckcredit);
 		assertEquals("Approved", response.getMessage());
 	}
-	
+
 	@Test
 	public void echeckCreditWithToken() throws Exception{
 		EcheckCredit echeckcredit = new EcheckCredit();
@@ -87,7 +87,7 @@ public class TestEcheckCredit {
 		EcheckCreditResponse response = litle.echeckCredit(echeckcredit);
 		assertEquals("Approved", response.getMessage());
 	}
-	
+
 	@Test
 	public void missingBilling() throws Exception{
 		EcheckCredit echeckcredit = new EcheckCredit();
@@ -107,8 +107,16 @@ public class TestEcheckCredit {
 			assertTrue(e.getMessage(),e.getMessage().startsWith("Error validating xml data against the schema"));
 		}
 	}
-	
-	
+
+	@Test
+    public void echeckCreditWithSecondryAmount() throws Exception{
+        EcheckCredit echeckcredit = new EcheckCredit();
+        echeckcredit.setAmount(12L);
+        echeckcredit.setSecondaryAmount(5L);
+        echeckcredit.setLitleTxnId(123456789101112L);
+        EcheckCreditResponse response = litle.echeckCredit(echeckcredit);
+        assertEquals("Approved", response.getMessage());
+    }
 
 }
 

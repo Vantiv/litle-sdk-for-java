@@ -7,6 +7,8 @@ import static org.junit.Assert.fail;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.litle.sdk.generate.ApplepayHeaderType;
+import com.litle.sdk.generate.ApplepayType;
 import com.litle.sdk.generate.Authorization;
 import com.litle.sdk.generate.AuthorizationResponse;
 import com.litle.sdk.generate.CardType;
@@ -63,6 +65,35 @@ public class TestAuth {
 		AuthorizationResponse response = litle.authorize(authorization);
 		assertEquals(response.getMessage(), "Approved",response.getMessage());
 	}
+
+	@Test
+    public void simpleAuthWithApplepay() throws Exception {
+        Authorization authorization = new Authorization();
+        authorization.setReportGroup("Planets");
+        authorization.setOrderId("12344");
+        authorization.setAmount(106L);
+        authorization.setOrderSource(OrderSourceType.ECOMMERCE);
+        ApplepayType applepayType = new ApplepayType();
+        ApplepayHeaderType applepayHeaderType = new ApplepayHeaderType();
+        applepayHeaderType.setApplicationData("e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855");
+        applepayHeaderType.setEphemeralPublicKey("e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855");
+        applepayHeaderType.setPublicKeyHash("e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855");
+        applepayHeaderType.setTransactionId("1234");
+        applepayType.setHeader(applepayHeaderType);
+        applepayType.setData("user");
+        applepayType.setSignature("sign");
+        applepayType.setVersion("1");
+        authorization.setApplepay(applepayType);
+
+//        CardType card = new CardType();
+//        card.setType(MethodOfPaymentTypeEnum.VI);
+//        card.setNumber("4100000000000000");
+//        card.setExpDate("1210");
+//        authorization.setCard(card);
+
+        AuthorizationResponse response = litle.authorize(authorization);
+        assertEquals(response.getMessage(),"000",response.getResponse());
+    }
 
 	@Test
 	public void posWithoutCapabilityAndEntryMode() throws Exception {
@@ -149,6 +180,33 @@ public class TestAuth {
 	    card.setNumber("4100000000000001");
 	    card.setExpDate("1215");
 	    card.setType(MethodOfPaymentTypeEnum.VI);
+        authorization.setCard(card);
+
+        AuthorizationResponse response = litle.authorize(authorization);
+        assertEquals(response.getMessage(), "Approved", response.getMessage());
+	}
+
+	@Test
+	public void testSecondaryAmount(){
+	    Authorization authorization = new Authorization();
+        authorization.setId("12347");
+        authorization.setReportGroup("Default");
+        authorization.setOrderId("67890");
+        authorization.setAmount(10000L);
+        authorization.setSecondaryAmount(500L);
+        authorization.setOrderSource(OrderSourceType.ECOMMERCE);
+        EnhancedData enhanced = new EnhancedData();
+        DetailTax dt1 = new DetailTax();
+        dt1.setTaxAmount(100L);
+        enhanced.getDetailTaxes().add(dt1);
+        DetailTax dt2 = new DetailTax();
+        dt2.setTaxAmount(200L);
+        enhanced.getDetailTaxes().add(dt2);
+        authorization.setEnhancedData(enhanced);
+        CardType card = new CardType();
+        card.setNumber("4100000000000001");
+        card.setExpDate("1215");
+        card.setType(MethodOfPaymentTypeEnum.VI);
         authorization.setCard(card);
 
         AuthorizationResponse response = litle.authorize(authorization);
