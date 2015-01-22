@@ -67,12 +67,9 @@ public class TestToken {
         applepayType.setSignature("sign");
         applepayType.setVersion("1");
         token.setApplepay(applepayType);
-//        EcheckForTokenType echeck = new EcheckForTokenType();
-//        echeck.setAccNum("12344565");
-//        echeck.setRoutingNum("123476545");
-//        token.setEcheckForToken(echeck);
         RegisterTokenResponse response = litle.registerToken(token);
         assertEquals("Account number was successfully registered", response.getMessage());
+        assertEquals(new Long(0),response.getApplepayResponse().getTransactionAmount());
     }
 
 	@Test

@@ -50,6 +50,7 @@ public class Communication {
 		}
 
 		HttpPost post = new HttpPost(configuration.getProperty("url"));
+//		HttpPost post = new HttpPost("http://127.0.0.1:8081/sandbox/communicator/online");
 		post.setHeader("Content-Type", "text/xml");
 		post.setHeader("Connection","close");
 		HttpEntity entity = null;

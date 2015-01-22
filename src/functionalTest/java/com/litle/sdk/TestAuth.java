@@ -71,11 +71,11 @@ public class TestAuth {
         Authorization authorization = new Authorization();
         authorization.setReportGroup("Planets");
         authorization.setOrderId("12344");
-        authorization.setAmount(106L);
+        authorization.setAmount(110L);
         authorization.setOrderSource(OrderSourceType.ECOMMERCE);
         ApplepayType applepayType = new ApplepayType();
         ApplepayHeaderType applepayHeaderType = new ApplepayHeaderType();
-        applepayHeaderType.setApplicationData("e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855");
+        applepayHeaderType.setApplicationData("454657413164");
         applepayHeaderType.setEphemeralPublicKey("e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855");
         applepayHeaderType.setPublicKeyHash("e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855");
         applepayHeaderType.setTransactionId("1234");
@@ -85,14 +85,9 @@ public class TestAuth {
         applepayType.setVersion("1");
         authorization.setApplepay(applepayType);
 
-//        CardType card = new CardType();
-//        card.setType(MethodOfPaymentTypeEnum.VI);
-//        card.setNumber("4100000000000000");
-//        card.setExpDate("1210");
-//        authorization.setCard(card);
-
         AuthorizationResponse response = litle.authorize(authorization);
-        assertEquals(response.getMessage(),"000",response.getResponse());
+
+        assertEquals(new Long(110),response.getApplepayResponse().getTransactionAmount());
     }
 
 	@Test
@@ -110,7 +105,6 @@ public class TestAuth {
 		card.setNumber("4100000000000002");
 		card.setExpDate("1210");
 		authorization.setCard(card);
-
 		try {
 			litle.authorize(authorization);
 			fail("expected exception");

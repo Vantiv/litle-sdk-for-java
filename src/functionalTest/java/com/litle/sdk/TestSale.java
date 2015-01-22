@@ -75,7 +75,7 @@ public class TestSale {
 	@Test
     public void simpleSaleWithApplepay() throws Exception{
         Sale sale = new Sale();
-        sale.setAmount(106L);
+        sale.setAmount(110L);
         sale.setLitleTxnId(123456L);
         sale.setOrderId("12347");
         sale.setOrderSource(OrderSourceType.ECOMMERCE);
@@ -91,14 +91,10 @@ public class TestSale {
         applepayType.setSignature("sign");
         applepayType.setVersion("1");
 
-//        PayPal paypal = new PayPal();
-//        paypal.setPayerId("1234");
-//        paypal.setToken("1234");
-//        paypal.setTransactionId("123456");
-//        sale.setPaypal(paypal);
         sale.setApplepay(applepayType);
         SaleResponse response = litle.sale(sale);
-        assertEquals("Approved", response.getMessage());
+        assertEquals("Insufficient Funds", response.getMessage());
+        assertEquals(new Long(110),response.getApplepayResponse().getTransactionAmount());
     }
 
 	@Test

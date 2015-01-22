@@ -105,6 +105,7 @@ public class TestLitleOnline {
 		card.setExpDate("1210");
 		authorization.setCard(card);
 
+
 		Communication mockedCommunication = mock(Communication.class);
 		when(
 				mockedCommunication
@@ -139,7 +140,6 @@ public class TestLitleOnline {
         applepayType.setVersion("1");
         authorization.setApplepay(applepayType);
 
-
         Communication mockedCommunication = mock(Communication.class);
         when(
                 mockedCommunication
@@ -147,11 +147,12 @@ public class TestLitleOnline {
                                 matches(".*?<litleOnlineRequest.*?<authorization.*?<secondaryAmount>10</secondaryAmount>.*?<applepay>.*?<data>user</data>.*?</applepay>.*?</authorization>.*?"),
                                 any(Properties.class)))
                 .thenReturn(
-                        "<litleOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><authorizationResponse><litleTxnId>123</litleTxnId><applepayResponse><applicationPrimaryAccountNumber>123455</applicationPrimaryAccountNumber></applepayResponse></authorizationResponse></litleOnlineResponse>");
+                        "<litleOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><authorizationResponse><litleTxnId>123</litleTxnId><applepayResponse><applicationPrimaryAccountNumber>123455</applicationPrimaryAccountNumber><transactionAmount>106</transactionAmount></applepayResponse></authorizationResponse></litleOnlineResponse>");
         litle.setCommunication(mockedCommunication);
         AuthorizationResponse authorize = litle.authorize(authorization);
         assertEquals(123L, authorize.getLitleTxnId());
         assertEquals("123455", authorize.getApplepayResponse().getApplicationPrimaryAccountNumber());
+        assertEquals(new Long(106), authorize.getApplepayResponse().getTransactionAmount());
     }
 
 
