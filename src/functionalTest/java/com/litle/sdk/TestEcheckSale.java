@@ -149,9 +149,22 @@ public class TestEcheckSale {
     public void echeckSaleWithSecoundaryAmount() throws Exception {
         EcheckSale echecksale = new EcheckSale();
         echecksale.setReportGroup("Planets");
-        echecksale.setLitleTxnId(123456789101112L);
-        echecksale.setAmount(12L);
-        echecksale.setSecondaryAmount(5L);
+        echecksale.setAmount(123456L);
+        echecksale.setSecondaryAmount(50L);
+        echecksale.setOrderId("12345");
+        echecksale.setOrderSource(OrderSourceType.ECOMMERCE);
+        EcheckType echeck = new EcheckType();
+        echeck.setAccType(EcheckAccountTypeEnum.CHECKING);
+        echeck.setAccNum("12345657890");
+        echeck.setRoutingNum("123456789");
+        echeck.setCheckNum("123455");
+        echecksale.setEcheck(echeck);
+        Contact contact = new Contact();
+        contact.setName("Bob");
+        contact.setCity("lowell");
+        contact.setState("MA");
+        contact.setEmail("litle.com");
+        echecksale.setBillToAddress(contact);
         EcheckSalesResponse response = litle.echeckSale(echecksale);
         assertEquals("Approved", response.getMessage());
     }
