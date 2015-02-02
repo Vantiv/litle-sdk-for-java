@@ -64,6 +64,12 @@
             <xs:maxLength value="50" />
         </xs:restriction>
     </xs:simpleType>
+    
+    <xs:simpleType name="string80Type">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="80" />
+        </xs:restriction>
+    </xs:simpleType>
 
     <xs:simpleType name="string256Type">
         <xs:restriction base="xs:string">
@@ -691,6 +697,11 @@
     <xs:complexType name="advancedFraudChecksType">
         <xs:sequence>
             <xs:element name="threatMetrixSessionId" type="xp:threatMetrixSessionIdType" minOccurs="1"/>
+            <xs:element name="customAttribute1" type="xp:customAttributeType" minOccurs="0"/>
+            <xs:element name="customAttribute2" type="xp:customAttributeType" minOccurs="0"/>
+            <xs:element name="customAttribute3" type="xp:customAttributeType" minOccurs="0"/>
+            <xs:element name="customAttribute4" type="xp:customAttributeType" minOccurs="0"/>
+            <xs:element name="customAttribute5" type="xp:customAttributeType" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -707,5 +718,11 @@
             <xs:element name="triggeredRule" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>            
         </xs:sequence>
     </xs:complexType>
+    
+    <xs:simpleType name="customAttributeType">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="200" />
+        </xs:restriction>
+    </xs:simpleType>
 
 </xs:schema>

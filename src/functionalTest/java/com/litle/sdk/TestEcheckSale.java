@@ -144,6 +144,74 @@ public class TestEcheckSale {
 		EcheckSalesResponse response = litle.echeckSale(echecksale);
 		assertEquals("Approved", response.getMessage());
 	}
+	
+	@Test
+    public void echeckSaleWithSecoundaryAmountAndCCD() throws Exception {
+        EcheckSale echecksale = new EcheckSale();
+        echecksale.setReportGroup("Planets");
+        echecksale.setAmount(123456L);
+        echecksale.setSecondaryAmount(50L);
+        echecksale.setOrderId("12345");
+        echecksale.setOrderSource(OrderSourceType.ECOMMERCE);
+        EcheckType echeck = new EcheckType();
+        echeck.setAccType(EcheckAccountTypeEnum.CHECKING);
+        echeck.setAccNum("12345657890");
+        echeck.setRoutingNum("123456789");
+        echeck.setCheckNum("123455");
+        echeck.setCcdPaymentInformation("12345678901234567890123456789012345678901234567890123456789012345678901234567890");
+        echecksale.setEcheck(echeck);
+        Contact contact = new Contact();
+        contact.setName("Bob");
+        contact.setCity("lowell");
+        contact.setState("MA");
+        contact.setEmail("litle.com");
+        echecksale.setBillToAddress(contact);
+        EcheckSalesResponse response = litle.echeckSale(echecksale);
+        assertEquals("Approved", response.getMessage());
+    }
+	
+	@Test
+    public void echeckSaleWithSecoundaryAmountAndCCDLongerThan80() throws Exception {
+        EcheckSale echecksale = new EcheckSale();
+        echecksale.setReportGroup("Planets");
+        echecksale.setAmount(123456L);
+        echecksale.setSecondaryAmount(50L);
+        echecksale.setOrderId("12345");
+        echecksale.setOrderSource(OrderSourceType.ECOMMERCE);
+        EcheckType echeck = new EcheckType();
+        echeck.setAccType(EcheckAccountTypeEnum.CHECKING);
+        echeck.setAccNum("12345657890");
+        echeck.setRoutingNum("123456789");
+        echeck.setCheckNum("123455");
+        echeck.setCcdPaymentInformation("123456789012345678901234567890123456789012345678901234567890123456789012345678901");
+        echecksale.setEcheck(echeck);
+        Contact contact = new Contact();
+        contact.setName("Bob");
+        contact.setCity("lowell");
+        contact.setState("MA");
+        contact.setEmail("litle.com");
+        echecksale.setBillToAddress(contact);
+        try {
+            EcheckSalesResponse response = litle.echeckSale(echecksale);
+            fail("ccdPaymentInformation too long");
+        } catch(LitleOnlineException e) {
+            assertTrue(e.getMessage(),e.getMessage().startsWith("Error validating xml data against the schema"));
+        }
+    }
+	
+	@Test
+    public void echeckSaleWithLitleTxnIdAndSecondryAmount() throws Exception {
+        EcheckSale echecksale = new EcheckSale();
+        echecksale.setLitleTxnId(123456789101112L);
+        echecksale.setAmount(12L);
+        echecksale.setSecondaryAmount(10L);        
+        try {
+            EcheckSalesResponse response = litle.echeckSale(echecksale);
+            fail("Secondary Amount conflict with Litle Txn ID");
+        } catch(LitleOnlineException e) {
+            assertTrue(e.getMessage(),e.getMessage().startsWith("Error validating xml data against the schema"));
+        }
+    }
 
 }
 

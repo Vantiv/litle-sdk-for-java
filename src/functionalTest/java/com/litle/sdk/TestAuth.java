@@ -7,6 +7,8 @@ import static org.junit.Assert.fail;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.litle.sdk.generate.ApplepayHeaderType;
+import com.litle.sdk.generate.ApplepayType;
 import com.litle.sdk.generate.Authorization;
 import com.litle.sdk.generate.AuthorizationResponse;
 import com.litle.sdk.generate.CardType;
@@ -63,6 +65,30 @@ public class TestAuth {
 		AuthorizationResponse response = litle.authorize(authorization);
 		assertEquals(response.getMessage(), "Approved",response.getMessage());
 	}
+	
+	@Test
+    public void simpleAuthWithApplepayAndSecondaryAmount() throws Exception {
+        Authorization authorization = new Authorization();
+        authorization.setReportGroup("Planets");
+        authorization.setOrderId("123456");
+        authorization.setAmount(110L);
+        authorization.setSecondaryAmount(50L);
+        authorization.setOrderSource(OrderSourceType.ECOMMERCE);
+        ApplepayType applepayType = new ApplepayType();
+        ApplepayHeaderType applepayHeaderType = new ApplepayHeaderType();
+        applepayHeaderType.setApplicationData("454657413164");
+        applepayHeaderType.setEphemeralPublicKey("e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855");
+        applepayHeaderType.setPublicKeyHash("e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855");
+        applepayHeaderType.setTransactionId("1234");
+        applepayType.setHeader(applepayHeaderType);
+        applepayType.setData("user");
+        applepayType.setSignature("sign");
+        applepayType.setVersion("1");
+        authorization.setApplepay(applepayType);
+
+        AuthorizationResponse response = litle.authorize(authorization);
+        assertEquals(new Long(110),response.getApplepayResponse().getTransactionAmount());
+    }
 
 	@Test
 	public void posWithoutCapabilityAndEntryMode() throws Exception {

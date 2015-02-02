@@ -108,7 +108,38 @@ public class TestEcheckCredit {
 		}
 	}
 	
+	@Test
+    public void echeckCreditWithSecondryAmount() throws Exception{
+        EcheckCredit echeckcredit = new EcheckCredit();
+        echeckcredit.setAmount(12L);
+        echeckcredit.setSecondaryAmount(50L);
+        echeckcredit.setOrderId("12345");
+        echeckcredit.setOrderSource(OrderSourceType.ECOMMERCE);
+        EcheckType echeck = new EcheckType();
+        echeck.setAccType(EcheckAccountTypeEnum.CHECKING);
+        echeck.setAccNum("12345657890");
+        echeck.setRoutingNum("123456789");
+        echeck.setCheckNum("123455");
+        echeckcredit.setEcheck(echeck);
+        Contact billToAddress = new Contact();
+        billToAddress.setName("Bob");
+        billToAddress.setCity("Lowell");
+        billToAddress.setState("MA");
+        billToAddress.setEmail("litle.com");
+        echeckcredit.setBillToAddress(billToAddress);
+        EcheckCreditResponse response = litle.echeckCredit(echeckcredit);
+        assertEquals("Approved", response.getMessage());
+    }
 	
+	@Test
+    public void echeckCreditWithLitleTxnIdAndSecondryAmount() throws Exception{
+	    EcheckCredit echeckcredit = new EcheckCredit();
+        echeckcredit.setAmount(12L);
+        echeckcredit.setLitleTxnId(123456789101112L);
+        echeckcredit.setSecondaryAmount(50L);
+        EcheckCreditResponse response = litle.echeckCredit(echeckcredit);
+        assertEquals("Approved", response.getMessage());
+    }
 
 }
 

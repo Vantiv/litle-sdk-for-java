@@ -7,6 +7,8 @@ import static org.junit.Assert.fail;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.litle.sdk.generate.ApplepayHeaderType;
+import com.litle.sdk.generate.ApplepayType;
 import com.litle.sdk.generate.EcheckForTokenType;
 import com.litle.sdk.generate.RegisterTokenRequestType;
 import com.litle.sdk.generate.RegisterTokenResponse;
@@ -64,6 +66,26 @@ public class TestToken {
 			assertTrue(e.getMessage(),e.getMessage().startsWith("Error validating xml data against the schema"));
 		}
 	}
+	
+	@Test
+    public void simpleTokenWithApplepay() throws Exception{
+        RegisterTokenRequestType token = new RegisterTokenRequestType();
+        token.setOrderId("12344");
+        ApplepayType applepayType = new ApplepayType();
+        ApplepayHeaderType applepayHeaderType = new ApplepayHeaderType();
+        applepayHeaderType.setApplicationData("e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855");
+        applepayHeaderType.setEphemeralPublicKey("e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855");
+        applepayHeaderType.setPublicKeyHash("e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855");
+        applepayHeaderType.setTransactionId("1234");
+        applepayType.setHeader(applepayHeaderType);
+        applepayType.setData("user");
+        applepayType.setSignature("sign");
+        applepayType.setVersion("1");
+        token.setApplepay(applepayType);
+        RegisterTokenResponse response = litle.registerToken(token);
+        assertEquals("Account number was successfully registered", response.getMessage());
+        assertEquals(new Long(0),response.getApplepayResponse().getTransactionAmount());
+    }
 	
 	@Test
 	public void convertPaypageRegistrationIdIntoToken() throws Exception {
