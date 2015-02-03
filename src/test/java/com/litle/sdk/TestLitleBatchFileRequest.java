@@ -14,6 +14,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import com.litle.sdk.generate.ApplepayHeaderType;
+import com.litle.sdk.generate.ApplepayType;
 import com.litle.sdk.generate.CardType;
 import com.litle.sdk.generate.MethodOfPaymentTypeEnum;
 import com.litle.sdk.generate.OrderSourceType;
@@ -141,7 +143,7 @@ public class TestLitleBatchFileRequest {
 
         testBatch.addTransaction(createTestSale(101L,"101"));
         testBatch.addTransaction(createTestSale(102L,"102"));
-        testBatch.addTransaction(createTestSale(103L,"103"));
+        testBatch.addTransaction(createTestSaleWithApplepayAndSecondaryAmount(103L, 10L, "user", "103"));
 
         assertTrue(litleBatchFileRequest.isFull());
     }
@@ -159,5 +161,25 @@ public class TestLitleBatchFileRequest {
         sale.setReportGroup("test");
         return sale;
     }
-
+    
+    public Sale createTestSaleWithApplepayAndSecondaryAmount(Long amount, Long secAmount, String applepayData, String orderId){
+        Sale sale = new Sale();
+        sale.setAmount(amount);
+        sale.setSecondaryAmount(secAmount);
+        sale.setOrderId(orderId);
+        sale.setOrderSource(OrderSourceType.ECOMMERCE);
+        ApplepayType applepayType = new ApplepayType();
+        ApplepayHeaderType applepayHeaderType = new ApplepayHeaderType();
+        applepayHeaderType.setApplicationData("e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855");
+        applepayHeaderType.setEphemeralPublicKey("e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855");
+        applepayHeaderType.setPublicKeyHash("e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855");
+        applepayHeaderType.setTransactionId("1234");
+        applepayType.setHeader(applepayHeaderType);
+        applepayType.setData(applepayData);
+        applepayType.setSignature("sign");
+        applepayType.setVersion("1");
+        sale.setApplepay(applepayType);
+        sale.setReportGroup("test");
+        return sale;
+    }
 }

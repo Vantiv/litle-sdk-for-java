@@ -15,6 +15,8 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 import com.litle.sdk.generate.AccountUpdate;
+import com.litle.sdk.generate.ApplepayHeaderType;
+import com.litle.sdk.generate.ApplepayType;
 import com.litle.sdk.generate.AuthReversal;
 import com.litle.sdk.generate.Authorization;
 import com.litle.sdk.generate.Capture;
@@ -156,7 +158,8 @@ public class TestLitleBatchRequest {
 
 	        Sale sale = new Sale();
 	        sale.setAmount(25L);
-
+	        sale.setSecondaryAmount(10L);
+	        sale.setApplepay(createApplepay());
 	        litleBatchRequest.addTransaction(sale);
 	        assertEquals(25, litleBatchRequest.getBatchRequest().getSaleAmount().intValue());
 	        assertEquals(1, litleBatchRequest.getBatchRequest().getNumSales().intValue());
@@ -176,6 +179,8 @@ public class TestLitleBatchRequest {
 
         Authorization auth = new Authorization();
         auth.setAmount(25L);
+        auth.setSecondaryAmount(10L);
+        auth.setApplepay(createApplepay());
         litleBatchRequest.addTransaction(auth);
         assertEquals(25, litleBatchRequest.getBatchRequest().getAuthAmount().intValue());
         assertEquals(1, litleBatchRequest.getBatchRequest().getNumAuths().intValue());
@@ -195,6 +200,7 @@ public class TestLitleBatchRequest {
 
 	        Credit credit = new Credit();
 	        credit.setAmount(25L);
+	        credit.setSecondaryAmount(10L);
 	        litleBatchRequest.addTransaction(credit);
 	        assertEquals(25, litleBatchRequest.getBatchRequest().getCreditAmount().intValue());
 	        assertEquals(1, litleBatchRequest.getBatchRequest().getNumCredits().intValue());
@@ -212,6 +218,7 @@ public class TestLitleBatchRequest {
            litleBatchRequest.setMarshaller(mockMarshaller);
 
            RegisterTokenRequestType registerTokenRequest = new RegisterTokenRequestType();
+           registerTokenRequest.setApplepay(createApplepay());
            litleBatchRequest.addTransaction(registerTokenRequest);
            assertEquals(1, litleBatchRequest.getBatchRequest().getNumTokenRegistrations().intValue());
            assertEquals(2, litleBatchRequest.getNumberOfTransactions());
@@ -229,6 +236,7 @@ public class TestLitleBatchRequest {
 
            CaptureGivenAuth captureGivenAuth = new CaptureGivenAuth();
            captureGivenAuth.setAmount(25L);
+           captureGivenAuth.setSecondaryAmount(10L);
            litleBatchRequest.addTransaction(captureGivenAuth);
            assertEquals(25, litleBatchRequest.getBatchRequest().getCaptureGivenAuthAmount().intValue());
            assertEquals(1, litleBatchRequest.getBatchRequest().getNumCaptureGivenAuths().intValue());
@@ -248,6 +256,7 @@ public class TestLitleBatchRequest {
 
            ForceCapture forceCapture = new ForceCapture();
            forceCapture.setAmount(25L);
+           forceCapture.setSecondaryAmount(10L);
            litleBatchRequest.addTransaction(forceCapture);
            assertEquals(25, litleBatchRequest.getBatchRequest().getForceCaptureAmount().intValue());
            assertEquals(1, litleBatchRequest.getBatchRequest().getNumForceCaptures().intValue());
@@ -322,6 +331,7 @@ public class TestLitleBatchRequest {
 
            EcheckCredit echeckCredit = new EcheckCredit();
            echeckCredit.setAmount(25L);
+           echeckCredit.setSecondaryAmount(10L);
            litleBatchRequest.addTransaction(echeckCredit);
            assertEquals(25, litleBatchRequest.getBatchRequest().getEcheckCreditAmount().intValue());
            assertEquals(1, litleBatchRequest.getBatchRequest().getNumEcheckCredit().intValue());
@@ -357,6 +367,7 @@ public class TestLitleBatchRequest {
 
            EcheckSale echeckSale = new EcheckSale();
            echeckSale.setAmount(25L);
+           echeckSale.setSecondaryAmount(10L);
            litleBatchRequest.addTransaction(echeckSale);
            assertEquals(25, litleBatchRequest.getBatchRequest().getEcheckSalesAmount().intValue());
            assertEquals(1, litleBatchRequest.getBatchRequest().getNumEcheckSales().intValue());
@@ -450,7 +461,19 @@ public class TestLitleBatchRequest {
            litleBatchRequest.addTransaction(accountUpdate);
        }
 
-
+       private ApplepayType createApplepay(){
+           ApplepayType applepayType = new ApplepayType();
+           ApplepayHeaderType applepayHeaderType = new ApplepayHeaderType();
+           applepayHeaderType.setApplicationData("e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855");
+           applepayHeaderType.setEphemeralPublicKey("e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855");
+           applepayHeaderType.setPublicKeyHash("e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855");
+           applepayHeaderType.setTransactionId("1234");
+           applepayType.setHeader(applepayHeaderType);
+           applepayType.setData("user");
+           applepayType.setSignature("sign");
+           applepayType.setVersion("1");
+           return applepayType;
+       }
 
 
 }

@@ -91,6 +91,16 @@ public class TestEnumerations {
 		info.setOrderSource(OrderSourceType.TELEPHONE);
 	}
 	@Test
+    public void orderSourceWithApplepay() {
+        EcheckSale info = new EcheckSale();
+        info.setOrderSource(OrderSourceType.APPLEPAY);
+    }
+	@Test
+    public void orderSourceWithEcheckppd() {
+        EcheckSale info = new EcheckSale();
+        info.setOrderSource(OrderSourceType.ECHECKPPD);
+    }
+	@Test
 	public void methodOfPayment() {
 		CardType info = new CardType();
 		info.setType(MethodOfPaymentTypeEnum.VI);
