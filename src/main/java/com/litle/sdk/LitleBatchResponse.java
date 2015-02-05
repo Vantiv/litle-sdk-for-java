@@ -16,6 +16,8 @@ import com.litle.sdk.generate.CaptureGivenAuthResponse;
 import com.litle.sdk.generate.CaptureResponse;
 import com.litle.sdk.generate.CreditResponse;
 import com.litle.sdk.generate.EcheckCreditResponse;
+import com.litle.sdk.generate.EcheckPreNoteCreditResponse;
+import com.litle.sdk.generate.EcheckPreNoteSaleResponse;
 import com.litle.sdk.generate.EcheckRedepositResponse;
 import com.litle.sdk.generate.EcheckSalesResponse;
 import com.litle.sdk.generate.EcheckVerificationResponse;
@@ -153,6 +155,10 @@ public class LitleBatchResponse {
             processor.processEcheckSalesResponse((EcheckSalesResponse) objToRet);
         } else if (objToRet instanceof AccountUpdateResponse){
             processor.processAccountUpdate((AccountUpdateResponse) objToRet);
+        } else if (objToRet instanceof EcheckPreNoteSaleResponse){
+            processor.processEcheckPreNoteSaleResponse((EcheckPreNoteSaleResponse) objToRet);
+        } else if (objToRet instanceof EcheckPreNoteCreditResponse){
+            processor.processEcheckPreNoteCreditResponse((EcheckPreNoteCreditResponse) objToRet);
         } else if (objToRet instanceof UpdateSubscriptionResponse) {
             processor.processUpdateSubscriptionResponse((UpdateSubscriptionResponse)objToRet);
         } else if (objToRet instanceof CancelSubscriptionResponse) {

@@ -26,6 +26,8 @@ import com.litle.sdk.generate.CreatePlan;
 import com.litle.sdk.generate.Credit;
 import com.litle.sdk.generate.Deactivate;
 import com.litle.sdk.generate.EcheckCredit;
+import com.litle.sdk.generate.EcheckPreNoteCredit;
+import com.litle.sdk.generate.EcheckPreNoteSale;
 import com.litle.sdk.generate.EcheckRedeposit;
 import com.litle.sdk.generate.EcheckSale;
 import com.litle.sdk.generate.EcheckVerification;
@@ -260,6 +262,16 @@ public class LitleBatchRequest {
         } else if(transactionType instanceof BalanceInquiry) {
             batchRequest.setNumBalanceInquirys(batchRequest.getNumBalanceInquirys().add(BigInteger.valueOf(1)));
             transaction = objFac.createBalanceInquiry((BalanceInquiry)transactionType);
+            transactionAdded = true;
+            numOfTxn ++;
+        } else if(transactionType instanceof EcheckPreNoteSale) {
+            batchRequest.setNumEcheckPreNoteSale(batchRequest.getNumEcheckPreNoteSale().add(BigInteger.valueOf(1)));
+            transaction = objFac.createEcheckPreNoteSale((EcheckPreNoteSale)transactionType);
+            transactionAdded = true;
+            numOfTxn ++;
+        } else if(transactionType instanceof EcheckPreNoteCredit) {
+            batchRequest.setNumEcheckPreNoteCredit(batchRequest.getNumEcheckPreNoteCredit().add(BigInteger.valueOf(1)));
+            transaction = objFac.createEcheckPreNoteCredit((EcheckPreNoteCredit)transactionType);
             transactionAdded = true;
             numOfTxn ++;
         } else if (transactionType instanceof AccountUpdate){

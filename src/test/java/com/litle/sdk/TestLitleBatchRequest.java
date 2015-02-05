@@ -24,6 +24,8 @@ import com.litle.sdk.generate.CaptureGivenAuth;
 import com.litle.sdk.generate.CardType;
 import com.litle.sdk.generate.Credit;
 import com.litle.sdk.generate.EcheckCredit;
+import com.litle.sdk.generate.EcheckPreNoteCredit;
+import com.litle.sdk.generate.EcheckPreNoteSale;
 import com.litle.sdk.generate.EcheckRedeposit;
 import com.litle.sdk.generate.EcheckSale;
 import com.litle.sdk.generate.EcheckVerification;
@@ -103,8 +105,8 @@ public class TestLitleBatchRequest {
 	@Test
 	public void testAddTransaction() throws FileNotFoundException, JAXBException{
 		assertEquals(litleBatchRequest.addTransaction(createTestSale(100L, "100")), TransactionCodeEnum.SUCCESS);
-		assertEquals(litleBatchRequest.addTransaction(createTestSale(100L, "100")), TransactionCodeEnum.SUCCESS);
-		assertEquals(litleBatchRequest.addTransaction(createTestSale(100L, "100")), TransactionCodeEnum.BATCHFULL);
+		assertEquals(litleBatchRequest.addTransaction(createTestEcheckPreNoteCredit("100")), TransactionCodeEnum.SUCCESS);
+		assertEquals(litleBatchRequest.addTransaction(createTestEcheckPreNoteSale("100")), TransactionCodeEnum.BATCHFULL);
 
 		boolean batchFullException = false;
 		try{
@@ -145,7 +147,20 @@ public class TestLitleBatchRequest {
 		sale.setReportGroup("test");
 		return sale;
 	}
+	
+	public EcheckPreNoteSale createTestEcheckPreNoteSale(String orderId){
+	    EcheckPreNoteSale echeckPreNoteSale = new EcheckPreNoteSale();
+	    // In unit test, we don't fill all the required fields
+	    echeckPreNoteSale.setOrderId(orderId);
+	    return echeckPreNoteSale;
+	}
 
+	public EcheckPreNoteCredit createTestEcheckPreNoteCredit(String orderId){
+	    EcheckPreNoteCredit echeckPreNoteCredit = new EcheckPreNoteCredit();
+	    // In unit test, we don't fill all the required fields
+	    echeckPreNoteCredit.setOrderId(orderId);
+        return echeckPreNoteCredit;
+    }
 
 	 @Test
 	    public void testAddSale(){

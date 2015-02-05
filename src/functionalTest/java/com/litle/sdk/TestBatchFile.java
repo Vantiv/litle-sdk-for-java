@@ -44,6 +44,10 @@ import com.litle.sdk.generate.DeactivateResponse;
 import com.litle.sdk.generate.EcheckAccountTypeEnum;
 import com.litle.sdk.generate.EcheckCredit;
 import com.litle.sdk.generate.EcheckCreditResponse;
+import com.litle.sdk.generate.EcheckPreNoteCredit;
+import com.litle.sdk.generate.EcheckPreNoteCreditResponse;
+import com.litle.sdk.generate.EcheckPreNoteSale;
+import com.litle.sdk.generate.EcheckPreNoteSaleResponse;
 import com.litle.sdk.generate.EcheckRedeposit;
 import com.litle.sdk.generate.EcheckRedepositResponse;
 import com.litle.sdk.generate.EcheckSale;
@@ -462,6 +466,20 @@ public class TestBatchFile {
         echeckSale.setEcheck(echeck);
         echeckSale.setVerify(true);
         batch.addTransaction(echeckSale);
+        
+        EcheckPreNoteSale echeckPreNoteSale = new EcheckPreNoteSale();
+        echeckPreNoteSale.setOrderId("123");
+        echeckPreNoteSale.setBillToAddress(contact);
+        echeckPreNoteSale.setEcheck(echeck);
+        echeckPreNoteSale.setOrderSource(OrderSourceType.ECOMMERCE);
+        batch.addTransaction(echeckPreNoteSale);
+        
+        EcheckPreNoteCredit echeckPreNoteCredit = new EcheckPreNoteCredit();
+        echeckPreNoteCredit.setOrderId("123");
+        echeckPreNoteCredit.setBillToAddress(contact);
+        echeckPreNoteCredit.setEcheck(echeck);
+        echeckPreNoteCredit.setOrderSource(OrderSourceType.ECOMMERCE);
+        batch.addTransaction(echeckPreNoteCredit);
 
         int transactionCount = batch.getNumberOfTransactions();
 
@@ -611,6 +629,16 @@ public class TestBatchFile {
 	            public void processBalanceInquiryResponse(BalanceInquiryResponse balanceInquiryResponse) {
 	                assertNotNull(balanceInquiryResponse.getLitleTxnId());
 	            }
+                public void processEcheckPreNoteSaleResponse(
+                        EcheckPreNoteSaleResponse echeckPreNoteSaleResponse) {
+                    // TODO Auto-generated method stub
+                    
+                }
+                public void processEcheckPreNoteCreditResponse(
+                        EcheckPreNoteCreditResponse echeckPreNoteCreditResponse) {
+                    // TODO Auto-generated method stub
+                    
+                }
 
 	        })) {
 	            txns++;
@@ -792,6 +820,14 @@ public class TestBatchFile {
 
             public void processBalanceInquiryResponse(BalanceInquiryResponse balanceInquiryResponse) {
             }
+
+            public void processEcheckPreNoteSaleResponse(
+                    EcheckPreNoteSaleResponse echeckPreNoteSaleResponse) {
+            }
+
+            public void processEcheckPreNoteCreditResponse(
+                    EcheckPreNoteCreditResponse echeckPreNoteCreditResponse) {
+            }
         })) {
             txns++;
         }
@@ -929,6 +965,14 @@ public class TestBatchFile {
         }
         public void processUpdateCardValidationNumOnTokenResponse(UpdateCardValidationNumOnTokenResponse updateCardValidationNumOnTokenResponse) {
             assertNotNull(updateCardValidationNumOnTokenResponse.getLitleTxnId());
+            responseCount++;
+        }
+        public void processEcheckPreNoteSaleResponse(EcheckPreNoteSaleResponse echeckPreNoteSaleResponse) {
+            assertNotNull(echeckPreNoteSaleResponse.getLitleTxnId());
+            responseCount++;
+        }
+        public void processEcheckPreNoteCreditResponse(EcheckPreNoteCreditResponse echeckPreNoteCreditResponse) {
+            assertNotNull(echeckPreNoteCreditResponse.getLitleTxnId());
             responseCount++;
         }
         public void processAccountUpdate(AccountUpdateResponse accountUpdateResponse) {
