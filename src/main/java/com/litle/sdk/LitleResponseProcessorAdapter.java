@@ -12,6 +12,8 @@ import com.litle.sdk.generate.CreatePlanResponse;
 import com.litle.sdk.generate.CreditResponse;
 import com.litle.sdk.generate.DeactivateResponse;
 import com.litle.sdk.generate.EcheckCreditResponse;
+import com.litle.sdk.generate.EcheckPreNoteCreditResponse;
+import com.litle.sdk.generate.EcheckPreNoteSaleResponse;
 import com.litle.sdk.generate.EcheckRedepositResponse;
 import com.litle.sdk.generate.EcheckSalesResponse;
 import com.litle.sdk.generate.EcheckVerificationResponse;
@@ -94,6 +96,14 @@ public class LitleResponseProcessorAdapter implements LitleResponseProcessor {
     }
 
     public void processBalanceInquiryResponse(BalanceInquiryResponse balanceInquiryResponse) {
+    }
+
+    public void processEcheckPreNoteSaleResponse(
+            EcheckPreNoteSaleResponse echeckPreNoteSaleResponse) {
+    }
+
+    public void processEcheckPreNoteCreditResponse(
+            EcheckPreNoteCreditResponse echeckPreNoteCreditResponse) {
     }
 
 }
