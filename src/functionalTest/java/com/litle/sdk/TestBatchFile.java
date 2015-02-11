@@ -631,13 +631,9 @@ public class TestBatchFile {
 	            }
                 public void processEcheckPreNoteSaleResponse(
                         EcheckPreNoteSaleResponse echeckPreNoteSaleResponse) {
-                    // TODO Auto-generated method stub
-                    
                 }
                 public void processEcheckPreNoteCreditResponse(
                         EcheckPreNoteCreditResponse echeckPreNoteCreditResponse) {
-                    // TODO Auto-generated method stub
-                    
                 }
 
 	        })) {
