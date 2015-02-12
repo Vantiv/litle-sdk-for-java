@@ -451,7 +451,7 @@ public class TestBatchFile {
         echeckCredit.setLitleTxnId(1234567890L);
         echeckCredit.setAmount(12L);
         batch.addTransaction(echeckCredit);
-
+        
         EcheckRedeposit echeckRedeposit = new EcheckRedeposit();
         echeckRedeposit.setReportGroup("Planets");
         echeckRedeposit.setLitleTxnId(124321341412L);
@@ -466,8 +466,9 @@ public class TestBatchFile {
         echeckSale.setEcheck(echeck);
         echeckSale.setVerify(true);
         batch.addTransaction(echeckSale);
-        
+
         EcheckPreNoteSale echeckPreNoteSale = new EcheckPreNoteSale();
+        echeckPreNoteSale.setReportGroup("Planets");
         echeckPreNoteSale.setOrderId("123");
         echeckPreNoteSale.setBillToAddress(contact);
         echeckPreNoteSale.setEcheck(echeck);
@@ -475,6 +476,7 @@ public class TestBatchFile {
         batch.addTransaction(echeckPreNoteSale);
         
         EcheckPreNoteCredit echeckPreNoteCredit = new EcheckPreNoteCredit();
+        echeckPreNoteCredit.setReportGroup("Planets");
         echeckPreNoteCredit.setOrderId("123");
         echeckPreNoteCredit.setBillToAddress(contact);
         echeckPreNoteCredit.setEcheck(echeck);

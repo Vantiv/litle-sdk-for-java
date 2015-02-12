@@ -122,13 +122,13 @@ public class LitleBatchResponse {
         } catch (Exception e) {
             return false;
         }
-
+        
 	    try{
 	        objToRet = ((JAXBElement<TransactionType>)unmarshaller.unmarshal(new StringReader(txnXml))).getValue();
 	    } catch (JAXBException e){
 	        throw new LitleBatchException("There was an exception while trying to unmarshall transactionResponse: " + txnXml, e);
 	    }
-
+	    
 	    if(objToRet instanceof SaleResponse){
             processor.processSaleResponse((SaleResponse) objToRet);
         } else if (objToRet instanceof AuthorizationResponse){

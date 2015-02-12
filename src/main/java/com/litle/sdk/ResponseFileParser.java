@@ -151,7 +151,9 @@ public class ResponseFileParser {
                         || currentStartingTagInFile.compareToIgnoreCase("<loadResponse") == 0
                         || currentStartingTagInFile.compareToIgnoreCase("<unloadResponse") == 0
                         || currentStartingTagInFile.compareToIgnoreCase("<balanceInquiryResponse") == 0
-	                    || currentStartingTagInFile.compareToIgnoreCase("<accountUpdateResponse") == 0)) {
+	                    || currentStartingTagInFile.compareToIgnoreCase("<accountUpdateResponse") == 0
+	                    || currentStartingTagInFile.compareToIgnoreCase("<echeckPreNoteSaleResponse") == 0
+                        || currentStartingTagInFile.compareToIgnoreCase("<echeckPreNoteCreditResponse") == 0)) {
 			retVal = true;
 		} else if (openingTagToLookFor
 				.compareToIgnoreCase(currentStartingTagInFile) == 0) {
@@ -190,7 +192,9 @@ public class ResponseFileParser {
                     || currentStartingTagInFile.compareToIgnoreCase("</loadResponse>") == 0
                     || currentStartingTagInFile.compareToIgnoreCase("</unloadResponse>") == 0
                     || currentStartingTagInFile.compareToIgnoreCase("</balanceInquiryResponse>") == 0
-					|| currentStartingTagInFile.compareToIgnoreCase("</accountUpdateResponse>") == 0)) {
+					|| currentStartingTagInFile.compareToIgnoreCase("</accountUpdateResponse>") == 0
+					|| currentStartingTagInFile.compareToIgnoreCase("</echeckPreNoteSaleResponse>") == 0
+					|| currentStartingTagInFile.compareToIgnoreCase("</echeckPreNoteCreditResponse>") == 0)) {
 
 			retVal = true;
 		} else if (closingTagToLookFor
