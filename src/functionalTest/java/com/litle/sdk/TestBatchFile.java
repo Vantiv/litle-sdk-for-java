@@ -3,7 +3,6 @@ package com.litle.sdk;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -20,7 +19,6 @@ import org.junit.Test;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
-
 import com.litle.sdk.generate.AccountUpdate;
 import com.litle.sdk.generate.AccountUpdateResponse;
 import com.litle.sdk.generate.Activate;
@@ -101,11 +99,11 @@ public class TestBatchFile {
                         }
                         catch (Throwable t)
                         {
-                            System.out.println(description.getDisplayName() + " failed");
+                            System.out.println(description.getDisplayName() + " failure caused by :");
+                            t.printStackTrace();
                             retry.setNotGood();
                             if (retry.isLastTry())
                             {
-//                                System.out.println("No more retry !");
                                 throw t;
                             }
                             else
@@ -151,7 +149,6 @@ public class TestBatchFile {
                     for (; currentTry <= retryCount && !allGood; currentTry++)
                     {
                         allGood = true;
-//                        System.out.println("Try #" + currentTry);
                         base.evaluate();
                     }
                 }
