@@ -225,6 +225,18 @@ task kit(dependsOn:[tarKit, zipKit]){
     dependsOn javadoc
 }
 
+task writeNewPom(type:Copy) {
+    build.dependsOn it
+    pom {
+        project {
+            modelVersion '4.0.0'
+            groupId 'com.litle'
+            artifactId 'litle-sdk-for-java'
+            version "${JAR_VERSION}"
+        }
+    }.writeTo("$buildDir/kit/pom.xml")
+}
+
 task sourceJar(type:Jar) {
     build.dependsOn it
     dependsOn generateJaxbClasses
