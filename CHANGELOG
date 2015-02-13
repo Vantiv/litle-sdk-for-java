@@ -1,13 +1,13 @@
 = LitleOnline CHANGELOG
-==Version 9.03.0 (February 13,2015)
+==Version 9.3.0 (February 13, 2015)
 *Feature: Applepay support was added
 *Feature: Secondary amount support was added
 *Feature: Wallet support was added
 *Feature: EcheckPreNoteSale batch transaction type support was added
 *Feature: EcheckPreNoteCredit batch transaction type support was added
 
-==Version 9.00.0 (Auguest 26,2014)
-*Support verision 9
+==Version 9.0.0 (August 26, 2014)
+*Support version 9
 *modify xsd
 
 == Version 8.27.0 (August 26, 2014)
