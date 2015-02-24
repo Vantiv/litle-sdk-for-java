@@ -21,7 +21,6 @@ public class ResponseFileParser {
 			reader = new InputStreamReader(in);
 			buffer = new BufferedReader(reader);
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -153,7 +152,17 @@ public class ResponseFileParser {
                         || currentStartingTagInFile.compareToIgnoreCase("<balanceInquiryResponse") == 0
 	                    || currentStartingTagInFile.compareToIgnoreCase("<accountUpdateResponse") == 0
 	                    || currentStartingTagInFile.compareToIgnoreCase("<echeckPreNoteSaleResponse") == 0
-                        || currentStartingTagInFile.compareToIgnoreCase("<echeckPreNoteCreditResponse") == 0)) {
+                        || currentStartingTagInFile.compareToIgnoreCase("<echeckPreNoteCreditResponse") == 0
+                        || currentStartingTagInFile.compareToIgnoreCase("<submerchantCreditResponse") == 0
+                        || currentStartingTagInFile.compareToIgnoreCase("<payFacCreditResponse") == 0
+                        || currentStartingTagInFile.compareToIgnoreCase("<reserveCreditResponse") == 0
+                        || currentStartingTagInFile.compareToIgnoreCase("<vendorCreditResponse") == 0
+                        || currentStartingTagInFile.compareToIgnoreCase("<physicalCheckCreditResponse") == 0
+                        || currentStartingTagInFile.compareToIgnoreCase("<submerchantDebitResponse") == 0
+                        || currentStartingTagInFile.compareToIgnoreCase("<payFacDebitResponse") == 0
+                        || currentStartingTagInFile.compareToIgnoreCase("<reserveDebitResponse") == 0
+                        || currentStartingTagInFile.compareToIgnoreCase("<vendorDebitResponse") == 0
+                        || currentStartingTagInFile.compareToIgnoreCase("<physicalCheckDebitResponse") == 0)) {
 			retVal = true;
 		} else if (openingTagToLookFor
 				.compareToIgnoreCase(currentStartingTagInFile) == 0) {
@@ -194,7 +203,17 @@ public class ResponseFileParser {
                     || currentStartingTagInFile.compareToIgnoreCase("</balanceInquiryResponse>") == 0
 					|| currentStartingTagInFile.compareToIgnoreCase("</accountUpdateResponse>") == 0
 					|| currentStartingTagInFile.compareToIgnoreCase("</echeckPreNoteSaleResponse>") == 0
-					|| currentStartingTagInFile.compareToIgnoreCase("</echeckPreNoteCreditResponse>") == 0)) {
+					|| currentStartingTagInFile.compareToIgnoreCase("</echeckPreNoteCreditResponse>") == 0
+					|| currentStartingTagInFile.compareToIgnoreCase("</submerchantCreditResponse>") == 0
+                    || currentStartingTagInFile.compareToIgnoreCase("</payFacCreditResponse>") == 0
+                    || currentStartingTagInFile.compareToIgnoreCase("</reserveCreditResponse>") == 0
+                    || currentStartingTagInFile.compareToIgnoreCase("</vendorCreditResponse>") == 0
+                    || currentStartingTagInFile.compareToIgnoreCase("</physicalCheckCreditResponse>") == 0
+                    || currentStartingTagInFile.compareToIgnoreCase("</submerchantDebitResponse>") == 0
+                    || currentStartingTagInFile.compareToIgnoreCase("</payFacDebitResponse>") == 0
+                    || currentStartingTagInFile.compareToIgnoreCase("</reserveDebitResponse>") == 0
+                    || currentStartingTagInFile.compareToIgnoreCase("</vendorDebitResponse>") == 0
+                    || currentStartingTagInFile.compareToIgnoreCase("</physicalCheckDebitResponse>") == 0)) {
 
 			retVal = true;
 		} else if (closingTagToLookFor

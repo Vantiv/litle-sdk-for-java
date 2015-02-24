@@ -35,13 +35,23 @@ import com.litle.sdk.generate.ForceCapture;
 import com.litle.sdk.generate.LitleTransactionInterface;
 import com.litle.sdk.generate.Load;
 import com.litle.sdk.generate.ObjectFactory;
+import com.litle.sdk.generate.PayFacCredit;
+import com.litle.sdk.generate.PayFacDebit;
+import com.litle.sdk.generate.PhysicalCheckCredit;
+import com.litle.sdk.generate.PhysicalCheckDebit;
 import com.litle.sdk.generate.RegisterTokenRequestType;
+import com.litle.sdk.generate.ReserveCredit;
+import com.litle.sdk.generate.ReserveDebit;
 import com.litle.sdk.generate.Sale;
+import com.litle.sdk.generate.SubmerchantCredit;
+import com.litle.sdk.generate.SubmerchantDebit;
 import com.litle.sdk.generate.TransactionType;
 import com.litle.sdk.generate.Unload;
 import com.litle.sdk.generate.UpdateCardValidationNumOnToken;
 import com.litle.sdk.generate.UpdatePlan;
 import com.litle.sdk.generate.UpdateSubscription;
+import com.litle.sdk.generate.VendorCredit;
+import com.litle.sdk.generate.VendorDebit;
 
 public class LitleBatchRequest {
 	private BatchRequest batchRequest;
@@ -272,6 +282,66 @@ public class LitleBatchRequest {
         } else if(transactionType instanceof EcheckPreNoteCredit) {
             batchRequest.setNumEcheckPreNoteCredit(batchRequest.getNumEcheckPreNoteCredit().add(BigInteger.valueOf(1)));
             transaction = objFac.createEcheckPreNoteCredit((EcheckPreNoteCredit)transactionType);
+            transactionAdded = true;
+            numOfTxn ++;
+        } else if(transactionType instanceof PayFacCredit) {
+            batchRequest.setNumPayFacCredit(batchRequest.getNumPayFacCredit().add(BigInteger.valueOf(1)));
+            batchRequest.setPayFacCreditAmount((batchRequest.getPayFacCreditAmount().add(BigInteger.valueOf(((PayFacCredit) transactionType).getAmount()))));
+            transaction = objFac.createPayFacCredit((PayFacCredit)transactionType);
+            transactionAdded = true;
+            numOfTxn ++;
+        } else if(transactionType instanceof SubmerchantCredit) {
+            batchRequest.setNumSubmerchantCredit(batchRequest.getSubmerchantCreditAmount().add(BigInteger.valueOf(1)));
+            batchRequest.setSubmerchantCreditAmount((batchRequest.getSubmerchantCreditAmount().add(BigInteger.valueOf(((SubmerchantCredit) transactionType).getAmount()))));
+            transaction = objFac.createSubmerchantCredit((SubmerchantCredit)transactionType);
+            transactionAdded = true;
+            numOfTxn ++;
+        } else if(transactionType instanceof VendorCredit) {
+            batchRequest.setNumVendorCredit(batchRequest.getNumVendorCredit().add(BigInteger.valueOf(1)));
+            batchRequest.setVendorCreditAmount((batchRequest.getVendorCreditAmount().add(BigInteger.valueOf(((VendorCredit) transactionType).getAmount()))));
+            transaction = objFac.createVendorCredit((VendorCredit)transactionType);
+            transactionAdded = true;
+            numOfTxn ++;
+        } else if(transactionType instanceof ReserveCredit) {
+            batchRequest.setNumReserveCredit(batchRequest.getNumReserveCredit().add(BigInteger.valueOf(1)));
+            batchRequest.setReserveCreditAmount((batchRequest.getReserveCreditAmount().add(BigInteger.valueOf(((ReserveCredit) transactionType).getAmount()))));
+            transaction = objFac.createReserveCredit((ReserveCredit)transactionType);
+            transactionAdded = true;
+            numOfTxn ++;
+        } else if(transactionType instanceof PhysicalCheckCredit) {
+            batchRequest.setNumPhysicalCheckCredit(batchRequest.getNumPhysicalCheckCredit().add(BigInteger.valueOf(1)));
+            batchRequest.setPhysicalCheckCreditAmount((batchRequest.getPhysicalCheckCreditAmount().add(BigInteger.valueOf(((PhysicalCheckCredit) transactionType).getAmount()))));
+            transaction = objFac.createPhysicalCheckCredit((PhysicalCheckCredit)transactionType);
+            transactionAdded = true;
+            numOfTxn ++;
+        } else if(transactionType instanceof PayFacDebit) {
+            batchRequest.setNumPayFacDebit(batchRequest.getNumPayFacDebit().add(BigInteger.valueOf(1)));
+            batchRequest.setPayFacDebitAmount((batchRequest.getPayFacDebitAmount().add(BigInteger.valueOf(((PayFacDebit) transactionType).getAmount()))));
+            transaction = objFac.createPayFacDebit((PayFacDebit)transactionType);
+            transactionAdded = true;
+            numOfTxn ++;
+        } else if(transactionType instanceof SubmerchantDebit) {
+            batchRequest.setNumSubmerchantDebit(batchRequest.getSubmerchantDebitAmount().add(BigInteger.valueOf(1)));
+            batchRequest.setSubmerchantDebitAmount((batchRequest.getSubmerchantDebitAmount().add(BigInteger.valueOf(((SubmerchantDebit) transactionType).getAmount()))));
+            transaction = objFac.createSubmerchantDebit((SubmerchantDebit)transactionType);
+            transactionAdded = true;
+            numOfTxn ++;
+        } else if(transactionType instanceof VendorDebit) {
+            batchRequest.setNumVendorDebit(batchRequest.getNumVendorDebit().add(BigInteger.valueOf(1)));
+            batchRequest.setVendorDebitAmount((batchRequest.getVendorDebitAmount().add(BigInteger.valueOf(((VendorDebit) transactionType).getAmount()))));
+            transaction = objFac.createVendorDebit((VendorDebit)transactionType);
+            transactionAdded = true;
+            numOfTxn ++;
+        } else if(transactionType instanceof ReserveDebit) {
+            batchRequest.setNumReserveDebit(batchRequest.getNumReserveDebit().add(BigInteger.valueOf(1)));
+            batchRequest.setReserveDebitAmount((batchRequest.getReserveDebitAmount().add(BigInteger.valueOf(((ReserveDebit) transactionType).getAmount()))));
+            transaction = objFac.createReserveDebit((ReserveDebit)transactionType);
+            transactionAdded = true;
+            numOfTxn ++;
+        } else if(transactionType instanceof PhysicalCheckDebit) {
+            batchRequest.setNumPhysicalCheckDebit(batchRequest.getNumPhysicalCheckDebit().add(BigInteger.valueOf(1)));
+            batchRequest.setPhysicalCheckDebitAmount((batchRequest.getPhysicalCheckDebitAmount().add(BigInteger.valueOf(((PhysicalCheckDebit) transactionType).getAmount()))));
+            transaction = objFac.createPhysicalCheckDebit((PhysicalCheckDebit)transactionType);
             transactionAdded = true;
             numOfTxn ++;
         } else if (transactionType instanceof AccountUpdate){

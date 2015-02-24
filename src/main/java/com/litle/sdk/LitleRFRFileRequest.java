@@ -236,7 +236,6 @@ public class LitleRFRFileRequest {
     }
 
     public File getFile() {
-        // TODO Auto-generated method stub
         return requestFile;
     }
 
