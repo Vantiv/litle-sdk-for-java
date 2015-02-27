@@ -35,6 +35,7 @@ import com.litle.sdk.generate.CaptureGivenAuthResponse;
 import com.litle.sdk.generate.CaptureResponse;
 import com.litle.sdk.generate.CardType;
 import com.litle.sdk.generate.Contact;
+import com.litle.sdk.generate.CreateAddOnType;
 import com.litle.sdk.generate.CreatePlan;
 import com.litle.sdk.generate.CreatePlanResponse;
 import com.litle.sdk.generate.Credit;
@@ -67,6 +68,8 @@ import com.litle.sdk.generate.LoadReversal;
 import com.litle.sdk.generate.LoadReversalResponse;
 import com.litle.sdk.generate.MethodOfPaymentTypeEnum;
 import com.litle.sdk.generate.OrderSourceType;
+import com.litle.sdk.generate.RecurringRequestType;
+import com.litle.sdk.generate.RecurringSubscriptionType;
 import com.litle.sdk.generate.RefundReversal;
 import com.litle.sdk.generate.RefundReversalResponse;
 import com.litle.sdk.generate.RegisterTokenRequestType;
@@ -1423,6 +1426,48 @@ public class TestLitleOnline {
         overrides.setMerchantId("905");
         DepositReversalResponse response = litle.depositReversal(depositReversal, overrides);
         assertEquals(123456L, response.getLitleTxnId());
+    }
+    
+    @Test
+    public void testRecurring() throws Exception{
+        Sale sale = new Sale();
+        sale.setAmount(106L);
+        sale.setLitleTxnId(123456L);
+        sale.setOrderId("12344");
+        sale.setOrderSource(OrderSourceType.ECOMMERCE);
+        CardType card = new CardType();
+        card.setType(MethodOfPaymentTypeEnum.VI);
+        card.setNumber("4100000000000002");
+        card.setExpDate("1210");
+        sale.setCard(card);
+        RecurringRequestType recuring = new RecurringRequestType();
+        RecurringSubscriptionType sub = new RecurringSubscriptionType();
+        sub.setPlanCode("12345");
+        sub.setNumberOfPayments(12);
+        sub.setStartDate(Calendar.getInstance());
+        sub.setAmount(1000L);
+        CreateAddOnType cat = new CreateAddOnType();
+        cat.setAddOnCode("1234");
+        cat.setAmount(500L);
+        cat.setEndDate(Calendar.getInstance());
+        cat.setName("name");
+        cat.setEndDate(Calendar.getInstance());
+        sub.getCreateAddOns().add(cat);
+        recuring.setSubscription(sub);
+        sale.setRecurringRequest(recuring);
+
+        Communication mockedCommunication = mock(Communication.class);
+        when(
+                mockedCommunication
+                        .requestToServer(
+                                matches(".*?<litleOnlineRequest.*?<sale.*?<card>.*?<number>4100000000000002</number>.*?</card>.*?<createAddOn>.*?</createAddOn>.*?</sale>.*?"),
+                                any(Properties.class)))
+                .thenReturn(
+                        "<litleOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><saleResponse><litleTxnId>123</litleTxnId></saleResponse></litleOnlineResponse>");
+        litle.setCommunication(mockedCommunication);
+        SaleResponse saleresponse = litle.sale(sale);
+        assertEquals(123L, saleresponse.getLitleTxnId());
+        
     }
 
 }

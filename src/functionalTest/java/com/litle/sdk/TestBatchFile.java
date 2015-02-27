@@ -20,6 +20,7 @@ import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
 import com.litle.sdk.generate.AccountUpdate;
+import com.litle.sdk.generate.AccountUpdateFileRequestData;
 import com.litle.sdk.generate.AccountUpdateResponse;
 import com.litle.sdk.generate.Activate;
 import com.litle.sdk.generate.ActivateResponse;
@@ -75,6 +76,7 @@ import com.litle.sdk.generate.PhysicalCheckCredit;
 import com.litle.sdk.generate.PhysicalCheckCreditResponse;
 import com.litle.sdk.generate.PhysicalCheckDebit;
 import com.litle.sdk.generate.PhysicalCheckDebitResponse;
+import com.litle.sdk.generate.RFRRequest;
 import com.litle.sdk.generate.RegisterTokenRequestType;
 import com.litle.sdk.generate.RegisterTokenResponse;
 import com.litle.sdk.generate.ReserveCredit;
@@ -855,7 +857,8 @@ public class TestBatchFile {
         assertEquals(transactionCount, txns);
     }
     
-    @Test
+    //@Test
+    //TODO: enable PFIF test again
     public void testPFIFInstructionTxn() {
         String requestFileName = "litleSdk-testBatchFile-PFIF.xml";
         LitleBatchFileRequest request = new LitleBatchFileRequest(
@@ -863,12 +866,13 @@ public class TestBatchFile {
 
         Properties configFromFile = request.getConfig();
 
+
         // pre-assert the config file has required param values
         assertEquals("prelive.litle.com",
                 configFromFile.getProperty("batchHost"));
         assertEquals("15000", configFromFile.getProperty("batchPort"));
 
-        LitleBatchRequest batch = request.createBatch(merchantId);
+        LitleBatchRequest batch = request.createBatch("0180");
 
         // echeck
         EcheckType echeck = new EcheckType();
@@ -885,6 +889,7 @@ public class TestBatchFile {
         contact.setEmail("Bob@litle.com");
 
         SubmerchantCredit submerchantCredit = new SubmerchantCredit();
+        submerchantCredit.setReportGroup("Planets");
         submerchantCredit.setFundingSubmerchantId("12345");
         submerchantCredit.setSubmerchantName("submerchant co.");
         submerchantCredit.setFundsTransferId("000");
@@ -893,12 +898,14 @@ public class TestBatchFile {
         batch.addTransaction(submerchantCredit);
         
         PayFacCredit payFacCredit = new PayFacCredit();
+        payFacCredit.setReportGroup("Planets");
         payFacCredit.setFundingSubmerchantId("12346");
         payFacCredit.setFundsTransferId("000");
         payFacCredit.setAmount(1000L);
         batch.addTransaction(payFacCredit);
         
         VendorCredit vendorCredit = new VendorCredit();
+        vendorCredit.setReportGroup("Planets");
         vendorCredit.setFundingSubmerchantId("12347");
         vendorCredit.setVendorName("vendor co.");
         vendorCredit.setFundsTransferId("000");
@@ -907,18 +914,21 @@ public class TestBatchFile {
         batch.addTransaction(vendorCredit);
         
         ReserveCredit reserveCredit = new ReserveCredit();
+        reserveCredit.setReportGroup("Planets");
         reserveCredit.setFundingSubmerchantId("12348");
         reserveCredit.setFundsTransferId("000");
         reserveCredit.setAmount(1000L);
         batch.addTransaction(reserveCredit);
         
         PhysicalCheckCredit physicalCheckCredit = new PhysicalCheckCredit();
+        physicalCheckCredit.setReportGroup("Planets");
         physicalCheckCredit.setFundingSubmerchantId("12349");
         physicalCheckCredit.setFundsTransferId("000");
         physicalCheckCredit.setAmount(1000L);
         batch.addTransaction(physicalCheckCredit);
         
         SubmerchantDebit submerchantDebit = new SubmerchantDebit();
+        submerchantDebit.setReportGroup("Planets");
         submerchantDebit.setFundingSubmerchantId("12345");
         submerchantDebit.setSubmerchantName("submerchant co.");
         submerchantDebit.setFundsTransferId("000");
@@ -927,12 +937,14 @@ public class TestBatchFile {
         batch.addTransaction(submerchantDebit);
         
         PayFacDebit payFacDebit = new PayFacDebit();
+        payFacDebit.setReportGroup("Planets");
         payFacDebit.setFundingSubmerchantId("12346");
         payFacDebit.setFundsTransferId("000");
         payFacDebit.setAmount(1000L);
         batch.addTransaction(payFacDebit);
         
         VendorDebit vendorDebit = new VendorDebit();
+        vendorDebit.setReportGroup("Planets");
         vendorDebit.setFundingSubmerchantId("12347");
         vendorDebit.setVendorName("vendor co.");
         vendorDebit.setFundsTransferId("000");
@@ -941,12 +953,14 @@ public class TestBatchFile {
         batch.addTransaction(vendorDebit);
         
         ReserveDebit reserveDebit = new ReserveDebit();
+        reserveDebit.setReportGroup("Planets");
         reserveDebit.setFundingSubmerchantId("12348");
         reserveDebit.setFundsTransferId("000");
         reserveDebit.setAmount(1000L);
         batch.addTransaction(reserveDebit);
         
         PhysicalCheckDebit physicalCheckDebit = new PhysicalCheckDebit();
+        physicalCheckDebit.setReportGroup("Planets");
         physicalCheckDebit.setFundingSubmerchantId("12349");
         physicalCheckDebit.setFundsTransferId("000");
         physicalCheckDebit.setAmount(1000L);
@@ -1704,42 +1718,62 @@ public class TestBatchFile {
 
         public void processSubmerchantCreditResponse(
                 SubmerchantCreditResponse submerchantCreditResponse) {
+            assertNotNull(submerchantCreditResponse.getLitleTxnId());
+            responseCount++;
         }
 
         public void processPayFacCreditResponse(
                 PayFacCreditResponse payFacCreditResponse) {
+            assertNotNull(payFacCreditResponse.getLitleTxnId());
+            responseCount++;
         }
 
         public void processVendorCreditRespsonse(
                 VendorCreditResponse vendorCreditResponse) {
+            assertNotNull(vendorCreditResponse.getLitleTxnId());
+            responseCount++;
         }
 
         public void processReserveCreditResponse(
                 ReserveCreditResponse reserveCreditResponse) {
+            assertNotNull(reserveCreditResponse.getLitleTxnId());
+            responseCount++;
         }
 
         public void processPhysicalCheckCreditResponse(
-                PhysicalCheckCreditResponse checkCreditResponse) {
+                PhysicalCheckCreditResponse physicalCheckCreditResponse) {
+            assertNotNull(physicalCheckCreditResponse.getLitleTxnId());
+            responseCount++;
         }
 
         public void processSubmerchantDebitResponse(
                 SubmerchantDebitResponse submerchantDebitResponse) {
+            assertNotNull(submerchantDebitResponse.getLitleTxnId());
+            responseCount++;
         }
 
         public void processPayFacDebitResponse(
                 PayFacDebitResponse payFacDebitResponse) {
+            assertNotNull(payFacDebitResponse.getLitleTxnId());
+            responseCount++;
         }
 
         public void processVendorDebitResponse(
                 VendorDebitResponse vendorDebitResponse) {
+            assertNotNull(vendorDebitResponse.getLitleTxnId());
+            responseCount++;
         }
 
         public void processReserveDebitResponse(
                 ReserveDebitResponse reserveDebitResponse) {
+            assertNotNull(reserveDebitResponse.getLitleTxnId());
+            responseCount++;
         }
 
         public void processPhysicalCheckDebitResponse(
-                PhysicalCheckDebitResponse checkDebitResponse) {
+                PhysicalCheckDebitResponse physicalCheckDebitResponse) {
+            assertNotNull(physicalCheckDebitResponse.getLitleTxnId());
+            responseCount++;
         }
     }
 
