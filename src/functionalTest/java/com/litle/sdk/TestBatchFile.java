@@ -857,8 +857,7 @@ public class TestBatchFile {
         assertEquals(transactionCount, txns);
     }
     
-    //@Test
-    //TODO: enable PFIF test again
+    @Test
     public void testPFIFInstructionTxn() {
         String requestFileName = "litleSdk-testBatchFile-PFIF.xml";
         LitleBatchFileRequest request = new LitleBatchFileRequest(
