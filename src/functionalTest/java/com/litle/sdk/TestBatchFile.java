@@ -587,6 +587,7 @@ public class TestBatchFile {
         echeckSale.setBillToAddress(contact);
         echeckSale.setEcheck(echeck);
         echeckSale.setVerify(true);
+        batch.addTransaction(echeckSale);
 
         int transactionCount = batch.getNumberOfTransactions();
 
