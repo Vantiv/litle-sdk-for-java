@@ -1,4 +1,8 @@
 = LitleOnline CHANGELOG
+
+==Version 9.3.1 (March 9, 2015)
+*Feature: PFIF instruction transaction was added
+
 ==Version 9.3.0 (February 13, 2015)
 *Feature: Applepay support was added
 *Feature: Secondary amount support was added
