@@ -1,5 +1,8 @@
 = LitleOnline CHANGELOG
 
+== Version 8.29.1 (March 10, 2015)
+* Bugfix: Fixed a bug in RFR test
+
 == Version 8.29.0 (January 29, 2015)
 * Feature: Applepay support was added
 * Feature: Secondary amount support was added
