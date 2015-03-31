@@ -240,7 +240,7 @@ task writeNewPom(type:Copy) {
 task sourceJar(type:Jar) {
     build.dependsOn it
     dependsOn generateJaxbClasses
-    destinationDir = file("${buildDir}/dist")
+    destinationDir = file("${buildDir}/kit")
     classifier = 'sources'
     from "src/main/java"
     from generateJaxbClasses.generatedDir
