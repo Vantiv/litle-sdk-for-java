@@ -1,5 +1,8 @@
 = LitleOnline CHANGELOG
 
+==Version 8.29.2
+HTTP timeout set to 500ms
+
 == Version 8.29.1 (March 10, 2015)
 * Bugfix: Fixed a bug in RFR test
 
