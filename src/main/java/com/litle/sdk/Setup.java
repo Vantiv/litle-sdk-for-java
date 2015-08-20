@@ -129,6 +129,7 @@ public class Setup {
 		config.put("proxyPort", (lastUserInput == null ? "" : lastUserInput));
 		//default http timeout set to 500 ms
 		config.put("timeout", "500");
+		config.put("readTimeout", "60000");
 		config.put("reportGroup", "Default Report Group");
 		config.put("printxml", "false");
 
