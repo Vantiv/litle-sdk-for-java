@@ -45,9 +45,12 @@ public class Communication {
 		}
 
 		String httpTimeout = configuration.getProperty("timeout");
+		String httpReadTimeout = configuration.getProperty("readTimeout");
 		if (httpTimeout != null && httpTimeout.length() > 0) {
 			httpclient.getParams().setParameter(CoreConnectionPNames.CONNECTION_TIMEOUT,Integer.valueOf(httpTimeout));
-			httpclient.getParams().setParameter(CoreConnectionPNames.SO_TIMEOUT,Integer.valueOf(httpTimeout));
+		}
+		if (httpReadTimeout != null && httpReadTimeout.length() > 0) {
+		    httpclient.getParams().setParameter(CoreConnectionPNames.SO_TIMEOUT,Integer.valueOf(httpReadTimeout));
 		}
 
 		HttpPost post = new HttpPost(configuration.getProperty("url"));
