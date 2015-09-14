@@ -242,6 +242,13 @@ task sourceJar(type:Jar) {
 }
 
 task kit(dependsOn:[tarKit, zipKit, writeNewPom, sourceJar]){
+if (JavaVersion.current().isJava8Compatible()) {
+    allprojects {
+      tasks.withType(Javadoc) {
+        options.addStringOption('Xdoclint:none', '-quiet')
+      }
+    }
+  }
     build.dependsOn it
     dependsOn javadoc
 }
