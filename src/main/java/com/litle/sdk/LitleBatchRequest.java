@@ -89,8 +89,8 @@ public class LitleBatchRequest {
 		if(!tmpFile.exists()) {
 			tmpFile.mkdir();
 		}
-		java.util.Date date= new java.util.Date();
-		filePath = new String(lbfr.getConfig().getProperty("batchRequestFolder")+ "/tmp/Transactions" +merchantId + new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss.SSS").format(new java.util.Date()));
+		String dateString = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss.SSS").format(new java.util.Date());
+		filePath = new String(lbfr.getConfig().getProperty("batchRequestFolder")+ "/tmp/Transactions" + merchantId + dateString);
 		numOfTxn = 0;
 		try {
 			this.jc = JAXBContext.newInstance("com.litle.sdk.generate");
