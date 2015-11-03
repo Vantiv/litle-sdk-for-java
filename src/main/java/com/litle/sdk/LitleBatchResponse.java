@@ -22,6 +22,7 @@ import com.litle.sdk.generate.EcheckRedepositResponse;
 import com.litle.sdk.generate.EcheckSalesResponse;
 import com.litle.sdk.generate.EcheckVerificationResponse;
 import com.litle.sdk.generate.ForceCaptureResponse;
+import com.litle.sdk.generate.FundingInstructionVoidResponse;
 import com.litle.sdk.generate.LitleTransactionInterface;
 import com.litle.sdk.generate.PayFacCreditResponse;
 import com.litle.sdk.generate.PayFacDebitResponse;
@@ -195,6 +196,8 @@ public class LitleBatchResponse {
             processor.processReserveDebitResponse((ReserveDebitResponse)objToRet);
         } else if (objToRet instanceof PhysicalCheckDebitResponse) {
             processor.processPhysicalCheckDebitResponse((PhysicalCheckDebitResponse)objToRet);
+        } else if (objToRet instanceof FundingInstructionVoidResponse) {
+            processor.processFundingInstructionVoidResponse((FundingInstructionVoidResponse)objToRet);
         } 
 	    return true;
 	}

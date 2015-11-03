@@ -55,6 +55,8 @@ import com.litle.sdk.generate.Load;
 import com.litle.sdk.generate.LoadResponse;
 import com.litle.sdk.generate.LoadReversal;
 import com.litle.sdk.generate.LoadReversalResponse;
+import com.litle.sdk.generate.QueryTransaction;
+import com.litle.sdk.generate.QueryTransactionResponse;
 import com.litle.sdk.generate.RecurringTransactionResponseType;
 import com.litle.sdk.generate.RefundReversal;
 import com.litle.sdk.generate.RefundReversalResponse;
@@ -608,6 +610,20 @@ public class LitleOnline {
         LitleOnlineResponse response = sendToLitle(request);
         JAXBElement<? extends TransactionTypeWithReportGroup> newresponse = response.getTransactionResponse();
         return (DepositReversalResponse)newresponse.getValue();
+    }
+    
+    public TransactionTypeWithReportGroup queryTransaction(QueryTransaction queryTransaction) {
+        LitleOnlineRequest request = createLitleOnlineRequest();
+        return queryTransaction(queryTransaction, request);
+    }
+
+    public TransactionTypeWithReportGroup queryTransaction(QueryTransaction queryTransaction, LitleOnlineRequest overrides) {
+        LitleOnlineRequest request = fillInMissingFieldsFromConfig(overrides);
+
+        request.setTransaction(LitleContext.getObjectFactory().createQueryTransaction(queryTransaction));
+        LitleOnlineResponse response = sendToLitle(request);
+        JAXBElement<? extends TransactionTypeWithReportGroup> newresponse = response.getTransactionResponse();
+        return newresponse.getValue();
     }
 
 	private LitleOnlineRequest createLitleOnlineRequest() {

@@ -18,6 +18,7 @@ import com.litle.sdk.generate.EcheckRedepositResponse;
 import com.litle.sdk.generate.EcheckSalesResponse;
 import com.litle.sdk.generate.EcheckVerificationResponse;
 import com.litle.sdk.generate.ForceCaptureResponse;
+import com.litle.sdk.generate.FundingInstructionVoidResponse;
 import com.litle.sdk.generate.LoadResponse;
 import com.litle.sdk.generate.PayFacCreditResponse;
 import com.litle.sdk.generate.PayFacDebitResponse;
@@ -154,6 +155,10 @@ public class LitleResponseProcessorAdapter implements LitleResponseProcessor {
 
     public void processPhysicalCheckDebitResponse(
             PhysicalCheckDebitResponse checkDebitResponse) {
+        }
+    
+    public void processFundingInstructionVoidResponse(
+            FundingInstructionVoidResponse fundingInstructionVoidResponse) {
         }
 
 }

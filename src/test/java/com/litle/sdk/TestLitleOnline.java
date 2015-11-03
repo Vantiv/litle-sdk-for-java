@@ -8,11 +8,15 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.Calendar;
+import java.util.List;
 import java.util.Properties;
+
+import javax.xml.bind.JAXBElement;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import com.litle.sdk.generate.ActionTypeEnum;
 import com.litle.sdk.generate.Activate;
 import com.litle.sdk.generate.ActivateResponse;
 import com.litle.sdk.generate.ActivateReversal;
@@ -68,6 +72,9 @@ import com.litle.sdk.generate.LoadReversal;
 import com.litle.sdk.generate.LoadReversalResponse;
 import com.litle.sdk.generate.MethodOfPaymentTypeEnum;
 import com.litle.sdk.generate.OrderSourceType;
+import com.litle.sdk.generate.QueryTransaction;
+import com.litle.sdk.generate.QueryTransactionResponse;
+import com.litle.sdk.generate.QueryTransactionUnavailableResponse;
 import com.litle.sdk.generate.RecurringRequestType;
 import com.litle.sdk.generate.RecurringSubscriptionType;
 import com.litle.sdk.generate.RefundReversal;
@@ -76,6 +83,7 @@ import com.litle.sdk.generate.RegisterTokenRequestType;
 import com.litle.sdk.generate.RegisterTokenResponse;
 import com.litle.sdk.generate.Sale;
 import com.litle.sdk.generate.SaleResponse;
+import com.litle.sdk.generate.TransactionTypeWithReportGroup;
 import com.litle.sdk.generate.Unload;
 import com.litle.sdk.generate.UnloadResponse;
 import com.litle.sdk.generate.UnloadReversal;
@@ -1469,5 +1477,75 @@ public class TestLitleOnline {
         assertEquals(123L, saleresponse.getLitleTxnId());
         
     }
+    
+    @Test
+    public void testQueryTransactionResponse_notFound() {
+        QueryTransaction queryTransaction = new QueryTransaction();
+        queryTransaction.setId("1234");
+        queryTransaction.setCustomerId("customerId");
+        queryTransaction.setOrigId("org1");
+        queryTransaction.setOrigActionType(ActionTypeEnum.A);
+        
+        Communication mockedComm = mock (Communication.class);
+        when(mockedComm.requestToServer(matches(".*?<litleOnlineRequest.*?<queryTransaction.*id=\"1234\".*?customerId=\"customerId\".*?<origId>org1</origId>.*?<origActionType>A</origActionType>.*?"),
+                any(Properties.class))).thenReturn("<litleOnlineResponse version='10.1' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><queryTransactionResponse id='1234' customerId='customerId'> <response>150</response> <responseTime>2015-04-14T12:37:26</responseTime> <message>Original transaction not found</message><matchCount>0</matchCount></queryTransactionResponse></litleOnlineResponse>");
+        
+        litle.setCommunication(mockedComm);
+        TransactionTypeWithReportGroup response = litle.queryTransaction(queryTransaction);
+        QueryTransactionResponse queryTransactionResponse = (QueryTransactionResponse)response;
+        assertEquals("1234", queryTransactionResponse.getId());
+        assertEquals("customerId", queryTransactionResponse.getCustomerId());
+        
+    }
+    
+    @Test
+    public void testQueryTransactionResponse_transactionFound() {
+        QueryTransaction queryTransaction = new QueryTransaction();
+        queryTransaction.setId("findId");
+        queryTransaction.setCustomerId("customerId");
+        queryTransaction.setOrigId("org1");
+        queryTransaction.setOrigActionType(ActionTypeEnum.A);
+        
+        
+        
+        Communication mockedComm = mock (Communication.class); 
+        when(mockedComm.requestToServer(matches(".*?<litleOnlineRequest.*?<queryTransaction.*id=\"findId\".*?customerId=\"customerId\".*?<origId>org1</origId>.*?<origActionType>A</origActionType>.*?"),
+                any(Properties.class))).thenReturn("<litleOnlineResponse version='10.1' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><queryTransactionResponse id='findId' customerId='customerId'> <response>150</response> <responseTime>2015-04-14T12:37:26</responseTime> " +
+                		"<message>Original transaction found</message><matchCount>1</matchCount>" +
+                		"<results_max10> <authorizationResponse id=\"findId\" > <litleTxnId>1111111</litleTxnId> <orderId>150306_auth</orderId> <response>000</response><responseTime>2015-04-14T12:37:23</responseTime><postDate>2015-04-14</postDate><message>Approved</message></authorizationResponse></results_max10></queryTransactionResponse></litleOnlineResponse>");
+        
+        litle.setCommunication(mockedComm);
+        TransactionTypeWithReportGroup response = litle.queryTransaction(queryTransaction);
+        QueryTransactionResponse queryTransactionResponse = (QueryTransactionResponse)response;
+        assertEquals("findId", queryTransactionResponse.getId());
+        assertEquals("customerId", queryTransactionResponse.getCustomerId());
+        assertEquals("150", queryTransactionResponse.getResponse());
+        assertEquals(1, queryTransactionResponse.getResultsMax10().getTransactionResponses().size());
+        JAXBElement authorization = queryTransactionResponse.getResultsMax10().getTransactionResponses().get(0);
+        AuthorizationResponse authResponse = (AuthorizationResponse)authorization.getValue();
+        assertEquals(1111111L,authResponse.getLitleTxnId());
+    }
+    
+    @Test
+    public void testQueryTransactionResponse_unavailable() {
+        QueryTransaction queryTransaction = new QueryTransaction();
+        queryTransaction.setId("1234");
+        queryTransaction.setCustomerId("customerId");
+        queryTransaction.setOrigId("org1");
+        queryTransaction.setOrigActionType(ActionTypeEnum.A);
+        
+        Communication mockedComm = mock (Communication.class);
+        when(mockedComm.requestToServer(matches(".*?<litleOnlineRequest.*?<queryTransaction.*id=\"1234\".*?customerId=\"customerId\".*?<origId>org1</origId>.*?<origActionType>A</origActionType>.*?"),
+                any(Properties.class))).thenReturn("<litleOnlineResponse version='10.1' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><queryTransactionUnavailableResponse id='1234' customerId='customerId'><litleTxnId>123456</litleTxnId> <response>123</response> <message>Sample message</message></queryTransactionUnavailableResponse></litleOnlineResponse>");
+        
+        litle.setCommunication(mockedComm);
+        TransactionTypeWithReportGroup response =litle.queryTransaction(queryTransaction);
+        QueryTransactionUnavailableResponse unavailableResponse = (QueryTransactionUnavailableResponse)response;
+        assertEquals("1234", unavailableResponse.getId());
+        assertEquals(123456L,unavailableResponse.getLitleTxnId());
+        assertEquals("Sample message", unavailableResponse.getMessage());
+    }
+    
+    
 
 }

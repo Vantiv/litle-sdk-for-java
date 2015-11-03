@@ -61,6 +61,7 @@ import com.litle.sdk.generate.EcheckVerification;
 import com.litle.sdk.generate.EcheckVerificationResponse;
 import com.litle.sdk.generate.ForceCapture;
 import com.litle.sdk.generate.ForceCaptureResponse;
+import com.litle.sdk.generate.FundingInstructionVoidResponse;
 import com.litle.sdk.generate.IntervalTypeEnum;
 import com.litle.sdk.generate.LitleTransactionInterface;
 import com.litle.sdk.generate.Load;
@@ -791,15 +792,11 @@ public class TestBatchFile {
 
                     public void processEcheckPreNoteSaleResponse(
                             EcheckPreNoteSaleResponse echeckPreNoteSaleResponse) {
-                        assertEquals(echeckPreNoteSaleResponse.getOrderId(),
-                                echeckPreNoteSaleResponse.getResponse());
 
                     }
 
                     public void processEcheckPreNoteCreditResponse(
                             EcheckPreNoteCreditResponse echeckPreNoteCreditResponse) {
-                        assertEquals(echeckPreNoteCreditResponse.getOrderId(),
-                                echeckPreNoteCreditResponse.getResponse());
 
                     }
 
@@ -849,6 +846,12 @@ public class TestBatchFile {
 
                     public void processAccountUpdate(
                             AccountUpdateResponse accountUpdateResponse) {
+                    }
+
+                    public void processFundingInstructionVoidResponse(
+                            FundingInstructionVoidResponse fundingInstructionVoidResponse) {
+                        // TODO Auto-generated method stub
+                        
                     }
                 })) {
 
@@ -1214,6 +1217,12 @@ public class TestBatchFile {
                             PhysicalCheckDebitResponse checkDebitResponse) {
                     }
 
+                    public void processFundingInstructionVoidResponse(
+                            FundingInstructionVoidResponse fundingInstructionVoidResponse) {
+                        // TODO Auto-generated method stub
+                        
+                    }
+
                 })) {
             txns++;
         }
@@ -1391,7 +1400,6 @@ public class TestBatchFile {
                         assertEquals("12345", accountUpdateResponse.getId());
                         assertEquals("0987",
                                 accountUpdateResponse.getCustomerId());
-                        assertEquals("1234", accountUpdateResponse.getOrderId());
                     }
 
                     public void processUpdateSubscriptionResponse(
@@ -1479,6 +1487,12 @@ public class TestBatchFile {
 
                     public void processPhysicalCheckDebitResponse(
                             PhysicalCheckDebitResponse checkDebitResponse) {
+                    }
+
+                    public void processFundingInstructionVoidResponse(
+                            FundingInstructionVoidResponse fundingInstructionVoidResponse) {
+                        // TODO Auto-generated method stub
+                        
                     }
                 })) {
             txns++;
@@ -1774,6 +1788,12 @@ public class TestBatchFile {
                 PhysicalCheckDebitResponse physicalCheckDebitResponse) {
             assertNotNull(physicalCheckDebitResponse.getLitleTxnId());
             responseCount++;
+        }
+
+        public void processFundingInstructionVoidResponse(
+                FundingInstructionVoidResponse fundingInstructionVoidResponse) {
+            // TODO Auto-generated method stub
+            
         }
     }
 

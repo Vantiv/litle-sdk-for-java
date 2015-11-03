@@ -18,6 +18,8 @@ import com.litle.sdk.generate.EcheckRedepositResponse;
 import com.litle.sdk.generate.EcheckSalesResponse;
 import com.litle.sdk.generate.EcheckVerificationResponse;
 import com.litle.sdk.generate.ForceCaptureResponse;
+import com.litle.sdk.generate.FundingInstructionVoid;
+import com.litle.sdk.generate.FundingInstructionVoidResponse;
 import com.litle.sdk.generate.LoadResponse;
 import com.litle.sdk.generate.PayFacCreditResponse;
 import com.litle.sdk.generate.PayFacDebitResponse;
@@ -112,4 +114,6 @@ public interface LitleResponseProcessor {
     void processReserveDebitResponse(ReserveDebitResponse reserveDebitResponse);
     
     void processPhysicalCheckDebitResponse(PhysicalCheckDebitResponse checkDebitResponse);
+    
+    void processFundingInstructionVoidResponse(FundingInstructionVoidResponse fundingInstructionVoidResponse);
 }

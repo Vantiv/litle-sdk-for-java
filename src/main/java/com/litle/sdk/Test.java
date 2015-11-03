@@ -23,6 +23,7 @@ import com.litle.sdk.generate.EcheckRedepositResponse;
 import com.litle.sdk.generate.EcheckSalesResponse;
 import com.litle.sdk.generate.EcheckVerificationResponse;
 import com.litle.sdk.generate.ForceCaptureResponse;
+import com.litle.sdk.generate.FundingInstructionVoidResponse;
 import com.litle.sdk.generate.LoadResponse;
 import com.litle.sdk.generate.MethodOfPaymentTypeEnum;
 import com.litle.sdk.generate.OrderSourceType;
@@ -101,7 +102,7 @@ public class Test {
                 public void processSaleResponse(SaleResponse saleResponse) { }
 
                 public void processCreditResponse(CreditResponse creditResponse) {
-                    System.out.println(creditResponse.getLitleTxnId());
+                    System.out.println(creditResponse.getLitleTxnId()); 
                     System.out.println(creditResponse.getResponseTime().toString());
                     System.out.println(creditResponse.getMessage());
                 }
@@ -199,6 +200,12 @@ public class Test {
                 public void processPhysicalCheckDebitResponse(
                         PhysicalCheckDebitResponse checkDebitResponse) {
                     }
+
+                public void processFundingInstructionVoidResponse(
+                        FundingInstructionVoidResponse fundingInstructionVoidResponse) {
+                    // TODO Auto-generated method stub
+                    
+                }
             })){
                 System.out.println("Processed another txn!");
             }
