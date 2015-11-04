@@ -292,7 +292,7 @@ public class LitleBatchRequest {
             transactionAdded = true;
             numOfTxn ++;
         } else if(transactionType instanceof SubmerchantCredit) {
-            batchRequest.setNumSubmerchantCredit(batchRequest.getSubmerchantCreditAmount().add(BigInteger.valueOf(1)));
+            batchRequest.setNumSubmerchantCredit(batchRequest.getNumSubmerchantCredit().add(BigInteger.valueOf(1)));
             batchRequest.setSubmerchantCreditAmount((batchRequest.getSubmerchantCreditAmount().add(BigInteger.valueOf(((SubmerchantCredit) transactionType).getAmount()))));
             transaction = objFac.createSubmerchantCredit((SubmerchantCredit)transactionType);
             transactionAdded = true;
