@@ -35,6 +35,7 @@ public class TestCert5Token {
 		RegisterTokenRequestType request = new RegisterTokenRequestType();
 		request.setOrderId("50");
 		request.setAccountNumber("4457119922390123");
+		request.setId("id");
 		
 		RegisterTokenResponse response = litle.registerToken(request);
 		assertEquals(response.getMessage(), "445711", response.getBin());
@@ -49,6 +50,7 @@ public class TestCert5Token {
 		RegisterTokenRequestType request = new RegisterTokenRequestType();
 		request.setOrderId("51");
 		request.setAccountNumber("4457119999999999");
+		request.setId("id");
 		
 		RegisterTokenResponse response = litle.registerToken(request);
 		assertEquals(response.getMessage(), "820", response.getResponse());
@@ -60,6 +62,7 @@ public class TestCert5Token {
 		RegisterTokenRequestType request = new RegisterTokenRequestType();
 		request.setOrderId("52");
 		request.setAccountNumber("4457119922390123");
+		request.setId("id");
 		
 		RegisterTokenResponse response = litle.registerToken(request);
 		assertEquals(response.getMessage(), "445711", response.getBin());
@@ -77,6 +80,7 @@ public class TestCert5Token {
 		echeck.setAccNum("1099999998");
 		echeck.setRoutingNum("114567895");
 		request.setEcheckForToken(echeck);
+		request.setId("id");
 		
 		RegisterTokenResponse response = litle.registerToken(request);
 		assertEquals(response.getMessage(), MethodOfPaymentTypeEnum.EC, response.getType());
@@ -94,6 +98,7 @@ public class TestCert5Token {
 		echeck.setAccNum("1022222102");
 		echeck.setRoutingNum("1145_7895");
 		request.setEcheckForToken(echeck);
+		request.setId("id");
 		
 		RegisterTokenResponse response = litle.registerToken(request);
 		assertEquals(response.getMessage(), "900", response.getResponse());
@@ -112,6 +117,7 @@ public class TestCert5Token {
 		card.setCardValidationNum("987");
 		card.setType(MethodOfPaymentTypeEnum.MC);
 		auth.setCard(card);
+		auth.setId("id");
 		
 		AuthorizationResponse response = litle.authorize(auth);
 		assertEquals(response.getMessage(), "000", response.getResponse());
@@ -134,6 +140,7 @@ public class TestCert5Token {
 		card.setCardValidationNum("987");
 		card.setType(MethodOfPaymentTypeEnum.MC);
 		auth.setCard(card);
+		auth.setId("id");
 		
 		AuthorizationResponse response = litle.authorize(auth);
 		assertEquals(response.getMessage(), "301", response.getResponse());
@@ -152,6 +159,7 @@ public class TestCert5Token {
 		card.setCardValidationNum("987");
 		card.setType(MethodOfPaymentTypeEnum.MC);
 		auth.setCard(card);
+		auth.setId("id");
 		
 		AuthorizationResponse response = litle.authorize(auth);
 		assertEquals(response.getMessage(), "000", response.getResponse());
@@ -172,6 +180,7 @@ public class TestCert5Token {
 		token.setLitleToken("1712990000040196");
 		token.setExpDate("1112");
 		auth.setToken(token);
+		auth.setId("id");
 		
 		AuthorizationResponse response = litle.authorize(auth);
 		assertEquals(response.getMessage(), "822", response.getResponse());
@@ -188,6 +197,7 @@ public class TestCert5Token {
 		token.setLitleToken("1712999999999999");
 		token.setExpDate("1112");
 		auth.setToken(token);
+		auth.setId("id");
 		
 		AuthorizationResponse response = litle.authorize(auth);
 		assertEquals(response.getMessage(), "823", response.getResponse());
@@ -209,6 +219,7 @@ public class TestCert5Token {
 		echeck.setAccNum("1099999003");
 		echeck.setRoutingNum("114567895");
 		sale.setEcheck(echeck);
+		sale.setId("id");
 		
 		EcheckSalesResponse response = litle.echeckSale(sale);
 		assertEquals(response.getMessage(), "801", response.getTokenResponse().getTokenResponseCode());
@@ -232,6 +243,7 @@ public class TestCert5Token {
 		echeck.setAccNum("1099999999");
 		echeck.setRoutingNum("114567895");
 		sale.setEcheck(echeck);
+	    sale.setId("id");
 		
 		EcheckSalesResponse response = litle.echeckSale(sale);
 		assertEquals(response.getMessage(), "801", response.getTokenResponse().getTokenResponseCode());
@@ -256,6 +268,7 @@ public class TestCert5Token {
 		echeck.setAccNum("1099999999");
 		echeck.setRoutingNum("214567892");
 		sale.setEcheck(echeck);
+	    sale.setId("id");
 		
 		EcheckSalesResponse response = litle.echeckSale(sale);
 		assertEquals(response.getMessage(), "801", response.getTokenResponse().getTokenResponseCode());

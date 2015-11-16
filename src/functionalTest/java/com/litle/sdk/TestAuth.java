@@ -39,6 +39,7 @@ public class TestAuth {
 		authorization.setOrderId("12344");
 		authorization.setAmount(106L);
 		authorization.setOrderSource(OrderSourceType.ECOMMERCE);
+	    authorization.setId("id");
 		CardType card = new CardType();
 		card.setType(MethodOfPaymentTypeEnum.VI);
 		card.setNumber("4100000000000000");
@@ -56,6 +57,7 @@ public class TestAuth {
 		authorization.setOrderId("123456");
 		authorization.setAmount(106L);
 		authorization.setOrderSource(OrderSourceType.ECOMMERCE);
+	    authorization.setId("id");
 		PayPal paypal = new PayPal();
 		paypal.setPayerId("1234");
 		paypal.setToken("1234");
@@ -74,6 +76,7 @@ public class TestAuth {
         authorization.setAmount(110L);
         authorization.setSecondaryAmount(50L);
         authorization.setOrderSource(OrderSourceType.ECOMMERCE);
+        authorization.setId("id");
         ApplepayType applepayType = new ApplepayType();
         ApplepayHeaderType applepayHeaderType = new ApplepayHeaderType();
         applepayHeaderType.setApplicationData("454657413164");
@@ -83,7 +86,7 @@ public class TestAuth {
         applepayType.setHeader(applepayHeaderType);
         applepayType.setData("user");
         applepayType.setSignature("sign");
-        applepayType.setVersion("1");
+        applepayType.setVersion("12345");
         authorization.setApplepay(applepayType);
 
         AuthorizationResponse response = litle.authorize(authorization);
@@ -121,6 +124,7 @@ public class TestAuth {
 		authorization.setOrderId("12344");
 		authorization.setAmount(106L);
 		authorization.setOrderSource(OrderSourceType.ECOMMERCE);
+		authorization.setId("id");
 		CardType card = new CardType();
 		card.setType(MethodOfPaymentTypeEnum.VI);
 		card.setNumber("4100100000000000");

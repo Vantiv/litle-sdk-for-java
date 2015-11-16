@@ -48,6 +48,7 @@ public class TestCert3AuthReversal {
 		card.setCardValidationNum("349");
 		card.setType(MethodOfPaymentTypeEnum.VI);
 		auth.setCard(card);
+		auth.setId("id");
 		
 		AuthorizationResponse authorizeResponse = litle.authorize(auth);
 		assertEquals(authorizeResponse.getMessage(), "000", authorizeResponse.getResponse());
@@ -59,15 +60,17 @@ public class TestCert3AuthReversal {
 		Capture capture = new Capture();
 		capture.setLitleTxnId(authorizeResponse.getLitleTxnId());
 		capture.setAmount(5005L);
+		capture.setId("id");
 		CaptureResponse captureResponse = litle.capture(capture);
-		assertEquals(captureResponse.getMessage(), "000", captureResponse.getResponse());
-		assertEquals(captureResponse.getMessage(), "Approved", captureResponse.getMessage());
+		assertEquals(captureResponse.getMessage(), "001", captureResponse.getResponse());
+		assertEquals(captureResponse.getMessage(), "Transaction Received", captureResponse.getMessage());
 
 		AuthReversal reversal = new AuthReversal();
+		reversal.setId("id");
 		reversal.setLitleTxnId(authorizeResponse.getLitleTxnId());
 		AuthReversalResponse reversalResponse = litle.authReversal(reversal);
-		assertEquals(reversalResponse.getMessage(), "111", reversalResponse.getResponse());
-		assertEquals(reversalResponse.getMessage(), "Authorization amount has already been depleted", reversalResponse.getMessage());
+		assertEquals(reversalResponse.getMessage(), "001", reversalResponse.getResponse());
+		assertEquals(reversalResponse.getMessage(), "Transaction Received", reversalResponse.getMessage());
 	}
 	
 	@Test
@@ -94,6 +97,7 @@ public class TestCert3AuthReversal {
 		FraudCheckType fraud = new FraudCheckType();
 		fraud.setAuthenticationValue("BwABBJQ1AgAAAAAgJDUCAAAAAAA=");
 		auth.setCardholderAuthentication(fraud);
+		auth.setId("id");
 		
 		AuthorizationResponse authorizeResponse = litle.authorize(auth);
 		assertEquals(authorizeResponse.getMessage(), "000", authorizeResponse.getResponse());
@@ -103,10 +107,11 @@ public class TestCert3AuthReversal {
 		assertEquals(authorizeResponse.getMessage(), "M", authorizeResponse.getFraudResult().getCardValidationResult());
 		
 		AuthReversal reversal = new AuthReversal();
+		reversal.setId("id");
 		reversal.setLitleTxnId(authorizeResponse.getLitleTxnId());
 		AuthReversalResponse reversalResponse = litle.authReversal(reversal);
-		assertEquals(reversalResponse.getMessage(), "000", reversalResponse.getResponse());
-		assertEquals(reversalResponse.getMessage(), "Approved", reversalResponse.getMessage());
+		assertEquals(reversalResponse.getMessage(), "001", reversalResponse.getResponse());
+		assertEquals(reversalResponse.getMessage(), "Transaction Received", reversalResponse.getMessage());
 	}
 	
 	@Test
@@ -129,6 +134,7 @@ public class TestCert3AuthReversal {
 		card.setCardValidationNum("758");
 		card.setType(MethodOfPaymentTypeEnum.DI);
 		auth.setCard(card);
+		auth.setId("id");
 		
 		AuthorizationResponse authorizeResponse = litle.authorize(auth);
 		assertEquals(authorizeResponse.getMessage(), "000", authorizeResponse.getResponse());
@@ -138,10 +144,11 @@ public class TestCert3AuthReversal {
 		assertEquals(authorizeResponse.getMessage(), "M", authorizeResponse.getFraudResult().getCardValidationResult());
 		
 		AuthReversal reversal = new AuthReversal();
+		reversal.setId("id");
 		reversal.setLitleTxnId(authorizeResponse.getLitleTxnId());
 		AuthReversalResponse reversalResponse = litle.authReversal(reversal);
-		assertEquals(reversalResponse.getMessage(), "000", reversalResponse.getResponse());
-		assertEquals(reversalResponse.getMessage(), "Approved", reversalResponse.getMessage());
+		assertEquals(reversalResponse.getMessage(), "001", reversalResponse.getResponse());
+		assertEquals(reversalResponse.getMessage(), "Transaction Received", reversalResponse.getMessage());
 	}
 	
 	@Test
@@ -163,6 +170,7 @@ public class TestCert3AuthReversal {
 		card.setExpDate("0412");
 		card.setType(MethodOfPaymentTypeEnum.AX);
 		auth.setCard(card);
+		auth.setId("id");
 		
 		AuthorizationResponse authorizeResponse = litle.authorize(auth);
 		assertEquals(authorizeResponse.getMessage(), "000", authorizeResponse.getResponse());
@@ -173,16 +181,18 @@ public class TestCert3AuthReversal {
 		Capture capture = new Capture();
 		capture.setLitleTxnId(authorizeResponse.getLitleTxnId());
 		capture.setAmount(20020L);
+		capture.setId("id");
 		CaptureResponse captureResponse = litle.capture(capture);
-		assertEquals(captureResponse.getMessage(), "000", captureResponse.getResponse());
-		assertEquals(captureResponse.getMessage(), "Approved", captureResponse.getMessage());
+		assertEquals(captureResponse.getMessage(), "001", captureResponse.getResponse());
+		assertEquals(captureResponse.getMessage(), "Transaction Received", captureResponse.getMessage());
 		
 		AuthReversal reversal = new AuthReversal();
 		reversal.setLitleTxnId(authorizeResponse.getLitleTxnId());
 		reversal.setAmount(20020L);
+		reversal.setId("id");
 		AuthReversalResponse reversalResponse = litle.authReversal(reversal);
-		assertEquals(reversalResponse.getMessage(), "000", reversalResponse.getResponse());
-		assertEquals(reversalResponse.getMessage(), "Approved", reversalResponse.getMessage());
+		assertEquals(reversalResponse.getMessage(), "001", reversalResponse.getResponse());
+		assertEquals(reversalResponse.getMessage(), "Transaction Received", reversalResponse.getMessage());
 	}
 	
 	@Test
@@ -196,6 +206,7 @@ public class TestCert3AuthReversal {
 		card.setExpDate("0512");
 		card.setType(MethodOfPaymentTypeEnum.AX);
 		auth.setCard(card);
+		auth.setId("id");
 		
 		AuthorizationResponse authorizeResponse = litle.authorize(auth);
 		assertEquals(authorizeResponse.getMessage(), "000", authorizeResponse.getResponse());
@@ -204,9 +215,10 @@ public class TestCert3AuthReversal {
 		AuthReversal reversal = new AuthReversal();
 		reversal.setLitleTxnId(authorizeResponse.getLitleTxnId());
 		reversal.setAmount(10000L);
+		reversal.setId("id");
 		AuthReversalResponse reversalResponse = litle.authReversal(reversal);
-		assertEquals(reversalResponse.getMessage(), "336", reversalResponse.getResponse());
-		assertEquals(reversalResponse.getMessage(), "Reversal Amount does not match Authorization amount", reversalResponse.getMessage());
+		assertEquals(reversalResponse.getMessage(), "001", reversalResponse.getResponse());
+		assertEquals(reversalResponse.getMessage(), "Transaction Received", reversalResponse.getMessage());
 	}
 
 }

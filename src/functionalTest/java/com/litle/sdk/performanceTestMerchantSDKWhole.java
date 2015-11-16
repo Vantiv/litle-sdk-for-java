@@ -80,7 +80,8 @@ public class performanceTestMerchantSDKWhole {
     		card.setNumber("4100000000000002");
     		card.setExpDate("1210");
     		sale.setCard(card);
-
+    		sale.setId(Integer.toString(i));
+    		
     		litleBatchRequest.addTransaction(sale);
 		}
 

@@ -25,6 +25,7 @@ public class TestCapture {
 		capture.setLitleTxnId(123456000L);
 		capture.setAmount(106L);
 		capture.setPayPalNotes("Notes");
+		capture.setId("id");
 
 		CaptureResponse response = litle.capture(capture);
 		assertEquals("Approved", response.getMessage());
@@ -37,6 +38,7 @@ public class TestCapture {
 		capture.setAmount(106L);
 		capture.setPartial(true);
 		capture.setPayPalNotes("Notes");
+		capture.setId("id");
 
 		CaptureResponse response = litle.capture(capture);
 		assertEquals("Approved", response.getMessage());
@@ -54,6 +56,7 @@ public class TestCapture {
 		enhancedData.setDeliveryType(DeliveryType.TBD);
 		capture.setEnhancedData(enhancedData);
 		capture.setPayPalOrderComplete(true);
+		capture.setId("id");
 
 		CaptureResponse response = litle.capture(capture);
 		assertEquals("Approved", response.getMessage());

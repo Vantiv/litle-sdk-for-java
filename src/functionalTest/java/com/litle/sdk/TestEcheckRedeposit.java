@@ -24,6 +24,7 @@ public class TestEcheckRedeposit {
 	public void simpleEcheckRedeposit() throws Exception{
 		EcheckRedeposit echeckredeposit = new EcheckRedeposit();
 		echeckredeposit.setLitleTxnId(123456L);
+		echeckredeposit.setId("id");
 		EcheckRedepositResponse response = litle.echeckRedeposit(echeckredeposit);
 		assertEquals("Approved", response.getMessage());
 	}
@@ -37,6 +38,7 @@ public class TestEcheckRedeposit {
 		echeck.setAccNum("12345657890");
 		echeck.setRoutingNum("123456789");
 		echeck.setCheckNum("123455");
+	    echeckredeposit.setId("id");
 		
 		echeckredeposit.setEcheck(echeck);
 		EcheckRedepositResponse response = litle.echeckRedeposit(echeckredeposit);
@@ -52,6 +54,7 @@ public class TestEcheckRedeposit {
 		echeckToken.setLitleToken("1234565789012");
 		echeckToken.setRoutingNum("123456789");
 		echeckToken.setCheckNum("123455");
+	    echeckredeposit.setId("id");
 		
 		echeckredeposit.setEcheckToken(echeckToken);
 		EcheckRedepositResponse response = litle.echeckRedeposit(echeckredeposit);

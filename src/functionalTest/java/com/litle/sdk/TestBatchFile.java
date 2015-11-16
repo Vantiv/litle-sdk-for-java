@@ -441,6 +441,7 @@ public class TestBatchFile {
         sale11.setOrderId("orderId11");
         sale11.setAmount(1099L);
         sale11.setOrderSource(OrderSourceType.ECOMMERCE);
+        sale11.setId("id");
 
         CardType card = new CardType();
         card.setType(MethodOfPaymentTypeEnum.VI);
@@ -492,6 +493,7 @@ public class TestBatchFile {
         auth.setAmount(106L);
         auth.setOrderSource(OrderSourceType.ECOMMERCE);
         auth.setCard(card);
+        auth.setId("id");
         batch.addTransaction(auth);
 
         Sale sale = new Sale();
@@ -500,6 +502,7 @@ public class TestBatchFile {
         sale.setAmount(6000L);
         sale.setOrderSource(OrderSourceType.ECOMMERCE);
         sale.setCard(card);
+        sale.setId("id");
         batch.addTransaction(sale);
 
         Credit credit = new Credit();
@@ -508,6 +511,7 @@ public class TestBatchFile {
         credit.setAmount(106L);
         credit.setOrderSource(OrderSourceType.ECOMMERCE);
         credit.setCard(card);
+        credit.setId("id");
         batch.addTransaction(credit);
 
         AuthReversal authReversal = new AuthReversal();
@@ -515,12 +519,14 @@ public class TestBatchFile {
         authReversal.setLitleTxnId(12345678000L);
         authReversal.setAmount(106L);
         authReversal.setPayPalNotes("Notes");
+        authReversal.setId("id");
         batch.addTransaction(authReversal);
 
         RegisterTokenRequestType registerTokenRequestType = new RegisterTokenRequestType();
         registerTokenRequestType.setReportGroup("Planets");
         registerTokenRequestType.setOrderId("12344");
         registerTokenRequestType.setAccountNumber("1233456789103801");
+        registerTokenRequestType.setId("id");
         batch.addTransaction(registerTokenRequestType);
 
         UpdateCardValidationNumOnToken cardValidationNumOnToken = new UpdateCardValidationNumOnToken();
@@ -530,6 +536,7 @@ public class TestBatchFile {
         cardValidationNumOnToken.setOrderId("12344");
         cardValidationNumOnToken.setLitleToken("1233456789103801");
         cardValidationNumOnToken.setCardValidationNum("123");
+        cardValidationNumOnToken.setId("id");
         batch.addTransaction(cardValidationNumOnToken);
 
         ForceCapture forceCapture = new ForceCapture();
@@ -539,12 +546,14 @@ public class TestBatchFile {
         forceCapture.setAmount(106L);
         forceCapture.setOrderSource(OrderSourceType.ECOMMERCE);
         forceCapture.setCard(card);
+        forceCapture.setId("id");
         batch.addTransaction(forceCapture);
 
         Capture capture = new Capture();
         capture.setReportGroup("Planets");
         capture.setLitleTxnId(123456000L);
         capture.setAmount(106L);
+        capture.setId("id");
         batch.addTransaction(capture);
 
         CaptureGivenAuth captureGivenAuth = new CaptureGivenAuth();
@@ -558,6 +567,7 @@ public class TestBatchFile {
         captureGivenAuth.setAuthInformation(authInformation);
         captureGivenAuth.setOrderSource(OrderSourceType.ECOMMERCE);
         captureGivenAuth.setCard(card);
+        captureGivenAuth.setId("id");
         batch.addTransaction(captureGivenAuth);
 
         EcheckVerification echeckVerification = new EcheckVerification();
@@ -567,17 +577,20 @@ public class TestBatchFile {
         echeckVerification.setOrderSource(OrderSourceType.ECOMMERCE);
         echeckVerification.setBillToAddress(contact);
         echeckVerification.setEcheck(echeck);
+        echeckVerification.setId("id");
         batch.addTransaction(echeckVerification);
 
         EcheckCredit echeckCredit = new EcheckCredit();
         echeckCredit.setReportGroup("Planets");
         echeckCredit.setLitleTxnId(1234567890L);
         echeckCredit.setAmount(12L);
+        echeckCredit.setId("id");
         batch.addTransaction(echeckCredit);
 
         EcheckRedeposit echeckRedeposit = new EcheckRedeposit();
         echeckRedeposit.setReportGroup("Planets");
         echeckRedeposit.setLitleTxnId(124321341412L);
+        echeckRedeposit.setId("id");
         batch.addTransaction(echeckRedeposit);
 
         EcheckSale echeckSale = new EcheckSale();
@@ -588,6 +601,7 @@ public class TestBatchFile {
         echeckSale.setBillToAddress(contact);
         echeckSale.setEcheck(echeck);
         echeckSale.setVerify(true);
+        echeckSale.setId("id");
         batch.addTransaction(echeckSale);
 
         int transactionCount = batch.getNumberOfTransactions();
@@ -1012,6 +1026,7 @@ public class TestBatchFile {
         activate.setAmount(100L);
         activate.setOrderId("abc");
         activate.setCard(giftCard);
+        activate.setId("id");
         batch.addTransaction(activate);
 
         Deactivate deactivate = new Deactivate();
@@ -1019,6 +1034,7 @@ public class TestBatchFile {
         deactivate.setOrderId("def");
         deactivate.setOrderSource(OrderSourceType.ECOMMERCE);
         deactivate.setCard(giftCard);
+        deactivate.setId("id");
         batch.addTransaction(deactivate);
 
         Load load = new Load();
@@ -1027,6 +1043,7 @@ public class TestBatchFile {
         load.setAmount(100L);
         load.setOrderSource(OrderSourceType.ECOMMERCE);
         load.setCard(giftCard);
+        load.setId("id");
         batch.addTransaction(load);
 
         Unload unload = new Unload();
@@ -1035,6 +1052,7 @@ public class TestBatchFile {
         unload.setAmount(100L);
         unload.setOrderSource(OrderSourceType.ECOMMERCE);
         unload.setCard(giftCard);
+        unload.setId("id");
         batch.addTransaction(unload);
 
         BalanceInquiry balanceInquiry = new BalanceInquiry();
@@ -1042,6 +1060,7 @@ public class TestBatchFile {
         balanceInquiry.setOrderId("mno");
         balanceInquiry.setOrderSource(OrderSourceType.ECOMMERCE);
         balanceInquiry.setCard(giftCard);
+        balanceInquiry.setId("id");
         batch.addTransaction(balanceInquiry);
 
         LitleBatchFileResponse fileResponse = request.sendToLitle();
