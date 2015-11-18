@@ -172,7 +172,7 @@ public class TestAuth {
 	    enhanced.getDetailTaxes().add(dt2);
 	    authorization.setEnhancedData(enhanced);
 	    CardType card = new CardType();
-	    card.setNumber("4100000000000001");
+	    card.setNumber("4100000000000000");
 	    card.setExpDate("1215");
 	    card.setType(MethodOfPaymentTypeEnum.VI);
         authorization.setCard(card);
