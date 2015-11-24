@@ -18,7 +18,7 @@ public class CaptureGivenAuthExample {
 	capturegivenauth.setOrderSource(OrderSourceType.ECOMMERCE);
 	CardType card = new CardType();
 	card.setType(MethodOfPaymentTypeEnum.VI);
-	card.setNumber("4100000000000001");
+	card.setNumber("4100000000000000");
 	card.setExpDate("1210");
 	capturegivenauth.setCard(card);
  
