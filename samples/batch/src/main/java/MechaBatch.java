@@ -18,7 +18,7 @@ public class MechaBatch {
 	 
 	//card
 	CardType card = new CardType();
-	card.setNumber("4100000000000001");
+	card.setNumber("4100000000000000");
 	card.setExpDate("1210");
 	card.setType(MethodOfPaymentTypeEnum.VI);
 	 
