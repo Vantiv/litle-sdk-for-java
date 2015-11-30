@@ -35,6 +35,7 @@ public class TestCredit {
         card.setNumber("4100000000000001");
         card.setExpDate("1210");
         credit.setCard(card);
+        credit.setId("id");
         CreditResponse response = litle.credit(credit);
         assertEquals("Approved", response.getMessage());
     }
@@ -48,6 +49,7 @@ public class TestCredit {
         Paypal paypal = new Paypal();
         paypal.setPayerId("1234");
         credit.setPaypal(paypal);
+        credit.setId("id");
         CreditResponse response = litle.credit(credit);
         assertEquals("Approved", response.getMessage());
     }
@@ -64,6 +66,7 @@ public class TestCredit {
         card.setNumber("4100000000000001");
         card.setExpDate("1210");
         credit.setCard(card);
+        credit.setId("id");
         CreditResponse response = litle.credit(credit);
         assertEquals("Approved", response.getMessage());
     }
@@ -74,6 +77,7 @@ public class TestCredit {
         credit.setAmount(106L);
         credit.setSecondaryAmount(20L);
         credit.setLitleTxnId(1234L);
+        credit.setId("id");
         CreditResponse response = litle.credit(credit);
         assertEquals("Approved", response.getMessage());
     }
@@ -85,6 +89,7 @@ public class TestCredit {
         credit.setAmount(106L);
         credit.setSecondaryAmount(20L);
         credit.setLitleTxnId(1234L);
+        credit.setId("id");
         try {
             CreditResponse response = litle.credit(credit);
             fail("Litle Txn and Order Id should conflict, fail to throw a exception");
@@ -105,6 +110,7 @@ public class TestCredit {
         card.setNumber("4100000000000001");
         card.setExpDate("1210");
         credit.setCard(card);
+        credit.setId("id");
         CreditResponse response = litle.credit(credit);
         assertEquals("Approved", response.getMessage());
     }
@@ -123,6 +129,7 @@ public class TestCredit {
         card.setNumber("4100000000000001");
         card.setExpDate("1210");
         credit.setCard(card);
+        credit.setId("id");
         CreditResponse response = litle.credit(credit);
         assertEquals("Approved", response.getMessage());
     }

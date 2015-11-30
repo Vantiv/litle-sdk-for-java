@@ -70,6 +70,12 @@
             <xs:maxLength value="80" />
         </xs:restriction>
     </xs:simpleType>
+    
+    <xs:simpleType name="string36Type">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="36" />
+        </xs:restriction>
+    </xs:simpleType>
 
     <xs:simpleType name="string256Type">
         <xs:restriction base="xs:string">
@@ -130,7 +136,30 @@
             <xs:enumeration value="" />
         </xs:restriction>
     </xs:simpleType>
-
+    
+    <xs:simpleType name="actionTypeEnum">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="A" />
+            <xs:enumeration value="D" />
+            <xs:enumeration value="R" />
+            <xs:enumeration value="AR" />
+            <xs:enumeration value="G" />
+            <xs:enumeration value="I" />
+            <xs:enumeration value="J" />
+            <xs:enumeration value="L" />
+            <xs:enumeration value="LR" />
+            <xs:enumeration value="P" />
+            <xs:enumeration value="RR" />
+            <xs:enumeration value="S" />
+            <xs:enumeration value="T" />
+            <xs:enumeration value="UR" />
+            <xs:enumeration value="V" />
+            <xs:enumeration value="W" />
+            <xs:enumeration value="X" />
+            <xs:enumeration value="" />
+        </xs:restriction>
+    </xs:simpleType>
+    
     <xs:simpleType name="govtTaxTypeEnum">
         <xs:restriction base="xs:string">
             <xs:enumeration value="payment" />

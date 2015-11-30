@@ -23,6 +23,7 @@ public class TestEcheckVoid {
 	public void simpleEcheckVoid() throws Exception{
 		EcheckVoid echeckvoid = new EcheckVoid();
 		echeckvoid.setLitleTxnId(123456789101112L);
+		echeckvoid.setId("id");
 		EcheckVoidResponse response = litle.echeckVoid(echeckvoid);
 		assertEquals("Approved", response.getMessage());
 	}

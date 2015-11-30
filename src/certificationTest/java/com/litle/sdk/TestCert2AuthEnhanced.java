@@ -37,6 +37,7 @@ public class TestCert2AuthEnhanced {
 		card.setNumber("4457010200000247");
 		card.setExpDate("0812");
 		authorization.setCard(card);
+		authorization.setId("id");
 		
 		AuthorizationResponse response = litle.authorize(authorization);
 		assertEquals(response.getMessage(), "000",response.getResponse());
@@ -58,6 +59,7 @@ public class TestCert2AuthEnhanced {
 		card.setNumber("5500000254444445");
 		card.setExpDate("0312");
 		authorization.setCard(card);
+		authorization.setId("id");
 		
 		AuthorizationResponse response = litle.authorize(authorization);
 		assertEquals(response.getMessage(), "000",response.getResponse());
@@ -79,6 +81,7 @@ public class TestCert2AuthEnhanced {
 		card.setNumber("5592106621450897");
 		card.setExpDate("0312");
 		authorization.setCard(card);
+		authorization.setId("id");
 		
 		AuthorizationResponse response = litle.authorize(authorization);
 		assertEquals(response.getMessage(), "000",response.getResponse());
@@ -100,6 +103,7 @@ public class TestCert2AuthEnhanced {
 		card.setNumber("5590409551104142");
 		card.setExpDate("0312");
 		authorization.setCard(card);
+		authorization.setId("id");
 		
 		AuthorizationResponse response = litle.authorize(authorization);
 		assertEquals(response.getMessage(), "000",response.getResponse());
@@ -121,6 +125,7 @@ public class TestCert2AuthEnhanced {
 		card.setNumber("5587755665222179");
 		card.setExpDate("0312");
 		authorization.setCard(card);
+		authorization.setId("id");
 		
 		AuthorizationResponse response = litle.authorize(authorization);
 		assertEquals(response.getMessage(), "000",response.getResponse());
@@ -142,6 +147,7 @@ public class TestCert2AuthEnhanced {
 		card.setNumber("5445840176552850");
 		card.setExpDate("0312");
 		authorization.setCard(card);
+		authorization.setId("id");
 		
 		AuthorizationResponse response = litle.authorize(authorization);
 		assertEquals(response.getMessage(), "000",response.getResponse());
@@ -163,6 +169,7 @@ public class TestCert2AuthEnhanced {
 		card.setNumber("5390016478904678");
 		card.setExpDate("0312");
 		authorization.setCard(card);
+		authorization.setId("id");
 		
 		AuthorizationResponse response = litle.authorize(authorization);
 		assertEquals(response.getMessage(), "000",response.getResponse());
@@ -184,6 +191,7 @@ public class TestCert2AuthEnhanced {
 		card.setNumber("4457010201000246");
 		card.setExpDate("0912");
 		authorization.setCard(card);
+		authorization.setId("id");
 		
 		AuthorizationResponse response = litle.authorize(authorization);
 		assertEquals(response.getMessage(), "000",response.getResponse());
@@ -203,6 +211,7 @@ public class TestCert2AuthEnhanced {
 		card.setNumber("4457010202000245");
 		card.setExpDate("1111");
 		authorization.setCard(card);
+		authorization.setId("id");
 		
 		AuthorizationResponse response = litle.authorize(authorization);
 		assertEquals(response.getMessage(), "000",response.getResponse());
@@ -222,6 +231,7 @@ public class TestCert2AuthEnhanced {
 		card.setNumber("5112010201000109");
 		card.setExpDate("0412");
 		authorization.setCard(card);
+		authorization.setId("id");
 		
 		AuthorizationResponse response = litle.authorize(authorization);
 		assertEquals(response.getMessage(), "000",response.getResponse());
@@ -241,6 +251,7 @@ public class TestCert2AuthEnhanced {
 		card.setNumber("5112010202000108");
 		card.setExpDate("0812");
 		authorization.setCard(card);
+		authorization.setId("id");
 		
 		AuthorizationResponse response = litle.authorize(authorization);
 		assertEquals(response.getMessage(), "000",response.getResponse());
@@ -260,6 +271,7 @@ public class TestCert2AuthEnhanced {
 		card.setNumber("4100204446270000");
 		card.setExpDate("1112");
 		authorization.setCard(card);
+		authorization.setId("id");
 		
 		AuthorizationResponse response = litle.authorize(authorization);
 		assertEquals(response.getMessage(), "000",response.getResponse());
@@ -286,6 +298,7 @@ public class TestCert2AuthEnhanced {
 		healthcareiias.setHealthcareAmounts(healthcareamounts);
 		healthcareiias.setIIASFlag(IIASFlagType.Y);
 		authorization.setHealthcareIIAS(healthcareiias);
+		authorization.setId("id");
 		
 		AuthorizationResponse response = litle.authorize(authorization);
 		assertEquals(response.getMessage(), "341",response.getResponse());
@@ -311,6 +324,7 @@ public class TestCert2AuthEnhanced {
 		healthcareiias.setHealthcareAmounts(healthcareamounts);
 		healthcareiias.setIIASFlag(IIASFlagType.Y);
 		authorization.setHealthcareIIAS(healthcareiias);
+		authorization.setId("id");
 		
 		AuthorizationResponse response = litle.authorize(authorization);
 		assertEquals(response.getMessage(), "341",response.getResponse());
@@ -336,6 +350,7 @@ public class TestCert2AuthEnhanced {
 		healthcareiias.setHealthcareAmounts(healthcareamounts);
 		healthcareiias.setIIASFlag(IIASFlagType.Y);
 		authorization.setHealthcareIIAS(healthcareiias);
+		authorization.setId("id");
 		
 		AuthorizationResponse response = litle.authorize(authorization);
 		assertEquals(response.getMessage(), "000",response.getResponse());
@@ -364,6 +379,7 @@ public class TestCert2AuthEnhanced {
 		healthcareiias.setHealthcareAmounts(healthcareamounts);
 		healthcareiias.setIIASFlag(IIASFlagType.Y);
 		authorization.setHealthcareIIAS(healthcareiias);
+		authorization.setId("id");
 		
 		AuthorizationResponse response = litle.authorize(authorization);
 		assertEquals(response.getMessage(), "341",response.getResponse());
@@ -392,6 +408,7 @@ public class TestCert2AuthEnhanced {
 		healthcareiias.setHealthcareAmounts(healthcareamounts);
 		healthcareiias.setIIASFlag(IIASFlagType.Y);
 		authorization.setHealthcareIIAS(healthcareiias);
+		authorization.setId("id");
 		
 		AuthorizationResponse response = litle.authorize(authorization);
 		assertEquals(response.getMessage(), "341",response.getResponse());
@@ -418,6 +435,7 @@ public class TestCert2AuthEnhanced {
 		healthcareiias.setHealthcareAmounts(healthcareamounts);
 		healthcareiias.setIIASFlag(IIASFlagType.Y);
 		authorization.setHealthcareIIAS(healthcareiias);
+		authorization.setId("id");
 		
 		AuthorizationResponse response = litle.authorize(authorization);
 		assertEquals(response.getMessage(), "010",response.getResponse());

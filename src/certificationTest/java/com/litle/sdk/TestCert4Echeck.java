@@ -41,6 +41,7 @@ public class TestCert4Echeck {
 		echeck.setAccType(EcheckAccountTypeEnum.CHECKING);
 		echeck.setRoutingNum("053100300");
 		verification.setEcheck(echeck);
+		verification.setId("id");
 		
 		EcheckVerificationResponse response = litle.echeckVerification(verification);
 		assertEquals(response.getMessage(),"301", response.getResponse());
@@ -63,6 +64,8 @@ public class TestCert4Echeck {
 		echeck.setAccType(EcheckAccountTypeEnum.CHECKING);
 		echeck.setRoutingNum("053000219");
 		verification.setEcheck(echeck);
+		verification.setId("id");
+		
 		
 		EcheckVerificationResponse response = litle.echeckVerification(verification);
 		assertEquals(response.getMessage(),"000", response.getResponse());
@@ -86,6 +89,7 @@ public class TestCert4Echeck {
 		echeck.setAccType(EcheckAccountTypeEnum.CORPORATE);
 		echeck.setRoutingNum("053100300");
 		verification.setEcheck(echeck);
+		verification.setId("id");
 		
 		EcheckVerificationResponse response = litle.echeckVerification(verification);
 		assertEquals(response.getMessage(),"950", response.getResponse());
@@ -109,6 +113,7 @@ public class TestCert4Echeck {
 		echeck.setAccType(EcheckAccountTypeEnum.CORPORATE);
 		echeck.setRoutingNum("063102152");
 		verification.setEcheck(echeck);
+		verification.setId("id");
 		
 		EcheckVerificationResponse response = litle.echeckVerification(verification);
 		assertEquals(response.getMessage(),"951", response.getResponse());
@@ -131,6 +136,8 @@ public class TestCert4Echeck {
 		echeck.setAccType(EcheckAccountTypeEnum.CHECKING);
 		echeck.setRoutingNum("053100300");
 		sale.setEcheck(echeck);
+		sale.setId("id");
+		
 		
 		EcheckSalesResponse response = litle.echeckSale(sale);
 		assertEquals(response.getMessage(),"301", response.getResponse());
@@ -152,6 +159,7 @@ public class TestCert4Echeck {
 		echeck.setAccType(EcheckAccountTypeEnum.CHECKING);
 		echeck.setRoutingNum("211370545");
 		sale.setEcheck(echeck);
+		sale.setId("id");
 		
 		EcheckSalesResponse response = litle.echeckSale(sale);
 		assertEquals(response.getMessage(),"000", response.getResponse());
@@ -174,6 +182,7 @@ public class TestCert4Echeck {
 		echeck.setAccType(EcheckAccountTypeEnum.CORPORATE);
 		echeck.setRoutingNum("211370545");
 		sale.setEcheck(echeck);
+		sale.setId("id");
 		
 		EcheckSalesResponse response = litle.echeckSale(sale);
 		assertEquals(response.getMessage(),"000", response.getResponse());
@@ -196,6 +205,7 @@ public class TestCert4Echeck {
 		echeck.setAccType(EcheckAccountTypeEnum.CORPORATE);
 		echeck.setRoutingNum("053133052");
 		sale.setEcheck(echeck);
+		sale.setId("id");
 		
 		EcheckSalesResponse response = litle.echeckSale(sale);
 		assertEquals(response.getMessage(),"900", response.getResponse());
@@ -217,10 +227,11 @@ public class TestCert4Echeck {
 		echeck.setAccType(EcheckAccountTypeEnum.CHECKING);
 		echeck.setRoutingNum("053100300");
 		credit.setEcheck(echeck);
+		credit.setId("id");
 		
 		EcheckCreditResponse response = litle.echeckCredit(credit);
-		assertEquals(response.getMessage(),"301", response.getResponse());
-		assertEquals(response.getMessage(),"Invalid Account Number", response.getMessage());
+		assertEquals(response.getMessage(),"001", response.getResponse());
+		assertEquals(response.getMessage(),"Transaction Received", response.getMessage());
 	}
 	
 	@Test
@@ -239,10 +250,11 @@ public class TestCert4Echeck {
 		echeck.setAccType(EcheckAccountTypeEnum.CORPORATE);
 		echeck.setRoutingNum("063102152");
 		credit.setEcheck(echeck);
+		credit.setId("id");
 		
 		EcheckCreditResponse response = litle.echeckCredit(credit);
-		assertEquals(response.getMessage(),"000", response.getResponse());
-		assertEquals(response.getMessage(),"Approved", response.getMessage());
+		assertEquals(response.getMessage(),"001", response.getResponse());
+		assertEquals(response.getMessage(),"Transaction Received", response.getMessage());
 	}
 	
 	@Test
@@ -261,30 +273,33 @@ public class TestCert4Echeck {
 		echeck.setAccType(EcheckAccountTypeEnum.CORPORATE);
 		echeck.setRoutingNum("211370545");
 		credit.setEcheck(echeck);
+		credit.setId("id");
 		
 		EcheckCreditResponse response = litle.echeckCredit(credit);
-		assertEquals(response.getMessage(),"000", response.getResponse());
-		assertEquals(response.getMessage(),"Approved", response.getMessage());
+		assertEquals(response.getMessage(),"001", response.getResponse());
+		assertEquals(response.getMessage(),"Transaction Received", response.getMessage());
 	}
 	
 	@Test
 	public void test48() throws Exception {
 		EcheckCredit credit = new EcheckCredit();
 		credit.setLitleTxnId(430000000000000001L);
+		credit.setId("id");
 		
 		EcheckCreditResponse response = litle.echeckCredit(credit);
-		assertEquals(response.getMessage(),"000", response.getResponse());
-		assertEquals(response.getMessage(),"Approved", response.getMessage());
+		assertEquals(response.getMessage(),"001", response.getResponse());
+		assertEquals(response.getMessage(),"Transaction Received", response.getMessage());
 	}
 	
 	@Test
 	public void test49() throws Exception {
 		EcheckCredit credit = new EcheckCredit();
 		credit.setLitleTxnId(2L);
+		credit.setId("id");
 		
 		EcheckCreditResponse response = litle.echeckCredit(credit);
-		assertEquals(response.getMessage(),"360", response.getResponse());
-		assertEquals(response.getMessage(),"No transaction found with specified litleTxnId", response.getMessage());
+		assertEquals(response.getMessage(),"001", response.getResponse());
+		assertEquals(response.getMessage(),"Transaction Received", response.getMessage());
 	}
 
 }

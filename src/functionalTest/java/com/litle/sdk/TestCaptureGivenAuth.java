@@ -46,6 +46,7 @@ public class TestCaptureGivenAuth {
 		card.setNumber("4100000000000000");
 		card.setExpDate("1210");
 		capturegivenauth.setCard(card);
+		capturegivenauth.setId("id");
 		CaptureGivenAuthResponse response = litle.captureGivenAuth(capturegivenauth);
 		assertEquals("Approved", response.getMessage());
 	}
@@ -69,6 +70,7 @@ public class TestCaptureGivenAuth {
 		cardtoken.setCardValidationNum("555");
 		cardtoken.setType(MethodOfPaymentTypeEnum.VI);
 		capturegivenauth.setToken(cardtoken);
+		capturegivenauth.setId("id");
 		CaptureGivenAuthResponse response = litle.captureGivenAuth(capturegivenauth);
 		assertEquals("Approved", response.getMessage());
 	}
@@ -101,6 +103,7 @@ public class TestCaptureGivenAuth {
 		card.setNumber("4100000000000000");
 		card.setExpDate("1210");
 		capturegivenauth.setCard(card);
+		capturegivenauth.setId("id");
 		CaptureGivenAuthResponse response = litle.captureGivenAuth(capturegivenauth);
 		assertEquals("Approved", response.getMessage());
 	}
@@ -128,6 +131,7 @@ public class TestCaptureGivenAuth {
 		card.setNumber("4100000000000000");
 		card.setExpDate("1210");
 		capturegivenauth.setCard(card);
+		capturegivenauth.setId("id");
 		CaptureGivenAuthResponse response = litle.captureGivenAuth(capturegivenauth);
 		assertEquals("Approved", response.getMessage());
 	}

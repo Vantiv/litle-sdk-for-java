@@ -43,6 +43,7 @@ public class TestEcheckSale {
 		contact.setState("MA");
 		contact.setEmail("litle.com");
 		echecksale.setBillToAddress(contact);
+		echecksale.setId("id");
 		EcheckSalesResponse response = litle.echeckSale(echecksale);
 		assertEquals("Approved", response.getMessage());
 	}
@@ -51,6 +52,7 @@ public class TestEcheckSale {
 	public void noAmount() throws Exception {
 		EcheckSale echeckSale = new EcheckSale();
 		echeckSale.setReportGroup("Planets");
+		echeckSale.setId("id");
 		try {
 			litle.echeckSale(echeckSale);
 			fail("Expected exception");
@@ -80,6 +82,7 @@ public class TestEcheckSale {
 		contact.setEmail("litle.com");
 		echecksale.setBillToAddress(contact);
 		echecksale.setShipToAddress(contact);
+		echecksale.setId("id");
 		EcheckSalesResponse response = litle.echeckSale(echecksale);
 		assertEquals("Approved", response.getMessage());
 	}
@@ -108,6 +111,7 @@ public class TestEcheckSale {
 		contact.setState("MA");
 		contact.setEmail("litle.com");
 		echecksale.setBillToAddress(contact);
+		echecksale.setId("id");
 		EcheckSalesResponse response = litle.echeckSale(echecksale);
 		assertEquals("Approved", response.getMessage());
 	}
@@ -126,6 +130,7 @@ public class TestEcheckSale {
 		echecksale.setVerify(true);
 		echecksale.setOrderId("12345");
 		echecksale.setOrderSource(OrderSourceType.ECOMMERCE);
+		echecksale.setId("id");
 		
 		try {
 			litle.echeckSale(echecksale);
@@ -141,6 +146,7 @@ public class TestEcheckSale {
 		echecksale.setReportGroup("Planets");
 		echecksale.setLitleTxnId(123456789101112L);
 		echecksale.setAmount(12L);
+		echecksale.setId("id");
 		EcheckSalesResponse response = litle.echeckSale(echecksale);
 		assertEquals("Approved", response.getMessage());
 	}
@@ -166,6 +172,7 @@ public class TestEcheckSale {
         contact.setState("MA");
         contact.setEmail("litle.com");
         echecksale.setBillToAddress(contact);
+        echecksale.setId("id");
         EcheckSalesResponse response = litle.echeckSale(echecksale);
         assertEquals("Approved", response.getMessage());
     }
@@ -190,6 +197,7 @@ public class TestEcheckSale {
         contact.setCity("lowell");
         contact.setState("MA");
         contact.setEmail("litle.com");
+        echecksale.setId("id");
         echecksale.setBillToAddress(contact);
         try {
             EcheckSalesResponse response = litle.echeckSale(echecksale);
@@ -204,7 +212,8 @@ public class TestEcheckSale {
         EcheckSale echecksale = new EcheckSale();
         echecksale.setLitleTxnId(123456789101112L);
         echecksale.setAmount(12L);
-        echecksale.setSecondaryAmount(10L);        
+        echecksale.setSecondaryAmount(10L);   
+        echecksale.setId("id");
         try {
             EcheckSalesResponse response = litle.echeckSale(echecksale);
             fail("Secondary Amount conflict with Litle Txn ID");

@@ -33,6 +33,7 @@ import com.litle.sdk.generate.EcheckRedeposit;
 import com.litle.sdk.generate.EcheckSale;
 import com.litle.sdk.generate.EcheckVerification;
 import com.litle.sdk.generate.ForceCapture;
+import com.litle.sdk.generate.FundingInstructionVoid;
 import com.litle.sdk.generate.LitleTransactionInterface;
 import com.litle.sdk.generate.Load;
 import com.litle.sdk.generate.ObjectFactory;
@@ -350,7 +351,13 @@ public class LitleBatchRequest {
             transaction = objFac.createAccountUpdate((AccountUpdate)transactionType);
             transactionAdded = true;
             numOfTxn ++;
-        } else {
+        } else if (transactionType instanceof FundingInstructionVoid){
+            batchRequest.setNumFundingInstructionVoid(batchRequest.getNumFundingInstructionVoid().add(BigInteger.valueOf(1)));
+            transaction = objFac.createFundingInstructionVoid((FundingInstructionVoid)transactionType);
+            transactionAdded = true;
+            numOfTxn ++;
+        } 
+        else {
             transaction = objFac.createTransaction(new TransactionType());
         }
 

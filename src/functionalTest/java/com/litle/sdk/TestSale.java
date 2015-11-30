@@ -39,6 +39,7 @@ public class TestSale {
 		card.setNumber("4100000000000000");
 		card.setExpDate("1210");
 		sale.setCard(card);
+		sale.setId("id");
 		SaleResponse response = litle.sale(sale);
 		assertEquals("Approved", response.getMessage());
 	}
@@ -55,6 +56,7 @@ public class TestSale {
 		paypal.setToken("1234");
 		paypal.setTransactionId("123456");
 		sale.setPaypal(paypal);
+	    sale.setId("id");
 		SaleResponse response = litle.sale(sale);
 		assertEquals("Approved", response.getMessage());
 	}
@@ -77,9 +79,10 @@ public class TestSale {
         applepayType.setHeader(applepayHeaderType);
         applepayType.setData("user");
         applepayType.setSignature("sign");
-        applepayType.setVersion("1");
+        applepayType.setVersion("12345");
 
         sale.setApplepay(applepayType);
+        sale.setId("id");
         SaleResponse response = litle.sale(sale);
         assertEquals("Insufficient Funds", response.getMessage());
         assertEquals(new Long(110),response.getApplepayResponse().getTransactionAmount());
@@ -97,6 +100,7 @@ public class TestSale {
 		token.setLitleToken("1111222233334000");
 		token.setType(MethodOfPaymentTypeEnum.VI);
 		sale.setToken(token);
+	    sale.setId("id");
 		SaleResponse response = litle.sale(sale);
 		assertEquals("Approved", response.getMessage());
 	}

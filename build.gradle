@@ -99,9 +99,9 @@ task processXsd (type: Copy) {
     doLast {
         ant.replaceregexp(file:"$xsdOutput/litleTransaction_v${SCHEMA_VERSION}.xsd", match:"(attributeFormDefault=\"unqualified\")>", replace:"\\1 xmlns:jaxb=\"http://java.sun.com/xml/ns/jaxb\" jaxb:version=\"2.0\">", byline:true)
         ant.replaceregexp(file:"$xsdOutput/litleCommon_v${SCHEMA_VERSION}.xsd", match:"(elementFormDefault=\"qualified\")>", replace:"\\1 xmlns:jaxb=\"http://java.sun.com/xml/ns/jaxb\" jaxb:version=\"2.0\">", byline:true)
-        ant.replaceregexp(file:"$xsdOutput/litleTransaction_v${SCHEMA_VERSION}.xsd", match:"transaction\" type=\"xp:transactionType\" abstract=\"true\"/>", replace:"transaction\" type=\"xp:transactionType\" abstract=\"true\"/>    \n\n    <xs:complexType name=\"litleTransactionInterface\" abstract=\"true\"/>", byline:true)
+        ant.replaceregexp(file:"$xsdOutput/litleTransaction_v${SCHEMA_VERSION}.xsd", match:"transaction\" type=\"xp:transactionType\" abstract=\"true\" />", replace:"transaction\" type=\"xp:transactionType\" abstract=\"true\"/>    \n\n    <xs:complexType name=\"litleTransactionInterface\" abstract=\"true\"/>", byline:true)
         ant.replaceregexp(file:"$xsdOutput/litleTransaction_v${SCHEMA_VERSION}.xsd", match:"name=\"transactionType\">", replace:"name=\"transactionType\">    \n        <xs:complexContent>    \n            <xs:extension base=\"xp:litleTransactionInterface\">", byline:true)
-        ant.replaceregexp(file:"$xsdOutput/litleTransaction_v${SCHEMA_VERSION}.xsd", match:"<xs:attribute name=\"id\" type=\"xp:string25Type\"/>", replace:"       <xs:attribute name=\"id\" type=\"xp:string25Type\"/>", byline:true)
+        ant.replaceregexp(file:"$xsdOutput/litleTransaction_v${SCHEMA_VERSION}.xsd", match:"<xs:attribute name=\"id\" type=\"xp:string25Type\" use=\"required\" />", replace:"       <xs:attribute name=\"id\" type=\"xp:string25Type\" use=\"required\" />", byline:true)
         ant.replaceregexp(file:"$xsdOutput/litleTransaction_v${SCHEMA_VERSION}.xsd", match:"<xs:attribute name=\"customerId\" type=\"xp:customerIdType\" use=\"optional\"/>", replace:"       <xs:attribute name=\"customerId\" type=\"xp:customerIdType\" use=\"optional\"/>       \n            </xs:extension>       \n        </xs:complexContent>", byline:true)
         ant.replaceregexp(file:"$xsdOutput/litleRecurring_v${SCHEMA_VERSION}.xsd", match:"name=\"recurringTransactionType\">", replace:"name=\"recurringTransactionType\">    \n        <xs:complexContent>    \n            <xs:extension base=\"xp:litleTransactionInterface\">    \n            </xs:extension>    \n        </xs:complexContent>")
         ant.replaceregexp(file:"$xsdOutput/litleRecurring_v${SCHEMA_VERSION}.xsd", match:"name=\"recurringTransactionResponseType\">", replace:"name=\"recurringTransactionResponseType\">    \n        <xs:complexContent>    \n            <xs:extension base=\"xp:litleTransactionInterface\">", byline:true)
@@ -221,13 +221,6 @@ task zipKit(type:Zip, dependsOn:[copyJarToKit, copyLibsToKit]){
 }
 
 task kit(dependsOn:[tarKit, zipKit]){
-if (JavaVersion.current().isJava8Compatible()) {
-    allprojects {
-      tasks.withType(Javadoc) {
-        options.addStringOption('Xdoclint:none', '-quiet')
-      }
-    }
-  }
     build.dependsOn it
     dependsOn javadoc
 }

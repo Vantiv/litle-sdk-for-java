@@ -23,6 +23,7 @@ public class TestAuthReversal {
 		reversal.setLitleTxnId(12345678000L);
 		reversal.setAmount(106L);
 		reversal.setPayPalNotes("Notes");
+		reversal.setId("id");
 		
 		AuthReversalResponse response = litle.authReversal(reversal);
 		assertEquals("Approved", response.getMessage());

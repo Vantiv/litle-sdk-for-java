@@ -22,6 +22,7 @@ public class TestUpdateCardValidationNumOnToken {
 		UpdateCardValidationNumOnToken update = new UpdateCardValidationNumOnToken();
 		update.setLitleToken("1111222233334444");
 		update.setCardValidationNum("123");
+		update.setId("id");
 		
 		UpdateCardValidationNumOnTokenResponse response = litle.updateCardValidationNumOnToken(update);
 		assertEquals(response.getMessage(), "805",response.getResponse());

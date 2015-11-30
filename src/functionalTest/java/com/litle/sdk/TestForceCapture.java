@@ -32,6 +32,7 @@ public class TestForceCapture {
 		card.setNumber("4100000000000001");
 		card.setExpDate("1210");
 		forcecapture.setCard(card);
+	    forcecapture.setId("id");
 		ForceCaptureResponse response = litle.forceCapture(forcecapture);
 		assertEquals("Approved", response.getMessage());
 	}
@@ -48,6 +49,7 @@ public class TestForceCapture {
         card.setNumber("4100000000000001");
         card.setExpDate("1210");
         forcecapture.setCard(card);
+        forcecapture.setId("id");
         ForceCaptureResponse response = litle.forceCapture(forcecapture);
         assertEquals("Approved", response.getMessage());
     }
@@ -64,6 +66,7 @@ public class TestForceCapture {
 		token.setCardValidationNum("555");
 		token.setType(MethodOfPaymentTypeEnum.VI);
 		forcecapture.setToken(token);
+		forcecapture.setId("id");
 		ForceCaptureResponse response = litle.forceCapture(forcecapture);
 		assertEquals("Approved", response.getMessage());
 	}

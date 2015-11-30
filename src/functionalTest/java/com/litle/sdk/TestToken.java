@@ -27,6 +27,7 @@ public class TestToken {
 		RegisterTokenRequestType token = new RegisterTokenRequestType();
 		token.setOrderId("12344");
 		token.setAccountNumber("1233456789103801");
+	    token.setId("id");
 		RegisterTokenResponse response = litle.registerToken(token);
 		assertEquals("Account number was successfully registered", response.getMessage());
 	}
@@ -36,6 +37,7 @@ public class TestToken {
 		RegisterTokenRequestType token = new RegisterTokenRequestType();
 		token.setOrderId("12344");
 		token.setPaypageRegistrationId("1233456789101112");
+	    token.setId("id");
 		RegisterTokenResponse response = litle.registerToken(token);
 		assertEquals("Account number was successfully registered", response.getMessage());
 	}
@@ -48,6 +50,7 @@ public class TestToken {
 		echeck.setAccNum("12344565");
 		echeck.setRoutingNum("123476545");
 		token.setEcheckForToken(echeck);
+	    token.setId("id");
 		RegisterTokenResponse response = litle.registerToken(token);
 		assertEquals("Account number was successfully registered", response.getMessage());
 	}
@@ -80,8 +83,9 @@ public class TestToken {
         applepayType.setHeader(applepayHeaderType);
         applepayType.setData("user");
         applepayType.setSignature("sign");
-        applepayType.setVersion("1");
+        applepayType.setVersion("12345");
         token.setApplepay(applepayType);
+        token.setId("id");
         RegisterTokenResponse response = litle.registerToken(token);
         assertEquals("Account number was successfully registered", response.getMessage());
         assertEquals(new Long(0),response.getApplepayResponse().getTransactionAmount());
@@ -92,6 +96,7 @@ public class TestToken {
 		RegisterTokenRequestType tokenRequest = new RegisterTokenRequestType();
 		tokenRequest.setOrderId("12345");
 		tokenRequest.setPaypageRegistrationId("123456789012345678901324567890abcdefghi");
+		tokenRequest.setId("id");
 		RegisterTokenResponse tokenResponse = litle.registerToken(tokenRequest);
 		assertEquals("1111222233334444", tokenResponse.getLitleToken()); //all paypage registration ids return the same token
 	}

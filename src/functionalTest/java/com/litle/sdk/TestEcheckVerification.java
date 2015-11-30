@@ -42,6 +42,7 @@ public class TestEcheckVerification {
 		contact.setState("MA");
 		contact.setEmail("litle.com");
 		echeckverification.setBillToAddress(contact);
+		echeckverification.setId("id");
 		EcheckVerificationResponse response = litle.echeckVerification(echeckverification);
 		assertEquals("Approved", response.getMessage());
 	}
@@ -64,6 +65,7 @@ public class TestEcheckVerification {
 		contact.setState("MA");
 		contact.setEmail("litle.com");
 		echeckverification.setBillToAddress(contact);
+		echeckverification.setId("id");
 		EcheckVerificationResponse response = litle.echeckVerification(echeckverification);
 		assertEquals("Approved", response.getMessage());
 	}
