@@ -28,7 +28,7 @@ public class TestCapture {
 		capture.setId("id");
 
 		CaptureResponse response = litle.capture(capture);
-		assertEquals("Approved", response.getMessage());
+		assertEquals("Transaction Received", response.getMessage());
 	}
 
 	@Test
@@ -41,7 +41,7 @@ public class TestCapture {
 		capture.setId("id");
 
 		CaptureResponse response = litle.capture(capture);
-		assertEquals("Approved", response.getMessage());
+		assertEquals("Transaction Received", response.getMessage());
 	}
 
 	@Test
@@ -59,7 +59,7 @@ public class TestCapture {
 		capture.setId("id");
 
 		CaptureResponse response = litle.capture(capture);
-		assertEquals("Approved", response.getMessage());
+		assertEquals("Transaction Received", response.getMessage());
 	}
 
 

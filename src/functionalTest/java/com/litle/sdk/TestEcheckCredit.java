@@ -31,7 +31,7 @@ public class TestEcheckCredit {
 		echeckcredit.setLitleTxnId(123456789101112L);
 		echeckcredit.setId("id");
 		EcheckCreditResponse response = litle.echeckCredit(echeckcredit);
-		assertEquals("Approved", response.getMessage());
+		assertEquals("Transaction Received", response.getMessage());
 	}
 	
 	@Test
@@ -65,7 +65,7 @@ public class TestEcheckCredit {
 		echeckcredit.setBillToAddress(billToAddress);
 		echeckcredit.setId("id");
 		EcheckCreditResponse response = litle.echeckCredit(echeckcredit);
-		assertEquals("Approved", response.getMessage());
+		assertEquals("Transaction Received", response.getMessage());
 	}
 	
 	@Test
@@ -88,7 +88,7 @@ public class TestEcheckCredit {
 		echeckcredit.setBillToAddress(billToAddress);
 		echeckcredit.setId("id");
 		EcheckCreditResponse response = litle.echeckCredit(echeckcredit);
-		assertEquals("Approved", response.getMessage());
+		assertEquals("Transaction Received", response.getMessage());
 	}
 	
 	@Test
@@ -132,7 +132,7 @@ public class TestEcheckCredit {
         echeckcredit.setBillToAddress(billToAddress);
         echeckcredit.setId("id");
         EcheckCreditResponse response = litle.echeckCredit(echeckcredit);
-        assertEquals("Approved", response.getMessage());
+        assertEquals("Transaction Received", response.getMessage());
     }
 	
 	@Test
@@ -143,7 +143,7 @@ public class TestEcheckCredit {
         echeckcredit.setSecondaryAmount(50L);
         echeckcredit.setId("id");
         EcheckCreditResponse response = litle.echeckCredit(echeckcredit);
-        assertEquals("Approved", response.getMessage());
+        assertEquals("Transaction Received", response.getMessage());
     }
 
 }

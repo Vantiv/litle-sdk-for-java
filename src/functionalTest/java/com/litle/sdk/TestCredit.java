@@ -37,7 +37,7 @@ public class TestCredit {
         credit.setCard(card);
         credit.setId("id");
         CreditResponse response = litle.credit(credit);
-        assertEquals("Approved", response.getMessage());
+        assertEquals("Transaction Received", response.getMessage());
     }
 
     @Test
@@ -51,7 +51,7 @@ public class TestCredit {
         credit.setPaypal(paypal);
         credit.setId("id");
         CreditResponse response = litle.credit(credit);
-        assertEquals("Approved", response.getMessage());
+        assertEquals("Transaction Received", response.getMessage());
     }
 
     @Test
@@ -68,7 +68,7 @@ public class TestCredit {
         credit.setCard(card);
         credit.setId("id");
         CreditResponse response = litle.credit(credit);
-        assertEquals("Approved", response.getMessage());
+        assertEquals("Transaction Received", response.getMessage());
     }
 
     @Test
@@ -79,7 +79,7 @@ public class TestCredit {
         credit.setLitleTxnId(1234L);
         credit.setId("id");
         CreditResponse response = litle.credit(credit);
-        assertEquals("Approved", response.getMessage());
+        assertEquals("Transaction Received", response.getMessage());
     }
 
     @Test
@@ -112,7 +112,7 @@ public class TestCredit {
         credit.setCard(card);
         credit.setId("id");
         CreditResponse response = litle.credit(credit);
-        assertEquals("Approved", response.getMessage());
+        assertEquals("Transaction Received", response.getMessage());
     }
 
     @Test
@@ -131,7 +131,7 @@ public class TestCredit {
         credit.setCard(card);
         credit.setId("id");
         CreditResponse response = litle.credit(credit);
-        assertEquals("Approved", response.getMessage());
+        assertEquals("Transaction Received", response.getMessage());
     }
 
 }

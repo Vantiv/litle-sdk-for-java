@@ -26,7 +26,7 @@ public class TestEcheckRedeposit {
 		echeckredeposit.setLitleTxnId(123456L);
 		echeckredeposit.setId("id");
 		EcheckRedepositResponse response = litle.echeckRedeposit(echeckredeposit);
-		assertEquals("Approved", response.getMessage());
+		assertEquals("Transaction Received", response.getMessage());
 	}
 	
 	@Test
@@ -42,7 +42,7 @@ public class TestEcheckRedeposit {
 		
 		echeckredeposit.setEcheck(echeck);
 		EcheckRedepositResponse response = litle.echeckRedeposit(echeckredeposit);
-		assertEquals("Approved", response.getMessage());
+		assertEquals("Transaction Received", response.getMessage());
 	}
 	
 	@Test
@@ -58,7 +58,7 @@ public class TestEcheckRedeposit {
 		
 		echeckredeposit.setEcheckToken(echeckToken);
 		EcheckRedepositResponse response = litle.echeckRedeposit(echeckredeposit);
-		assertEquals("Approved", response.getMessage());
+		assertEquals("Transaction Received", response.getMessage());
 	}
 
 

@@ -34,7 +34,7 @@ public class TestForceCapture {
 		forcecapture.setCard(card);
 	    forcecapture.setId("id");
 		ForceCaptureResponse response = litle.forceCapture(forcecapture);
-		assertEquals("Approved", response.getMessage());
+		assertEquals("Transaction Received", response.getMessage());
 	}
 	
 	@Test
@@ -51,7 +51,7 @@ public class TestForceCapture {
         forcecapture.setCard(card);
         forcecapture.setId("id");
         ForceCaptureResponse response = litle.forceCapture(forcecapture);
-        assertEquals("Approved", response.getMessage());
+        assertEquals("Transaction Received", response.getMessage());
     }
 	
 	@Test
@@ -68,7 +68,7 @@ public class TestForceCapture {
 		forcecapture.setToken(token);
 		forcecapture.setId("id");
 		ForceCaptureResponse response = litle.forceCapture(forcecapture);
-		assertEquals("Approved", response.getMessage());
+		assertEquals("Transaction Received", response.getMessage());
 	}
 
 }
