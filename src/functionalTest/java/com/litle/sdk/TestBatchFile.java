@@ -3,6 +3,7 @@ package com.litle.sdk;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -19,8 +20,8 @@ import org.junit.Test;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
+
 import com.litle.sdk.generate.AccountUpdate;
-import com.litle.sdk.generate.AccountUpdateFileRequestData;
 import com.litle.sdk.generate.AccountUpdateResponse;
 import com.litle.sdk.generate.Activate;
 import com.litle.sdk.generate.ActivateResponse;
@@ -77,7 +78,6 @@ import com.litle.sdk.generate.PhysicalCheckCredit;
 import com.litle.sdk.generate.PhysicalCheckCreditResponse;
 import com.litle.sdk.generate.PhysicalCheckDebit;
 import com.litle.sdk.generate.PhysicalCheckDebitResponse;
-import com.litle.sdk.generate.RFRRequest;
 import com.litle.sdk.generate.RegisterTokenRequestType;
 import com.litle.sdk.generate.RegisterTokenResponse;
 import com.litle.sdk.generate.ReserveCredit;
@@ -105,7 +105,7 @@ import com.litle.sdk.generate.VendorDebitResponse;
 
 public class TestBatchFile {
 
-    String merchantId = "0180";
+ //   String merchantId = "0180";
 
     public static class FailedRule implements TestRule {
         public Statement apply(final Statement base,
@@ -435,7 +435,10 @@ public class TestBatchFile {
 
     private void prepareTestRequest(LitleBatchFileRequest request)
             throws FileNotFoundException, JAXBException {
-        LitleBatchRequest batchRequest1 = request.createBatch(merchantId);
+        
+        Properties configFromFile = request.getConfig();
+
+        LitleBatchRequest batchRequest1 = request.createBatch(configFromFile.getProperty("merchantId"));
         Sale sale11 = new Sale();
         sale11.setReportGroup("reportGroup11");
         sale11.setOrderId("orderId11");
@@ -465,7 +468,7 @@ public class TestBatchFile {
                 configFromFile.getProperty("batchHost"));
         assertEquals("15000", configFromFile.getProperty("batchPort"));
 
-        LitleBatchRequest batch = request.createBatch(merchantId);
+        LitleBatchRequest batch = request.createBatch(configFromFile.getProperty("merchantId"));
 
         // card
         CardType card = new CardType();
@@ -634,7 +637,7 @@ public class TestBatchFile {
                 configFromFile.getProperty("batchHost"));
         assertEquals("15000", configFromFile.getProperty("batchPort"));
 
-        LitleBatchRequest batch = request.createBatch(merchantId);
+        LitleBatchRequest batch = request.createBatch(configFromFile.getProperty("merchantId"));
 
         // echeck success
         EcheckType echeckSuccess = new EcheckType();
@@ -717,7 +720,7 @@ public class TestBatchFile {
                 .getNextLitleBatchResponse();
         int txns = 0;
 
-        ResponseValidatorProcessor processor = new ResponseValidatorProcessor();
+//        ResponseValidatorProcessor processor = new ResponseValidatorProcessor();
 
         while (batchResponse
                 .processNextTransaction(new LitleResponseProcessor() {
@@ -1013,7 +1016,7 @@ public class TestBatchFile {
                 configFromFile.getProperty("batchHost"));
         assertEquals("15000", configFromFile.getProperty("batchPort"));
 
-        LitleBatchRequest batch = request.createBatch(merchantId);
+        LitleBatchRequest batch = request.createBatch(configFromFile.getProperty("merchantId"));
 
         CardType giftCard = new CardType();
         giftCard.setType(MethodOfPaymentTypeEnum.GC);
@@ -1263,7 +1266,7 @@ public class TestBatchFile {
                 configFromFile.getProperty("batchHost"));
         assertEquals("15000", configFromFile.getProperty("batchPort"));
 
-        LitleBatchRequest batch = request.createBatch(merchantId);
+        LitleBatchRequest batch = request.createBatch(configFromFile.getProperty("merchantId"));
         CancelSubscription cancelSubscription = new CancelSubscription();
         cancelSubscription.setSubscriptionId(12345L);
         batch.addTransaction(cancelSubscription);
@@ -1338,7 +1341,7 @@ public class TestBatchFile {
                 configFromFile.getProperty("batchHost"));
         assertEquals("15000", configFromFile.getProperty("batchPort"));
 
-        LitleBatchRequest batch = request.createBatch(merchantId);
+        LitleBatchRequest batch = request.createBatch(configFromFile.getProperty("merchantId"));
 
         // card
         CardType card = new CardType();
@@ -1533,7 +1536,8 @@ public class TestBatchFile {
                 .getNextLitleBatchResponse();
         assertNotNull(batchResponse1);
         assertNotNull(batchResponse1.getLitleBatchId());
-        assertEquals(merchantId, batchResponse1.getMerchantId());
+        Properties configFromFile = request.getConfig();
+        assertEquals(configFromFile.getProperty("merchantId"), batchResponse1.getMerchantId());
 
         LitleTransactionInterface txnResponse = batchResponse1
                 .getNextTransaction();
