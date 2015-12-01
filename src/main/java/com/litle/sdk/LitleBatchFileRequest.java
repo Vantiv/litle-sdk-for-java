@@ -223,7 +223,7 @@ public class LitleBatchFileRequest{
 					"proxyPort", "batchHost", "batchPort",
 					"batchTcpTimeout", "batchUseSSL",
 					"maxAllowedTransactionsPerFile", "maxTransactionsPerBatch",
-					"batchRequestFolder", "batchResponseFolder", "sftpUsername", "sftpPassword"};
+					"batchRequestFolder", "batchResponseFolder", "sftpUsername", "sftpPassword", "merchantId"};
 
 			for (String prop : allProperties) {
 				// if the value of a property is not set, look at the Properties member of the class first, and the .properties file next.
