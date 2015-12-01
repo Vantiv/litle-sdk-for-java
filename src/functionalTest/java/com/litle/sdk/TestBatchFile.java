@@ -67,6 +67,7 @@ import com.litle.sdk.generate.IntervalTypeEnum;
 import com.litle.sdk.generate.LitleTransactionInterface;
 import com.litle.sdk.generate.Load;
 import com.litle.sdk.generate.LoadResponse;
+import com.litle.sdk.generate.MerchantDataType;
 import com.litle.sdk.generate.MethodOfPaymentTypeEnum;
 import com.litle.sdk.generate.ObjectFactory;
 import com.litle.sdk.generate.OrderSourceType;
@@ -645,6 +646,7 @@ public class TestBatchFile {
         echeckSuccess.setAccType(EcheckAccountTypeEnum.CORPORATE);
         echeckSuccess.setRoutingNum("011075150");
         echeckSuccess.setCheckNum("123455");
+        
 
         EcheckType echeckAccErr = new EcheckType();
         echeckAccErr.setAccNum("10@2969901");
@@ -671,6 +673,7 @@ public class TestBatchFile {
         echeckPreNoteSaleSuccess.setBillToAddress(contact);
         echeckPreNoteSaleSuccess.setEcheck(echeckSuccess);
         echeckPreNoteSaleSuccess.setOrderSource(OrderSourceType.ECOMMERCE);
+        echeckPreNoteSaleSuccess.setId("Id");
         batch.addTransaction(echeckPreNoteSaleSuccess);
 
         EcheckPreNoteSale echeckPreNoteSaleAccErr = new EcheckPreNoteSale();
@@ -679,6 +682,7 @@ public class TestBatchFile {
         echeckPreNoteSaleAccErr.setBillToAddress(contact);
         echeckPreNoteSaleAccErr.setEcheck(echeckAccErr);
         echeckPreNoteSaleAccErr.setOrderSource(OrderSourceType.ECOMMERCE);
+        echeckPreNoteSaleAccErr.setId("Id");
         batch.addTransaction(echeckPreNoteSaleAccErr);
 
         EcheckPreNoteSale echeckPreNoteSaleRoutErr = new EcheckPreNoteSale();
@@ -687,6 +691,7 @@ public class TestBatchFile {
         echeckPreNoteSaleRoutErr.setBillToAddress(contact);
         echeckPreNoteSaleRoutErr.setEcheck(echeckRoutErr);
         echeckPreNoteSaleRoutErr.setOrderSource(OrderSourceType.ECOMMERCE);
+        echeckPreNoteSaleRoutErr.setId("Id");
         batch.addTransaction(echeckPreNoteSaleRoutErr);
 
         EcheckPreNoteCredit echeckPreNoteCreditSuccess = new EcheckPreNoteCredit();
@@ -695,6 +700,7 @@ public class TestBatchFile {
         echeckPreNoteCreditSuccess.setBillToAddress(contact);
         echeckPreNoteCreditSuccess.setEcheck(echeckSuccess);
         echeckPreNoteCreditSuccess.setOrderSource(OrderSourceType.ECOMMERCE);
+        echeckPreNoteCreditSuccess.setId("Id");
         batch.addTransaction(echeckPreNoteCreditSuccess);
 
         EcheckPreNoteCredit echeckPreNoteCreditAccErr = new EcheckPreNoteCredit();
@@ -703,6 +709,7 @@ public class TestBatchFile {
         echeckPreNoteCreditAccErr.setBillToAddress(contact);
         echeckPreNoteCreditAccErr.setEcheck(echeckAccErr);
         echeckPreNoteCreditAccErr.setOrderSource(OrderSourceType.ECOMMERCE);
+        echeckPreNoteCreditAccErr.setId("Id");
         batch.addTransaction(echeckPreNoteCreditAccErr);
 
         EcheckPreNoteCredit echeckPreNoteCreditRoutErr = new EcheckPreNoteCredit();
@@ -711,6 +718,7 @@ public class TestBatchFile {
         echeckPreNoteCreditRoutErr.setBillToAddress(contact);
         echeckPreNoteCreditRoutErr.setEcheck(echeckRoutErr);
         echeckPreNoteCreditRoutErr.setOrderSource(OrderSourceType.ECOMMERCE);
+        echeckPreNoteCreditRoutErr.setId("Id");
         batch.addTransaction(echeckPreNoteCreditRoutErr);
 
         int transactionCount = batch.getNumberOfTransactions();
@@ -892,7 +900,7 @@ public class TestBatchFile {
                 configFromFile.getProperty("batchHost"));
         assertEquals("15000", configFromFile.getProperty("batchPort"));
 
-        LitleBatchRequest batch = request.createBatch("0180");
+        LitleBatchRequest batch = request.createBatch(configFromFile.getProperty("merchantId"));
 
         // echeck
         EcheckType echeck = new EcheckType();
@@ -915,6 +923,7 @@ public class TestBatchFile {
         submerchantCredit.setFundsTransferId("000");
         submerchantCredit.setAmount(1000L);
         submerchantCredit.setAccountInfo(echeck);
+        submerchantCredit.setId("ID");
         batch.addTransaction(submerchantCredit);
         
         PayFacCredit payFacCredit = new PayFacCredit();
@@ -922,6 +931,7 @@ public class TestBatchFile {
         payFacCredit.setFundingSubmerchantId("12346");
         payFacCredit.setFundsTransferId("000");
         payFacCredit.setAmount(1000L);
+        payFacCredit.setId("ID");
         batch.addTransaction(payFacCredit);
         
         VendorCredit vendorCredit = new VendorCredit();
@@ -931,6 +941,7 @@ public class TestBatchFile {
         vendorCredit.setFundsTransferId("000");
         vendorCredit.setAmount(1000L);
         vendorCredit.setAccountInfo(echeck);
+        vendorCredit.setId("ID");
         batch.addTransaction(vendorCredit);
         
         ReserveCredit reserveCredit = new ReserveCredit();
@@ -938,6 +949,7 @@ public class TestBatchFile {
         reserveCredit.setFundingSubmerchantId("12348");
         reserveCredit.setFundsTransferId("000");
         reserveCredit.setAmount(1000L);
+        reserveCredit.setId("ID");
         batch.addTransaction(reserveCredit);
         
         PhysicalCheckCredit physicalCheckCredit = new PhysicalCheckCredit();
@@ -945,6 +957,7 @@ public class TestBatchFile {
         physicalCheckCredit.setFundingSubmerchantId("12349");
         physicalCheckCredit.setFundsTransferId("000");
         physicalCheckCredit.setAmount(1000L);
+        physicalCheckCredit.setId("ID");
         batch.addTransaction(physicalCheckCredit);
         
         SubmerchantDebit submerchantDebit = new SubmerchantDebit();
@@ -954,6 +967,7 @@ public class TestBatchFile {
         submerchantDebit.setFundsTransferId("000");
         submerchantDebit.setAmount(1000L);
         submerchantDebit.setAccountInfo(echeck);
+        submerchantDebit.setId("ID");
         batch.addTransaction(submerchantDebit);
         
         PayFacDebit payFacDebit = new PayFacDebit();
@@ -961,6 +975,7 @@ public class TestBatchFile {
         payFacDebit.setFundingSubmerchantId("12346");
         payFacDebit.setFundsTransferId("000");
         payFacDebit.setAmount(1000L);
+        payFacDebit.setId("ID");
         batch.addTransaction(payFacDebit);
         
         VendorDebit vendorDebit = new VendorDebit();
@@ -970,6 +985,7 @@ public class TestBatchFile {
         vendorDebit.setFundsTransferId("000");
         vendorDebit.setAmount(1000L);
         vendorDebit.setAccountInfo(echeck);
+        vendorDebit.setId("ID");
         batch.addTransaction(vendorDebit);
         
         ReserveDebit reserveDebit = new ReserveDebit();
@@ -977,6 +993,7 @@ public class TestBatchFile {
         reserveDebit.setFundingSubmerchantId("12348");
         reserveDebit.setFundsTransferId("000");
         reserveDebit.setAmount(1000L);
+        reserveDebit.setId("ID");
         batch.addTransaction(reserveDebit);
         
         PhysicalCheckDebit physicalCheckDebit = new PhysicalCheckDebit();
@@ -984,6 +1001,7 @@ public class TestBatchFile {
         physicalCheckDebit.setFundingSubmerchantId("12349");
         physicalCheckDebit.setFundsTransferId("000");
         physicalCheckDebit.setAmount(1000L);
+        physicalCheckDebit.setId("ID");
         batch.addTransaction(physicalCheckDebit);
 
         int transactionCount = batch.getNumberOfTransactions();
