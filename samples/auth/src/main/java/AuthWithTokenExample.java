@@ -14,7 +14,7 @@ public class AuthWithTokenExample {
         token.setLitleToken("1111222233334000");
         token.setType(MethodOfPaymentTypeEnum.VI);
         auth.setToken(token);
-        auth.setId("id");
+        auth.setId("id"); 
  
         AuthorizationResponse response = new LitleOnline().authorize(auth);
         //Display Results

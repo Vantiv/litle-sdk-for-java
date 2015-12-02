@@ -5,7 +5,7 @@ import com.litle.sdk.generate.*;
 public class AuthReversalExample {
     public static void main(String[] args) {
         AuthReversal authReversal = new AuthReversal();
-        authReversal.setId("Id");
+        authReversal.setId("Id"); 
         //litleTxnId contains the Litle Transaction Id returned on the auth
         authReversal.setLitleTxnId(100000000000000000L);
         AuthReversalResponse response = new LitleOnline().authReversal(authReversal);

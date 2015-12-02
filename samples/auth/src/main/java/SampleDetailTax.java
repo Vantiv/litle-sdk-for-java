@@ -30,5 +30,5 @@ public class SampleDetailTax {
           if(!response.getMessage().equals("Approved"))
           throw new RuntimeException(" The AuthWithTokenExample does not give the right response");
 	
-}
+} 
 }

@@ -221,6 +221,13 @@ task zipKit(type:Zip, dependsOn:[copyJarToKit, copyLibsToKit]){
 }
 
 task kit(dependsOn:[tarKit, zipKit]){
+if (JavaVersion.current().isJava8Compatible()) {
+    allprojects {
+      tasks.withType(Javadoc) {
+        options.addStringOption('Xdoclint:none', '-quiet')
+      }
+    }
+  }
     build.dependsOn it
     dependsOn javadoc
 }

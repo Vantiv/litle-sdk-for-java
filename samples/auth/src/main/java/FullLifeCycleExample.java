@@ -50,7 +50,7 @@ public class FullLifeCycleExample {
 	// In your sample, you can ignore this 	
 	if(!creditResponse.getMessage().equals("Transaction Received")||!captureResponse.getMessage().equals("Transaction Received")||!authResponse.getMessage().equals("Approved"))
         throw new RuntimeException(" The AuthWithTokenExample does not give the right response");
- 
+  
         //TODO - Fix the void here
        /* Void credit = new Credit();
         capture.setLitleTxnId(captureResponse.getLitleTxnId());
