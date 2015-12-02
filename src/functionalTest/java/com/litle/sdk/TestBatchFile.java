@@ -108,68 +108,68 @@ public class TestBatchFile {
 
  //   String merchantId = "0180";
 
-    public static class FailedRule implements TestRule {
-        public Statement apply(final Statement base,
-                final Description description) {
-            return new Statement() {
-                @Override
-                public void evaluate() throws Throwable {
-                    try {
-                        base.evaluate();
-                    } catch (Throwable t) {
-                        System.out.println(description.getDisplayName()
-                                + " failure caused by :");
-                        t.printStackTrace();
-                        retry.setNotGood();
-                        if (retry.isLastTry()) {
-                            throw t;
-                        } else {
-                            System.out.println("Retrying.");
-                        }
-                    }
-                }
-            };
-        }
-    }
-
-    public static class RetryRule implements TestRule {
-        private int retryCount, currentTry;
-
-        private boolean allGood = false;
-
-        public RetryRule(int retryCount) {
-            this.retryCount = retryCount;
-            this.currentTry = 1;
-        }
-
-        public boolean isLastTry() {
-            return currentTry == retryCount;
-        }
-
-        public void setNotGood() {
-            allGood = false;
-        }
-
-        public Statement apply(final Statement base,
-                final Description description) {
-            return new Statement() {
-                @Override
-                public void evaluate() throws Throwable {
-                    // implement retry logic here
-                    for (; currentTry <= retryCount && !allGood; currentTry++) {
-                        allGood = true;
-                        base.evaluate();
-                    }
-                }
-            };
-        }
-    }
-
-    @ClassRule
-    public static RetryRule retry = new RetryRule(3);
-
-    @Rule
-    public FailedRule onFailed = new FailedRule();
+//    public static class FailedRule implements TestRule {
+//        public Statement apply(final Statement base,
+//                final Description description) {
+//            return new Statement() {
+//                @Override
+//                public void evaluate() throws Throwable {
+//                    try {
+//                        base.evaluate();
+//                    } catch (Throwable t) {
+//                        System.out.println(description.getDisplayName()
+//                                + " failure caused by :");
+//                        t.printStackTrace();
+//                        retry.setNotGood();
+//                        if (retry.isLastTry()) {
+//                            throw t;
+//                        } else {
+//                            System.out.println("Retrying.");
+//                        }
+//                    }
+//                }
+//            };
+//        }
+//    }
+//
+//    public static class RetryRule implements TestRule {
+//        private int retryCount, currentTry;
+//
+//        private boolean allGood = false;
+//
+//        public RetryRule(int retryCount) {
+//            this.retryCount = retryCount;
+//            this.currentTry = 1;
+//        }
+//
+//        public boolean isLastTry() {
+//            return currentTry == retryCount;
+//        }
+//
+//        public void setNotGood() {
+//            allGood = false;
+//        }
+//
+//        public Statement apply(final Statement base,
+//                final Description description) {
+//            return new Statement() {
+//                @Override
+//                public void evaluate() throws Throwable {
+//                    // implement retry logic here
+//                    for (; currentTry <= retryCount && !allGood; currentTry++) {
+//                        allGood = true;
+//                        base.evaluate();
+//                    }
+//                }
+//            };
+//        }
+//    }
+//
+//    @ClassRule
+//    public static RetryRule retry = new RetryRule(3);
+//
+//    @Rule
+//    public FailedRule onFailed = new FailedRule();
 
     @Test
     public void testSendToLitle_WithFileConfig() throws Exception {
