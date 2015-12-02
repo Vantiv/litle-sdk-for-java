@@ -25,6 +25,7 @@ public class FullLifeCycleExample {
         card.setCardValidationNum("349");
         card.setType(MethodOfPaymentTypeEnum.AX);
         auth.setCard(card);
+        auth.setId("id");
  
         AuthorizationResponse authResponse = litle.authorize(auth);
         System.out.println("Response: " + authResponse.getResponse());
@@ -33,21 +34,23 @@ public class FullLifeCycleExample {
  
         Capture capture = new Capture();
         capture.setLitleTxnId(authResponse.getLitleTxnId());
+        capture.setId("id");
         CaptureResponse captureResponse = litle.capture(capture);  //Capture the Auth
         System.out.println("Response: " + captureResponse.getResponse());
         System.out.println("Message: " + captureResponse.getMessage());
         System.out.println("Litle Transaction ID: " + captureResponse.getLitleTxnId());
  
         Credit credit = new Credit();
-        credit.setLitleTxnId(captureResponse.getLitleTxnId());     
+        credit.setLitleTxnId(captureResponse.getLitleTxnId());  
+        credit.setId("id");
         CreditResponse creditResponse = litle.credit(credit); //Refund the capture
         System.out.println("Response: " + creditResponse.getResponse());
         System.out.println("Message: " + creditResponse.getMessage());
         System.out.println("Litle Transaction ID: " + creditResponse.getLitleTxnId());
 	// In your sample, you can ignore this 	
-	if(!creditResponse.getMessage().equals("Approved")||!captureResponse.getMessage().equals("Approved")||!authResponse.getMessage().equals("Approved"))
+	if(!creditResponse.getMessage().equals("Transaction Received")||!captureResponse.getMessage().equals("Transaction Received")||!authResponse.getMessage().equals("Approved"))
         throw new RuntimeException(" The AuthWithTokenExample does not give the right response");
- 
+  
         //TODO - Fix the void here
        /* Void credit = new Credit();
         capture.setLitleTxnId(captureResponse.getLitleTxnId());

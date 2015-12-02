@@ -28,6 +28,7 @@ public class MechaBatch {
 	echeck.setAccType(EcheckAccountTypeEnum.CHECKING);
 	echeck.setRoutingNum("123456789");
 	echeck.setCheckNum("123455");
+	
 	 
 	//billto address
 	Contact contact = new Contact();
@@ -42,6 +43,7 @@ public class MechaBatch {
 	auth.setAmount(106L);
 	auth.setOrderSource(OrderSourceType.ECOMMERCE);
 	auth.setCard(card);
+	auth.setId("id");
 	batch.addTransaction(auth);
 	 
 	Sale sale = new Sale();
@@ -50,6 +52,7 @@ public class MechaBatch {
 	sale.setAmount(6000L);
 	sale.setOrderSource(OrderSourceType.ECOMMERCE);
 	sale.setCard(card);
+	sale.setId("id");
 	batch.addTransaction(sale);
 	 
 	Credit credit = new Credit();
@@ -58,6 +61,7 @@ public class MechaBatch {
 	credit.setAmount(106L);
 	credit.setOrderSource(OrderSourceType.ECOMMERCE);
 	credit.setCard(card);
+	credit.setId("id");
 	batch.addTransaction(credit);
 	 
 	AuthReversal authReversal = new AuthReversal();
@@ -65,12 +69,14 @@ public class MechaBatch {
 	authReversal.setLitleTxnId(12345678000L);
 	authReversal.setAmount(106L);
 	authReversal.setPayPalNotes("Notes");
+	authReversal.setId("id");
 	batch.addTransaction(authReversal);
 	 
 	RegisterTokenRequestType registerTokenRequestType = new RegisterTokenRequestType();
 	registerTokenRequestType.setReportGroup("Planets");
 	registerTokenRequestType.setOrderId("12344");
 	registerTokenRequestType.setAccountNumber("1233456789103801");
+	registerTokenRequestType.setId("id");
 	batch.addTransaction(registerTokenRequestType);
 	 
 	UpdateCardValidationNumOnToken cardValidationNumOnToken = new UpdateCardValidationNumOnToken();
@@ -80,6 +86,7 @@ public class MechaBatch {
 	cardValidationNumOnToken.setOrderId("12344");
 	cardValidationNumOnToken.setLitleToken("1233456789103801");
 	cardValidationNumOnToken.setCardValidationNum("123");
+	cardValidationNumOnToken.setId("id");
 	batch.addTransaction(cardValidationNumOnToken);
 	 
 	ForceCapture forceCapture = new ForceCapture();
@@ -89,12 +96,14 @@ public class MechaBatch {
 	forceCapture.setAmount(106L);
 	forceCapture.setOrderSource(OrderSourceType.ECOMMERCE);
 	forceCapture.setCard(card);
+	forceCapture.setId("id");
 	batch.addTransaction(forceCapture);
 	 
 	Capture capture = new Capture();
 	capture.setReportGroup("Planets");
 	capture.setLitleTxnId(123456000L);
 	capture.setAmount(106L);
+	capture.setId("id");
 	batch.addTransaction(capture);
 	 
 	CaptureGivenAuth captureGivenAuth = new CaptureGivenAuth();
@@ -108,6 +117,7 @@ public class MechaBatch {
 	captureGivenAuth.setAuthInformation(authInformation);
 	captureGivenAuth.setOrderSource(OrderSourceType.ECOMMERCE);
 	captureGivenAuth.setCard(card);
+	captureGivenAuth.setId("id");
 	batch.addTransaction(captureGivenAuth);
 	 
 	EcheckVerification echeckVerification = new EcheckVerification();
@@ -117,17 +127,20 @@ public class MechaBatch {
 	echeckVerification.setOrderSource(OrderSourceType.ECOMMERCE);
 	echeckVerification.setBillToAddress(contact);
 	echeckVerification.setEcheck(echeck);
+	echeckVerification.setId("id");
 	batch.addTransaction(echeckVerification);
 	 
 	EcheckCredit echeckCredit = new EcheckCredit();
 	echeckCredit.setReportGroup("Planets");
 	echeckCredit.setLitleTxnId(1234567890L);
 	echeckCredit.setAmount(12L);
+	echeckCredit.setId("id");
 	batch.addTransaction(echeckCredit);
 	 
 	EcheckRedeposit echeckRedeposit = new EcheckRedeposit();
 	echeckRedeposit.setReportGroup("Planets");
 	echeckRedeposit.setLitleTxnId(124321341412L);
+	echeckRedeposit.setId("id");
 	batch.addTransaction(echeckRedeposit);
 	 
 	EcheckSale echeckSale = new EcheckSale();
@@ -138,6 +151,7 @@ public class MechaBatch {
 	echeckSale.setBillToAddress(contact);
 	echeckSale.setEcheck(echeck);
 	echeckSale.setVerify(true);
+	echeckSale.setId("id");
 	batch.addTransaction(echeckSale);
 	 
 	LitleBatchFileResponse fileResponse = request.sendToLitleSFTP();

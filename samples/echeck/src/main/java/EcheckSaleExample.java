@@ -20,6 +20,7 @@ public class EcheckSaleExample {
 	contact.setState("MA");
 	contact.setEmail("sdksupport@litle.com");
 	echecksale.setBillToAddress(contact);
+	echecksale.setId("id");
  
         EcheckSalesResponse response = new LitleOnline().echeckSale(echecksale);
         //Display Results

@@ -6,6 +6,7 @@ public class PaypageRegistrationIdToTokenExample {
     public static void main(String[] args) {
 	RegisterTokenRequestType tokenRequest = new RegisterTokenRequestType();
 	tokenRequest.setOrderId("12345");
+	tokenRequest.setId("id");
         //The paypageRegistrationId is received in the form posted from your checkout page with paypage enabled
 	tokenRequest.setPaypageRegistrationId("123456789012345678901324567890abcdefghi");
 	RegisterTokenResponse tokenResponse = new LitleOnline().registerToken(tokenRequest);

@@ -5,6 +5,7 @@ import com.litle.sdk.generate.*;
 public class AuthReversalExample {
     public static void main(String[] args) {
         AuthReversal authReversal = new AuthReversal();
+        authReversal.setId("Id"); 
         //litleTxnId contains the Litle Transaction Id returned on the auth
         authReversal.setLitleTxnId(100000000000000000L);
         AuthReversalResponse response = new LitleOnline().authReversal(authReversal);
@@ -14,7 +15,7 @@ public class AuthReversalExample {
         System.out.println("Litle Transaction ID: " + response.getLitleTxnId());
 
 	// In your sample, you can ignore this
-        if(!response.getMessage().equals("Approved"))
+        if(!response.getMessage().equals("Transaction Received"))
         throw new RuntimeException(" The AuthReversalExample does not give the right response");
        
     }

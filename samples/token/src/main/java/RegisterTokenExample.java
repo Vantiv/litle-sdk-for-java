@@ -7,6 +7,7 @@ public class RegisterTokenExample {
         RegisterTokenRequestType registerToken = new RegisterTokenRequestType();
 	registerToken.setOrderId("12344");
 	registerToken.setAccountNumber("1233456789103801");
+	registerToken.setId("id");
 	RegisterTokenResponse response = new LitleOnline().registerToken(registerToken);
  
         //Display Results

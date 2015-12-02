@@ -22,13 +22,14 @@ public class OrphanedRefundExample {
         card.setCardValidationNum("349");
         card.setType(MethodOfPaymentTypeEnum.AX);
         credit.setCard(card);
+        credit.setId("id");
  
         CreditResponse response = new LitleOnline().credit(credit);
         //Display Results
         System.out.println("Response: " + response.getResponse());
         System.out.println("Message: " + response.getMessage());
         System.out.println("Litle Transaction ID: " + response.getLitleTxnId());
-	if(!response.getMessage().equals("Approved"))
+	if(!response.getMessage().equals("Transaction Received"))
         throw new RuntimeException(" The OrphanedRefundExample does not give the right response");
     }
 }

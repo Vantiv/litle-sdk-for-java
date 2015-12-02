@@ -18,6 +18,7 @@ public class MultiCurrencyExample2 {
         card.setNumber("4100000000000002");
         card.setExpDate("1210");
         authorization.setCard(card);
+        authorization.setId("id");
         Contact obj=new Contact();
         obj.setCountry(CountryTypeEnum.values()[0]);
         LitleOnlineRequest overrides = new LitleOnlineRequest();

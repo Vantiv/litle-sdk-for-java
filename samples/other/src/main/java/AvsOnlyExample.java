@@ -23,6 +23,7 @@ public class AvsOnlyExample {
         card.setCardValidationNum("349");
         card.setType(MethodOfPaymentTypeEnum.AX);
         auth.setCard(card);
+        auth.setId("id");
  
         AuthorizationResponse response = new LitleOnline().authorize(auth);
         FraudResult fraudresult = new FraudResult();
