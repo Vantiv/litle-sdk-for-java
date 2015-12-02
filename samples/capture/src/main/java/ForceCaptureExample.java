@@ -13,13 +13,14 @@ public class ForceCaptureExample {
         card.setNumber("4100000000000000");
         card.setExpDate("1210");
         forceCapture.setCard(card);
+        forceCapture.setId("id");
  
         ForceCaptureResponse response = new LitleOnline().forceCapture(forceCapture);
         //Display Results
         System.out.println("Response: " + response.getResponse());
         System.out.println("Message: " + response.getMessage());
         System.out.println("Litle Transaction ID: " + response.getLitleTxnId());
-	if(!response.getMessage().equals("Approved"))
+	if(!response.getMessage().equals("Transaction Received"))
         throw new RuntimeException(" The ForceCaptureExample does not give the right response");
     }
 }

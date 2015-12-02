@@ -21,6 +21,7 @@ public class CaptureGivenAuthExample {
 	card.setNumber("4100000000000000");
 	card.setExpDate("1210");
 	capturegivenauth.setCard(card);
+	capturegivenauth.setId("id");
  
         CaptureGivenAuthResponse response = new LitleOnline().captureGivenAuth(capturegivenauth);
         //Display Results

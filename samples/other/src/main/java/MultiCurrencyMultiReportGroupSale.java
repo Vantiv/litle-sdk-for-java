@@ -22,6 +22,7 @@ public class MultiCurrencyMultiReportGroupSale {
     	card.setCardValidationNum("349");
     	card.setType(MethodOfPaymentTypeEnum.AX);
     	sale.setCard(card);
+    	sale.setId("id");
     	LitleOnlineRequest overrides = new LitleOnlineRequest();
     	Contact obj=new Contact();
         obj.setCountry(CountryTypeEnum.values()[0]);

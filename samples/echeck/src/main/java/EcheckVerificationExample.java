@@ -20,6 +20,7 @@ public class EcheckVerificationExample {
 	contact.setState("MA");
 	contact.setEmail("litle.com");
 	echeckVerification.setBillToAddress(contact);
+	echeckVerification.setId("id");
  
         EcheckVerificationResponse response = new LitleOnline().echeckVerification(echeckVerification);
         //Display Results

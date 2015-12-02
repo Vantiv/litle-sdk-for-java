@@ -22,6 +22,7 @@ public class SaleExample {
         card.setCardValidationNum("349");
         card.setType(MethodOfPaymentTypeEnum.AX);
         sale.setCard(card);
+        sale.setId("id");
  
         SaleResponse response = new LitleOnline().sale(sale);
         //Display Results

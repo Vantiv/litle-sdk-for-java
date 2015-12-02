@@ -13,7 +13,8 @@ public class SaleWithTokenExample {
         token.setExpDate("1214");
         token.setLitleToken("1111222233334000");
         token.setType(MethodOfPaymentTypeEnum.VI);
-	sale.setToken(token);
+        sale.setToken(token);
+        sale.setId("id");
  
         SaleResponse response = new LitleOnline().sale(sale);
         //Display Results
