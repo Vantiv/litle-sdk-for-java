@@ -223,6 +223,7 @@ public class Communication {
             }
             catch(SftpException e){
                 success = false;
+                System.out.println(e);
             }
             if(success) {
                 try {
