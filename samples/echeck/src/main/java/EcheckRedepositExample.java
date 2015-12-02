@@ -8,7 +8,7 @@ public class EcheckRedepositExample {
 	echeckRedeposit.setId("id");
         //LitleTxnId from an earlier echeck sale
 	echeckRedeposit.setLitleTxnId(123456789101112L);
- 
+  
         EcheckRedepositResponse response = new LitleOnline().echeckRedeposit(echeckRedeposit);
         //Display Results
         System.out.println("Response: " + response.getResponse());

@@ -15,7 +15,6 @@ public class CaptureExample {
         System.out.println("Litle Transaction ID: " + response.getLitleTxnId());
 	if(!response.getMessage().equals("Transaction Received"))
         throw new RuntimeException(" The CaptureExample does not give the right response");
-
     }
 }
 

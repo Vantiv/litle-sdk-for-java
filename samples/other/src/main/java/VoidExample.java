@@ -16,5 +16,5 @@ public class VoidExample {
 	if(!response.getMessage().equals("Transaction Received"))
         throw new RuntimeException(" The VoidExample does not give the right response");
     }
-}
+} 
 

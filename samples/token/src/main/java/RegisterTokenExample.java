@@ -10,7 +10,7 @@ public class RegisterTokenExample {
 	registerToken.setId("id");
 	RegisterTokenResponse response = new LitleOnline().registerToken(registerToken);
  
-        //Display Results
+        //Display Results 
         System.out.println("Response: " + response.getResponse());
         System.out.println("Message: " + response.getMessage());
         System.out.println("Token: " + response.getLitleToken());

@@ -39,7 +39,7 @@ public class MultiCurrencyMultiReportGroupSale {
     	}
         
         SaleResponse response = litle.sale(sale, overrides);
-        //Display Results
+        //Display Results 
         System.out.println("Response: " + response.getResponse());
         System.out.println("Message: " + response.getMessage());
         System.out.println("Litle Transaction ID: " + response.getLitleTxnId());

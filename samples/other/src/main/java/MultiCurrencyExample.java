@@ -38,7 +38,7 @@ public class MultiCurrencyExample {
         LitleOnline cdnCurrency = new LitleOnline(cdnProps); //Override the default merchant setup in .litle_SDK_config.properties to force purchase in CDN
  
         AuthorizationResponse response2 = cdnCurrency.authorize(authorization);  //Perform the same authorization using CDN instead of USD
-        //Display Results
+        //Display Results 
         System.out.println("Response: " + response2.getResponse());
         System.out.println("Message: " + response2.getMessage());
         System.out.println("Litle Transaction ID: " + response2.getLitleTxnId());

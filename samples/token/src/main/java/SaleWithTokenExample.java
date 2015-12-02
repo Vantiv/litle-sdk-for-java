@@ -17,7 +17,7 @@ public class SaleWithTokenExample {
         sale.setId("id");
  
         SaleResponse response = new LitleOnline().sale(sale);
-        //Display Results
+        //Display Results 
         System.out.println("Response: " + response.getResponse());
         System.out.println("Message: " + response.getMessage());
         System.out.println("Litle Transaction ID: " + response.getLitleTxnId());

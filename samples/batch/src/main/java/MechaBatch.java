@@ -15,7 +15,7 @@ public class MechaBatch {
 	Properties configFromFile = request.getConfig();
 	 
 	LitleBatchRequest batch = request.createBatch(merchantId);
-	
+	 
 	//card
 	CardType card = new CardType();
 	card.setNumber("4100000000000000");

@@ -21,8 +21,8 @@ public class EcheckVerificationExample {
 	contact.setEmail("litle.com");
 	echeckVerification.setBillToAddress(contact);
 	echeckVerification.setId("id");
- 
-        EcheckVerificationResponse response = new LitleOnline().echeckVerification(echeckVerification);
+  
+         EcheckVerificationResponse response = new LitleOnline().echeckVerification(echeckVerification);
         //Display Results
         System.out.println("Response: " + response.getResponse());
         System.out.println("Message: " + response.getMessage());

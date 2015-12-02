@@ -8,7 +8,7 @@ public class EcheckCreditExample {
 	echeckcredit.setId("id");
         //LitleTxnId from an earlier echeck sale
 	echeckcredit.setLitleTxnId(123456789101112L);
- 
+  
         EcheckCreditResponse response = new LitleOnline().echeckCredit(echeckcredit);
         //Display Results
         System.out.println("Response: " + response.getResponse());
