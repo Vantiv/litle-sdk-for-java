@@ -25,6 +25,7 @@ import com.jcraft.jsch.SftpException;
 import java.security.GeneralSecurityException;
 import javax.net.ssl.SSLContext;
 import org.apache.http.conn.ClientConnectionManager;
+import org.apache.http.conn.scheme.PlainSocketFactory;
 import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.conn.scheme.SchemeRegistry;
 import org.apache.http.conn.ssl.SSLSocketFactory;
@@ -47,7 +48,11 @@ public class Communication {
 				SchemeRegistry reg = new SchemeRegistry();
 				SSLContext ctx = SSLContext.getInstance(protocol);
 				ctx.init(null, null, null);
-				reg.register(new Scheme("https", 443, new SSLSocketFactory(ctx)));
+				SSLSocketFactory sf = new SSLSocketFactory(ctx);
+				Scheme https = new Scheme("https", 443, sf);
+				Scheme http = new Scheme("http", 80, PlainSocketFactory.getSocketFactory());
+				reg.register(https);
+				reg.register(http);
 				ClientConnectionManager manager = new BasicClientConnectionManager(reg);
 				temp = new DefaultHttpClient(manager);
 			}
@@ -194,6 +199,7 @@ public class Communication {
             while((line = reader.readLine()) != null){
                 System.out.println(line);
             }
+            reader.close();
 	    }
 
 	    try {
@@ -284,6 +290,7 @@ public class Communication {
             while((line = reader.readLine()) != null){
                 System.out.println(line);
             }
+            reader.close();
         }
 
         channel.disconnect();
