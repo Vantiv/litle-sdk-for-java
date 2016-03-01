@@ -27,7 +27,7 @@ public class AvsOnlyExample {
  
         AuthorizationResponse response = new LitleOnline().authorize(auth);
         FraudResult fraudresult = new FraudResult();
-	fraudresult.setAvsResult("12");
+        fraudresult.setAvsResult("12");
         response.setFraudResult(fraudresult);
         //Display Results
         System.out.println("Response: " + response.getResponse());

@@ -18,6 +18,7 @@ public class MultiCurrencyExample {
     	card.setNumber("4100000000000002");
     	card.setExpDate("1210");
     	authorization.setCard(card);
+    	authorization.setId("id");
  
         AuthorizationResponse response = usdCurrency.authorize(authorization);
         //Display Results
