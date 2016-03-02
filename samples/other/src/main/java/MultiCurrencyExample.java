@@ -30,7 +30,7 @@ public class MultiCurrencyExample {
         cdnProps.setProperty("url","https://www.testlitle.com/sandbox/communicator/online");
         cdnProps.setProperty("username","username");
         cdnProps.setProperty("password","topsecret"); 
-        cdnProps.setProperty("proxyHost","iwp1.lowell.litle.com");  
+        cdnProps.setProperty("proxyHost","websenseproxy");  
          cdnProps.setProperty("proxyPort","8080");      
         cdnProps.setProperty("version","8.10");
         cdnProps.setProperty("timeout","65");
@@ -47,7 +47,7 @@ public class MultiCurrencyExample {
         yenProps.setProperty("url","https://www.testlitle.com/sandbox/communicator/online");
         yenProps.setProperty("username","username");
         yenProps.setProperty("password","topsecret");    
-        yenProps.setProperty("proxyHost","iwp1.lowell.litle.com");  
+        yenProps.setProperty("proxyHost","websenseproxy");  
         yenProps.setProperty("proxyPort","8080");     
         yenProps.setProperty("version","8.10");
         yenProps.setProperty("timeout","65");
