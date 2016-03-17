@@ -1523,18 +1523,18 @@ public class TestBatchFile {
             LitleBatchFileRequest request, LitleBatchFileResponse response)
             throws Exception {
         File fRequest = request.getFile();
-      //  assertEquals(workingDirRequests + File.separator + requestFileName,
-         //       fRequest.getAbsolutePath());
         assertEquals(workingDirRequests + File.separator + requestFileName,
-                fRequest.getPath());
+                fRequest.getAbsolutePath());
+       // assertEquals(workingDirRequests + File.separator + requestFileName,
+               // fRequest.getPath());
         assertTrue(fRequest.exists());
         assertTrue(fRequest.length() > 0);
 
         File fResponse = response.getFile();
-      //  assertEquals(workingDirResponses + File.separator + requestFileName,
-             //   fResponse.getAbsolutePath());
         assertEquals(workingDirResponses + File.separator + requestFileName,
-                fResponse.getPath());
+                fResponse.getAbsolutePath());
+      //  assertEquals(workingDirResponses + File.separator + requestFileName,
+          //      fResponse.getPath());
         assertTrue(fResponse.exists());
         assertTrue(fResponse.length() > 0);
 

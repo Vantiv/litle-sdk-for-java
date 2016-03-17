@@ -76,7 +76,7 @@ public class TestSale {
         applepayType.setHeader(applepayHeaderType);
         applepayType.setData("user");
         applepayType.setSignature("sign");
-        applepayType.setVersion("1");
+        applepayType.setVersion("12345");
 
         sale.setApplepay(applepayType);
         SaleResponse response = litle.sale(sale);

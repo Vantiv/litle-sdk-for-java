@@ -1,10 +1,10 @@
-<litleResponse version="9.8" xmlns="http://www.litle.com/schema" response="0" message="Valid Format" litleSessionId="82917580444631056">
-<batchResponse litleBatchId="82917580444631064" merchantId="0180">
+<litleResponse version="9.8" xmlns="http://www.litle.com/schema" response="0" message="Valid Format" litleSessionId="82917581186170899">
+<batchResponse litleBatchId="82917581186170907" merchantId="0180">
 <saleResponse reportGroup="reportGroup11">
-    <litleTxnId>82917580444631064</litleTxnId>
+    <litleTxnId>82917581186170907</litleTxnId>
     <orderId>orderId11</orderId>
     <response>000</response>
-    <responseTime>2016-03-17T15:43:42</responseTime>
+    <responseTime>2016-03-17T18:14:34</responseTime>
     <message>Approved</message>
     <authCode>11111 </authCode>
     <fraudResult>
