@@ -1,8 +1,6 @@
 package com.litle.sdk;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -11,7 +9,8 @@ import com.litle.sdk.generate.ApplepayHeaderType;
 import com.litle.sdk.generate.ApplepayType;
 import com.litle.sdk.generate.CardTokenType;
 import com.litle.sdk.generate.CardType;
-import com.litle.sdk.generate.FraudCheckType;
+import com.litle.sdk.generate.Contact;
+import com.litle.sdk.generate.CountryTypeEnum;
 import com.litle.sdk.generate.MethodOfPaymentTypeEnum;
 import com.litle.sdk.generate.OrderSourceType;
 import com.litle.sdk.generate.PayPal;
@@ -26,7 +25,7 @@ public class TestSale {
 	public static void beforeClass() throws Exception {
 		litle = new LitleOnline();
 	}
-	
+
 	@Test
 	public void simpleSaleWithCard() throws Exception{
 		Sale sale = new Sale();
@@ -42,7 +41,7 @@ public class TestSale {
 		SaleResponse response = litle.sale(sale);
 		assertEquals("Approved", response.getMessage());
 	}
-	
+
 	@Test
 	public void simpleSaleWithPayPal() throws Exception{
 		Sale sale = new Sale();
@@ -58,7 +57,7 @@ public class TestSale {
 		SaleResponse response = litle.sale(sale);
 		assertEquals("Approved", response.getMessage());
 	}
-	
+
 	@Test
     public void simpleSaleWithApplepayAndSecondaryAmount() throws Exception{
         Sale sale = new Sale();
@@ -84,7 +83,34 @@ public class TestSale {
         assertEquals("Insufficient Funds", response.getMessage());
         assertEquals(new Long(110),response.getApplepayResponse().getTransactionAmount());
     }
-	
+
+	@Test
+	public void simpleSaleWithAndroidPay() {
+	    Sale sale = new Sale();
+        sale.setAmount(2400L);
+        sale.setLitleTxnId(123456L);
+        sale.setOrderId("151124_APVIOLSaleeComTkn");
+        sale.setOrderSource(OrderSourceType.ANDROIDPAY);
+        Contact value = new Contact();
+        value.setName("Raymond J. Johnson Jr.");
+        value.setAddressLine1("123 Main Street");
+        value.setCity("McLean");
+        value.setState("VA");
+        value.setZip("22102");
+        value.setCountry(CountryTypeEnum.USA);
+        value.setEmail("ray@rayjay.com");
+        value.setPhone("978-275-0000");
+        sale.setBillToAddress(value);
+        sale.setShipToAddress(value);
+        CardTokenType token = new CardTokenType();
+        token.setLitleToken("1111000100071112");
+        token.setExpDate("0150");
+        sale.setToken(token);
+
+        SaleResponse response = litle.sale(sale);
+        assertEquals("Approved", response.getMessage());
+	}
+
 	@Test
 	public void simpleSaleWithToken() throws Exception {
 		Sale sale = new Sale();

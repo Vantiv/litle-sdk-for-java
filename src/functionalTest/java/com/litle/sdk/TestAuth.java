@@ -65,7 +65,7 @@ public class TestAuth {
 		AuthorizationResponse response = litle.authorize(authorization);
 		assertEquals(response.getMessage(), "Approved",response.getMessage());
 	}
-	
+
 	@Test
     public void simpleAuthWithApplepayAndSecondaryAmount() throws Exception {
         Authorization authorization = new Authorization();
@@ -83,7 +83,7 @@ public class TestAuth {
         applepayType.setHeader(applepayHeaderType);
         applepayType.setData("user");
         applepayType.setSignature("sign");
-        applepayType.setVersion("1");
+        applepayType.setVersion("12345");
         authorization.setApplepay(applepayType);
 
         AuthorizationResponse response = litle.authorize(authorization);

@@ -1,0 +1,22 @@
+<litleResponse version="9.8" xmlns="http://www.litle.com/schema" response="0" message="Valid Format" litleSessionId="82917580444631056">
+<batchResponse litleBatchId="82917580444631064" merchantId="0180">
+<saleResponse reportGroup="reportGroup11">
+    <litleTxnId>82917580444631064</litleTxnId>
+    <orderId>orderId11</orderId>
+    <response>000</response>
+    <responseTime>2016-03-17T15:43:42</responseTime>
+    <message>Approved</message>
+    <authCode>11111 </authCode>
+    <fraudResult>
+        <avsResult>34</avsResult>
+    </fraudResult>
+    <tokenResponse>
+        <litleToken>1111000113420009</litleToken>
+        <tokenResponseCode>802</tokenResponseCode>
+        <tokenMessage>Account number was previously registered</tokenMessage>
+        <type>VI</type>
+        <bin>445701</bin>
+    </tokenResponse>
+</saleResponse>
+</batchResponse>
+</litleResponse>

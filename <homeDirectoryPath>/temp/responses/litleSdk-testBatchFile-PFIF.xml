@@ -1,0 +1,74 @@
+<litleResponse version="9.8" xmlns="http://www.litle.com/schema" response="0" message="Valid Format" litleSessionId="82917580359434256">
+<batchResponse litleBatchId="82917580359434264" merchantId="0180">
+<payFacCreditResponse reportGroup="Planets">
+    <litleTxnId>82917580359516276</litleTxnId>
+    <fundsTransferId>000</fundsTransferId>
+    <response>000</response>
+    <responseTime>2016-03-17T15:26:21</responseTime>
+    <message>Approved</message>
+</payFacCreditResponse>
+<payFacDebitResponse reportGroup="Planets">
+    <litleTxnId>82917580359516284</litleTxnId>
+    <fundsTransferId>000</fundsTransferId>
+    <response>000</response>
+    <responseTime>2016-03-17T15:26:21</responseTime>
+    <message>Approved</message>
+</payFacDebitResponse>
+<submerchantCreditResponse reportGroup="Planets">
+    <litleTxnId>82917580359516292</litleTxnId>
+    <fundsTransferId>000</fundsTransferId>
+    <response>000</response>
+    <responseTime>2016-03-17T15:26:21</responseTime>
+    <message>Approved</message>
+</submerchantCreditResponse>
+<submerchantDebitResponse reportGroup="Planets">
+    <litleTxnId>82917580359516300</litleTxnId>
+    <fundsTransferId>000</fundsTransferId>
+    <response>000</response>
+    <responseTime>2016-03-17T15:26:21</responseTime>
+    <message>Approved</message>
+</submerchantDebitResponse>
+<reserveCreditResponse reportGroup="Planets">
+    <litleTxnId>82917580359516318</litleTxnId>
+    <fundsTransferId>000</fundsTransferId>
+    <response>000</response>
+    <responseTime>2016-03-17T15:26:21</responseTime>
+    <message>Approved</message>
+</reserveCreditResponse>
+<reserveDebitResponse reportGroup="Planets">
+    <litleTxnId>82917580359516326</litleTxnId>
+    <fundsTransferId>000</fundsTransferId>
+    <response>000</response>
+    <responseTime>2016-03-17T15:26:21</responseTime>
+    <message>Approved</message>
+</reserveDebitResponse>
+<vendorDebitResponse reportGroup="Planets">
+    <litleTxnId>82917580359516334</litleTxnId>
+    <fundsTransferId>000</fundsTransferId>
+    <response>000</response>
+    <responseTime>2016-03-17T15:26:21</responseTime>
+    <message>Approved</message>
+</vendorDebitResponse>
+<vendorCreditResponse reportGroup="Planets">
+    <litleTxnId>82917580359516342</litleTxnId>
+    <fundsTransferId>000</fundsTransferId>
+    <response>000</response>
+    <responseTime>2016-03-17T15:26:21</responseTime>
+    <message>Approved</message>
+</vendorCreditResponse>
+<physicalCheckDebitResponse reportGroup="Planets">
+    <litleTxnId>82917580359516359</litleTxnId>
+    <fundsTransferId>000</fundsTransferId>
+    <response>000</response>
+    <responseTime>2016-03-17T15:26:21</responseTime>
+    <message>Approved</message>
+</physicalCheckDebitResponse>
+<physicalCheckCreditResponse reportGroup="Planets">
+    <litleTxnId>82917580359516367</litleTxnId>
+    <fundsTransferId>000</fundsTransferId>
+    <response>000</response>
+    <responseTime>2016-03-17T15:26:21</responseTime>
+    <message>Approved</message>
+</physicalCheckCreditResponse>
+</batchResponse>
+</litleResponse>

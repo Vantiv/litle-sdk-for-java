@@ -1,0 +1,137 @@
+<litleResponse version="9.8" xmlns="http://www.litle.com/schema" response="0" message="Valid Format" litleSessionId="82917580358533132">
+<batchResponse litleBatchId="82917580358533140" merchantId="0180">
+<authorizationResponse reportGroup="Planets">
+    <litleTxnId>82917580358615202</litleTxnId>
+    <orderId>12344</orderId>
+    <response>000</response>
+    <responseTime>2016-03-17T15:26:12</responseTime>
+    <message>Approved</message>
+    <authCode>111111</authCode>
+    <fraudResult>
+        <avsResult>34</avsResult>
+    </fraudResult>
+    <tokenResponse>
+        <litleToken>1111000114800001</litleToken>
+        <tokenResponseCode>802</tokenResponseCode>
+        <tokenMessage>Account number was previously registered</tokenMessage>
+        <type>VI</type>
+        <bin>410000</bin>
+    </tokenResponse>
+</authorizationResponse>
+<saleResponse reportGroup="Planets">
+    <litleTxnId>82917580358615210</litleTxnId>
+    <orderId>12344</orderId>
+    <response>000</response>
+    <responseTime>2016-03-17T15:26:11</responseTime>
+    <message>Approved</message>
+    <authCode>111111</authCode>
+    <fraudResult>
+        <avsResult>34</avsResult>
+    </fraudResult>
+    <tokenResponse>
+        <litleToken>1111000114800001</litleToken>
+        <tokenResponseCode>802</tokenResponseCode>
+        <tokenMessage>Account number was previously registered</tokenMessage>
+        <type>VI</type>
+        <bin>410000</bin>
+    </tokenResponse>
+</saleResponse>
+<captureResponse reportGroup="Planets">
+    <litleTxnId>82917580358615228</litleTxnId>
+    <orderId>NA</orderId>
+    <response>360</response>
+    <responseTime>2016-03-17T15:26:10</responseTime>
+    <message>No transaction found with specified litleTxnId</message>
+</captureResponse>
+<captureGivenAuthResponse reportGroup="Planets">
+    <litleTxnId>82917580358615236</litleTxnId>
+    <orderId>12344</orderId>
+    <response>000</response>
+    <responseTime>2016-03-17T04:00:00</responseTime>
+    <message>Approved</message>
+    <tokenResponse>
+        <litleToken>1111000114800001</litleToken>
+        <tokenResponseCode>802</tokenResponseCode>
+        <tokenMessage>Account number was previously registered</tokenMessage>
+        <type>VI</type>
+        <bin>410000</bin>
+    </tokenResponse>
+</captureGivenAuthResponse>
+<creditResponse reportGroup="Planets">
+    <litleTxnId>82917580358615244</litleTxnId>
+    <orderId>12344</orderId>
+    <response>000</response>
+    <responseTime>2016-03-17T15:26:12</responseTime>
+    <message>Approved</message>
+    <tokenResponse>
+        <litleToken>1111000114800001</litleToken>
+        <tokenResponseCode>802</tokenResponseCode>
+        <tokenMessage>Account number was previously registered</tokenMessage>
+        <type>VI</type>
+        <bin>410000</bin>
+    </tokenResponse>
+</creditResponse>
+<forceCaptureResponse id="123456" reportGroup="Planets">
+    <litleTxnId>82917580358615251</litleTxnId>
+    <orderId>12344</orderId>
+    <response>000</response>
+    <responseTime>2016-03-17T15:26:13</responseTime>
+    <message>Approved</message>
+    <tokenResponse>
+        <litleToken>1111000114800001</litleToken>
+        <tokenResponseCode>802</tokenResponseCode>
+        <tokenMessage>Account number was previously registered</tokenMessage>
+        <type>VI</type>
+        <bin>410000</bin>
+    </tokenResponse>
+</forceCaptureResponse>
+<echeckSalesResponse reportGroup="Planets">
+    <litleTxnId>82917580358615269</litleTxnId>
+    <orderId>12345</orderId>
+    <response>900</response>
+    <responseTime>2016-03-17T15:26:13</responseTime>
+    <message>Invalid Bank Routing Number</message>
+</echeckSalesResponse>
+<echeckCreditResponse reportGroup="Planets">
+    <litleTxnId>82917580358615285</litleTxnId>
+    <orderId>NA</orderId>
+    <response>360</response>
+    <responseTime>2016-03-17T15:26:13</responseTime>
+    <message>No transaction found with specified litleTxnId</message>
+</echeckCreditResponse>
+<authReversalResponse reportGroup="Planets">
+    <litleTxnId>82917580358615293</litleTxnId>
+    <orderId>NA</orderId>
+    <response>360</response>
+    <responseTime>2016-03-17T15:26:13</responseTime>
+    <message>No transaction found with specified litleTxnId</message>
+</authReversalResponse>
+<registerTokenResponse reportGroup="Planets">
+    <litleTxnId>82917580358615301</litleTxnId>
+    <orderId>12344</orderId>
+    <response>820</response>
+    <responseTime>2016-03-17T15:26:13</responseTime>
+    <message>Credit card number was invalid</message>
+</registerTokenResponse>
+<echeckVerificationResponse reportGroup="Planets">
+    <litleTxnId>82917580358615319</litleTxnId>
+    <orderId>12345</orderId>
+    <response>957</response>
+    <responseTime>2016-03-17T15:26:13</responseTime>
+    <message>First Name and Last Name required for Echeck Verifications</message>
+</echeckVerificationResponse>
+<echeckRedepositResponse reportGroup="Planets">
+    <litleTxnId>82917580358615335</litleTxnId>
+    <response>360</response>
+    <responseTime>2016-03-17T15:26:13</responseTime>
+    <message>No transaction found with specified litleTxnId</message>
+</echeckRedepositResponse>
+<updateCardValidationNumOnTokenResponse id="12345" reportGroup="Planets" customerId="0987">
+    <litleTxnId>82917580160860574</litleTxnId>
+    <orderId>12344</orderId>
+    <response>823</response>
+    <responseTime>2016-03-17T15:26:13</responseTime>
+    <message>Token was invalid</message>
+</updateCardValidationNumOnTokenResponse>
+</batchResponse>
+</litleResponse>

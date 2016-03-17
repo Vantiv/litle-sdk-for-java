@@ -3,6 +3,7 @@ package com.litle.sdk;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -19,8 +20,8 @@ import org.junit.Test;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
+
 import com.litle.sdk.generate.AccountUpdate;
-import com.litle.sdk.generate.AccountUpdateFileRequestData;
 import com.litle.sdk.generate.AccountUpdateResponse;
 import com.litle.sdk.generate.Activate;
 import com.litle.sdk.generate.ActivateResponse;
@@ -76,7 +77,6 @@ import com.litle.sdk.generate.PhysicalCheckCredit;
 import com.litle.sdk.generate.PhysicalCheckCreditResponse;
 import com.litle.sdk.generate.PhysicalCheckDebit;
 import com.litle.sdk.generate.PhysicalCheckDebitResponse;
-import com.litle.sdk.generate.RFRRequest;
 import com.litle.sdk.generate.RegisterTokenRequestType;
 import com.litle.sdk.generate.RegisterTokenResponse;
 import com.litle.sdk.generate.ReserveCredit;
@@ -219,7 +219,7 @@ public class TestBatchFile {
         prepDir(workingDirResponses);
 
         Properties configOverrides = new Properties();
-        configOverrides.setProperty("batchHost", "prelive.litle.com"); 
+        configOverrides.setProperty("batchHost", "prelive.litle.com");
         configOverrides.setProperty("batchPort", "15000");
 
         configOverrides.setProperty("batchRequestFolder", workingDirRequests);
@@ -408,7 +408,7 @@ public class TestBatchFile {
         prepDir(workingDirResponses);
 
         Properties configOverrides = new Properties();
-        configOverrides.setProperty("batchHost", "prelive.litle.com"); 
+        configOverrides.setProperty("batchHost", "prelive.litle.com");
         configOverrides.setProperty("sftpTimeout", "720000");
 
         configOverrides.setProperty("batchRequestFolder", workingDirRequests);
@@ -857,7 +857,7 @@ public class TestBatchFile {
 
         assertEquals(transactionCount, txns);
     }
-    
+
     @Test
     public void testPFIFInstructionTxn() {
         String requestFileName = "litleSdk-testBatchFile-PFIF.xml";
@@ -896,14 +896,14 @@ public class TestBatchFile {
         submerchantCredit.setAmount(1000L);
         submerchantCredit.setAccountInfo(echeck);
         batch.addTransaction(submerchantCredit);
-        
+
         PayFacCredit payFacCredit = new PayFacCredit();
         payFacCredit.setReportGroup("Planets");
         payFacCredit.setFundingSubmerchantId("12346");
         payFacCredit.setFundsTransferId("000");
         payFacCredit.setAmount(1000L);
         batch.addTransaction(payFacCredit);
-        
+
         VendorCredit vendorCredit = new VendorCredit();
         vendorCredit.setReportGroup("Planets");
         vendorCredit.setFundingSubmerchantId("12347");
@@ -912,21 +912,21 @@ public class TestBatchFile {
         vendorCredit.setAmount(1000L);
         vendorCredit.setAccountInfo(echeck);
         batch.addTransaction(vendorCredit);
-        
+
         ReserveCredit reserveCredit = new ReserveCredit();
         reserveCredit.setReportGroup("Planets");
         reserveCredit.setFundingSubmerchantId("12348");
         reserveCredit.setFundsTransferId("000");
         reserveCredit.setAmount(1000L);
         batch.addTransaction(reserveCredit);
-        
+
         PhysicalCheckCredit physicalCheckCredit = new PhysicalCheckCredit();
         physicalCheckCredit.setReportGroup("Planets");
         physicalCheckCredit.setFundingSubmerchantId("12349");
         physicalCheckCredit.setFundsTransferId("000");
         physicalCheckCredit.setAmount(1000L);
         batch.addTransaction(physicalCheckCredit);
-        
+
         SubmerchantDebit submerchantDebit = new SubmerchantDebit();
         submerchantDebit.setReportGroup("Planets");
         submerchantDebit.setFundingSubmerchantId("12345");
@@ -935,14 +935,14 @@ public class TestBatchFile {
         submerchantDebit.setAmount(1000L);
         submerchantDebit.setAccountInfo(echeck);
         batch.addTransaction(submerchantDebit);
-        
+
         PayFacDebit payFacDebit = new PayFacDebit();
         payFacDebit.setReportGroup("Planets");
         payFacDebit.setFundingSubmerchantId("12346");
         payFacDebit.setFundsTransferId("000");
         payFacDebit.setAmount(1000L);
         batch.addTransaction(payFacDebit);
-        
+
         VendorDebit vendorDebit = new VendorDebit();
         vendorDebit.setReportGroup("Planets");
         vendorDebit.setFundingSubmerchantId("12347");
@@ -951,14 +951,14 @@ public class TestBatchFile {
         vendorDebit.setAmount(1000L);
         vendorDebit.setAccountInfo(echeck);
         batch.addTransaction(vendorDebit);
-        
+
         ReserveDebit reserveDebit = new ReserveDebit();
         reserveDebit.setReportGroup("Planets");
         reserveDebit.setFundingSubmerchantId("12348");
         reserveDebit.setFundsTransferId("000");
         reserveDebit.setAmount(1000L);
         batch.addTransaction(reserveDebit);
-        
+
         PhysicalCheckDebit physicalCheckDebit = new PhysicalCheckDebit();
         physicalCheckDebit.setReportGroup("Planets");
         physicalCheckDebit.setFundingSubmerchantId("12349");
@@ -1523,14 +1523,18 @@ public class TestBatchFile {
             LitleBatchFileRequest request, LitleBatchFileResponse response)
             throws Exception {
         File fRequest = request.getFile();
+      //  assertEquals(workingDirRequests + File.separator + requestFileName,
+         //       fRequest.getAbsolutePath());
         assertEquals(workingDirRequests + File.separator + requestFileName,
-                fRequest.getAbsolutePath());
+                fRequest.getPath());
         assertTrue(fRequest.exists());
         assertTrue(fRequest.length() > 0);
 
         File fResponse = response.getFile();
+      //  assertEquals(workingDirResponses + File.separator + requestFileName,
+             //   fResponse.getAbsolutePath());
         assertEquals(workingDirResponses + File.separator + requestFileName,
-                fResponse.getAbsolutePath());
+                fResponse.getPath());
         assertTrue(fResponse.exists());
         assertTrue(fResponse.length() > 0);
 

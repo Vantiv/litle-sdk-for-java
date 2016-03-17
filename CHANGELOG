@@ -1,7 +1,10 @@
 = LitleOnline CHANGELOG
 
+==Version 9.3.3
+Added androidpay test cases
+
 ==Version 9.3.2
-HTTP timeout set to 500ms
+*HTTP timeout set to 500ms
 
 ==Version 9.3.1 (March 9, 2015)
 *Feature: PFIF instruction transaction was added

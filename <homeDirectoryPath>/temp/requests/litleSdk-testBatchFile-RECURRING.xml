@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><litleRequest version="9.8" numBatchRequests="1" xmlns="http://www.litle.com/schema"><authentication><user>BATCHSDKA</user><password>certpass</password></authentication> <batchRequest merchantSdk="Java;9.8.0" numActivates="1" numDeactivates="1" activateAmount="100" numLoads="1" loadAmount="100" numUnloads="1" unloadAmount="100" numBalanceInquirys="1" merchantId="0180" xmlns="http://www.litle.com/schema">
+<activate xmlns="http://www.litle.com/schema" reportGroup="Planets">
+    <orderId>abc</orderId>
+    <amount>100</amount>
+    <orderSource>ecommerce</orderSource>
+    <card>
+        <type>GC</type>
+        <number>4100000000000001</number>
+        <expDate>1218</expDate>
+    </card>
+</activate>
+
+<deactivate xmlns="http://www.litle.com/schema" reportGroup="Planets">
+    <orderId>def</orderId>
+    <orderSource>ecommerce</orderSource>
+    <card>
+        <type>GC</type>
+        <number>4100000000000001</number>
+        <expDate>1218</expDate>
+    </card>
+</deactivate>
+
+<load xmlns="http://www.litle.com/schema" reportGroup="Planets">
+    <orderId>ghi</orderId>
+    <amount>100</amount>
+    <orderSource>ecommerce</orderSource>
+    <card>
+        <type>GC</type>
+        <number>4100000000000001</number>
+        <expDate>1218</expDate>
+    </card>
+</load>
+
+<unload xmlns="http://www.litle.com/schema" reportGroup="Planets">
+    <orderId>jkl</orderId>
+    <amount>100</amount>
+    <orderSource>ecommerce</orderSource>
+    <card>
+        <type>GC</type>
+        <number>4100000000000001</number>
+        <expDate>1218</expDate>
+    </card>
+</unload>
+
+<balanceInquiry xmlns="http://www.litle.com/schema" reportGroup="Planets">
+    <orderId>mno</orderId>
+    <orderSource>ecommerce</orderSource>
+    <card>
+        <type>GC</type>
+        <number>4100000000000001</number>
+        <expDate>1218</expDate>
+    </card>
+</balanceInquiry>
+</batchRequest>
+</litleRequest>

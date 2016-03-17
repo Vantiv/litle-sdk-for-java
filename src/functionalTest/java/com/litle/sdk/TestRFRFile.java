@@ -78,14 +78,14 @@ public class TestRFRFile {
 
 
         /* call method under test */
-        
+
         try {
             LitleRFRFileResponse response = request.sendToLitleStream();
 
             // assert request and response files were created properly
             assertGeneratedFiles(workingDirRequests, workingDirResponses, requestFileName, request, response);
         } catch (Exception e) {
-           
+
         }
     }
 

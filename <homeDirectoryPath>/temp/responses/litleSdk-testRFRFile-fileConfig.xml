@@ -1,0 +1,64 @@
+<litleResponse version="3.0" xmlns="http://www.litle.com/schema" response="0" message="Merchant Fiscal Day: 03172016" litleSessionId="82917580330352650">
+<batchResponse litleBatchId="82917580330352668" merchantId="0180">
+<accountUpdateResponse reportGroup="Planets">
+<litleTxnId>82917580330352668</litleTxnId>
+<orderId>1234</orderId>
+<response>506</response>
+<responseTime>2016-03-17T11:30:05</responseTime>
+<message>No changes found</message>
+<originalCard>
+<type>VI</type>
+<number>4100000000000001</number>
+<expDate>1210</expDate>
+</originalCard>
+</accountUpdateResponse>
+<accountUpdateResponse reportGroup="Planets">
+<litleTxnId>82917580334448660</litleTxnId>
+<orderId>1234</orderId>
+<response>506</response>
+<responseTime>2016-03-17T11:30:05</responseTime>
+<message>No changes found</message>
+<originalCard>
+<type>VI</type>
+<number>4100000000000001</number>
+<expDate>1210</expDate>
+</originalCard>
+</accountUpdateResponse>
+<accountUpdateResponse reportGroup="Planets">
+<litleTxnId>82917580349521949</litleTxnId>
+<orderId>1234</orderId>
+<response>506</response>
+<responseTime>2016-03-17T11:30:05</responseTime>
+<message>No changes found</message>
+<originalCard>
+<type>VI</type>
+<number>4100000000000001</number>
+<expDate>1210</expDate>
+</originalCard>
+</accountUpdateResponse>
+<accountUpdateResponse reportGroup="Planets">
+<litleTxnId>82917580355010589</litleTxnId>
+<orderId>1234</orderId>
+<response>506</response>
+<responseTime>2016-03-17T11:30:05</responseTime>
+<message>No changes found</message>
+<originalCard>
+<type>VI</type>
+<number>4100000000000001</number>
+<expDate>1210</expDate>
+</originalCard>
+</accountUpdateResponse>
+<accountUpdateResponse reportGroup="Planets">
+<litleTxnId>82917580359352342</litleTxnId>
+<orderId>1234</orderId>
+<response>506</response>
+<responseTime>2016-03-17T11:30:05</responseTime>
+<message>No changes found</message>
+<originalCard>
+<type>VI</type>
+<number>4100000000000001</number>
+<expDate>1210</expDate>
+</originalCard>
+</accountUpdateResponse>
+</batchResponse>
+</litleResponse>

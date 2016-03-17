@@ -1,0 +1,46 @@
+<litleResponse version="9.8" xmlns="http://www.litle.com/schema" response="0" message="Valid Format" litleSessionId="82917580402442256">
+<batchResponse litleBatchId="82917580402442264" merchantId="0180">
+<echeckPreNoteSaleResponse reportGroup="Planets">
+    <litleTxnId>82917580402442371</litleTxnId>
+    <orderId>000</orderId>
+    <response>000</response>
+    <responseTime>2016-03-17T15:35:06</responseTime>
+    <message>Approved</message>
+</echeckPreNoteSaleResponse>
+<echeckPreNoteSaleResponse reportGroup="Planets">
+    <litleTxnId>82917580402442397</litleTxnId>
+    <orderId>301</orderId>
+    <response>301</response>
+    <responseTime>2016-03-17T15:35:06</responseTime>
+    <message>Invalid Account Number</message>
+</echeckPreNoteSaleResponse>
+<echeckPreNoteSaleResponse reportGroup="Planets">
+    <litleTxnId>82917580402442413</litleTxnId>
+    <orderId>900</orderId>
+    <response>900</response>
+    <responseTime>2016-03-17T15:35:06</responseTime>
+    <message>Invalid Bank Routing Number</message>
+</echeckPreNoteSaleResponse>
+<echeckPreNoteCreditResponse reportGroup="Planets">
+    <litleTxnId>82917580402442439</litleTxnId>
+    <orderId>000</orderId>
+    <response>000</response>
+    <responseTime>2016-03-17T15:35:06</responseTime>
+    <message>Approved</message>
+</echeckPreNoteCreditResponse>
+<echeckPreNoteCreditResponse reportGroup="Planets">
+    <litleTxnId>82917580402442454</litleTxnId>
+    <orderId>301</orderId>
+    <response>301</response>
+    <responseTime>2016-03-17T15:35:06</responseTime>
+    <message>Invalid Account Number</message>
+</echeckPreNoteCreditResponse>
+<echeckPreNoteCreditResponse reportGroup="Planets">
+    <litleTxnId>82917580402442470</litleTxnId>
+    <orderId>900</orderId>
+    <response>900</response>
+    <responseTime>2016-03-17T15:35:06</responseTime>
+    <message>Invalid Bank Routing Number</message>
+</echeckPreNoteCreditResponse>
+</batchResponse>
+</litleResponse>
