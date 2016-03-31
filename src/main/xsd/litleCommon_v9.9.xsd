@@ -643,8 +643,16 @@
                 </xs:sequence>
             </xs:choice>
             <xs:element name="cardValidationNum" type="xp:cvNumType" minOccurs="0" />
+            <xs:element name="pin" type="xp:pinType" minOccurs="0" />
         </xs:sequence>
     </xs:complexType>
+    
+    <xs:simpleType name="pinType">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="4"/>
+            <xs:maxLength value="12" />
+        </xs:restriction> 
+    </xs:simpleType>
 
     <xs:complexType name="cardTokenType">
         <xs:sequence>
