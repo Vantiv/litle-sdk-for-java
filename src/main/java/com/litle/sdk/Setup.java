@@ -15,12 +15,12 @@ public class Setup {
 	private static final HashMap<String,String> URL_MAP = new HashMap<String,String>() {
 		{
 			put("sandbox","https://www.testlitle.com/sandbox/communicator/online");
-			put("cert","https://prelive.litle.com/vap/communicator/online");
-			put("precert","https://postlive.litle.com/vap/communicator/online");
+			put("prelive","https://prelive.litle.com/vap/communicator/online");
+			put("postlive","https://postlive.litle.com/vap/communicator/online");
 			put("production","https://payments.litle.com/vap/communicator/online");
 			put("batchsandbox","https://www.testlitle.com/sandbox");
-			put("batchcert","cert.litle.com");
-			put("batchprecert","precert.litle.com");
+			put("batchprelive","prelive.litle.com");
+			put("batchpostlive","postlive.litle.com");
 			put("batchproduction", "payments.litle.com");
 		}
 	};
@@ -29,8 +29,8 @@ public class Setup {
 	private static final HashMap<String,String> PORT_MAP = new HashMap<String,String>() {
 		{
 			put("batchsandbox","15000");
-			put("batchcert","15000");
-			put("batchprecert","15000");
+			put("batchprelive","15000");
+			put("batchpostlive","15000");
 			put("batchproduction", "15000");
 		}
 	};
@@ -62,15 +62,15 @@ public class Setup {
 			}
 			System.out.println("Please choose an environment from the following list (example: 'cert'):");
 			System.out.println("\tsandbox => www.testlitle.com");
-			System.out.println("\tcert => cert.litle.com");
-			System.out.println("\tprecert => precert.litle.com");
+			System.out.println("\tprelive => prelive.litle.com");
+			System.out.println("\tpostlive => postlive.litle.com");
 			System.out.println("\tproduction => payments.litle.com");
 			System.out.println("\tother => You will be asked for all the values");
 			lastUserInput = stdin.readLine();
 			if(
-				lastUserInput.compareToIgnoreCase("cert") == 0 ||
+				lastUserInput.compareToIgnoreCase("prelive") == 0 ||
 				lastUserInput.compareToIgnoreCase("sandbox") == 0 ||
-				lastUserInput.compareToIgnoreCase("precert") == 0 ||
+				lastUserInput.compareToIgnoreCase("postlive") == 0 ||
 				lastUserInput.compareToIgnoreCase("production") == 0
 			) {
 				// standard predefined cases
