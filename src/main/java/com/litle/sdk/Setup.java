@@ -15,8 +15,8 @@ public class Setup {
 	private static final HashMap<String,String> URL_MAP = new HashMap<String,String>() {
 		{
 			put("sandbox","https://www.testlitle.com/sandbox/communicator/online");
-			put("cert","https://cert.litle.com/vap/communicator/online");
-			put("precert","https://precert.litle.com/vap/communicator/online");
+			put("cert","https://prelive.litle.com/vap/communicator/online");
+			put("precert","https://postlive.litle.com/vap/communicator/online");
 			put("production","https://payments.litle.com/vap/communicator/online");
 			put("batchsandbox","https://www.testlitle.com/sandbox");
 			put("batchcert","cert.litle.com");
