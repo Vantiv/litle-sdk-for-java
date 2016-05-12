@@ -60,7 +60,7 @@ public class Setup {
 			if( badInput ){
 				System.out.println("====== Invalid choice entered ======");
 			}
-			System.out.println("Please choose an environment from the following list (example: 'cert'):");
+			System.out.println("Please choose an environment from the following list (example: 'prelive'):");
 			System.out.println("\tsandbox => www.testlitle.com");
 			System.out.println("\tprelive => prelive.litle.com");
 			System.out.println("\tpostlive => postlive.litle.com");
