@@ -1,5 +1,8 @@
 = LitleOnline CHANGELOG
 
+==Version 10.1.1 (June 7, 2016)
+Add method to close file resources
+
 ==Version 9.3.2
 HTTP timeout set to 500ms
 
