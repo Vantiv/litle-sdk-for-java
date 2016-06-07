@@ -14,7 +14,7 @@ public class AuthReversalExample {
         System.out.println("Litle Transaction ID: " + response.getLitleTxnId());
 
 	// In your sample, you can ignore this
-        if(!response.getMessage().equals("Approved"))
+        if(!response.getMessage().equals("Transaction Received"))
         throw new RuntimeException(" The AuthReversalExample does not give the right response");
        
     }
