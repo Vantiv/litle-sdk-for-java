@@ -4,15 +4,24 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.Properties;
+
+import javax.net.ssl.SSLContext;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.conn.ClientConnectionManager;
 import org.apache.http.conn.params.ConnRoutePNames;
+import org.apache.http.conn.scheme.PlainSocketFactory;
+import org.apache.http.conn.scheme.Scheme;
+import org.apache.http.conn.scheme.SchemeRegistry;
+import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.conn.BasicClientConnectionManager;
 import org.apache.http.params.CoreConnectionPNames;
 import org.apache.http.util.EntityUtils;
 
@@ -23,15 +32,51 @@ import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 import com.jcraft.jsch.SftpException;
 
+
 public class Communication {
 
+	private static final String[] SUPPORTED_PROTOCOLS = new String[] {"TLSv1.1", "TLSv1.2"};
+	
 	private DefaultHttpClient httpclient;
 	private StreamData streamData;
 
 	public Communication() {
-		httpclient = new DefaultHttpClient();
-		streamData = new StreamData();
+		DefaultHttpClient temp = new DefaultHttpClient();
+        try {
+            if (getBestProtocol(SSLContext.getDefault().getDefaultSSLParameters().getProtocols()) == null) {
+                String protocol = getBestProtocol(SSLContext.getDefault().getSupportedSSLParameters().getProtocols());
+                if (protocol == null) {
+                    throw new IllegalStateException("No supported TLS protocols available");
+                }
+                SchemeRegistry reg = new SchemeRegistry();
+                SSLContext ctx = SSLContext.getInstance(protocol);
+                ctx.init(null, null, null);
+                SSLSocketFactory sf = new SSLSocketFactory(ctx);
+                Scheme https = new Scheme("https", 443, sf);
+                Scheme http = new Scheme("http", 80, PlainSocketFactory.getSocketFactory());
+                reg.register(https);
+                reg.register(http);
+                ClientConnectionManager manager = new BasicClientConnectionManager(reg);
+                temp = new DefaultHttpClient(manager);
+            }
+        } catch (GeneralSecurityException ex) {
+            throw new IllegalStateException(ex);
+        }
+        httpclient = temp;
+        streamData = new StreamData();
 	}
+	
+	private static String getBestProtocol(final String[] availableProtocols) {
+        for (int i = 0; i < availableProtocols.length; ++i) {
+            // Assuming best protocol is at end
+            for (int j = SUPPORTED_PROTOCOLS.length - 1; j >= 0; --j) {
+                if (SUPPORTED_PROTOCOLS[j].equals(availableProtocols[i])) {
+                    return availableProtocols[i];
+                }
+            }
+        }
+        return null;
+    }
 
 	public String requestToServer(String xmlRequest, Properties configuration) {
 		String xmlResponse = null;

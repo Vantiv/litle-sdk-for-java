@@ -1,5 +1,10 @@
 = LitleOnline CHANGELOG
-==Version 9.00.0 (Auguest 26,2014)
+
+==Version 9.3.4 (June 7, 2016)
+*Feature: add TLSv1.1 and 1.2 as preferred protocols, needed for Sandbox connectivity
+*Feature: new method that allows closing of file resources
+
+==Version 9.00.0 (August 26,2014)
 *Support verision 9
 *modify xsd
 
