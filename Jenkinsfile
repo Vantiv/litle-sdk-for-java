@@ -1,12 +1,12 @@
 //Define settings for build
 def tmpDir = "/tmp"
-def proxyHost, proxyPort = "${env.HTTPS_PROXY}".split(":") ?: ["", ""]
-def merchantId = "$env.SDK_MERCHANT_ID" ?: "1000-xmlMerch"
-def username = "$env.SDK_USERNAME" ?: "SDKUSR"
-def password = "$env.SDK_PASSWORD" ?: "SDKPWD"
+def proxyHost, proxyPort = env.HTTPS_PROXY?.split(":") ?: ["", ""]
+def merchantId = env.SDK_MERCHANT_ID ?: "1000-xmlMerch"
+def username = env.SDK_USERNAME ?: "SDKUSR"
+def password = env.SDK_PASSWORD ?: "SDKPWD"
 def useSftp = env.SDK_SFTP_USERNAME && env.SDK_SFTP_PASSWORD //Avoid running SFTP tests if there are no credentials set
-def sftpUsername = "$env.SDK_SFTP_USERNAME" ?: "SDKSFTPUSR"
-def sftpPassword = "$env.SDK_SFTP_PASSWORD" ?: "SDKSFTPPWD"
+def sftpUsername = env.SDK_SFTP_USERNAME ?: "SDKSFTPUSR"
+def sftpPassword = env.SDK_SFTP_PASSWORD ?: "SDKSFTPPWD"
 
 //Set ENV properties
 env.LITLE_CONFIG_DIR="${tmpDir}"
