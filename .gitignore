@@ -1,8 +1,18 @@
-#.project
-bin/
+#Gradle
 build/
 .gradle
-test/
+
+#Eclipse IDE
+bin/
 .classpath
 .project
 .settings/
+
+#IDEA
+out/
+.idea
+.iws
+.iml
+
+#Misc
+test/
