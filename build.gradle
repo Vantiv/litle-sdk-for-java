@@ -252,3 +252,7 @@ task sourceJar(type:Jar) {
     from "src/main/java"
     from generateJaxbClasses.generatedDir
 }
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.14'
+}
