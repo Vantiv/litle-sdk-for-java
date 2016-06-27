@@ -71,7 +71,7 @@ echo "sftpPassword=${sftpPassword}" >> $env.LITLE_CONFIG_FILE
 
     def exclusions = useSftp ? "" : "-x certificationTest"
 
-    sh "$gradleExec jacocoTestReport $exclusions $gradleOptions "
+    sh "$gradleExec check jacocoTestReport $exclusions $gradleOptions "
 
     //---
     stage "Create Artifacts"
