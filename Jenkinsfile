@@ -1,6 +1,6 @@
 #!/usr/bin/env groovy
 
-node() { //Can pass in a String arg that specifies which label to build on, ex. node("unix") {
+node { //Can pass in a String arg that specifies which label to build on, ex. node("unix") {
     def gradleExec = isUnix() ? "./gradlew" : "/.gradlew.bat"
     def gradleOptions = "--info --stacktrace -Dhttps.protocols=TLSv1.1,TLSv1.2"
 
