@@ -49,6 +49,8 @@ import com.litle.sdk.generate.EcheckVoid;
 import com.litle.sdk.generate.EcheckVoidResponse;
 import com.litle.sdk.generate.ForceCapture;
 import com.litle.sdk.generate.ForceCaptureResponse;
+import com.litle.sdk.generate.FraudCheck;
+import com.litle.sdk.generate.FraudCheckResponse;
 import com.litle.sdk.generate.LitleOnlineRequest;
 import com.litle.sdk.generate.LitleOnlineResponse;
 import com.litle.sdk.generate.Load;
@@ -88,10 +90,12 @@ public class LitleOnline {
 	public LitleOnline() {
 
 		communication = new Communication();
+		FileInputStream fileInputStream = null;
 
 		try {
 			config = new Properties();
-			config.load(new FileInputStream((new Configuration()).location()));
+			fileInputStream = new FileInputStream((new Configuration()).location());
+			config.load(fileInputStream);
 		} catch (FileNotFoundException e) {
 			throw new LitleOnlineException("Configuration file not found." +
 					" If you are not using the .litle_SDK_config.properties file," +
@@ -99,6 +103,14 @@ public class LitleOnline {
 					" If you are using .litle_SDK_config.properties, you can generate one using java -jar litle-sdk-for-java-x.xx.jar", e);
 		} catch (IOException e) {
 			throw new LitleOnlineException("Configuration file could not be loaded.  Check to see if the user running this has permission to access the file", e);
+		} finally {
+		    if (fileInputStream != null){
+		        try {
+                    fileInputStream.close();
+                } catch (IOException e) {
+                    throw new LitleOnlineException("Configuration FileInputStream could not be closed.", e);
+                }
+		    }
 		}
 	}
 
@@ -332,6 +344,21 @@ public class LitleOnline {
 		LitleOnlineResponse response = sendToLitle(request);
 		JAXBElement<? extends TransactionTypeWithReportGroup> newresponse = response.getTransactionResponse();
 		return (SaleResponse)newresponse.getValue();
+	}
+	
+	public FraudCheckResponse fraudCheck(FraudCheck fraudCheck) throws LitleOnlineException {
+	    LitleOnlineRequest request = createLitleOnlineRequest();
+	    return fraudCheck(fraudCheck, request);
+	}
+	
+	public FraudCheckResponse fraudCheck(FraudCheck fraudCheck, LitleOnlineRequest overrides) throws LitleOnlineException {
+	    LitleOnlineRequest request = fillInMissingFieldsFromConfig(overrides);
+	    fillInReportGroup(fraudCheck);
+	    
+	    request.setTransaction(LitleContext.getObjectFactory().createFraudCheck(fraudCheck));
+	    LitleOnlineResponse response = sendToLitle(request);
+	    JAXBElement<? extends TransactionTypeWithReportGroup> newresponse = response.getTransactionResponse();
+	    return (FraudCheckResponse)newresponse.getValue();
 	}
 
 	/**
