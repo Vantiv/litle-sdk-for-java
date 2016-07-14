@@ -19,8 +19,6 @@ import com.litle.sdk.generate.ActivateReversal;
 import com.litle.sdk.generate.ActivateReversalResponse;
 import com.litle.sdk.generate.AdvancedFraudChecksType;
 import com.litle.sdk.generate.AdvancedFraudResultsType;
-import com.litle.sdk.generate.ApplepayHeaderType;
-import com.litle.sdk.generate.ApplepayType;
 import com.litle.sdk.generate.AuthInformation;
 import com.litle.sdk.generate.AuthReversal;
 import com.litle.sdk.generate.AuthReversalResponse;
@@ -1361,9 +1359,6 @@ public class TestLitleOnline {
         FraudCheck fraudCheck = new FraudCheck();
         AdvancedFraudChecksType advancedFraudChecks = new AdvancedFraudChecksType();
         advancedFraudChecks.setThreatMetrixSessionId("123");
-        advancedFraudChecks.setCustomAttribute1("pass");
-        advancedFraudChecks.setCustomAttribute2("42");
-        advancedFraudChecks.setCustomAttribute3("5");
         fraudCheck.setAdvancedFraudChecks(advancedFraudChecks);
         
         

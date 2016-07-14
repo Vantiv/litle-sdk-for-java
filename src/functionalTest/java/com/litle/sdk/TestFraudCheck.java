@@ -24,9 +24,6 @@ public class TestFraudCheck {
         FraudCheck fraudCheck = new FraudCheck();
         AdvancedFraudChecksType advancedFraudChecks = new AdvancedFraudChecksType();
         advancedFraudChecks.setThreatMetrixSessionId("123");
-        advancedFraudChecks.setCustomAttribute1("pass");
-        advancedFraudChecks.setCustomAttribute2("42");
-        advancedFraudChecks.setCustomAttribute3("5");
         fraudCheck.setAdvancedFraudChecks(advancedFraudChecks);
         FraudCheckResponse fraudCheckResponse = litle.fraudCheck(fraudCheck);
         
@@ -35,6 +32,6 @@ public class TestFraudCheck {
         AdvancedFraudResultsType advancedFraudResultsType = fraudCheckResponse.getAdvancedFraudResults();
         assertEquals("pass", advancedFraudResultsType.getDeviceReviewStatus());
         assertEquals(new Integer(42), advancedFraudResultsType.getDeviceReputationScore());
-        assertEquals(5, advancedFraudResultsType.getTriggeredRules().size());
+        assertEquals(1, advancedFraudResultsType.getTriggeredRules().size());
     }
 }
