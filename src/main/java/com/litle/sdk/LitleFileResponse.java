@@ -1,6 +1,7 @@
 package com.litle.sdk;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.StringReader;
 
 import javax.xml.bind.JAXBContext;
@@ -76,5 +77,7 @@ abstract class LitleFileResponse {
         this.responseFileParser = responseFileParser;
     }
 
-
+    public void closeResources() throws IOException{
+        this.responseFileParser.closeResources();
+    }
 }

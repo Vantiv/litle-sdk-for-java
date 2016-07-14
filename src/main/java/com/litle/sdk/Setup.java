@@ -137,5 +137,7 @@ public class Setup {
 
 		config.store(configFile, "");
 		System.out.println("The Litle configuration file has been generated, the file is located at " + file.getAbsolutePath());
+		
+		configFile.close();
 	}
 }

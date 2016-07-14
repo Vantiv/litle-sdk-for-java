@@ -21,6 +21,8 @@ import com.litle.sdk.generate.Activate;
 import com.litle.sdk.generate.ActivateResponse;
 import com.litle.sdk.generate.ActivateReversal;
 import com.litle.sdk.generate.ActivateReversalResponse;
+import com.litle.sdk.generate.AdvancedFraudChecksType;
+import com.litle.sdk.generate.AdvancedFraudResultsType;
 import com.litle.sdk.generate.ApplepayHeaderType;
 import com.litle.sdk.generate.ApplepayType;
 import com.litle.sdk.generate.AuthInformation;
@@ -65,6 +67,8 @@ import com.litle.sdk.generate.EcheckVoid;
 import com.litle.sdk.generate.EcheckVoidResponse;
 import com.litle.sdk.generate.ForceCapture;
 import com.litle.sdk.generate.ForceCaptureResponse;
+import com.litle.sdk.generate.FraudCheck;
+import com.litle.sdk.generate.FraudCheckResponse;
 import com.litle.sdk.generate.LitleOnlineRequest;
 import com.litle.sdk.generate.Load;
 import com.litle.sdk.generate.LoadResponse;
@@ -1546,6 +1550,32 @@ public class TestLitleOnline {
         assertEquals("Sample message", unavailableResponse.getMessage());
     }
     
-    
+
+    public void testFraudCheck() throws Exception{
+        FraudCheck fraudCheck = new FraudCheck();
+        AdvancedFraudChecksType advancedFraudChecks = new AdvancedFraudChecksType();
+        advancedFraudChecks.setThreatMetrixSessionId("123");
+        advancedFraudChecks.setCustomAttribute1("pass");
+        advancedFraudChecks.setCustomAttribute2("42");
+        advancedFraudChecks.setCustomAttribute3("5");
+        fraudCheck.setAdvancedFraudChecks(advancedFraudChecks);
+        
+        
+        Communication mockedCommunication = mock(Communication.class);
+        when(
+                mockedCommunication
+                        .requestToServer(
+                                matches(".*?<litleOnlineRequest.*?<fraudCheck.*?<advancedFraudChecks>.*?</advancedFraudChecks>.*?</fraudCheck>.*?"),
+                                any(Properties.class)))
+                .thenReturn(
+                        "<litleOnlineResponse version='10.1' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><fraudCheckResponse id='' reportGroup='Default Report Group' customerId=''><litleTxnId>602413782865196123</litleTxnId><response>123</response><responseTime>2016-07-11T15:12:34</responseTime><message>Call Discover</message><advancedFraudResults><deviceReviewStatus>pass</deviceReviewStatus><deviceReputationScore>42</deviceReputationScore><triggeredRule>triggered_rule_1</triggeredRule><triggeredRule>triggered_rule_2</triggeredRule><triggeredRule>triggered_rule_3</triggeredRule><triggeredRule>triggered_rule_4</triggeredRule><triggeredRule>triggered_rule_5</triggeredRule></advancedFraudResults></fraudCheckResponse></litleOnlineResponse>");
+        litle.setCommunication(mockedCommunication);        
+        
+        FraudCheckResponse fraudCheckResponse = litle.fraudCheck(fraudCheck);
+        AdvancedFraudResultsType advancedFraudResultsType = fraudCheckResponse.getAdvancedFraudResults();
+        assertEquals("pass", advancedFraudResultsType.getDeviceReviewStatus());
+        assertEquals(new Integer(42), advancedFraudResultsType.getDeviceReputationScore());
+        assertEquals(5, advancedFraudResultsType.getTriggeredRules().size());
+    }
 
 }
