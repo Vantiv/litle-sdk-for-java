@@ -91,7 +91,7 @@ public class TestCredit {
         credit.setLitleTxnId(1234L);
         credit.setId("id");
         try {
-            CreditResponse response = litle.credit(credit);
+            litle.credit(credit);
             fail("Litle Txn and Order Id should conflict, fail to throw a exception");
         } catch (Exception e) {
             assertTrue(e.getMessage(),e.getMessage().startsWith("Error validating xml data against the schema"));
@@ -132,6 +132,36 @@ public class TestCredit {
         credit.setId("id");
         CreditResponse response = litle.credit(credit);
         assertEquals("Transaction Received", response.getMessage());
+    }
+    
+    @Test
+    public void testCreditWithLitleTxnId() throws Exception {
+    	Credit credit = new Credit();
+    	credit.setId("id_required");
+    	credit.setLitleTxnId(112233445566778899l);
+    	credit.setAmount(2000L);
+    	
+    	CreditResponse response = litle.credit(credit);
+    	
+    	assertEquals("Transaction Received", response.getMessage());
+    }
+    
+    @Test
+    public void testCreditWithLitleTxnId_andOrderId() throws Exception {
+    	Credit credit = new Credit();
+    	credit.setId("id_required");
+    	credit.setLitleTxnId(112233445566778899l);
+    	credit.setOrderId("cannot have order and txn Id");
+    	credit.setAmount(2000L);
+    	
+    	try {
+    		litle.credit(credit);
+    		fail("Shoule throw exception!");
+    	} catch (LitleOnlineException lole) {
+    		String exception = "Error validating xml data against the schema cvc-maxLength-valid: Value 'cannot have order and txn Id' with length = '28' is not facet-valid with respect to maxLength '25' for type 'string25Type'.";
+    		assertEquals(exception, lole.getMessage());
+    	}
+    	
     }
 
 }
