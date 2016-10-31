@@ -35,7 +35,9 @@ public class TestCredit {
         card.setNumber("4100000000000001");
         card.setExpDate("1210");
         credit.setCard(card);
+        
         CreditResponse response = litle.credit(credit);
+        
         assertEquals("Approved", response.getMessage());
     }
 
@@ -48,7 +50,9 @@ public class TestCredit {
         Paypal paypal = new Paypal();
         paypal.setPayerId("1234");
         credit.setPaypal(paypal);
+        
         CreditResponse response = litle.credit(credit);
+        
         assertEquals("Approved", response.getMessage());
     }
 
@@ -64,7 +68,9 @@ public class TestCredit {
         card.setNumber("4100000000000001");
         card.setExpDate("1210");
         credit.setCard(card);
+        
         CreditResponse response = litle.credit(credit);
+        
         assertEquals("Approved", response.getMessage());
     }
 
@@ -74,7 +80,9 @@ public class TestCredit {
         credit.setAmount(106L);
         credit.setSecondaryAmount(20L);
         credit.setLitleTxnId(1234L);
+        
         CreditResponse response = litle.credit(credit);
+        
         assertEquals("Approved", response.getMessage());
     }
 
@@ -85,6 +93,7 @@ public class TestCredit {
         credit.setAmount(106L);
         credit.setSecondaryAmount(20L);
         credit.setLitleTxnId(1234L);
+        
         try {
             CreditResponse response = litle.credit(credit);
             fail("Litle Txn and Order Id should conflict, fail to throw a exception");
@@ -105,12 +114,14 @@ public class TestCredit {
         card.setNumber("4100000000000001");
         card.setExpDate("1210");
         credit.setCard(card);
+        
         CreditResponse response = litle.credit(credit);
+        
         assertEquals("Approved", response.getMessage());
     }
 
     @Test
-    public void processingInstructionAndAmexData() throws Exception {
+    public void testProcessingInstructionAndAmexData() throws Exception {
         Credit credit = new Credit();
         credit.setAmount(2000L);
         credit.setOrderId("12344");
@@ -123,7 +134,22 @@ public class TestCredit {
         card.setNumber("4100000000000001");
         card.setExpDate("1210");
         credit.setCard(card);
+        
         CreditResponse response = litle.credit(credit);
+        
+        assertEquals("Approved", response.getMessage());
+    }
+    
+    @Test
+    public void testCreditWithLitleTxnAndPin() throws Exception {
+    	Credit credit = new Credit();
+        credit.setAmount(106L);
+        credit.setSecondaryAmount(20L);
+        credit.setLitleTxnId(1234L);
+        credit.setPin("3333");
+        
+        CreditResponse response = litle.credit(credit);
+        
         assertEquals("Approved", response.getMessage());
     }
 

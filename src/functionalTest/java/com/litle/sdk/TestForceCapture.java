@@ -11,6 +11,7 @@ import com.litle.sdk.generate.ForceCapture;
 import com.litle.sdk.generate.ForceCaptureResponse;
 import com.litle.sdk.generate.MethodOfPaymentTypeEnum;
 import com.litle.sdk.generate.OrderSourceType;
+import com.litle.sdk.generate.ProcessingTypeEnum;
 
 public class TestForceCapture {
 	
@@ -27,12 +28,15 @@ public class TestForceCapture {
 		forcecapture.setAmount(106L);
 		forcecapture.setOrderId("12344");
 		forcecapture.setOrderSource(OrderSourceType.ECOMMERCE);
+		forcecapture.setProcessingType(ProcessingTypeEnum.ACCOUNT_FUNDING);
 		CardType card = new CardType();
 		card.setType(MethodOfPaymentTypeEnum.VI);
 		card.setNumber("4100000000000001");
 		card.setExpDate("1210");
 		forcecapture.setCard(card);
+		
 		ForceCaptureResponse response = litle.forceCapture(forcecapture);
+		
 		assertEquals("Approved", response.getMessage());
 	}
 	
@@ -48,7 +52,9 @@ public class TestForceCapture {
         card.setNumber("4100000000000001");
         card.setExpDate("1210");
         forcecapture.setCard(card);
+        
         ForceCaptureResponse response = litle.forceCapture(forcecapture);
+        
         assertEquals("Approved", response.getMessage());
     }
 	
@@ -64,7 +70,9 @@ public class TestForceCapture {
 		token.setCardValidationNum("555");
 		token.setType(MethodOfPaymentTypeEnum.VI);
 		forcecapture.setToken(token);
+		
 		ForceCaptureResponse response = litle.forceCapture(forcecapture);
+		
 		assertEquals("Approved", response.getMessage());
 	}
 

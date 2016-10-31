@@ -17,6 +17,7 @@ import com.litle.sdk.generate.FraudResult;
 import com.litle.sdk.generate.MethodOfPaymentTypeEnum;
 import com.litle.sdk.generate.OrderSourceType;
 import com.litle.sdk.generate.ProcessingInstructions;
+import com.litle.sdk.generate.ProcessingTypeEnum;
 
 
 public class TestCaptureGivenAuth {
@@ -46,7 +47,9 @@ public class TestCaptureGivenAuth {
 		card.setNumber("4100000000000000");
 		card.setExpDate("1210");
 		capturegivenauth.setCard(card);
+		
 		CaptureGivenAuthResponse response = litle.captureGivenAuth(capturegivenauth);
+		
 		assertEquals("Approved", response.getMessage());
 	}
 	
@@ -69,7 +72,9 @@ public class TestCaptureGivenAuth {
 		cardtoken.setCardValidationNum("555");
 		cardtoken.setType(MethodOfPaymentTypeEnum.VI);
 		capturegivenauth.setToken(cardtoken);
+		
 		CaptureGivenAuthResponse response = litle.captureGivenAuth(capturegivenauth);
+		
 		assertEquals("Approved", response.getMessage());
 	}
 	
@@ -101,7 +106,9 @@ public class TestCaptureGivenAuth {
 		card.setNumber("4100000000000000");
 		card.setExpDate("1210");
 		capturegivenauth.setCard(card);
+		
 		CaptureGivenAuthResponse response = litle.captureGivenAuth(capturegivenauth);
+		
 		assertEquals("Approved", response.getMessage());
 	}
 	@Test
@@ -128,7 +135,60 @@ public class TestCaptureGivenAuth {
 		card.setNumber("4100000000000000");
 		card.setExpDate("1210");
 		capturegivenauth.setCard(card);
+		
 		CaptureGivenAuthResponse response = litle.captureGivenAuth(capturegivenauth);
+		
+		assertEquals("Approved", response.getMessage());
+	}
+	
+	@Test
+	public void simpleCaptureGivenAuthWithProcessingType() throws Exception{
+		CaptureGivenAuth capturegivenauth = new CaptureGivenAuth();
+		capturegivenauth.setAmount(106L);
+		capturegivenauth.setOrderId("12344");
+		AuthInformation authInfo = new AuthInformation();
+		Calendar authDate = Calendar.getInstance();
+		authDate.set(2002, Calendar.OCTOBER, 9);
+		authInfo.setAuthDate(authDate);
+		authInfo.setAuthCode("543216");
+		authInfo.setAuthAmount(12345L);
+		capturegivenauth.setAuthInformation(authInfo);
+		capturegivenauth.setOrderSource(OrderSourceType.ECOMMERCE);
+		capturegivenauth.setProcessingType(ProcessingTypeEnum.INITIAL_RECURRING);
+		CardType card = new CardType();
+		card.setType(MethodOfPaymentTypeEnum.VI);
+		card.setNumber("4100000000000000");
+		card.setExpDate("1210");
+		capturegivenauth.setCard(card);
+		
+		CaptureGivenAuthResponse response = litle.captureGivenAuth(capturegivenauth);
+		
+		assertEquals("Approved", response.getMessage());
+	}
+	
+	@Test
+	public void simpleCaptureGivenAuthWithCardOrigTxnIdAndOrigAmount() throws Exception{
+		CaptureGivenAuth capturegivenauth = new CaptureGivenAuth();
+		capturegivenauth.setAmount(106L);
+		capturegivenauth.setOrderId("12344");
+		AuthInformation authInfo = new AuthInformation();
+		Calendar authDate = Calendar.getInstance();
+		authDate.set(2002, Calendar.OCTOBER, 9);
+		authInfo.setAuthDate(authDate);
+		authInfo.setAuthCode("543216");
+		authInfo.setAuthAmount(12345L);
+		capturegivenauth.setAuthInformation(authInfo);
+		capturegivenauth.setOrderSource(OrderSourceType.ECOMMERCE);
+		capturegivenauth.setOriginalNetworkTransactionId("987654321098765432109876543210");
+		capturegivenauth.setOriginalTransactionAmount(1066l);
+		CardType card = new CardType();
+		card.setType(MethodOfPaymentTypeEnum.VI);
+		card.setNumber("4100000000000000");
+		card.setExpDate("1210");
+		capturegivenauth.setCard(card);
+		
+		CaptureGivenAuthResponse response = litle.captureGivenAuth(capturegivenauth);
+		
 		assertEquals("Approved", response.getMessage());
 	}
 

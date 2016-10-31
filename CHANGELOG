@@ -1,4 +1,11 @@
 = LitleOnline CHANGELOG
+
+==Version 9.10 (Oct 31, 2016)
+* Feature: add androidpay
+* Feature: add network enhancements for original txn Id and original amount
+* Feature: processingType added
+* Feature: cardSuffix added on responses
+
 ==Version 9.9 (March 30, 2016)
 *Add Gift Card Pin Support
 

@@ -1,6 +1,7 @@
 package com.litle.sdk;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -14,8 +15,11 @@ import com.litle.sdk.generate.CountryTypeEnum;
 import com.litle.sdk.generate.MethodOfPaymentTypeEnum;
 import com.litle.sdk.generate.OrderSourceType;
 import com.litle.sdk.generate.PayPal;
+import com.litle.sdk.generate.ProcessingTypeEnum;
 import com.litle.sdk.generate.Sale;
 import com.litle.sdk.generate.SaleResponse;
+import com.litle.sdk.generate.Wallet;
+import com.litle.sdk.generate.WalletSourceType;
 
 public class TestSale {
 
@@ -38,7 +42,9 @@ public class TestSale {
 		card.setNumber("4100000000000000");
 		card.setExpDate("1210");
 		sale.setCard(card);
+		
 		SaleResponse response = litle.sale(sale);
+		
 		assertEquals("Approved", response.getMessage());
 	}
 
@@ -54,7 +60,9 @@ public class TestSale {
 		paypal.setToken("1234");
 		paypal.setTransactionId("123456");
 		sale.setPaypal(paypal);
+		
 		SaleResponse response = litle.sale(sale);
+		
 		assertEquals("Approved", response.getMessage());
 	}
 
@@ -80,6 +88,7 @@ public class TestSale {
 
         sale.setApplepay(applepayType);
         SaleResponse response = litle.sale(sale);
+        
         assertEquals("Insufficient Funds", response.getMessage());
         assertEquals(new Long(110),response.getApplepayResponse().getTransactionAmount());
     }
@@ -108,6 +117,7 @@ public class TestSale {
         sale.setToken(token);
 
         SaleResponse response = litle.sale(sale);
+        
         assertEquals("Approved", response.getMessage());
         assertEquals("aHR0cHM6Ly93d3cueW91dHViZS5jb20vd2F0Y2g/dj1kUXc0dzlXZ1hjUQ0K", response.getAndroidpayResponse().getCryptogram());
 	}
@@ -124,7 +134,113 @@ public class TestSale {
 		token.setLitleToken("1111222233334000");
 		token.setType(MethodOfPaymentTypeEnum.VI);
 		sale.setToken(token);
+		
 		SaleResponse response = litle.sale(sale);
+		
 		assertEquals("Approved", response.getMessage());
+	}
+	
+	@Test
+	public void testSaleWithWallet_Visa() throws Exception{
+		Sale sale = new Sale();
+		sale.setAmount(106L);
+		sale.setLitleTxnId(123456L);
+		sale.setOrderId("12344");
+		sale.setOrderSource(OrderSourceType.ECOMMERCE);
+		CardType card = new CardType();
+		card.setType(MethodOfPaymentTypeEnum.VI);
+		card.setNumber("4100000000000000");
+		card.setExpDate("1210");
+		sale.setCard(card);
+		Wallet wallet = new Wallet();
+		wallet.setWalletSourceType(WalletSourceType.VISA_CHECKOUT);
+		
+		SaleResponse response = litle.sale(sale);
+		
+		assertEquals("Approved", response.getMessage());
+	}
+	
+	@Test
+	public void testSaleWithWallet_Mastercard() throws Exception{
+		Sale sale = new Sale();
+		sale.setAmount(106L);
+		sale.setLitleTxnId(123456L);
+		sale.setOrderId("12344");
+		sale.setOrderSource(OrderSourceType.ECOMMERCE);
+		CardType card = new CardType();
+		card.setType(MethodOfPaymentTypeEnum.MC);
+		card.setNumber("5400000000000000");
+		card.setExpDate("1210");
+		sale.setCard(card);
+		Wallet wallet = new Wallet();
+		wallet.setWalletSourceType(WalletSourceType.MASTER_PASS);
+		
+		SaleResponse response = litle.sale(sale);
+		
+		assertEquals("Approved", response.getMessage());
+	}
+	
+	@Test
+	public void testSaleWithProcessingType() throws Exception{
+		Sale sale = new Sale();
+		sale.setAmount(106L);
+		sale.setLitleTxnId(123456L);
+		sale.setOrderId("12344");
+		sale.setOrderSource(OrderSourceType.ECOMMERCE);
+		CardType card = new CardType();
+		card.setType(MethodOfPaymentTypeEnum.MC);
+		card.setNumber("5400000000000000");
+		card.setExpDate("1210");
+		sale.setCard(card);
+		sale.setProcessingType(ProcessingTypeEnum.INITIAL_INSTALLMENT);
+		
+		SaleResponse response = litle.sale(sale);
+		
+		assertEquals("Approved", response.getMessage());
+	}
+	
+	@Test
+	public void testSaleWithOrigTxnIdAndOrigAmount() throws Exception{
+		Sale sale = new Sale();
+		sale.setAmount(106L);
+		sale.setLitleTxnId(123456L);
+		sale.setOrderId("12344");
+		sale.setOrderSource(OrderSourceType.ECOMMERCE);
+		CardType card = new CardType();
+		card.setType(MethodOfPaymentTypeEnum.MC);
+		card.setNumber("5400700000000000");
+		card.setExpDate("1210");
+		sale.setCard(card);
+		sale.setOriginalNetworkTransactionId("98765432109876543210");
+		sale.setOriginalTransactionAmount(700l);
+		
+		SaleResponse response = litle.sale(sale);
+		
+		assertEquals("Approved", response.getMessage());
+		// no network txn Id because it's a MC transaction, only VI returns this value from the Sandbox
+		assertNull(response.getNetworkTransactionId());
+	}
+	
+	@Test
+	public void testSaleWithNetworkTxnIdResponseAndCardSuffixResponse() throws Exception{
+		Sale sale = new Sale();
+		sale.setAmount(106L);
+		sale.setLitleTxnId(123456L);
+		sale.setOrderId("12344");
+		sale.setOrderSource(OrderSourceType.ECOMMERCE);
+		CardType card = new CardType();
+		card.setType(MethodOfPaymentTypeEnum.VI);
+		card.setNumber("4100700000000000");
+		card.setExpDate("1210");
+		card.setPin("1111");
+		sale.setCard(card);
+		sale.setOriginalNetworkTransactionId("98765432109876543210");
+		sale.setOriginalTransactionAmount(700l);
+		
+		SaleResponse response = litle.sale(sale);
+		
+		assertEquals("Approved", response.getMessage());
+		assertEquals("63225578415568556365452427825", response.getNetworkTransactionId());
+		assertEquals("123456", response.getCardSuffix());
 	}
 }

@@ -1,8 +1,8 @@
 <xs:schema targetNamespace="http://www.litle.com/schema" xmlns:xp="http://www.litle.com/schema"
     xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
     
-    <xs:include schemaLocation="litleCommon_v9.9.xsd" />
-    <xs:include schemaLocation="litleRecurring_v9.9.xsd" />
+    <xs:include schemaLocation="litleCommon_v9.10.xsd" />
+    <xs:include schemaLocation="litleRecurring_v9.10.xsd" />
 
     <xs:element name="transaction" type="xp:transactionType" abstract="true" />
 
@@ -236,6 +236,8 @@
                             <xs:element name="advancedFraudChecks" type="xp:advancedFraudChecksType" minOccurs="0"/>
                             <xs:element ref="xp:wallet" minOccurs="0" />
                             <xs:element name="processingType" type="xp:processingTypeEnum" minOccurs="0" />
+                            <xs:element name="originalNetworkTransactionId" type="xp:string30Type" minOccurs="0" />
+                            <xs:element name="originalTransactionAmount" type="xp:transactionAmountType" minOccurs="0" />
                         </xs:sequence>
                     </xs:choice>
                 </xs:extension>
@@ -341,6 +343,8 @@
                         <xs:element name="merchantData" type="xp:merchantDataType" minOccurs="0" />
                         <xs:element name="debtRepayment" type="xs:boolean" minOccurs="0" />
                         <xs:element name="processingType" type="xp:processingTypeEnum" minOccurs="0" />
+                        <xs:element name="originalNetworkTransactionId" type="xp:string30Type" minOccurs="0" />
+                        <xs:element name="originalTransactionAmount" type="xp:transactionAmountType" minOccurs="0" />
                     </xs:sequence>
                 </xs:extension>
             </xs:complexContent>
@@ -397,6 +401,8 @@
                         <xs:element name="advancedFraudChecks" type="xp:advancedFraudChecksType" minOccurs="0"/>
                         <xs:element ref="xp:wallet" minOccurs="0" />
                         <xs:element name="processingType" type="xp:processingTypeEnum" minOccurs="0" />
+                        <xs:element name="originalNetworkTransactionId" type="xp:string30Type" minOccurs="0" />
+                        <xs:element name="originalTransactionAmount" type="xp:transactionAmountType" minOccurs="0" />
                     </xs:sequence>
                 </xs:extension>
             </xs:complexContent>
@@ -825,6 +831,8 @@
                         <xs:element ref="xp:applepayResponse" minOccurs="0"/>
                         <xs:element name="cardSuffix" type="xp:cardSuffixType" minOccurs="0" />
                         <xs:element ref="xp:androidpayResponse" minOccurs="0"/>
+                        <!-- For merchant initiated transactions -->
+                        <xs:element name="networkTransactionId" type="xp:string30Type" minOccurs="0" /> 
                     </xs:all>
                 </xs:extension>
             </xs:complexContent>
@@ -1167,6 +1175,8 @@
                         <xs:element ref="xp:applepayResponse" minOccurs="0"/>
                         <xs:element name="cardSuffix" type="xp:cardSuffixType" minOccurs="0" />
                         <xs:element ref="xp:androidpayResponse" minOccurs="0"/>
+                        <!-- For merchant initiated transactions -->
+                        <xs:element name="networkTransactionId" type="xp:string30Type" minOccurs="0" /> 
                     </xs:all>
                     <!-- online only -->
                     <xs:attribute name="duplicate" type="xs:boolean" use="optional" />
@@ -1624,7 +1634,7 @@
     </xs:simpleType>
     <xs:simpleType name="routingNumberType">
         <xs:restriction base="xs:string">
-            <xs:minLength value="9" />
+            <xs:minLength value="8" />
             <xs:maxLength value="9" />
         </xs:restriction>
     </xs:simpleType>
@@ -1878,7 +1888,7 @@
             <xs:complexContent>
                 <xs:extension base="xp:transactionTypeWithReportGroup">
                     <xs:sequence>
-                        <xs:element name="advancedFraudChecks" type="xp:advancedFraudChecksType"/>
+                        <xs:element name="advancedFraudChecks" type="xp:advancedFraudChecksType" minOccurs="0"/>
                         <xs:element ref="xp:billToAddress" minOccurs="0" />
                         <xs:element ref="xp:shipToAddress" minOccurs="0" />
                         <xs:element name="amount" type="xp:transactionAmountType" minOccurs="0" />
@@ -2010,6 +2020,8 @@
     <xs:simpleType name="processingTypeEnum">
         <xs:restriction base="xs:string">
             <xs:enumeration value="accountFunding" />
+            <xs:enumeration value="initialRecurring" />
+            <xs:enumeration value="initialInstallment" />
         </xs:restriction>
     </xs:simpleType>    
     

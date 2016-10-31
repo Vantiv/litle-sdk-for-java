@@ -137,29 +137,6 @@
         </xs:restriction>
     </xs:simpleType>
     
-    <xs:simpleType name="actionTypeEnum">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="A" />
-            <xs:enumeration value="D" />
-            <xs:enumeration value="R" />
-            <xs:enumeration value="AR" />
-            <xs:enumeration value="G" />
-            <xs:enumeration value="I" />
-            <xs:enumeration value="J" />
-            <xs:enumeration value="L" />
-            <xs:enumeration value="LR" />
-            <xs:enumeration value="P" />
-            <xs:enumeration value="RR" />
-            <xs:enumeration value="S" />
-            <xs:enumeration value="T" />
-            <xs:enumeration value="UR" />
-            <xs:enumeration value="V" />
-            <xs:enumeration value="W" />
-            <xs:enumeration value="X" />
-            <xs:enumeration value="" />
-        </xs:restriction>
-    </xs:simpleType>
-    
     <xs:simpleType name="govtTaxTypeEnum">
         <xs:restriction base="xs:string">
             <xs:enumeration value="payment" />
@@ -733,7 +710,7 @@
     
     <xs:complexType name="advancedFraudChecksType">
         <xs:sequence>
-            <xs:element name="threatMetrixSessionId" type="xp:threatMetrixSessionIdType" minOccurs="1"/>
+            <xs:element name="threatMetrixSessionId" type="xp:threatMetrixSessionIdType" minOccurs="0"/>
             <xs:element name="customAttribute1" type="xp:customAttributeType" minOccurs="0"/>
             <xs:element name="customAttribute2" type="xp:customAttributeType" minOccurs="0"/>
             <xs:element name="customAttribute3" type="xp:customAttributeType" minOccurs="0"/>
@@ -759,6 +736,12 @@
     <xs:simpleType name="customAttributeType">
         <xs:restriction base="xs:string">
             <xs:maxLength value="200" />
+        </xs:restriction>
+    </xs:simpleType>
+    
+    <xs:simpleType name="string30Type">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="30" />
         </xs:restriction>
     </xs:simpleType>
 

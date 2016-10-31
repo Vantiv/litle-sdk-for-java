@@ -3,7 +3,7 @@
 <xs:schema targetNamespace="http://www.litle.com/schema" xmlns:xp="http://www.litle.com/schema"
     xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
 
-    <xs:include schemaLocation="litleTransaction_v9.9.xsd" />
+    <xs:include schemaLocation="litleTransaction_v9.10.xsd" />
 
     <xs:complexType name="baseRequest">
         <xs:sequence>
@@ -179,62 +179,4 @@
         </xs:complexType>
     </xs:element>
     
-    <xs:element name="queryTransaction" substitutionGroup="xp:transaction">
-        <xs:complexType>
-            <xs:complexContent>
-                <xs:extension base="xp:transactionTypeWithReportGroup">
-                    <xs:sequence>
-                        <xs:element name="origId" type="xp:string25Type" minOccurs="1" />
-                        <xs:element name="origActionType" type="xp:actionTypeEnum" minOccurs="1" />
-                        <xs:element name="origLitleTxnId" type="xp:litleIdType" minOccurs="0" />
-                        <xs:element name="origOrderId" type="xp:string25Type" minOccurs="0" />
-                        <xs:element name="origAccountNumber" type="xp:ccAccountNumberType" minOccurs="0"/>
-                    </xs:sequence>
-                </xs:extension>
-            </xs:complexContent>
-        </xs:complexType>
-    </xs:element>
-    
-    <xs:element name="queryTransactionResponse" substitutionGroup="xp:transactionResponse">
-        <xs:complexType>
-            <xs:complexContent>
-                <xs:extension base="xp:transactionTypeWithReportGroup">
-                    <xs:all>
-                        <xs:element name="response" type="xp:responseType" />
-                        <xs:element name="responseTime" type="xs:dateTime" />
-                        <xs:element name="message" type="xp:messageType" />
-                        <xs:element name="matchCount" minOccurs="0">
-                            <xs:simpleType>
-                                <xs:restriction base="xs:int">
-                                    <xs:totalDigits value="4" />
-                                </xs:restriction>
-                            </xs:simpleType>
-                        </xs:element>
-                        <xs:element name="results_max10" minOccurs="0">
-                             <xs:complexType>
-                                <xs:choice>
-                                    <xs:element ref="xp:transactionResponse" minOccurs="0" maxOccurs="10" />
-                                </xs:choice>
-                        </xs:complexType>
-                        </xs:element>
-                    </xs:all>
-                </xs:extension>
-            </xs:complexContent>
-        </xs:complexType>
-    </xs:element>
-    
-    <xs:element name="queryTransactionUnavailableResponse" substitutionGroup="xp:transactionResponse">
-        <xs:complexType>
-        <xs:complexContent>
-                <xs:extension base="xp:transactionTypeWithReportGroup">
-                    <xs:all>
-                        <xs:element name="litleTxnId" type="xp:litleIdType" />
-                         <xs:element name="response" type="xp:responseType" />
-                        <xs:element name="message" type="xp:messageType" />
-                    </xs:all>
-                </xs:extension>
-            </xs:complexContent>
-        </xs:complexType>
-    </xs:element>
-
 </xs:schema>
