@@ -27,7 +27,7 @@ public class SampleDetailTax {
 	  AuthorizationResponse response = new LitleOnline().authorize(authorization);
 	  System.out.println("Response: " + response.getMessage());
 	  // In your sample, you can ignore this 	
-          if(!response.getMessage().equals("Aproved"))
+          if(!response.getMessage().equals("Approved"))
           throw new RuntimeException("The SampleDetailTax does not give the right response");
 	
 }
