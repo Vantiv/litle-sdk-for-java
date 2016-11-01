@@ -9,15 +9,15 @@ public class MultiCurrencyExample {
         LitleOnline usdCurrency = new LitleOnline(); //This will use the default merchant setup in .litle_SDK_config.properties supporting purchases in USD
  
         Authorization authorization = new Authorization();
-	authorization.setReportGroup("Planets");
-	authorization.setOrderId("12344");
-	authorization.setAmount(106L);
-	authorization.setOrderSource(OrderSourceType.ECOMMERCE);
-	CardType card = new CardType();
-	card.setType(MethodOfPaymentTypeEnum.VI);
-	card.setNumber("4100000000000002");
-	card.setExpDate("1210");
-	authorization.setCard(card);
+    	authorization.setReportGroup("Planets");
+    	authorization.setOrderId("12344");
+    	authorization.setAmount(106L);
+    	authorization.setOrderSource(OrderSourceType.ECOMMERCE);
+    	CardType card = new CardType();
+    	card.setType(MethodOfPaymentTypeEnum.VI);
+    	card.setNumber("4100000000000002");
+    	card.setExpDate("1210");
+    	authorization.setCard(card);
  
         AuthorizationResponse response = usdCurrency.authorize(authorization);
         //Display Results
@@ -31,8 +31,8 @@ public class MultiCurrencyExample {
         cdnProps.setProperty("username","username");
         cdnProps.setProperty("password","topsecret"); 
         cdnProps.setProperty("proxyHost","websenseproxy");  
-         cdnProps.setProperty("proxyPort","8080");      
-        cdnProps.setProperty("version","8.10");
+        cdnProps.setProperty("proxyPort","8080");      
+        cdnProps.setProperty("version","9.10");
         cdnProps.setProperty("timeout","65");
         LitleOnline cdnCurrency = new LitleOnline(cdnProps); //Override the default merchant setup in .litle_SDK_config.properties to force purchase in CDN
  

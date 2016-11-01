@@ -34,49 +34,48 @@ import com.jcraft.jsch.SftpException;
 
 
 public class Communication {
-
 	private static final String[] SUPPORTED_PROTOCOLS = new String[] {"TLSv1.1", "TLSv1.2"};
-	
+
 	private DefaultHttpClient httpclient;
 	private StreamData streamData;
 
 	public Communication() {
 		DefaultHttpClient temp = new DefaultHttpClient();
-        try {
-            if (getBestProtocol(SSLContext.getDefault().getDefaultSSLParameters().getProtocols()) == null) {
-                String protocol = getBestProtocol(SSLContext.getDefault().getSupportedSSLParameters().getProtocols());
-                if (protocol == null) {
-                    throw new IllegalStateException("No supported TLS protocols available");
-                }
-                SchemeRegistry reg = new SchemeRegistry();
-                SSLContext ctx = SSLContext.getInstance(protocol);
-                ctx.init(null, null, null);
-                SSLSocketFactory sf = new SSLSocketFactory(ctx);
-                Scheme https = new Scheme("https", 443, sf);
-                Scheme http = new Scheme("http", 80, PlainSocketFactory.getSocketFactory());
-                reg.register(https);
-                reg.register(http);
-                ClientConnectionManager manager = new BasicClientConnectionManager(reg);
-                temp = new DefaultHttpClient(manager);
-            }
-        } catch (GeneralSecurityException ex) {
-            throw new IllegalStateException(ex);
-        }
-        httpclient = temp;
-        streamData = new StreamData();
+		try {
+			if (getBestProtocol(SSLContext.getDefault().getDefaultSSLParameters().getProtocols()) == null) {
+				String protocol = getBestProtocol(SSLContext.getDefault().getSupportedSSLParameters().getProtocols());
+				if (protocol == null) {
+					throw new IllegalStateException("No supported TLS protocols available");
+				}
+				SchemeRegistry reg = new SchemeRegistry();
+				SSLContext ctx = SSLContext.getInstance(protocol);
+				ctx.init(null, null, null);
+				SSLSocketFactory sf = new SSLSocketFactory(ctx);
+				Scheme https = new Scheme("https", 443, sf);
+				Scheme http = new Scheme("http", 80, PlainSocketFactory.getSocketFactory());
+				reg.register(https);
+				reg.register(http);
+				ClientConnectionManager manager = new BasicClientConnectionManager(reg);
+				temp = new DefaultHttpClient(manager);
+			}
+		} catch (GeneralSecurityException ex) {
+		    throw new IllegalStateException(ex);
+		}
+		httpclient = temp;
+		streamData = new StreamData();
 	}
 	
 	private static String getBestProtocol(final String[] availableProtocols) {
-        for (int i = 0; i < availableProtocols.length; ++i) {
-            // Assuming best protocol is at end
-            for (int j = SUPPORTED_PROTOCOLS.length - 1; j >= 0; --j) {
-                if (SUPPORTED_PROTOCOLS[j].equals(availableProtocols[i])) {
-                    return availableProtocols[i];
-                }
-            }
-        }
-        return null;
-    }
+		for (int i = 0; i < availableProtocols.length; ++i) {
+			// Assuming best protocol is at end
+			for (int j = SUPPORTED_PROTOCOLS.length - 1; j >= 0; --j) {
+				if (SUPPORTED_PROTOCOLS[j].equals(availableProtocols[i])) {
+					return availableProtocols[i];
+				}
+			}
+		}
+		return null;
+	}
 
 	public String requestToServer(String xmlRequest, Properties configuration) {
 		String xmlResponse = null;
@@ -90,8 +89,12 @@ public class Communication {
 		}
 
 		String httpTimeout = configuration.getProperty("timeout");
+		String httpReadTimeout = configuration.getProperty("readTimeout");
 		if (httpTimeout != null && httpTimeout.length() > 0) {
 			httpclient.getParams().setParameter(CoreConnectionPNames.CONNECTION_TIMEOUT,Integer.valueOf(httpTimeout));
+		}
+		if (httpReadTimeout != null && httpReadTimeout.length() > 0) {
+		    httpclient.getParams().setParameter(CoreConnectionPNames.SO_TIMEOUT,Integer.valueOf(httpReadTimeout));
 		}
 
 		HttpPost post = new HttpPost(configuration.getProperty("url"));
@@ -198,6 +201,7 @@ public class Communication {
             while((line = reader.readLine()) != null){
                 System.out.println(line);
             }
+            reader.close();
 	    }
 
 	    try {
@@ -288,6 +292,7 @@ public class Communication {
             while((line = reader.readLine()) != null){
                 System.out.println(line);
             }
+            reader.close();
         }
 
         channel.disconnect();

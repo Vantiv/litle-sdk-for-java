@@ -77,6 +77,7 @@ public class TestCaptureGivenAuth {
 	public void complexCaptureGivenAuth() throws Exception{
 		CaptureGivenAuth capturegivenauth = new CaptureGivenAuth();
 		capturegivenauth.setAmount(106L);
+		capturegivenauth.setSecondaryAmount(20L);
 		capturegivenauth.setOrderId("12344");
 		AuthInformation authInfo = new AuthInformation();
 		Calendar authDate = Calendar.getInstance();

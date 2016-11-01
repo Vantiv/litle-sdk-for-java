@@ -9,6 +9,9 @@ import org.junit.Test;
 
 import com.litle.sdk.generate.BatchResponse;
 import com.litle.sdk.generate.CardType;
+import com.litle.sdk.generate.Contact;
+import com.litle.sdk.generate.EcheckPreNoteSale;
+import com.litle.sdk.generate.EcheckType;
 import com.litle.sdk.generate.MethodOfPaymentTypeEnum;
 import com.litle.sdk.generate.OrderSourceType;
 import com.litle.sdk.generate.Sale;
@@ -46,5 +49,4 @@ public class TestLitleBatchResponse {
 		sale.setReportGroup("test");
 		return sale;
 	}
-
 }

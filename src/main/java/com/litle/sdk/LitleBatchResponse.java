@@ -16,16 +16,28 @@ import com.litle.sdk.generate.CaptureGivenAuthResponse;
 import com.litle.sdk.generate.CaptureResponse;
 import com.litle.sdk.generate.CreditResponse;
 import com.litle.sdk.generate.EcheckCreditResponse;
+import com.litle.sdk.generate.EcheckPreNoteCreditResponse;
+import com.litle.sdk.generate.EcheckPreNoteSaleResponse;
 import com.litle.sdk.generate.EcheckRedepositResponse;
 import com.litle.sdk.generate.EcheckSalesResponse;
 import com.litle.sdk.generate.EcheckVerificationResponse;
 import com.litle.sdk.generate.ForceCaptureResponse;
 import com.litle.sdk.generate.LitleTransactionInterface;
+import com.litle.sdk.generate.PayFacCreditResponse;
+import com.litle.sdk.generate.PayFacDebitResponse;
+import com.litle.sdk.generate.PhysicalCheckCreditResponse;
+import com.litle.sdk.generate.PhysicalCheckDebitResponse;
 import com.litle.sdk.generate.RegisterTokenResponse;
+import com.litle.sdk.generate.ReserveCreditResponse;
+import com.litle.sdk.generate.ReserveDebitResponse;
 import com.litle.sdk.generate.SaleResponse;
+import com.litle.sdk.generate.SubmerchantCreditResponse;
+import com.litle.sdk.generate.SubmerchantDebitResponse;
 import com.litle.sdk.generate.TransactionType;
 import com.litle.sdk.generate.UpdateCardValidationNumOnTokenResponse;
 import com.litle.sdk.generate.UpdateSubscriptionResponse;
+import com.litle.sdk.generate.VendorCreditResponse;
+import com.litle.sdk.generate.VendorDebitResponse;
 
 /**
  * Wrapper class to initialize the batch Responses
@@ -120,13 +132,13 @@ public class LitleBatchResponse {
         } catch (Exception e) {
             return false;
         }
-
+        
 	    try{
 	        objToRet = ((JAXBElement<TransactionType>)unmarshaller.unmarshal(new StringReader(txnXml))).getValue();
 	    } catch (JAXBException e){
 	        throw new LitleBatchException("There was an exception while trying to unmarshall transactionResponse: " + txnXml, e);
 	    }
-
+	    
 	    if(objToRet instanceof SaleResponse){
             processor.processSaleResponse((SaleResponse) objToRet);
         } else if (objToRet instanceof AuthorizationResponse){
@@ -153,13 +165,37 @@ public class LitleBatchResponse {
             processor.processEcheckSalesResponse((EcheckSalesResponse) objToRet);
         } else if (objToRet instanceof AccountUpdateResponse){
             processor.processAccountUpdate((AccountUpdateResponse) objToRet);
+        } else if (objToRet instanceof EcheckPreNoteSaleResponse){
+            processor.processEcheckPreNoteSaleResponse((EcheckPreNoteSaleResponse) objToRet);
+        } else if (objToRet instanceof EcheckPreNoteCreditResponse){
+            processor.processEcheckPreNoteCreditResponse((EcheckPreNoteCreditResponse) objToRet);
         } else if (objToRet instanceof UpdateSubscriptionResponse) {
             processor.processUpdateSubscriptionResponse((UpdateSubscriptionResponse)objToRet);
         } else if (objToRet instanceof CancelSubscriptionResponse) {
             processor.processCancelSubscriptionResponse((CancelSubscriptionResponse)objToRet);
         } else if (objToRet instanceof UpdateCardValidationNumOnTokenResponse) {
             processor.processUpdateCardValidationNumOnTokenResponse((UpdateCardValidationNumOnTokenResponse)objToRet);
-        }
+        } else if (objToRet instanceof SubmerchantCreditResponse) {
+            processor.processSubmerchantCreditResponse((SubmerchantCreditResponse)objToRet);
+        } else if (objToRet instanceof PayFacCreditResponse) {
+            processor.processPayFacCreditResponse((PayFacCreditResponse)objToRet);
+        } else if (objToRet instanceof VendorCreditResponse) {
+            processor.processVendorCreditRespsonse((VendorCreditResponse)objToRet);
+        } else if (objToRet instanceof ReserveCreditResponse) {
+            processor.processReserveCreditResponse((ReserveCreditResponse)objToRet);
+        } else if (objToRet instanceof PhysicalCheckCreditResponse) {
+            processor.processPhysicalCheckCreditResponse((PhysicalCheckCreditResponse)objToRet);
+        } else if (objToRet instanceof SubmerchantDebitResponse) {
+            processor.processSubmerchantDebitResponse((SubmerchantDebitResponse)objToRet);
+        } else if (objToRet instanceof PayFacDebitResponse) {
+            processor.processPayFacDebitResponse((PayFacDebitResponse)objToRet);
+        } else if (objToRet instanceof VendorDebitResponse) {
+            processor.processVendorDebitResponse((VendorDebitResponse)objToRet);
+        } else if (objToRet instanceof ReserveDebitResponse) {
+            processor.processReserveDebitResponse((ReserveDebitResponse)objToRet);
+        } else if (objToRet instanceof PhysicalCheckDebitResponse) {
+            processor.processPhysicalCheckDebitResponse((PhysicalCheckDebitResponse)objToRet);
+        } 
 	    return true;
 	}
 

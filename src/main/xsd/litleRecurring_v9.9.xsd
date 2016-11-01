@@ -1,7 +1,7 @@
 <xs:schema targetNamespace="http://www.litle.com/schema" xmlns:xp="http://www.litle.com/schema"
     xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
     
-    <xs:include schemaLocation="litleCommon_v9.0.xsd" />
+    <xs:include schemaLocation="litleCommon_v9.9.xsd" />
 
     <xs:element name="recurringTransaction" type="xp:recurringTransactionType" abstract="true" />
     <xs:element name="recurringTransactionResponse" type="xp:recurringTransactionResponseType" abstract="true" />

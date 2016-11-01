@@ -19,6 +19,8 @@ import com.litle.sdk.generate.ActivateReversal;
 import com.litle.sdk.generate.ActivateReversalResponse;
 import com.litle.sdk.generate.AdvancedFraudChecksType;
 import com.litle.sdk.generate.AdvancedFraudResultsType;
+import com.litle.sdk.generate.ApplepayHeaderType;
+import com.litle.sdk.generate.ApplepayType;
 import com.litle.sdk.generate.AuthInformation;
 import com.litle.sdk.generate.AuthReversal;
 import com.litle.sdk.generate.AuthReversalResponse;
@@ -86,6 +88,8 @@ import com.litle.sdk.generate.UpdatePlan;
 import com.litle.sdk.generate.UpdatePlanResponse;
 import com.litle.sdk.generate.UpdateSubscription;
 import com.litle.sdk.generate.UpdateSubscriptionResponse;
+import com.litle.sdk.generate.Wallet;
+import com.litle.sdk.generate.WalletSourceType;
 
 public class TestLitleOnline {
 
@@ -122,6 +126,47 @@ public class TestLitleOnline {
 		AuthorizationResponse authorize = litle.authorize(authorization);
 		assertEquals(123L, authorize.getLitleTxnId());
 	}
+	
+	@Test
+    public void testAuthWithApplepayAndSecondaryAmountAndWallet() throws Exception {
+
+        Authorization authorization = new Authorization();
+        authorization.setReportGroup("Planets");
+        authorization.setOrderId("12344");
+        authorization.setAmount(106L);
+        authorization.setSecondaryAmount(10L);
+        authorization.setOrderSource(OrderSourceType.ECOMMERCE);
+        ApplepayType applepayType = new ApplepayType();
+        ApplepayHeaderType applepayHeaderType = new ApplepayHeaderType();
+        applepayHeaderType.setApplicationData("e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855");
+        applepayHeaderType.setEphemeralPublicKey("e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855");
+        applepayHeaderType.setPublicKeyHash("e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855");
+        applepayHeaderType.setTransactionId("1234");
+        applepayType.setHeader(applepayHeaderType);
+        applepayType.setData("user");
+        applepayType.setSignature("sign");
+        applepayType.setVersion("1");
+        authorization.setApplepay(applepayType);
+        
+        Wallet wallet = new Wallet();
+        wallet.setWalletSourceType(WalletSourceType.MASTER_PASS);
+        wallet.setWalletSourceTypeId("123");
+        authorization.setWallet(wallet);
+        
+        Communication mockedCommunication = mock(Communication.class);
+        when(
+                mockedCommunication
+                .requestToServer(
+                        matches(".*?<litleOnlineRequest.*?<authorization.*?<secondaryAmount>10</secondaryAmount>.*?<applepay>.*?<data>user</data>.*?</applepay>.*?<wallet>.*?<walletSourceTypeId>123</walletSourceTypeId>.*?</wallet>.*?</authorization>.*?"),
+                        any(Properties.class)))
+                .thenReturn(
+                        "<litleOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><authorizationResponse><litleTxnId>123</litleTxnId><applepayResponse><applicationPrimaryAccountNumber>123455</applicationPrimaryAccountNumber><transactionAmount>106</transactionAmount></applepayResponse></authorizationResponse></litleOnlineResponse>");
+        litle.setCommunication(mockedCommunication);
+        AuthorizationResponse authorize = litle.authorize(authorization);
+        assertEquals(123L, authorize.getLitleTxnId());
+        assertEquals("123455", authorize.getApplepayResponse().getApplicationPrimaryAccountNumber());
+        assertEquals(new Long(106), authorize.getApplepayResponse().getTransactionAmount());
+    }
 
 	@Test
 	public void testAuthWithOverrides() throws Exception {
@@ -227,7 +272,7 @@ public class TestLitleOnline {
 		capture.setLitleTxnId(123456000L);
 		capture.setAmount(106L);
 		capture.setPayPalNotes("Notes");
-
+		
 		Communication mockedCommunication = mock(Communication.class);
 		when(
 				mockedCommunication
@@ -250,6 +295,7 @@ public class TestLitleOnline {
 
 		CaptureGivenAuth capturegivenauth = new CaptureGivenAuth();
 		capturegivenauth.setAmount(106L);
+		capturegivenauth.setSecondaryAmount(10L);
 		capturegivenauth.setOrderId("12344");
 		AuthInformation authInfo = new AuthInformation();
 		Calendar authDate = Calendar.getInstance();
@@ -269,7 +315,7 @@ public class TestLitleOnline {
 		when(
 				mockedCommunication
 						.requestToServer(
-							matches(".*?<litleOnlineRequest.*?<captureGivenAuth.*?<card>.*?<number>4100000000000001</number>.*?</card>.*?</captureGivenAuth>.*?"),
+							matches(".*?<litleOnlineRequest.*?<captureGivenAuth.*?<secondaryAmount>10</secondaryAmount>.*?<card>.*?<number>4100000000000001</number>.*?</card>.*?</captureGivenAuth>.*?"),
 								any(Properties.class)))
 				.thenReturn(
 						"<litleOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><captureGivenAuthResponse><litleTxnId>123</litleTxnId></captureGivenAuthResponse></litleOnlineResponse>");
@@ -320,6 +366,7 @@ public class TestLitleOnline {
 
 		Credit credit = new Credit();
 		credit.setAmount(106L);
+        credit.setSecondaryAmount(10L);
 		credit.setOrderId("12344");
 		credit.setOrderSource(OrderSourceType.ECOMMERCE);
 		CardType card = new CardType();
@@ -332,7 +379,7 @@ public class TestLitleOnline {
 		when(
 				mockedCommunication
 						.requestToServer(
-								matches(".*?<litleOnlineRequest.*?<credit.*?<card>.*?<number>4100000000000001</number>.*?</card>.*?</credit>.*?"),
+								matches(".*?<litleOnlineRequest.*?<credit.*?<secondaryAmount>10</secondaryAmount>.*?<card>.*?<number>4100000000000001</number>.*?</card>.*?</credit>.*?"),
 								any(Properties.class)))
 				.thenReturn(
 						"<litleOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><creditResponse><litleTxnId>123</litleTxnId></creditResponse></litleOnlineResponse>");
@@ -345,13 +392,14 @@ public class TestLitleOnline {
 	public void testEcheckCredit() throws Exception {
 		EcheckCredit echeckcredit = new EcheckCredit();
 		echeckcredit.setAmount(12L);
+        echeckcredit.setSecondaryAmount(10L);
 		echeckcredit.setLitleTxnId(123456789101112L);
 
 		Communication mockedCommunication = mock(Communication.class);
 		when(
 				mockedCommunication
 						.requestToServer(
-								matches(".*?<litleOnlineRequest.*?<echeckCredit.*?<litleTxnId>123456789101112</litleTxnId>.*?</echeckCredit>.*?"),
+								matches(".*?<litleOnlineRequest.*?<echeckCredit.*?<litleTxnId>123456789101112</litleTxnId>.*?<secondaryAmount>10</secondaryAmount>.*?</echeckCredit>.*?"),
 								any(Properties.class)))
 				.thenReturn(
 						"<litleOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><echeckCreditResponse><litleTxnId>123</litleTxnId></echeckCreditResponse></litleOnlineResponse>");
@@ -382,6 +430,7 @@ public class TestLitleOnline {
 	public void testEcheckSale() throws Exception {
 		EcheckSale echecksale = new EcheckSale();
 		echecksale.setAmount(123456L);
+        echecksale.setSecondaryAmount(10L);
 		echecksale.setOrderId("12345");
 		echecksale.setOrderSource(OrderSourceType.ECOMMERCE);
 		EcheckType echeck = new EcheckType();
@@ -389,6 +438,7 @@ public class TestLitleOnline {
 		echeck.setAccNum("12345657890");
 		echeck.setRoutingNum("123456789");
 		echeck.setCheckNum("123455");
+		echeck.setCcdPaymentInformation("1234567890");
 		echecksale.setEcheck(echeck);
 		Contact contact = new Contact();
 		contact.setName("Bob");
@@ -401,7 +451,7 @@ public class TestLitleOnline {
 		when(
 				mockedCommunication
 						.requestToServer(
-								matches(".*?<litleOnlineRequest.*?<echeckSale.*?<echeck>.*?<accNum>12345657890</accNum>.*?</echeck>.*?</echeckSale>.*?"),
+								matches(".*?<litleOnlineRequest.*?<echeckSale.*?<secondaryAmount>10</secondaryAmount>.*?<echeck>.*?<accNum>12345657890</accNum>.*?</echeck>.*?</echeckSale>.*?"),
 								any(Properties.class)))
 				.thenReturn(
 						"<litleOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><echeckSalesResponse><litleTxnId>123</litleTxnId></echeckSalesResponse></litleOnlineResponse>");
@@ -446,6 +496,7 @@ public class TestLitleOnline {
 	public void testForceCapture() throws Exception {
 		ForceCapture forcecapture = new ForceCapture();
 		forcecapture.setAmount(106L);
+		forcecapture.setSecondaryAmount(10L);
 		forcecapture.setOrderId("12344");
 		forcecapture.setOrderSource(OrderSourceType.ECOMMERCE);
 		CardType card = new CardType();
@@ -458,7 +509,7 @@ public class TestLitleOnline {
 		when(
 				mockedCommunication
 						.requestToServer(
-								matches(".*?<litleOnlineRequest.*?<forceCapture.*?<card>.*?<number>4100000000000001</number>.*?</card>.*?</forceCapture>.*?"),
+								matches(".*?<litleOnlineRequest.*?<forceCapture.*?<secondaryAmount>10</secondaryAmount>.*?<card>.*?<number>4100000000000001</number>.*?</card>.*?</forceCapture>.*?"),
 								any(Properties.class)))
 				.thenReturn(
 						"<litleOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><forceCaptureResponse><litleTxnId>123</litleTxnId></forceCaptureResponse></litleOnlineResponse>");
@@ -492,6 +543,45 @@ public class TestLitleOnline {
 		SaleResponse saleresponse = litle.sale(sale);
 		assertEquals(123L, saleresponse.getLitleTxnId());
 	}
+	
+	@Test
+    public void testSaleWithApplepayAndSecondaryAmountAndWallet() throws Exception {
+        Sale sale = new Sale();
+        sale.setAmount(106L);
+        sale.setSecondaryAmount(10L);
+        sale.setLitleTxnId(123456L);
+        sale.setOrderId("12344");
+        sale.setOrderSource(OrderSourceType.ECOMMERCE);
+        ApplepayType applepayType = new ApplepayType();
+        ApplepayHeaderType applepayHeaderType = new ApplepayHeaderType();
+        applepayHeaderType.setApplicationData("e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855");
+        applepayHeaderType.setEphemeralPublicKey("e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855");
+        applepayHeaderType.setPublicKeyHash("e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855");
+        applepayHeaderType.setTransactionId("1234");
+        applepayType.setHeader(applepayHeaderType);
+        applepayType.setData("user");
+        applepayType.setSignature("sign");
+        applepayType.setVersion("1");
+        sale.setApplepay(applepayType);
+
+        Wallet wallet = new Wallet();
+        wallet.setWalletSourceType(WalletSourceType.MASTER_PASS);
+        wallet.setWalletSourceTypeId("123");
+        sale.setWallet(wallet);
+        
+        Communication mockedCommunication = mock(Communication.class);
+        when(
+                mockedCommunication
+                        .requestToServer(
+                                matches(".*?<litleOnlineRequest.*?<sale.*?<secondaryAmount>10</secondaryAmount>.*?<applepay>.*?<data>user</data>.*?</applepay>.*?<wallet>.*?<walletSourceTypeId>123</walletSourceTypeId>.*?</wallet>.*?</sale>.*?"),
+                                any(Properties.class)))
+                .thenReturn(
+                        "<litleOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><saleResponse><litleTxnId>123</litleTxnId><applepayResponse><applicationPrimaryAccountNumber>123455</applicationPrimaryAccountNumber></applepayResponse></saleResponse></litleOnlineResponse>");
+        litle.setCommunication(mockedCommunication);
+        SaleResponse saleresponse = litle.sale(sale);
+        assertEquals(123L, saleresponse.getLitleTxnId());
+        assertEquals("123455", saleresponse.getApplepayResponse().getApplicationPrimaryAccountNumber());
+    }
 
 	@Test
 	public void testToken() throws Exception {
@@ -511,6 +601,36 @@ public class TestLitleOnline {
 		RegisterTokenResponse registertokenresponse = litle.registerToken(token);
 		assertEquals(123L, registertokenresponse.getLitleTxnId());
 	}
+	
+	@Test
+    public void testTokenWithApplepay() throws Exception {
+        RegisterTokenRequestType token = new RegisterTokenRequestType();
+        token.setOrderId("12344");
+        ApplepayType applepayType = new ApplepayType();
+        ApplepayHeaderType applepayHeaderType = new ApplepayHeaderType();
+        applepayHeaderType.setApplicationData("e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855");
+        applepayHeaderType.setEphemeralPublicKey("e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855");
+        applepayHeaderType.setPublicKeyHash("e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855");
+        applepayHeaderType.setTransactionId("1234");
+        applepayType.setHeader(applepayHeaderType);
+        applepayType.setData("user");
+        applepayType.setSignature("sign");
+        applepayType.setVersion("1");
+        token.setApplepay(applepayType);
+
+        Communication mockedCommunication = mock(Communication.class);
+        when(
+                mockedCommunication
+                        .requestToServer(
+                                matches(".*?<litleOnlineRequest.*?<registerTokenRequest.*?<applepay>.*?<data>user</data>.*?</applepay>.*?</registerTokenRequest>.*?"),
+                                any(Properties.class)))
+                .thenReturn(
+                        "<litleOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><registerTokenResponse><litleTxnId>123</litleTxnId><applepayResponse><applicationPrimaryAccountNumber>123455</applicationPrimaryAccountNumber></applepayResponse></registerTokenResponse></litleOnlineResponse>");
+        litle.setCommunication(mockedCommunication);
+        RegisterTokenResponse registertokenresponse = litle.registerToken(token);
+        assertEquals(123L, registertokenresponse.getLitleTxnId());
+        assertEquals("123455", registertokenresponse.getApplepayResponse().getApplicationPrimaryAccountNumber());
+    }
 
 	@Test
 	public void testLitleOnlineException() throws Exception {

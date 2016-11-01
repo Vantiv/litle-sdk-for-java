@@ -1,20 +1,20 @@
 <xs:schema targetNamespace="http://www.litle.com/schema" xmlns:xp="http://www.litle.com/schema"
     xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
     
-    <xs:include schemaLocation="litleCommon_v9.0.xsd" />
-    <xs:include schemaLocation="litleRecurring_v9.0.xsd" />
+    <xs:include schemaLocation="litleCommon_v9.9.xsd" />
+    <xs:include schemaLocation="litleRecurring_v9.9.xsd" />
 
-    <xs:element name="transaction" type="xp:transactionType" abstract="true"/>
+    <xs:element name="transaction" type="xp:transactionType" abstract="true" />
 
     <xs:complexType name="transactionType">
-        <xs:attribute name="id" type="xp:string25Type"/>
-        <xs:attribute name="customerId" type="xp:customerIdType" use="optional"/>
+        <xs:attribute name="id" type="xp:string25Type" />
+        <xs:attribute name="customerId" type="xp:customerIdType" use="optional" />
     </xs:complexType>
 
     <xs:complexType name="transactionTypeWithReportGroup">
         <xs:complexContent>
             <xs:extension base="xp:transactionType">
-                <xs:attribute name="reportGroup" type="xp:reportGroupType" use="required"/>
+                <xs:attribute name="reportGroup" type="xp:reportGroupType" use="required" />
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -203,6 +203,7 @@
                         <xs:sequence>
                             <xs:element name="orderId" type="xp:string25Type" />
                             <xs:element name="amount" type="xp:transactionAmountType" />
+                            <xs:element name="secondaryAmount" type="xp:transactionAmountType" minOccurs="0" />
                             <xs:element name="surchargeAmount" type="xp:transactionAmountType" minOccurs="0" />
                             <xs:element name="orderSource" type="xp:orderSourceType" />
                             <xs:element ref="xp:customerInfo" minOccurs="0" />
@@ -214,6 +215,7 @@
                                 <xs:element name="paypal" type="xp:payPal" />
                                 <xs:element name="token" type="xp:cardTokenType" />
                                 <xs:element name="paypage" type="xp:cardPaypageType" />
+                                <xs:element name="applepay" type="xp:applepayType" />
                             </xs:choice>
                             <xs:element ref="xp:billMeLaterRequest" minOccurs="0" />
                             <xs:element name="cardholderAuthentication" type="xp:fraudCheckType" minOccurs="0" />
@@ -232,6 +234,8 @@
                             <xs:element name="recurringRequest" type="xp:recurringRequestType" minOccurs="0"/>
                             <xs:element name="debtRepayment" type="xs:boolean" minOccurs="0" />
                             <xs:element name="advancedFraudChecks" type="xp:advancedFraudChecksType" minOccurs="0"/>
+                            <xs:element ref="xp:wallet" minOccurs="0" />
+                            <xs:element name="processingType" type="xp:processingTypeEnum" minOccurs="0" />
                         </xs:sequence>
                     </xs:choice>
                 </xs:extension>
@@ -269,6 +273,7 @@
                         <xs:element name="payPalOrderComplete" type="xs:boolean" minOccurs="0" />
                         <xs:element name="payPalNotes" type="xp:payPalNotesType" minOccurs="0" />
                         <xs:element ref="xp:customBilling" minOccurs="0" />
+                        <xs:element name="pin" type="xp:pinType" minOccurs="0" />
                     </xs:all>
                 </xs:extension>
             </xs:complexContent>
@@ -282,6 +287,7 @@
                     <xs:sequence>
                         <xs:element name="orderId" type="xp:string25Type" />
                         <xs:element name="amount" type="xp:transactionAmountType" />
+                        <xs:element name="secondaryAmount" type="xp:transactionAmountType" minOccurs="0" />
                         <xs:element name="surchargeAmount" type="xp:transactionAmountType" minOccurs="0" />
                         <xs:element name="orderSource" type="xp:orderSourceType" />
                         <xs:element ref="xp:billToAddress" minOccurs="0" />
@@ -299,6 +305,7 @@
                         <xs:element ref="xp:amexAggregatorData" minOccurs="0" />
                         <xs:element name="merchantData" type="xp:merchantDataType" minOccurs="0" />
                         <xs:element name="debtRepayment" type="xs:boolean" minOccurs="0" />
+                        <xs:element name="processingType" type="xp:processingTypeEnum" minOccurs="0" />
                     </xs:sequence>
                 </xs:extension>
             </xs:complexContent>
@@ -313,6 +320,7 @@
                         <xs:element name="orderId" type="xp:string25Type" />
                         <xs:element ref="xp:authInformation" />
                         <xs:element name="amount" type="xp:transactionAmountType" />
+                        <xs:element name="secondaryAmount" type="xp:transactionAmountType" minOccurs="0" />
                         <xs:element name="surchargeAmount" type="xp:transactionAmountType" minOccurs="0" />
                         <xs:element name="orderSource" type="xp:orderSourceType" />
                         <xs:element ref="xp:billToAddress" minOccurs="0" />
@@ -332,6 +340,7 @@
                         <xs:element ref="xp:amexAggregatorData" minOccurs="0" />
                         <xs:element name="merchantData" type="xp:merchantDataType" minOccurs="0" />
                         <xs:element name="debtRepayment" type="xs:boolean" minOccurs="0" />
+                        <xs:element name="processingType" type="xp:processingTypeEnum" minOccurs="0" />
                     </xs:sequence>
                 </xs:extension>
             </xs:complexContent>
@@ -347,6 +356,7 @@
                         <xs:element name="litleTxnId" type="xp:litleIdType" minOccurs="0" />
                         <xs:element name="orderId" type="xp:string25Type" />
                         <xs:element name="amount" type="xp:transactionAmountType" />
+                        <xs:element name="secondaryAmount" type="xp:transactionAmountType" minOccurs="0" />
                         <xs:element name="surchargeAmount" type="xp:transactionAmountType" minOccurs="0" />
                         <xs:element name="orderSource" type="xp:orderSourceType" />
                         <xs:element ref="xp:customerInfo" minOccurs="0" />
@@ -358,6 +368,7 @@
                             <xs:element name="paypal" type="xp:payPal" />
                             <xs:element name="token" type="xp:cardTokenType" />
                             <xs:element name="paypage" type="xp:cardPaypageType" />
+                            <xs:element name="applepay" type="xp:applepayType" />
                         </xs:choice>
                         <xs:element ref="xp:billMeLaterRequest" minOccurs="0" />
                         <!-- fraudCheck is not used in the mapping -->
@@ -384,6 +395,8 @@
                         <xs:element name="litleInternalRecurringRequest" type="xp:litleInternalRecurringRequestType" minOccurs="0"/>
                         <xs:element name="debtRepayment" type="xs:boolean" minOccurs="0" />
                         <xs:element name="advancedFraudChecks" type="xp:advancedFraudChecksType" minOccurs="0"/>
+                        <xs:element ref="xp:wallet" minOccurs="0" />
+                        <xs:element name="processingType" type="xp:processingTypeEnum" minOccurs="0" />
                     </xs:sequence>
                 </xs:extension>
             </xs:complexContent>
@@ -400,15 +413,18 @@
                             <xs:sequence>
                                 <xs:element name="litleTxnId" type="xp:litleIdType" />
                                 <xs:element name="amount" type="xp:transactionAmountType" minOccurs="0" />
+                                <xs:element name="secondaryAmount" type="xp:transactionAmountType" minOccurs="0" />                                
                                 <xs:element name="surchargeAmount" type="xp:transactionAmountType" minOccurs="0" />
                                 <xs:element ref="xp:customBilling" minOccurs="0" />
                                 <xs:element ref="xp:enhancedData" minOccurs="0" />
                                 <xs:element ref="xp:processingInstructions" minOccurs="0" />
                                 <xs:element ref="xp:pos" minOccurs="0" />
+                                <xs:element name="pin" type="xp:pinType" minOccurs="0" />
                             </xs:sequence>
                             <xs:sequence>
                                 <xs:element name="orderId" type="xp:string25Type" />
                                 <xs:element name="amount" type="xp:transactionAmountType" />
+                                <xs:element name="secondaryAmount" type="xp:transactionAmountType" minOccurs="0" />
                                 <xs:element name="surchargeAmount" type="xp:transactionAmountType" minOccurs="0" />
                                 <xs:element name="orderSource" type="xp:orderSourceType" />
                                 <xs:element ref="xp:billToAddress" minOccurs="0" />
@@ -746,6 +762,7 @@
                         <xs:element name="accountNumber" type="xp:ccAccountNumberType" />
                         <xs:element name="echeckForToken" type="xp:echeckForTokenType" />
                         <xs:element name="paypageRegistrationId" type="xp:string512Type" />
+                        <xs:element name="applepay" type="xp:applepayType" />
                     </xs:choice>
                     <xs:element name="cardValidationNum" type="xp:cvNumType" minOccurs="0" />
                 </xs:sequence>
@@ -767,6 +784,8 @@
                         <xs:element name="response" type="xp:responseType" />
                         <xs:element name="message" type="xs:string"/>
                         <xs:element name="responseTime" type="xs:dateTime" />
+                        <xs:element ref="xp:applepayResponse" minOccurs="0"/>
+                        <xs:element ref="xp:androidpayResponse" minOccurs="0"/>
                     </xs:all>
                 </xs:extension>
             </xs:complexContent>
@@ -803,6 +822,9 @@
                         <xs:element name="recurringResponse" type="xp:recurringResponseType" minOccurs="0"/>
                         <!-- If Gift card transaction -->
                         <xs:element ref="xp:giftCardResponse" minOccurs="0"/>
+                        <xs:element ref="xp:applepayResponse" minOccurs="0"/>
+                        <xs:element name="cardSuffix" type="xp:cardSuffixType" minOccurs="0" />
+                        <xs:element ref="xp:androidpayResponse" minOccurs="0"/>
                     </xs:all>
                 </xs:extension>
             </xs:complexContent>
@@ -831,6 +853,13 @@
             <xs:enumeration value="UNKNOWN" />
             <xs:enumeration value="YES" />
             <xs:enumeration value="NO" />
+        </xs:restriction>
+    </xs:simpleType>
+    
+    <xs:simpleType name="cardSuffixType">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="3" />
+            <xs:maxLength value="6" />
         </xs:restriction>
     </xs:simpleType>
 
@@ -907,6 +936,7 @@
                         <!-- If Gift card transaction -->
                         <xs:element ref="xp:giftCardResponse" minOccurs="0"/>
                     </xs:all>
+                    <xs:attribute name="duplicate" type="xs:boolean" use="optional" />
                 </xs:extension>
             </xs:complexContent>
         </xs:complexType>
@@ -1134,6 +1164,9 @@
                         <xs:element name="recurringResponse" type="xp:recurringResponseType" minOccurs="0"/>
                         <!-- If Gift card transaction -->
                         <xs:element ref="xp:giftCardResponse" minOccurs="0"/>
+                        <xs:element ref="xp:applepayResponse" minOccurs="0"/>
+                        <xs:element name="cardSuffix" type="xp:cardSuffixType" minOccurs="0" />
+                        <xs:element ref="xp:androidpayResponse" minOccurs="0"/>
                     </xs:all>
                     <!-- online only -->
                     <xs:attribute name="duplicate" type="xs:boolean" use="optional" />
@@ -1263,6 +1296,7 @@
           <xs:sequence>
              <xs:element name="accountNumber" type="xp:ccAccountNumberType" minOccurs="0"/>
              <xs:element name="cardValidationNum" type="xs:string" minOccurs="0"/>
+             <xs:element name="pin" type="xp:pinType" minOccurs="0" />
           </xs:sequence>
        </xs:complexType>
    </xs:element>
@@ -1328,6 +1362,7 @@
                             <xs:element name="orderId" type="xp:string25Type" />
                             <xs:element name="verify" type="xs:boolean" minOccurs="0" />
                             <xs:element name="amount" type="xp:transactionAmountType" />
+                            <xs:element name="secondaryAmount" type="xp:transactionAmountType" minOccurs="0" />
                             <xs:element name="orderSource" type="xp:orderSourceType" />
                             <xs:element ref="xp:billToAddress" />
                             <xs:element ref="xp:shipToAddress"  minOccurs="0"/>
@@ -1345,24 +1380,26 @@
         <xs:complexType>
             <xs:complexContent>
                 <xs:extension base="xp:transactionTypeWithReportGroup">
-	                <xs:sequence>
-	                    <xs:choice>
-	                        <xs:sequence>
-	                            <xs:element name="litleTxnId" type="xp:litleIdType" />
-	                            <xs:element name="amount" type="xp:transactionAmountType" minOccurs="0" />
-	                            <xs:element ref="xp:customBilling" minOccurs="0" />
-	                        </xs:sequence>
-	                        <xs:sequence>
-	                            <xs:element name="orderId" type="xp:string25Type" />
-	                            <xs:element name="amount" type="xp:transactionAmountType" />
-	                            <xs:element name="orderSource" type="xp:orderSourceType" />
-	                            <xs:element ref="xp:billToAddress" />
-	                            <xs:element ref="xp:echeckOrEcheckToken" />
-	                            <xs:element ref="xp:customBilling" minOccurs="0" />
-	                            <xs:element name="merchantData" type="xp:merchantDataType" minOccurs="0" /> 
-	                        </xs:sequence>
-	                    </xs:choice>
-	                </xs:sequence>
+                    <xs:sequence>
+                        <xs:choice>
+                            <xs:sequence>
+                                <xs:element name="litleTxnId" type="xp:litleIdType" />
+                                <xs:element name="amount" type="xp:transactionAmountType" minOccurs="0" />
+                                <xs:element name="secondaryAmount" type="xp:transactionAmountType" minOccurs="0" />
+                                <xs:element ref="xp:customBilling" minOccurs="0" />
+                            </xs:sequence>
+                            <xs:sequence>
+                                <xs:element name="orderId" type="xp:string25Type" />
+                                <xs:element name="amount" type="xp:transactionAmountType" />
+                                <xs:element name="secondaryAmount" type="xp:transactionAmountType" minOccurs="0" />
+                                <xs:element name="orderSource" type="xp:orderSourceType" />
+                                <xs:element ref="xp:billToAddress" />
+                                <xs:element ref="xp:echeckOrEcheckToken" />
+                                <xs:element ref="xp:customBilling" minOccurs="0" />
+                                <xs:element name="merchantData" type="xp:merchantDataType" minOccurs="0" /> 
+                            </xs:sequence>
+                        </xs:choice>
+                    </xs:sequence>
                 </xs:extension>
             </xs:complexContent>
         </xs:complexType>
@@ -1554,14 +1591,13 @@
         </xs:complexType>
     </xs:element>
     
-    
-    
     <xs:complexType name="echeckType">
         <xs:all>
             <xs:element name="accType" type="xp:echeckAccountTypeEnum" />
             <xs:element name="accNum" type="xp:echeckAccountNumberType" />
             <xs:element name="routingNum" type="xp:routingNumberType" />
             <xs:element name="checkNum" type="xp:checkNumberType" minOccurs="0" />
+            <xs:element name="ccdPaymentInformation" type="xp:string80Type" minOccurs="0"/>
         </xs:all>
     </xs:complexType>
 
@@ -1580,6 +1616,7 @@
             <xs:enumeration value="Corp Savings" />
         </xs:restriction>
     </xs:simpleType>
+   
     <xs:simpleType name="echeckAccountNumberType">
         <xs:restriction base="xs:string">
             <xs:maxLength value="17" />
@@ -1601,7 +1638,7 @@
     <!-- This is for secure, we need a value to indicate that CAVV was attempted but unavailable -->
     <xs:simpleType name="authenticationValueType">
         <xs:restriction base="xs:base64Binary">
-            <xs:maxLength value="32" />
+            <xs:maxLength value="56" />
         </xs:restriction>
     </xs:simpleType>
     <xs:simpleType name="authenticationTransactionIdType">
@@ -1643,6 +1680,10 @@
             <xs:enumeration value="3dsAttempted" />
             <!-- recurringtel is only for echeck -->
             <xs:enumeration value="recurringtel" />
+            <!-- echeckppd is only for echeck sale transaction -->
+            <xs:enumeration value="echeckppd" />
+            <xs:enumeration value="applepay" />
+            <xs:enumeration value="androidpay" />
         </xs:restriction>
     </xs:simpleType>
     
@@ -1838,6 +1879,9 @@
                 <xs:extension base="xp:transactionTypeWithReportGroup">
                     <xs:sequence>
                         <xs:element name="advancedFraudChecks" type="xp:advancedFraudChecksType"/>
+                        <xs:element ref="xp:billToAddress" minOccurs="0" />
+                        <xs:element ref="xp:shipToAddress" minOccurs="0" />
+                        <xs:element name="amount" type="xp:transactionAmountType" minOccurs="0" />
                     </xs:sequence>
                 </xs:extension>
             </xs:complexContent>
@@ -1860,5 +1904,114 @@
         </xs:complexType>
     </xs:element>
 
+    <xs:simpleType name="walletSourceType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="MasterPass" />
+            <xs:enumeration value="VisaCheckout" />
+        </xs:restriction>
+    </xs:simpleType>
+    
+    <xs:element name="wallet">
+        <xs:complexType>
+            <xs:all>
+                <xs:element name="walletSourceType" type="xp:walletSourceType" minOccurs="1" maxOccurs="1"/>
+                <xs:element name="walletSourceTypeId" type="xs:string" minOccurs="1" maxOccurs="1" />
+            </xs:all>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:complexType name="applepayType">
+        <xs:sequence>
+            <xs:element name="data">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:maxLength value="2000"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="header" type="xp:applepayHeaderType" />
+            <xs:element name="signature">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:maxLength value="10000"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="version">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:minLength value="5"/>
+                        <xs:maxLength value="20"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="applepayHeaderType">
+        <xs:sequence>
+            <xs:element name="applicationData" minOccurs="0" maxOccurs="1" >
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:maxLength value="10000"/>
+                    </xs:restriction>
+                </xs:simpleType>            
+            </xs:element>
+            <xs:element name="ephemeralPublicKey">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:maxLength value="400"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="publicKeyHash">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:maxLength value="200"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>        
+            <xs:element name="transactionId">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:maxLength value="250"/>
+                    </xs:restriction>
+                </xs:simpleType>        
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:element name="applepayResponse">
+       <xs:complexType>
+          <xs:sequence>
+             <xs:element name="applicationPrimaryAccountNumber" type="xp:string20Type" minOccurs="0"/>
+             <xs:element name="applicationExpirationDate" type="xp:string20Type" minOccurs="0"/>
+             <xs:element name="currencyCode" type="xp:string3Type" minOccurs="0"/>
+             <xs:element name="transactionAmount" type="xp:transactionAmountType" minOccurs="0"/>
+             <xs:element name="cardholderName" type="xp:string512Type" minOccurs="0"/>
+             <xs:element name="deviceManufacturerIdentifier" type="xp:string20Type" minOccurs="0"/>
+             <xs:element name="paymentDataType" type="xp:string20Type" minOccurs="0"/>
+             <xs:element name="onlinePaymentCryptogram" type="xp:authenticationValueType" minOccurs="0"/>
+             <xs:element name="eciIndicator" type="xp:string2Type" minOccurs="0"/>
+          </xs:sequence>
+       </xs:complexType>
+   </xs:element>
+
+    <xs:element name="androidpayResponse">
+       <xs:complexType>
+          <xs:sequence>
+             <xs:element name="cryptogram" type="xp:authenticationValueType" minOccurs="0"/>
+             <xs:element name="expMonth" type="xp:string2Type" minOccurs="0"/>
+             <xs:element name="expYear" type="xp:string4Type" minOccurs="0"/>
+          </xs:sequence>
+       </xs:complexType>
+   </xs:element>
+
+    <xs:simpleType name="processingTypeEnum">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="accountFunding" />
+        </xs:restriction>
+    </xs:simpleType>    
+    
 </xs:schema>
 
