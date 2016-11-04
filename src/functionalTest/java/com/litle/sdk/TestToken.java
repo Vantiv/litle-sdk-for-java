@@ -27,7 +27,9 @@ public class TestToken {
 		RegisterTokenRequestType token = new RegisterTokenRequestType();
 		token.setOrderId("12344");
 		token.setAccountNumber("1233456789103801");
+		
 		RegisterTokenResponse response = litle.registerToken(token);
+		
 		assertEquals("Account number was successfully registered", response.getMessage());
 	}
 
@@ -36,7 +38,9 @@ public class TestToken {
 		RegisterTokenRequestType token = new RegisterTokenRequestType();
 		token.setOrderId("12344");
 		token.setPaypageRegistrationId("1233456789101112");
+		
 		RegisterTokenResponse response = litle.registerToken(token);
+		
 		assertEquals("Account number was successfully registered", response.getMessage());
 	}
 
@@ -48,7 +52,9 @@ public class TestToken {
 		echeck.setAccNum("12344565");
 		echeck.setRoutingNum("123476545");
 		token.setEcheckForToken(echeck);
+		
 		RegisterTokenResponse response = litle.registerToken(token);
+		
 		assertEquals("Account number was successfully registered", response.getMessage());
 	}
 
@@ -59,6 +65,7 @@ public class TestToken {
 		EcheckForTokenType echeck = new EcheckForTokenType();
 		echeck.setRoutingNum("123476545");
 		token.setEcheckForToken(echeck);
+		
 		try {
 			litle.registerToken(token);
 			fail("expected exception");
@@ -82,7 +89,9 @@ public class TestToken {
         applepayType.setSignature("sign");
         applepayType.setVersion("12345");
         token.setApplepay(applepayType);
+        
         RegisterTokenResponse response = litle.registerToken(token);
+        
         assertEquals("Account number was successfully registered", response.getMessage());
         assertEquals(new Long(0),response.getApplepayResponse().getTransactionAmount());
     }
@@ -92,8 +101,24 @@ public class TestToken {
 		RegisterTokenRequestType tokenRequest = new RegisterTokenRequestType();
 		tokenRequest.setOrderId("12345");
 		tokenRequest.setPaypageRegistrationId("123456789012345678901324567890abcdefghi");
+		
 		RegisterTokenResponse tokenResponse = litle.registerToken(tokenRequest);
+		
 		assertEquals("1111222233334444", tokenResponse.getLitleToken()); //all paypage registration ids return the same token
+	}
+	
+	@Test
+	public void testTokenWithAndroidpayResponse() throws Exception{
+		RegisterTokenRequestType token = new RegisterTokenRequestType();
+		token.setOrderId("androidpay");
+		token.setAccountNumber("1233456789103801");
+		
+		RegisterTokenResponse response = litle.registerToken(token);
+		
+		assertEquals("Account number was successfully registered", response.getMessage());
+		assertEquals("01", response.getAndroidpayResponse().getExpMonth());
+		assertEquals("2050", response.getAndroidpayResponse().getExpYear());
+		assertEquals("aHR0cHM6Ly93d3cueW91dHViZS5jb20vd2F0Y2g/dj1kUXc0dzlXZ1hjUQ0K", response.getAndroidpayResponse().getCryptogram());
 	}
 }
 

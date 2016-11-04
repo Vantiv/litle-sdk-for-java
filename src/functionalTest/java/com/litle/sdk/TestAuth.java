@@ -1,8 +1,6 @@
 package com.litle.sdk;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -22,6 +20,9 @@ import com.litle.sdk.generate.Pos;
 import com.litle.sdk.generate.PosCapabilityTypeEnum;
 import com.litle.sdk.generate.PosCardholderIdTypeEnum;
 import com.litle.sdk.generate.PosEntryModeTypeEnum;
+import com.litle.sdk.generate.ProcessingTypeEnum;
+import com.litle.sdk.generate.Wallet;
+import com.litle.sdk.generate.WalletSourceType;
 
 public class TestAuth {
 
@@ -122,6 +123,7 @@ public class TestAuth {
 		card.setType(MethodOfPaymentTypeEnum.VI);
 		card.setNumber("4100000000000002");
 		card.setExpDate("1210");
+		card.setPin("2222");
 		authorization.setCard(card);
 
 		try {
@@ -146,6 +148,7 @@ public class TestAuth {
 		authorization.setCard(card);
 
 		AuthorizationResponse response = litle.authorize(authorization);
+		
 		assertEquals("4100100000000000", response.getAccountUpdater().getOriginalCardInfo().getNumber());
 	}
 
@@ -170,6 +173,7 @@ public class TestAuth {
 		authorization.setPos(pos);
 
 		AuthorizationResponse response = litle.authorize(authorization);
+		
 		assertEquals(response.getMessage(), "Approved",response.getMessage());
 	}
 
@@ -199,5 +203,79 @@ public class TestAuth {
         
         assertEquals(response.getMessage(), "Approved", response.getMessage());
 	}
-
+	
+	@Test
+	public void testAuthWithProcessingType() throws Exception {
+		Authorization authorization = new Authorization();
+	    authorization.setId("12345");
+	    authorization.setReportGroup("Default");
+	    authorization.setOrderId("67890");
+	    authorization.setAmount(10000L);
+	    authorization.setOrderSource(OrderSourceType.ECOMMERCE);
+	    authorization.setProcessingType(ProcessingTypeEnum.INITIAL_INSTALLMENT);
+	    authorization.setOriginalNetworkTransactionId("9876543210");
+	    authorization.setOriginalTransactionAmount(53698l);
+	    CardType card = new CardType();
+	    card.setNumber("4100000000000000");
+	    card.setExpDate("1215");
+	    card.setType(MethodOfPaymentTypeEnum.VI);
+        authorization.setCard(card);
+        
+        AuthorizationResponse response = litle.authorize(authorization);
+        
+        assertEquals("Approved", response.getMessage());
+        assertEquals("63225578415568556365452427825", response.getNetworkTransactionId());
+	}
+	
+	@Test
+	public void testAuthWithWallet() throws Exception {
+		Authorization authorization = new Authorization();
+	    authorization.setId("12345");
+	    authorization.setReportGroup("Default");
+	    authorization.setOrderId("67890");
+	    authorization.setAmount(10000L);
+	    authorization.setOrderSource(OrderSourceType.ECOMMERCE);
+	    authorization.setProcessingType(ProcessingTypeEnum.INITIAL_INSTALLMENT);
+	    authorization.setOriginalNetworkTransactionId("9876543210");
+	    authorization.setOriginalTransactionAmount(53698l);
+	    CardType card = new CardType();
+	    card.setNumber("4100000000000000");
+	    card.setExpDate("1215");
+	    card.setType(MethodOfPaymentTypeEnum.VI);
+        authorization.setCard(card);
+        Wallet wallet = new Wallet();
+        wallet.setWalletSourceType(WalletSourceType.VISA_CHECKOUT);
+        
+        AuthorizationResponse response = litle.authorize(authorization);
+        
+        assertEquals("Approved", response.getMessage());
+        assertEquals("63225578415568556365452427825", response.getNetworkTransactionId());
+	}
+	
+	@Test
+	public void testAuthWithWalletAndCardSuffixResponse() throws Exception {
+		Authorization authorization = new Authorization();
+	    authorization.setId("12345");
+	    authorization.setReportGroup("Default");
+	    authorization.setOrderId("67890");
+	    authorization.setAmount(10000L);
+	    authorization.setOrderSource(OrderSourceType.ECOMMERCE);
+	    authorization.setProcessingType(ProcessingTypeEnum.INITIAL_INSTALLMENT);
+	    authorization.setOriginalNetworkTransactionId("9876543210");
+	    authorization.setOriginalTransactionAmount(53698l);
+	    CardType card = new CardType();
+	    card.setNumber("5400700000000000");
+	    card.setExpDate("1215");
+	    card.setType(MethodOfPaymentTypeEnum.MC);
+        authorization.setCard(card);
+        Wallet wallet = new Wallet();
+        wallet.setWalletSourceType(WalletSourceType.MASTER_PASS);
+        
+        AuthorizationResponse response = litle.authorize(authorization);
+        
+        assertEquals("Approved", response.getMessage());
+        assertNull(response.getNetworkTransactionId());
+        assertEquals("123456", response.getCardSuffix());
+	}
+	
 }
