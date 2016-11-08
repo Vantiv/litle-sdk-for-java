@@ -1,8 +1,6 @@
 package com.litle.sdk;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -11,7 +9,6 @@ import com.litle.sdk.generate.ApplepayHeaderType;
 import com.litle.sdk.generate.ApplepayType;
 import com.litle.sdk.generate.CardTokenType;
 import com.litle.sdk.generate.CardType;
-import com.litle.sdk.generate.FraudCheckType;
 import com.litle.sdk.generate.MethodOfPaymentTypeEnum;
 import com.litle.sdk.generate.OrderSourceType;
 import com.litle.sdk.generate.PayPal;

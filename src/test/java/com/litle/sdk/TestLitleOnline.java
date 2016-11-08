@@ -8,7 +8,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.Calendar;
-import java.util.List;
 import java.util.Properties;
 
 import javax.xml.bind.JAXBElement;
@@ -1271,7 +1270,7 @@ public class TestLitleOnline {
     @Test
     public void testDeActivateReversalWithOverrides() throws Exception {
         DeactivateReversal deactivateReversal = new DeactivateReversal();
-        deactivateReversal.setLitleTxnId(123);
+        deactivateReversal.setLitleTxnId(123l);
 
         Communication mockedCommunication = mock(Communication.class);
         when(
@@ -1525,7 +1524,7 @@ public class TestLitleOnline {
         assertEquals("customerId", queryTransactionResponse.getCustomerId());
         assertEquals("150", queryTransactionResponse.getResponse());
         assertEquals(1, queryTransactionResponse.getResultsMax10().getTransactionResponses().size());
-        JAXBElement authorization = queryTransactionResponse.getResultsMax10().getTransactionResponses().get(0);
+        JAXBElement<?> authorization = queryTransactionResponse.getResultsMax10().getTransactionResponses().get(0);
         AuthorizationResponse authResponse = (AuthorizationResponse)authorization.getValue();
         assertEquals(1111111L,authResponse.getLitleTxnId());
     }

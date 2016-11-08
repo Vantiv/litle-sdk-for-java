@@ -3,7 +3,7 @@
 <xs:schema targetNamespace="http://www.litle.com/schema" xmlns:xp="http://www.litle.com/schema"
     xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
 
-    <xs:include schemaLocation="litleTransaction_v10.1.xsd" />
+    <xs:include schemaLocation="litleTransaction_v11.0.xsd" />
 
     <xs:complexType name="baseRequest">
         <xs:sequence>
@@ -110,7 +110,13 @@
             <xs:complexContent>
                 <xs:extension base="xp:transactionTypeWithReportGroup">
                     <xs:all>
-                        <xs:element name="litleTxnId" type="xp:litleIdType" />
+                        <xs:element name="litleTxnId" type="xp:litleIdType" minOccurs="0" />
+                        <xs:element name="card" type="xp:giftCardCardType" />
+                        <xs:element name="originalRefCode" type="xp:authCodeType" />
+                        <xs:element name="originalAmount" type="xp:transactionAmountType" />
+                        <xs:element name="originalTxnTime" type="xs:dateTime" />
+                        <xs:element name="originalSystemTraceId" type="xp:systemTraceType" />
+                        <xs:element name="originalSequenceNumber" type="xp:sequenceType" />
                     </xs:all>
                 </xs:extension>
             </xs:complexContent>
@@ -122,7 +128,13 @@
             <xs:complexContent>
                 <xs:extension base="xp:transactionTypeWithReportGroup">
                     <xs:all>
-                        <xs:element name="litleTxnId" type="xp:litleIdType" />
+                        <xs:element name="litleTxnId" type="xp:litleIdType" minOccurs="0" />
+                        <xs:element name="card" type="xp:giftCardCardType" />
+                        <xs:element name="originalRefCode" type="xp:authCodeType" />
+                        <xs:element name="originalAmount" type="xp:transactionAmountType" />
+                        <xs:element name="originalTxnTime" type="xs:dateTime" />
+                        <xs:element name="originalSystemTraceId" type="xp:systemTraceType" />
+                        <xs:element name="originalSequenceNumber" type="xp:sequenceType" />
                     </xs:all>
                 </xs:extension>
             </xs:complexContent>
@@ -134,7 +146,14 @@
             <xs:complexContent>
                 <xs:extension base="xp:transactionTypeWithReportGroup">
                     <xs:all>
-                        <xs:element name="litleTxnId" type="xp:litleIdType" />
+                        <xs:element name="litleTxnId" type="xp:litleIdType" minOccurs="0" />
+			            <xs:element name="card" type="xp:giftCardCardType" />
+                        <xs:element name="virtualGiftCardBin" type="xs:string" minOccurs="0"/>
+                        <xs:element name="originalRefCode" type="xp:authCodeType" />
+                        <xs:element name="originalAmount" type="xp:transactionAmountType" />
+                        <xs:element name="originalTxnTime" type="xs:dateTime" />
+                        <xs:element name="originalSystemTraceId" type="xp:systemTraceType" />
+                        <xs:element name="originalSequenceNumber" type="xp:sequenceType" />
                     </xs:all>
                 </xs:extension>
             </xs:complexContent>
@@ -146,7 +165,12 @@
             <xs:complexContent>
                 <xs:extension base="xp:transactionTypeWithReportGroup">
                     <xs:all>
-                        <xs:element name="litleTxnId" type="xp:litleIdType" />
+                        <xs:element name="litleTxnId" type="xp:litleIdType" minOccurs="0" />
+                        <xs:element name="card" type="xp:giftCardCardType" />
+                        <xs:element name="originalRefCode" type="xp:authCodeType" />
+                        <xs:element name="originalTxnTime" type="xs:dateTime" />
+                        <xs:element name="originalSystemTraceId" type="xp:systemTraceType" />
+                        <xs:element name="originalSequenceNumber" type="xp:sequenceType" />
                     </xs:all>
                 </xs:extension>
             </xs:complexContent>
@@ -158,7 +182,13 @@
             <xs:complexContent>
                 <xs:extension base="xp:transactionTypeWithReportGroup">
                     <xs:all>
-                        <xs:element name="litleTxnId" type="xp:litleIdType" />
+                        <xs:element name="litleTxnId" type="xp:litleIdType" minOccurs="0" />
+                        <xs:element name="card" type="xp:giftCardCardType" />
+                        <xs:element name="originalRefCode" type="xp:authCodeType" />
+                        <xs:element name="originalAmount" type="xp:transactionAmountType" />
+                        <xs:element name="originalTxnTime" type="xs:dateTime" />
+                        <xs:element name="originalSystemTraceId" type="xp:systemTraceType" />
+                        <xs:element name="originalSequenceNumber" type="xp:sequenceType" />
                     </xs:all>
                 </xs:extension>
             </xs:complexContent>
@@ -170,7 +200,13 @@
             <xs:complexContent>
                 <xs:extension base="xp:transactionTypeWithReportGroup">
                     <xs:all>
-                        <xs:element name="litleTxnId" type="xp:litleIdType" />
+                        <xs:element name="litleTxnId" type="xp:litleIdType" minOccurs="0" />
+                        <xs:element name="card" type="xp:giftCardCardType" />
+                        <xs:element name="originalRefCode" type="xp:authCodeType" />
+                        <xs:element name="originalAmount" type="xp:transactionAmountType" />
+                        <xs:element name="originalTxnTime" type="xs:dateTime" />
+                        <xs:element name="originalSystemTraceId" type="xp:systemTraceType" />
+                        <xs:element name="originalSequenceNumber" type="xp:sequenceType" />
                     </xs:all>
                 </xs:extension>
             </xs:complexContent>

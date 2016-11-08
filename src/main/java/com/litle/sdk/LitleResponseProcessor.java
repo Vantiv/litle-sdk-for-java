@@ -18,7 +18,6 @@ import com.litle.sdk.generate.EcheckRedepositResponse;
 import com.litle.sdk.generate.EcheckSalesResponse;
 import com.litle.sdk.generate.EcheckVerificationResponse;
 import com.litle.sdk.generate.ForceCaptureResponse;
-import com.litle.sdk.generate.FundingInstructionVoid;
 import com.litle.sdk.generate.FundingInstructionVoidResponse;
 import com.litle.sdk.generate.LoadResponse;
 import com.litle.sdk.generate.PayFacCreditResponse;

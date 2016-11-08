@@ -2,30 +2,11 @@ package com.litle.sdk;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
-import javax.xml.bind.JAXBElement;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.litle.sdk.generate.ActionTypeEnum;
-import com.litle.sdk.generate.ApplepayHeaderType;
-import com.litle.sdk.generate.ApplepayType;
-import com.litle.sdk.generate.Authorization;
-import com.litle.sdk.generate.AuthorizationResponse;
-import com.litle.sdk.generate.CardType;
-import com.litle.sdk.generate.Contact;
-import com.litle.sdk.generate.DetailTax;
-import com.litle.sdk.generate.EnhancedData;
-import com.litle.sdk.generate.MethodOfPaymentTypeEnum;
-import com.litle.sdk.generate.OrderSourceType;
-import com.litle.sdk.generate.PayPal;
-import com.litle.sdk.generate.Pos;
-import com.litle.sdk.generate.PosCapabilityTypeEnum;
-import com.litle.sdk.generate.PosCardholderIdTypeEnum;
-import com.litle.sdk.generate.PosEntryModeTypeEnum;
 import com.litle.sdk.generate.QueryTransaction;
 import com.litle.sdk.generate.QueryTransactionResponse;
 import com.litle.sdk.generate.QueryTransactionUnavailableResponse;

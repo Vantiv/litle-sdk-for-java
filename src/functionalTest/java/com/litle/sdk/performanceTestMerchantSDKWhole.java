@@ -28,7 +28,7 @@ public class performanceTestMerchantSDKWhole {
     	date.set(Calendar.YEAR, 1999);
     	date.set(Calendar.MONTH, 7);
     	date.set(Calendar.DAY_OF_MONTH, 26);
-    	Contact ct = null;
+    	Contact ct = new Contact();
 
     	for (int i =0; i < 50 ; i++)
 		{

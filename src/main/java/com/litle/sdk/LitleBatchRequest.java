@@ -6,7 +6,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.math.BigInteger;
-import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 
 import javax.xml.bind.JAXBContext;
@@ -147,11 +146,9 @@ public class LitleBatchRequest {
             throw new LitleBatchBatchFullException("Batch is already full -- it has reached the maximum number of transactions allowed per batch.", e);
         }
 
-        //Adding 1 to the number of transaction. This is on the assumption that we are adding one transaction to the batch at a time.
-        BigInteger numToAdd = new BigInteger("1");
         boolean transactionAdded = false;
 
-		JAXBElement transaction;
+		JAXBElement<?> transaction;
 
 		if(transactionType instanceof Sale){
             batchRequest.setNumSales(batchRequest.getNumSales().add(BigInteger.valueOf(1)));

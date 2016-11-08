@@ -58,7 +58,6 @@ import com.litle.sdk.generate.LoadResponse;
 import com.litle.sdk.generate.LoadReversal;
 import com.litle.sdk.generate.LoadReversalResponse;
 import com.litle.sdk.generate.QueryTransaction;
-import com.litle.sdk.generate.QueryTransactionResponse;
 import com.litle.sdk.generate.RecurringTransactionResponseType;
 import com.litle.sdk.generate.RefundReversal;
 import com.litle.sdk.generate.RefundReversalResponse;
