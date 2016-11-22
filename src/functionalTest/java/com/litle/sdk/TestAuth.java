@@ -1,8 +1,8 @@
 package com.litle.sdk;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
+
+import java.math.BigInteger;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -16,6 +16,8 @@ import com.litle.sdk.generate.Contact;
 import com.litle.sdk.generate.DetailTax;
 import com.litle.sdk.generate.EnhancedData;
 import com.litle.sdk.generate.MethodOfPaymentTypeEnum;
+import com.litle.sdk.generate.NetworkFieldNameEnumType;
+import com.litle.sdk.generate.NetworkResponse;
 import com.litle.sdk.generate.OrderSourceType;
 import com.litle.sdk.generate.PayPal;
 import com.litle.sdk.generate.Pos;
@@ -185,4 +187,26 @@ public class TestAuth {
         assertEquals(response.getMessage(), "Approved", response.getMessage());
 	}
 
+	@Test
+    public void testNetworkResponse() throws Exception {
+        Authorization authorization = new Authorization();
+        authorization.setReportGroup("Netflix");
+        authorization.setOrderId("5555");
+        authorization.setAmount(333L);
+        authorization.setOrderSource(OrderSourceType.ECOMMERCE);
+        authorization.setId("test");
+        CardType card = new CardType();
+        card.setType(MethodOfPaymentTypeEnum.VI);
+        card.setNumber("4100800000000000");
+        card.setExpDate("1210");
+        authorization.setCard(card);
+
+        AuthorizationResponse response = litle.authorize(authorization);
+        NetworkResponse net = response.getEnhancedAuthResponse().getNetworkResponse();
+        assertNotNull(net);
+        assertEquals("visa", net.getEndpoint());
+        assertEquals(1, net.getNetworkFields().size());
+        assertEquals(NetworkFieldNameEnumType.TRANSACTION_AMOUNT, net.getNetworkFields().get(0).getFieldName());
+        assertTrue(new BigInteger("4").equals(net.getNetworkFields().get(0).getFieldNumber()));
+    }
 }
