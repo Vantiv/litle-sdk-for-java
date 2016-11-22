@@ -1,11 +1,11 @@
 <xs:schema targetNamespace="http://www.litle.com/schema" xmlns:xp="http://www.litle.com/schema"
     xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
-    
-    <xs:include schemaLocation="litleCommon_v10.1.xsd" />
+
+    <xs:include schemaLocation="litleCommon_v10.5.xsd" />
 
     <xs:element name="recurringTransaction" type="xp:recurringTransactionType" abstract="true" />
     <xs:element name="recurringTransactionResponse" type="xp:recurringTransactionResponseType" abstract="true" />
-     
+
     <xs:complexType name="recurringTransactionType">
     </xs:complexType>
 
@@ -55,7 +55,7 @@
             </xs:complexContent>
         </xs:complexType>
     </xs:element>
-    
+
     <xs:element name="createPlan" substitutionGroup="xp:recurringTransaction" >
         <xs:complexType>
             <xs:complexContent>
@@ -75,7 +75,7 @@
             </xs:complexContent>
         </xs:complexType>
     </xs:element>
-    
+
     <xs:element name="updatePlan" substitutionGroup="xp:recurringTransaction" >
         <xs:complexType>
             <xs:complexContent>
@@ -88,7 +88,7 @@
             </xs:complexContent>
         </xs:complexType>
     </xs:element>
-    
+
     <xs:element name="cancelSubscriptionResponse" substitutionGroup="xp:recurringTransactionResponse">
         <xs:complexType>
             <xs:complexContent>
@@ -100,7 +100,7 @@
             </xs:complexContent>
         </xs:complexType>
     </xs:element>
-    
+
     <xs:element name="updateSubscriptionResponse" substitutionGroup="xp:recurringTransactionResponse">
         <xs:complexType>
             <xs:complexContent>
@@ -112,8 +112,8 @@
                 </xs:extension>
             </xs:complexContent>
         </xs:complexType>
-    </xs:element>    
- 
+    </xs:element>
+
     <xs:element name="createPlanResponse" substitutionGroup="xp:recurringTransactionResponse">
         <xs:complexType>
             <xs:complexContent>
@@ -124,8 +124,8 @@
                 </xs:extension>
             </xs:complexContent>
         </xs:complexType>
-    </xs:element> 
-    
+    </xs:element>
+
     <xs:element name="updatePlanResponse" substitutionGroup="xp:recurringTransactionResponse">
         <xs:complexType>
             <xs:complexContent>
@@ -136,8 +136,8 @@
                 </xs:extension>
             </xs:complexContent>
         </xs:complexType>
-    </xs:element>    
-    
+    </xs:element>
+
     <!--Recurring Types -->
     <xs:complexType name="recurringSubscriptionType">
         <xs:sequence>
@@ -149,14 +149,14 @@
             <xs:element name="createAddOn" type="xp:createAddOnType" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
     </xs:complexType>
-    
+
     <xs:simpleType name="numberOfPaymentsType">
         <xs:restriction base="xs:integer">
             <xs:minInclusive value="1" />
             <xs:maxInclusive value="99" />
         </xs:restriction>
     </xs:simpleType>
-    
+
     <xs:simpleType name="intervalTypeEnum">
         <xs:restriction base="xs:string">
             <xs:enumeration value="ANNUAL" />
@@ -166,14 +166,14 @@
             <xs:enumeration value="WEEKLY" />
          </xs:restriction>
     </xs:simpleType>
-    
+
     <xs:simpleType name="trialIntervalTypeEnum">
         <xs:restriction base="xs:string">
             <xs:enumeration value="MONTH" />
             <xs:enumeration value="DAY" />
          </xs:restriction>
     </xs:simpleType>
-    
+
     <xs:complexType name="litleInternalRecurringRequestType">
         <xs:sequence>
             <xs:element name="subscriptionId" type="xp:litleIdType" />
@@ -181,13 +181,13 @@
             <xs:element name="finalPayment" type="xs:boolean" />
         </xs:sequence>
     </xs:complexType>
-    
+
     <xs:complexType name="recurringRequestType">
         <xs:sequence>
             <xs:element name="subscription" type="xp:recurringSubscriptionType" />
         </xs:sequence>
     </xs:complexType>
-    
+
     <xs:complexType name="recurringResponseType">
         <xs:sequence>
             <xs:element name="subscriptionId" type="xp:litleIdType" />
@@ -196,7 +196,7 @@
             <xs:element name="recurringTxnId" type="xp:litleIdType" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
-    
+
     <xs:complexType name="createDiscountType">
         <xs:sequence>
             <xs:element name="discountCode" type="xp:string25Type" />
@@ -206,7 +206,7 @@
             <xs:element name="endDate" type="xs:date" />
         </xs:sequence>
     </xs:complexType>
-    
+
     <xs:complexType name="updateDiscountType">
         <xs:sequence>
             <xs:element name="discountCode" type="xp:string25Type" />
@@ -222,7 +222,7 @@
             <xs:element name="discountCode" type="xp:string25Type" />
         </xs:sequence>
     </xs:complexType>
-    
+
     <xs:complexType name="createAddOnType">
         <xs:sequence>
             <xs:element name="addOnCode" type="xp:string25Type" />
@@ -232,7 +232,7 @@
             <xs:element name="endDate" type="xs:date" />
         </xs:sequence>
     </xs:complexType>
-    
+
     <xs:complexType name="updateAddOnType">
         <xs:sequence>
             <xs:element name="addOnCode" type="xp:string25Type" />
@@ -247,7 +247,6 @@
         <xs:sequence>
             <xs:element name="addOnCode" type="xp:string25Type" />
         </xs:sequence>
-    </xs:complexType>    
-        
-</xs:schema>
+    </xs:complexType>
 
+</xs:schema>
