@@ -10,6 +10,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.Properties;
 
 import javax.xml.bind.JAXBException;
@@ -58,6 +59,10 @@ import com.litle.sdk.generate.EcheckVerificationResponse;
 import com.litle.sdk.generate.ForceCapture;
 import com.litle.sdk.generate.ForceCaptureResponse;
 import com.litle.sdk.generate.FundingInstructionVoidResponse;
+import com.litle.sdk.generate.GiftCardAuthReversal;
+import com.litle.sdk.generate.GiftCardCapture;
+import com.litle.sdk.generate.GiftCardCardType;
+import com.litle.sdk.generate.GiftCardCredit;
 import com.litle.sdk.generate.IntervalTypeEnum;
 import com.litle.sdk.generate.LitleTransactionInterface;
 import com.litle.sdk.generate.Load;
@@ -97,73 +102,9 @@ import com.litle.sdk.generate.VendorCredit;
 import com.litle.sdk.generate.VendorCreditResponse;
 import com.litle.sdk.generate.VendorDebit;
 import com.litle.sdk.generate.VendorDebitResponse;
+import com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl;
 
 public class TestBatchFile {
-
- //   String merchantId = "0180";
-
-//    public static class FailedRule implements TestRule {
-//        public Statement apply(final Statement base,
-//                final Description description) {
-//            return new Statement() {
-//                @Override
-//                public void evaluate() throws Throwable {
-//                    try {
-//                        base.evaluate();
-//                    } catch (Throwable t) {
-//                        System.out.println(description.getDisplayName()
-//                                + " failure caused by :");
-//                        t.printStackTrace();
-//                        retry.setNotGood();
-//                        if (retry.isLastTry()) {
-//                            throw t;
-//                        } else {
-//                            System.out.println("Retrying.");
-//                        }
-//                    }
-//                }
-//            };
-//        }
-//    }
-//
-//    public static class RetryRule implements TestRule {
-//        private int retryCount, currentTry;
-//
-//        private boolean allGood = false;
-//
-//        public RetryRule(int retryCount) {
-//            this.retryCount = retryCount;
-//            this.currentTry = 1;
-//        }
-//
-//        public boolean isLastTry() {
-//            return currentTry == retryCount;
-//        }
-//
-//        public void setNotGood() {
-//            allGood = false;
-//        }
-//
-//        public Statement apply(final Statement base,
-//                final Description description) {
-//            return new Statement() {
-//                @Override
-//                public void evaluate() throws Throwable {
-//                    // implement retry logic here
-//                    for (; currentTry <= retryCount && !allGood; currentTry++) {
-//                        allGood = true;
-//                        base.evaluate();
-//                    }
-//                }
-//            };
-//        }
-//    }
-//
-//    @ClassRule
-//    public static RetryRule retry = new RetryRule(3);
-//
-//    @Rule
-//    public FailedRule onFailed = new FailedRule();
 
     @Test
     public void testSendToLitle_WithFileConfig() throws Exception {
@@ -445,6 +386,7 @@ public class TestBatchFile {
         card.setType(MethodOfPaymentTypeEnum.VI);
         card.setNumber("4457010000000009");
         card.setExpDate("0114");
+        card.setPin("1234");
         sale11.setCard(card);
 
         batchRequest1.addTransaction(sale11);
@@ -869,9 +811,17 @@ public class TestBatchFile {
 
                     public void processFundingInstructionVoidResponse(
                             FundingInstructionVoidResponse fundingInstructionVoidResponse) {
-                        // TODO Auto-generated method stub
                         
                     }
+
+					public void processGiftCardAuthReversal(GiftCardAuthReversal giftCardAuthReversal) {
+					}
+
+					public void processGiftCardCapture(GiftCardCapture giftCardCapture) {
+					}
+
+					public void processGiftCardCredit(GiftCardCredit giftCardCredit) {
+					}
                 })) {
 
             txns++;
@@ -918,6 +868,7 @@ public class TestBatchFile {
         submerchantCredit.setAmount(1000L);
         submerchantCredit.setAccountInfo(echeck);
         submerchantCredit.setId("ID");
+        submerchantCredit.setCustomIdentifier("custom field");
         batch.addTransaction(submerchantCredit);
         
         PayFacCredit payFacCredit = new PayFacCredit();
@@ -926,6 +877,7 @@ public class TestBatchFile {
         payFacCredit.setFundsTransferId("000");
         payFacCredit.setAmount(1000L);
         payFacCredit.setId("ID");
+        payFacCredit.setCustomIdentifier("custom field");
         batch.addTransaction(payFacCredit);
         
         VendorCredit vendorCredit = new VendorCredit();
@@ -936,6 +888,7 @@ public class TestBatchFile {
         vendorCredit.setAmount(1000L);
         vendorCredit.setAccountInfo(echeck);
         vendorCredit.setId("ID");
+        vendorCredit.setCustomIdentifier("custom field");
         batch.addTransaction(vendorCredit);
         
         ReserveCredit reserveCredit = new ReserveCredit();
@@ -944,6 +897,7 @@ public class TestBatchFile {
         reserveCredit.setFundsTransferId("000");
         reserveCredit.setAmount(1000L);
         reserveCredit.setId("ID");
+        reserveCredit.setCustomIdentifier("custom field");
         batch.addTransaction(reserveCredit);
         
         PhysicalCheckCredit physicalCheckCredit = new PhysicalCheckCredit();
@@ -952,6 +906,7 @@ public class TestBatchFile {
         physicalCheckCredit.setFundsTransferId("000");
         physicalCheckCredit.setAmount(1000L);
         physicalCheckCredit.setId("ID");
+        physicalCheckCredit.setCustomIdentifier("custom field");
         batch.addTransaction(physicalCheckCredit);
         
         SubmerchantDebit submerchantDebit = new SubmerchantDebit();
@@ -962,6 +917,7 @@ public class TestBatchFile {
         submerchantDebit.setAmount(1000L);
         submerchantDebit.setAccountInfo(echeck);
         submerchantDebit.setId("ID");
+        submerchantDebit.setCustomIdentifier("custom field");
         batch.addTransaction(submerchantDebit);
         
         PayFacDebit payFacDebit = new PayFacDebit();
@@ -970,6 +926,7 @@ public class TestBatchFile {
         payFacDebit.setFundsTransferId("000");
         payFacDebit.setAmount(1000L);
         payFacDebit.setId("ID");
+        payFacDebit.setCustomIdentifier("cusotom field");
         batch.addTransaction(payFacDebit);
         
         VendorDebit vendorDebit = new VendorDebit();
@@ -980,6 +937,7 @@ public class TestBatchFile {
         vendorDebit.setAmount(1000L);
         vendorDebit.setAccountInfo(echeck);
         vendorDebit.setId("ID");
+        vendorDebit.setCustomIdentifier("custom field");
         batch.addTransaction(vendorDebit);
         
         ReserveDebit reserveDebit = new ReserveDebit();
@@ -988,6 +946,7 @@ public class TestBatchFile {
         reserveDebit.setFundsTransferId("000");
         reserveDebit.setAmount(1000L);
         reserveDebit.setId("ID");
+        reserveDebit.setCustomIdentifier("cuetom field");
         batch.addTransaction(reserveDebit);
         
         PhysicalCheckDebit physicalCheckDebit = new PhysicalCheckDebit();
@@ -996,6 +955,7 @@ public class TestBatchFile {
         physicalCheckDebit.setFundsTransferId("000");
         physicalCheckDebit.setAmount(1000L);
         physicalCheckDebit.setId("ID");
+        physicalCheckDebit.setCustomIdentifier("custom field");
         batch.addTransaction(physicalCheckDebit);
 
         int transactionCount = batch.getNumberOfTransactions();
@@ -1030,17 +990,17 @@ public class TestBatchFile {
 
         LitleBatchRequest batch = request.createBatch(configFromFile.getProperty("merchantId"));
 
-        CardType giftCard = new CardType();
-        giftCard.setType(MethodOfPaymentTypeEnum.GC);
-        giftCard.setExpDate("1218");
-        giftCard.setNumber("4100000000000001");
+        CardType card = new CardType();
+        card.setType(MethodOfPaymentTypeEnum.GC);
+        card.setExpDate("1218");
+        card.setNumber("4100000000000001");
 
         Activate activate = new Activate();
         activate.setReportGroup("Planets");
         activate.setOrderSource(OrderSourceType.ECOMMERCE);
         activate.setAmount(100L);
         activate.setOrderId("abc");
-        activate.setCard(giftCard);
+        activate.setCard(card);
         activate.setId("id");
         batch.addTransaction(activate);
 
@@ -1048,7 +1008,7 @@ public class TestBatchFile {
         deactivate.setReportGroup("Planets");
         deactivate.setOrderId("def");
         deactivate.setOrderSource(OrderSourceType.ECOMMERCE);
-        deactivate.setCard(giftCard);
+        deactivate.setCard(card);
         deactivate.setId("id");
         batch.addTransaction(deactivate);
 
@@ -1057,7 +1017,7 @@ public class TestBatchFile {
         load.setOrderId("ghi");
         load.setAmount(100L);
         load.setOrderSource(OrderSourceType.ECOMMERCE);
-        load.setCard(giftCard);
+        load.setCard(card);
         load.setId("id");
         batch.addTransaction(load);
 
@@ -1066,7 +1026,7 @@ public class TestBatchFile {
         unload.setOrderId("jkl");
         unload.setAmount(100L);
         unload.setOrderSource(OrderSourceType.ECOMMERCE);
-        unload.setCard(giftCard);
+        unload.setCard(card);
         unload.setId("id");
         batch.addTransaction(unload);
 
@@ -1074,10 +1034,50 @@ public class TestBatchFile {
         balanceInquiry.setReportGroup("Planets");
         balanceInquiry.setOrderId("mno");
         balanceInquiry.setOrderSource(OrderSourceType.ECOMMERCE);
-        balanceInquiry.setCard(giftCard);
+        balanceInquiry.setCard(card);
         balanceInquiry.setId("id");
         batch.addTransaction(balanceInquiry);
-
+        
+        GiftCardCardType giftCard = new GiftCardCardType();
+        giftCard.setType(MethodOfPaymentTypeEnum.GC);
+        giftCard.setNumber("4100000000000001");
+        giftCard.setExpDate("0850");
+        giftCard.setCardValidationNum("111");
+        giftCard.setPin("4111");
+        
+//        GiftCardAuthReversal gcAuthReversal = new GiftCardAuthReversal();
+//        gcAuthReversal.setId("979797");
+//        gcAuthReversal.setCustomerId("customer_23");
+//        gcAuthReversal.setLitleTxnId(8521478963210145l);
+//        gcAuthReversal.setReportGroup("rptGrp2");
+//        gcAuthReversal.setOriginalAmount(45l);
+//        gcAuthReversal.setOriginalSequenceNumber("333333");
+//        gcAuthReversal.setOriginalTxnTime(new XMLGregorianCalendarImpl(new GregorianCalendar()));
+//        gcAuthReversal.setOriginalSystemTraceId(0);
+//        gcAuthReversal.setOriginalRefCode("ref");
+//        gcAuthReversal.setCard(giftCard);
+//        batch.addTransaction(gcAuthReversal);
+//
+//        GiftCardCapture gcCapture = new GiftCardCapture();
+//        gcCapture.setLitleTxnId(123L);
+//        gcCapture.setId("id");
+//        gcCapture.setReportGroup("rptGrp");
+//        gcCapture.setCaptureAmount(2434l);
+//        gcCapture.setCard(giftCard);
+//        gcCapture.setOriginalRefCode("ref");
+//        gcCapture.setOriginalAmount(44455l);
+//        gcCapture.setOriginalTxnTime(new XMLGregorianCalendarImpl(new GregorianCalendar()));
+//        batch.addTransaction(gcCapture);
+//        
+//        GiftCardCredit gcCredit = new GiftCardCredit();
+//        gcCredit.setLitleTxnId(369852147l);
+//        gcCredit.setId("id");
+//        gcCredit.setReportGroup("rptGrp1");
+//        gcCredit.setCustomerId("customer_22");
+//        gcCredit.setCreditAmount(1942l);
+//        gcCredit.setCard(giftCard);
+//        batch.addTransaction(gcCredit);
+        
         LitleBatchFileResponse fileResponse = request.sendToLitle();
         LitleBatchResponse batchResponse = fileResponse
                 .getNextLitleBatchResponse();
@@ -1253,10 +1253,16 @@ public class TestBatchFile {
 
                     public void processFundingInstructionVoidResponse(
                             FundingInstructionVoidResponse fundingInstructionVoidResponse) {
-                        // TODO Auto-generated method stub
-                        
                     }
 
+					public void processGiftCardAuthReversal(GiftCardAuthReversal giftCardAuthReversal) {
+					}
+
+					public void processGiftCardCapture(GiftCardCapture giftCardCapture) {
+					}
+
+					public void processGiftCardCredit(GiftCardCredit giftCardCredit) {
+					}
                 })) {
             txns++;
         }
@@ -1525,9 +1531,16 @@ public class TestBatchFile {
 
                     public void processFundingInstructionVoidResponse(
                             FundingInstructionVoidResponse fundingInstructionVoidResponse) {
-                        // TODO Auto-generated method stub
-                        
                     }
+
+					public void processGiftCardAuthReversal(GiftCardAuthReversal giftCardAuthReversal) {
+					}
+
+					public void processGiftCardCapture(GiftCardCapture giftCardCapture) {
+					}
+
+					public void processGiftCardCredit(GiftCardCredit giftCardCredit) {
+					}
                 })) {
             txns++;
         }
@@ -1830,6 +1843,21 @@ public class TestBatchFile {
             // TODO Auto-generated method stub
             
         }
+
+		public void processGiftCardAuthReversal(GiftCardAuthReversal giftCardAuthReversal) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		public void processGiftCardCapture(GiftCardCapture giftCardCapture) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		public void processGiftCardCredit(GiftCardCredit giftCardCredit) {
+			// TODO Auto-generated method stub
+			
+		}
     }
 
     public static void main(String[] args) throws Exception {

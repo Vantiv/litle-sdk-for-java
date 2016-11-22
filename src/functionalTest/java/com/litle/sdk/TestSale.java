@@ -12,8 +12,10 @@ import com.litle.sdk.generate.CardType;
 import com.litle.sdk.generate.MethodOfPaymentTypeEnum;
 import com.litle.sdk.generate.OrderSourceType;
 import com.litle.sdk.generate.PayPal;
+import com.litle.sdk.generate.ProcessingTypeEnum;
 import com.litle.sdk.generate.Sale;
 import com.litle.sdk.generate.SaleResponse;
+import com.litle.sdk.generate.SepaDirectDebitType;
 
 public class TestSale {
 
@@ -98,6 +100,45 @@ public class TestSale {
 		token.setType(MethodOfPaymentTypeEnum.VI);
 		sale.setToken(token);
 	    sale.setId("id");
+		SaleResponse response = litle.sale(sale);
+		assertEquals("Approved", response.getMessage());
+	}
+	
+	@Test
+	public void testSaleWithSEPA() throws Exception{
+		Sale sale = new Sale();
+		sale.setAmount(106L);
+		sale.setLitleTxnId(123456L);
+		sale.setOrderId("12344");
+		sale.setOrderSource(OrderSourceType.ECOMMERCE);
+		SepaDirectDebitType sepa = new SepaDirectDebitType();
+		sepa.setIban("ZZ79850503003100180568");
+		sepa.setMandateProvider("Vantiv");
+		sepa.setSequenceType("OneTime");
+		sepa.setMandateUrl("http://mandate.url");
+		sale.setSepaDirectDebit(sepa);
+		sale.setId("id");
+		SaleResponse response = litle.sale(sale);
+		assertEquals("Approved", response.getMessage());
+		assertEquals("http://redirect.url.vantiv.com", response.getSepaDirectDebitResponse().getRedirectUrl());
+	}
+	
+	@Test
+	public void testSaleWithProcessingTypeAndOrigTxnIdAndAmount() throws Exception{
+		Sale sale = new Sale();
+		sale.setAmount(106L);
+		sale.setLitleTxnId(123456L);
+		sale.setOrderId("12344");
+		sale.setOrderSource(OrderSourceType.ECOMMERCE);
+		CardType card = new CardType();
+		card.setType(MethodOfPaymentTypeEnum.VI);
+		card.setNumber("4100000000000000");
+		card.setExpDate("1210");
+		sale.setCard(card);
+		sale.setId("id");
+		sale.setProcessingType(ProcessingTypeEnum.INITIAL_INSTALLMENT);
+		sale.setOriginalNetworkTransactionId("1029384756");
+		sale.setOriginalTransactionAmount(4242l);
 		SaleResponse response = litle.sale(sale);
 		assertEquals("Approved", response.getMessage());
 	}

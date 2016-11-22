@@ -200,7 +200,7 @@ public class TestEcheckSale {
         echecksale.setId("id");
         echecksale.setBillToAddress(contact);
         try {
-            EcheckSalesResponse response = litle.echeckSale(echecksale);
+            litle.echeckSale(echecksale);
             fail("ccdPaymentInformation too long");
         } catch(LitleOnlineException e) {
             assertTrue(e.getMessage(),e.getMessage().startsWith("Error validating xml data against the schema"));
@@ -215,7 +215,7 @@ public class TestEcheckSale {
         echecksale.setSecondaryAmount(10L);   
         echecksale.setId("id");
         try {
-            EcheckSalesResponse response = litle.echeckSale(echecksale);
+            litle.echeckSale(echecksale);
             fail("Secondary Amount conflict with Litle Txn ID");
         } catch(LitleOnlineException e) {
             assertTrue(e.getMessage(),e.getMessage().startsWith("Error validating xml data against the schema"));

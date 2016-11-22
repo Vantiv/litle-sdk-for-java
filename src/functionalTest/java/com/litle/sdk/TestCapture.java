@@ -28,7 +28,20 @@ public class TestCapture {
 		capture.setId("id");
 
 		CaptureResponse response = litle.capture(capture);
-		assertEquals("Transaction Received", response.getMessage());
+		assertEquals("Approved", response.getMessage());
+	}
+	
+	@Test
+	public void testCaptureWithPin() throws Exception{
+		Capture capture = new Capture();
+		capture.setLitleTxnId(123456000L);
+		capture.setAmount(106L);
+		capture.setPayPalNotes("Notes");
+		capture.setId("id");
+		capture.setPin("1234");
+
+		CaptureResponse response = litle.capture(capture);
+		assertEquals("Approved", response.getMessage());
 	}
 
 	@Test
@@ -41,7 +54,7 @@ public class TestCapture {
 		capture.setId("id");
 
 		CaptureResponse response = litle.capture(capture);
-		assertEquals("Transaction Received", response.getMessage());
+		assertEquals("Approved", response.getMessage());
 	}
 
 	@Test
@@ -59,7 +72,7 @@ public class TestCapture {
 		capture.setId("id");
 
 		CaptureResponse response = litle.capture(capture);
-		assertEquals("Transaction Received", response.getMessage());
+		assertEquals("Approved", response.getMessage());
 	}
 
 

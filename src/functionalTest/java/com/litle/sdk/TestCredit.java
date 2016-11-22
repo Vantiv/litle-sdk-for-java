@@ -37,7 +37,7 @@ public class TestCredit {
         credit.setCard(card);
         credit.setId("id");
         CreditResponse response = litle.credit(credit);
-        assertEquals("Transaction Received", response.getMessage());
+        assertEquals("Approved", response.getMessage());
     }
 
     @Test
@@ -51,7 +51,7 @@ public class TestCredit {
         credit.setPaypal(paypal);
         credit.setId("id");
         CreditResponse response = litle.credit(credit);
-        assertEquals("Transaction Received", response.getMessage());
+        assertEquals("Approved", response.getMessage());
     }
 
     @Test
@@ -68,7 +68,7 @@ public class TestCredit {
         credit.setCard(card);
         credit.setId("id");
         CreditResponse response = litle.credit(credit);
-        assertEquals("Transaction Received", response.getMessage());
+        assertEquals("Approved", response.getMessage());
     }
 
     @Test
@@ -79,7 +79,7 @@ public class TestCredit {
         credit.setLitleTxnId(1234L);
         credit.setId("id");
         CreditResponse response = litle.credit(credit);
-        assertEquals("Transaction Received", response.getMessage());
+        assertEquals("Approved", response.getMessage());
     }
 
     @Test
@@ -91,7 +91,7 @@ public class TestCredit {
         credit.setLitleTxnId(1234L);
         credit.setId("id");
         try {
-            CreditResponse response = litle.credit(credit);
+            litle.credit(credit);
             fail("Litle Txn and Order Id should conflict, fail to throw a exception");
         } catch (Exception e) {
             assertTrue(e.getMessage(),e.getMessage().startsWith("Error validating xml data against the schema"));
@@ -112,7 +112,7 @@ public class TestCredit {
         credit.setCard(card);
         credit.setId("id");
         CreditResponse response = litle.credit(credit);
-        assertEquals("Transaction Received", response.getMessage());
+        assertEquals("Approved", response.getMessage());
     }
 
     @Test
@@ -131,7 +131,19 @@ public class TestCredit {
         credit.setCard(card);
         credit.setId("id");
         CreditResponse response = litle.credit(credit);
-        assertEquals("Transaction Received", response.getMessage());
+        assertEquals("Approved", response.getMessage());
+    }
+    
+    @Test
+    public void testCreditWithPin() throws Exception {
+        Credit credit = new Credit();
+        credit.setAmount(106L);
+        credit.setSecondaryAmount(20L);
+        credit.setLitleTxnId(1234L);
+        credit.setId("id");
+        credit.setPin("1234");
+        CreditResponse response = litle.credit(credit);
+        assertEquals("Approved", response.getMessage());
     }
 
 }

@@ -29,6 +29,7 @@ import com.litle.sdk.generate.Pos;
 import com.litle.sdk.generate.PosCapabilityTypeEnum;
 import com.litle.sdk.generate.PosCardholderIdTypeEnum;
 import com.litle.sdk.generate.PosEntryModeTypeEnum;
+import com.litle.sdk.generate.Sale;
 import com.litle.sdk.generate.TaxTypeIdentifierEnum;
 
 /**
@@ -96,12 +97,17 @@ public class TestEnumerations {
         info.setOrderSource(OrderSourceType.APPLEPAY);
     }
 	@Test
+    public void orderSourceWithAndroidpay() {
+        Sale info = new Sale();
+        info.setOrderSource(OrderSourceType.ANDROIDPAY);
+    }
+	@Test
     public void orderSourceWithEcheckppd() {
         EcheckSale info = new EcheckSale();
         info.setOrderSource(OrderSourceType.ECHECKPPD);
     }
 	@Test
-	public void methodOfPayment() {
+	public void methodOfPayment_VI() {
 		CardType info = new CardType();
 		info.setType(MethodOfPaymentTypeEnum.VI);
 	}

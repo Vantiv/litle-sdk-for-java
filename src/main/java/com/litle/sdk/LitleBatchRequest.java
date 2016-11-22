@@ -33,6 +33,9 @@ import com.litle.sdk.generate.EcheckSale;
 import com.litle.sdk.generate.EcheckVerification;
 import com.litle.sdk.generate.ForceCapture;
 import com.litle.sdk.generate.FundingInstructionVoid;
+import com.litle.sdk.generate.GiftCardAuthReversal;
+import com.litle.sdk.generate.GiftCardCapture;
+import com.litle.sdk.generate.GiftCardCredit;
 import com.litle.sdk.generate.LitleTransactionInterface;
 import com.litle.sdk.generate.Load;
 import com.litle.sdk.generate.ObjectFactory;
@@ -353,7 +356,28 @@ public class LitleBatchRequest {
             transaction = objFac.createFundingInstructionVoid((FundingInstructionVoid)transactionType);
             transactionAdded = true;
             numOfTxn ++;
-        } 
+        } else if (transactionType instanceof GiftCardAuthReversal) {
+        	batchRequest.setNumGiftCardAuthReversals(batchRequest.getNumGiftCardAuthReversals().add(BigInteger.valueOf(1)));
+        	batchRequest.setGiftCardAuthReversalOriginalAmount((batchRequest.getGiftCardAuthReversalOriginalAmount()
+        			.add(BigInteger.valueOf(((GiftCardAuthReversal) transactionType).getOriginalAmount()))));
+            transaction = objFac.createGiftCardAuthReversal((GiftCardAuthReversal)transactionType);
+            transactionAdded = true;
+            numOfTxn ++;
+        } else if (transactionType instanceof GiftCardCapture) {
+        	batchRequest.setNumGiftCardCaptures(batchRequest.getNumGiftCardCaptures().add(BigInteger.valueOf(1)));
+        	batchRequest.setGiftCardCaptureAmount((batchRequest.getGiftCardCaptureAmount()
+        			.add(BigInteger.valueOf(((GiftCardCapture) transactionType).getCaptureAmount()))));
+            transaction = objFac.createGiftCardCapture((GiftCardCapture)transactionType);
+            transactionAdded = true;
+            numOfTxn ++;
+        } else if (transactionType instanceof GiftCardCredit) {
+        	batchRequest.setNumGiftCardCredits(batchRequest.getNumGiftCardCredits().add(BigInteger.valueOf(1)));
+        	batchRequest.setGiftCardCreditAmount((batchRequest.getGiftCardCreditAmount()
+        			.add(BigInteger.valueOf(((GiftCardCredit) transactionType).getCreditAmount()))));
+            transaction = objFac.createGiftCardCredit((GiftCardCredit)transactionType);
+            transactionAdded = true;
+            numOfTxn ++;
+        }
         else {
             transaction = objFac.createTransaction(new TransactionType());
         }

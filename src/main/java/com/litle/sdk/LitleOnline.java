@@ -51,6 +51,12 @@ import com.litle.sdk.generate.ForceCapture;
 import com.litle.sdk.generate.ForceCaptureResponse;
 import com.litle.sdk.generate.FraudCheck;
 import com.litle.sdk.generate.FraudCheckResponse;
+import com.litle.sdk.generate.GiftCardAuthReversal;
+import com.litle.sdk.generate.GiftCardAuthReversalResponse;
+import com.litle.sdk.generate.GiftCardCapture;
+import com.litle.sdk.generate.GiftCardCaptureResponse;
+import com.litle.sdk.generate.GiftCardCredit;
+import com.litle.sdk.generate.GiftCardCreditResponse;
 import com.litle.sdk.generate.LitleOnlineRequest;
 import com.litle.sdk.generate.LitleOnlineResponse;
 import com.litle.sdk.generate.Load;
@@ -650,6 +656,48 @@ public class LitleOnline {
         LitleOnlineResponse response = sendToLitle(request);
         JAXBElement<? extends TransactionTypeWithReportGroup> newresponse = response.getTransactionResponse();
         return newresponse.getValue();
+    }
+    
+    public GiftCardCaptureResponse giftCardCapture(GiftCardCapture giftCardCapture) {
+    	LitleOnlineRequest request = createLitleOnlineRequest();
+        return giftCardCapture(giftCardCapture, request);
+    }
+    
+    public GiftCardCaptureResponse giftCardCapture(GiftCardCapture giftCardCapture, LitleOnlineRequest overrides) {
+    	LitleOnlineRequest request = fillInMissingFieldsFromConfig(overrides);
+
+        request.setTransaction(LitleContext.getObjectFactory().createGiftCardCapture(giftCardCapture));
+        LitleOnlineResponse response = sendToLitle(request);
+        JAXBElement<? extends TransactionTypeWithReportGroup> newresponse = response.getTransactionResponse();
+        return (GiftCardCaptureResponse)newresponse.getValue();
+    }
+    
+    public GiftCardAuthReversalResponse giftCardAuthReversal(GiftCardAuthReversal giftCardAuthReversal) {
+    	LitleOnlineRequest request = createLitleOnlineRequest();
+        return giftCardAuthReversal(giftCardAuthReversal, request);
+    }
+    
+    public GiftCardAuthReversalResponse giftCardAuthReversal(GiftCardAuthReversal giftCardAuthReversal, LitleOnlineRequest overrides) {
+    	LitleOnlineRequest request = fillInMissingFieldsFromConfig(overrides);
+
+        request.setTransaction(LitleContext.getObjectFactory().createGiftCardAuthReversal(giftCardAuthReversal));
+        LitleOnlineResponse response = sendToLitle(request);
+        JAXBElement<? extends TransactionTypeWithReportGroup> newresponse = response.getTransactionResponse();
+        return (GiftCardAuthReversalResponse)newresponse.getValue();
+    }
+    
+    public GiftCardCreditResponse giftCardCredit(GiftCardCredit giftCardCredit) {
+    	LitleOnlineRequest request = createLitleOnlineRequest();
+        return giftCardCredit(giftCardCredit, request);
+    }
+    
+    public GiftCardCreditResponse giftCardCredit(GiftCardCredit giftCardCredit, LitleOnlineRequest overrides) {
+    	LitleOnlineRequest request = fillInMissingFieldsFromConfig(overrides);
+
+        request.setTransaction(LitleContext.getObjectFactory().createGiftCardCredit(giftCardCredit));
+        LitleOnlineResponse response = sendToLitle(request);
+        JAXBElement<? extends TransactionTypeWithReportGroup> newresponse = response.getTransactionResponse();
+        return (GiftCardCreditResponse)newresponse.getValue();
     }
 
 	private LitleOnlineRequest createLitleOnlineRequest() {

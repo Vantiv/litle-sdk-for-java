@@ -8,6 +8,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.Properties;
 
 import javax.xml.bind.JAXBElement;
@@ -40,6 +41,7 @@ import com.litle.sdk.generate.CaptureGivenAuthResponse;
 import com.litle.sdk.generate.CaptureResponse;
 import com.litle.sdk.generate.CardType;
 import com.litle.sdk.generate.Contact;
+import com.litle.sdk.generate.CountryTypeEnum;
 import com.litle.sdk.generate.CreateAddOnType;
 import com.litle.sdk.generate.CreatePlan;
 import com.litle.sdk.generate.CreatePlanResponse;
@@ -68,6 +70,13 @@ import com.litle.sdk.generate.ForceCapture;
 import com.litle.sdk.generate.ForceCaptureResponse;
 import com.litle.sdk.generate.FraudCheck;
 import com.litle.sdk.generate.FraudCheckResponse;
+import com.litle.sdk.generate.GiftCardAuthReversal;
+import com.litle.sdk.generate.GiftCardAuthReversalResponse;
+import com.litle.sdk.generate.GiftCardCapture;
+import com.litle.sdk.generate.GiftCardCaptureResponse;
+import com.litle.sdk.generate.GiftCardCardType;
+import com.litle.sdk.generate.GiftCardCredit;
+import com.litle.sdk.generate.GiftCardCreditResponse;
 import com.litle.sdk.generate.LitleOnlineRequest;
 import com.litle.sdk.generate.Load;
 import com.litle.sdk.generate.LoadResponse;
@@ -86,6 +95,7 @@ import com.litle.sdk.generate.RegisterTokenRequestType;
 import com.litle.sdk.generate.RegisterTokenResponse;
 import com.litle.sdk.generate.Sale;
 import com.litle.sdk.generate.SaleResponse;
+import com.litle.sdk.generate.SepaDirectDebitType;
 import com.litle.sdk.generate.TransactionTypeWithReportGroup;
 import com.litle.sdk.generate.Unload;
 import com.litle.sdk.generate.UnloadResponse;
@@ -97,6 +107,7 @@ import com.litle.sdk.generate.UpdateSubscription;
 import com.litle.sdk.generate.UpdateSubscriptionResponse;
 import com.litle.sdk.generate.Wallet;
 import com.litle.sdk.generate.WalletSourceType;
+import com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl;
 
 public class TestLitleOnline {
 
@@ -543,6 +554,88 @@ public class TestLitleOnline {
 				mockedCommunication
 						.requestToServer(
 								matches(".*?<litleOnlineRequest.*?<sale.*?<card>.*?<number>4100000000000002</number>.*?</card>.*?</sale>.*?"),
+								any(Properties.class)))
+				.thenReturn(
+						"<litleOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><saleResponse><litleTxnId>123</litleTxnId></saleResponse></litleOnlineResponse>");
+		litle.setCommunication(mockedCommunication);
+		SaleResponse saleresponse = litle.sale(sale);
+		assertEquals(123L, saleresponse.getLitleTxnId());
+	}
+	
+	@Test
+	public void testSale_withAndroidpay() throws Exception {
+		Sale sale = new Sale();
+		sale.setAmount(106L);
+		sale.setLitleTxnId(123456L);
+		sale.setOrderId("12344");
+		sale.setOrderSource(OrderSourceType.ANDROIDPAY);
+		CardType card = new CardType();
+		card.setType(MethodOfPaymentTypeEnum.VI);
+		card.setNumber("4100000000000002");
+		card.setExpDate("1210");
+		sale.setCard(card);
+
+		Communication mockedCommunication = mock(Communication.class);
+		when(
+				mockedCommunication
+						.requestToServer(
+								matches(".*?<litleOnlineRequest.*?<sale reportGroup=\"Default Report Group\">"
+										+ "<litleTxnId>123456</litleTxnId>"
+										+ "<orderId>12344</orderId>"
+										+ "<amount>106</amount>"
+										+ "<orderSource>androidpay</orderSource>"
+										+ "<card>"
+										+ "<type>VI</type>"
+										+ "<number>4100000000000002</number>"
+										+ "<expDate>1210</expDate>"
+										+ "</card>"
+										+ "</sale>"
+										+ "</litleOnlineRequest>.*?"),
+								any(Properties.class)))
+				.thenReturn(
+						"<litleOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><saleResponse><litleTxnId>123</litleTxnId></saleResponse></litleOnlineResponse>");
+		litle.setCommunication(mockedCommunication);
+		SaleResponse saleresponse = litle.sale(sale);
+		assertEquals(123L, saleresponse.getLitleTxnId());
+	}
+	
+	@Test
+	public void testSale_withSepa() throws Exception {
+		Sale sale = new Sale();
+		sale.setAmount(106L);
+		sale.setLitleTxnId(123456L);
+		sale.setOrderId("12344");
+		sale.setOrderSource(OrderSourceType.ECOMMERCE);
+		SepaDirectDebitType sepa = new SepaDirectDebitType();
+		sepa.setMandateProvider("Vantiv");
+		sepa.setSequenceType("OneTime");
+		sepa.setMandateReference("1234567890");
+		sepa.setMandateUrl("http://mandate.url");
+		sepa.setMandateSignatureDate(new GregorianCalendar());
+		sepa.setIban("Iban");
+		sepa.setPreferredLanguage(CountryTypeEnum.CH);
+		sale.setSepaDirectDebit(sepa);
+
+		Communication mockedCommunication = mock(Communication.class);
+		when(
+				mockedCommunication
+						.requestToServer(
+								matches(".*?<litleOnlineRequest.*?<sale reportGroup=\"Default Report Group\">"
+										+ "<litleTxnId>123456</litleTxnId>"
+										+ "<orderId>12344</orderId>"
+										+ "<amount>106</amount>"
+										+ "<orderSource>ecommerce</orderSource>"
+										+ "<sepaDirectDebit>"
+										+ "<mandateProvider>Vantiv</mandateProvider>"
+										+ "<sequenceType>OneTime</sequenceType>"
+										+ "<mandateReference>1234567890</mandateReference>"
+										+ "<mandateUrl>http://mandate.url</mandateUrl>"
+										+ "<mandateSignatureDate>.*?</mandateSignatureDate>"
+										+ "<iban>Iban</iban>"
+										+ "<preferredLanguage>CH</preferredLanguage>"
+										+ "</sepaDirectDebit>"
+										+ "</sale>"
+										+ "</litleOnlineRequest>.*?"),
 								any(Properties.class)))
 				.thenReturn(
 						"<litleOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><saleResponse><litleTxnId>123</litleTxnId></saleResponse></litleOnlineResponse>");
@@ -1214,13 +1307,39 @@ public class TestLitleOnline {
     @Test
     public void testActivateReversal() throws Exception {
         ActivateReversal activateReversal = new ActivateReversal();
+        GiftCardCardType giftCard = new GiftCardCardType();
+        giftCard.setCardValidationNum("411");
+        giftCard.setExpDate("0502");
+        giftCard.setNumber("5400000000000000");
+        giftCard.setType(MethodOfPaymentTypeEnum.GC);
+        giftCard.setPin("1234");
         activateReversal.setLitleTxnId(123L);
+        activateReversal.setCard(giftCard);
+        activateReversal.setId("id");
+        activateReversal.setOriginalRefCode("3");
+        activateReversal.setOriginalSequenceNumber("999999");
+        activateReversal.setOriginalSystemTraceId(5);
+        activateReversal.setOriginalTxnTime(new XMLGregorianCalendarImpl());
 
         Communication mockedCommunication = mock(Communication.class);
         when(
                 mockedCommunication
                         .requestToServer(
-                                matches(".*?<litleOnlineRequest.*?<activateReversal><litleTxnId>123</litleTxnId></activateReversal></litleOnlineRequest>.*?"),
+                                matches(".*?<litleOnlineRequest.*?<activateReversal id=\"id\">"
+                                		+ "<litleTxnId>123</litleTxnId>"
+                                		+ "<card>"
+                                		+ "<type>GC</type>"
+                                		+ "<number>5400000000000000</number>"
+                                		+ "<expDate>0502</expDate>"
+                                		+ "<cardValidationNum>411</cardValidationNum>"
+                                		+ "<pin>1234</pin>"
+                                		+ "</card>"
+                                		+ "<originalRefCode>3</originalRefCode>"
+                                		+ "<originalTxnTime></originalTxnTime>"
+                                		+ "<originalSystemTraceId>5</originalSystemTraceId>"
+                                		+ "<originalSequenceNumber>999999</originalSequenceNumber>"
+                                		+ "</activateReversal>"
+                                		+ "</litleOnlineRequest>.*?"),
                                 any(Properties.class)))
                 .thenReturn(
                         "<litleOnlineResponse version='8.21' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><activateReversalResponse><litleTxnId>123456</litleTxnId></activateReversalResponse></litleOnlineResponse>");
@@ -1238,7 +1357,12 @@ public class TestLitleOnline {
         when(
                 mockedCommunication
                         .requestToServer(
-                                matches(".*?<litleOnlineRequest.*?merchantId=\"905\".*?<activateReversal><litleTxnId>123</litleTxnId></activateReversal></litleOnlineRequest>.*?"),
+                                matches(".*?<litleOnlineRequest.*?merchantId=\"905\".*?"
+                                		+ "<activateReversal>"
+                                		+ "<litleTxnId>123</litleTxnId>"
+                                		+ "<originalSystemTraceId>0</originalSystemTraceId>"
+                                		+ "</activateReversal>"
+                                		+ "</litleOnlineRequest>.*?"),
                                 any(Properties.class)))
                 .thenReturn(
                         "<litleOnlineResponse version='8.21' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><activateReversalResponse><litleTxnId>123456</litleTxnId></activateReversalResponse></litleOnlineResponse>");
@@ -1252,13 +1376,39 @@ public class TestLitleOnline {
     @Test
     public void testDeactivateReversal() throws Exception {
         DeactivateReversal deactivateReversal = new DeactivateReversal();
+        GiftCardCardType giftCard = new GiftCardCardType();
+        giftCard.setCardValidationNum("411");
+        giftCard.setExpDate("0502");
+        giftCard.setNumber("5400000000000000");
+        giftCard.setType(MethodOfPaymentTypeEnum.GC);
+        giftCard.setPin("1234");
         deactivateReversal.setLitleTxnId(123L);
+        deactivateReversal.setCard(giftCard);
+        deactivateReversal.setId("id");
+        deactivateReversal.setOriginalRefCode("3");
+        deactivateReversal.setOriginalSequenceNumber("999999");
+        deactivateReversal.setOriginalSystemTraceId(5);
+        deactivateReversal.setOriginalTxnTime(new XMLGregorianCalendarImpl());
 
         Communication mockedCommunication = mock(Communication.class);
         when(
                 mockedCommunication
                         .requestToServer(
-                                matches(".*?<litleOnlineRequest.*?<deactivateReversal><litleTxnId>123</litleTxnId></deactivateReversal></litleOnlineRequest>.*?"),
+                                matches(".*?<litleOnlineRequest.*?<deactivateReversal id=\"id\">"
+                                		+ "<litleTxnId>123</litleTxnId>"
+                                		+ "<card>"
+                                		+ "<type>GC</type>"
+                                		+ "<number>5400000000000000</number>"
+                                		+ "<expDate>0502</expDate>"
+                                		+ "<cardValidationNum>411</cardValidationNum>"
+                                		+ "<pin>1234</pin>"
+                                		+ "</card>"
+                                		+ "<originalRefCode>3</originalRefCode>"
+                                		+ "<originalTxnTime></originalTxnTime>"
+                                		+ "<originalSystemTraceId>5</originalSystemTraceId>"
+                                		+ "<originalSequenceNumber>999999</originalSequenceNumber>"
+                                		+ "</deactivateReversal>"
+                                		+ "</litleOnlineRequest>.*?"),
                                 any(Properties.class)))
                 .thenReturn(
                         "<litleOnlineResponse version='8.21' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><deactivateReversalResponse><litleTxnId>123456</litleTxnId></deactivateReversalResponse></litleOnlineResponse>");
@@ -1276,7 +1426,12 @@ public class TestLitleOnline {
         when(
                 mockedCommunication
                         .requestToServer(
-                                matches(".*?<litleOnlineRequest.*?merchantId=\"905\".*?<deactivateReversal><litleTxnId>123</litleTxnId></deactivateReversal></litleOnlineRequest>.*?"),
+                                matches(".*?<litleOnlineRequest merchantId=\"905\" merchantSdk=\"Java;11.0.0\" version=\"11.0\" xmlns=\"http://www.litle.com/schema\">.*?"
+                                		+ "<deactivateReversal>"
+                                		+ "<litleTxnId>123</litleTxnId>"
+                                		+ "<originalSystemTraceId>0</originalSystemTraceId>"
+                                		+ "</deactivateReversal"
+                                		+ "></litleOnlineRequest>.*?"),
                                 any(Properties.class)))
                 .thenReturn(
                         "<litleOnlineResponse version='8.21' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><deactivateReversalResponse><litleTxnId>123456</litleTxnId></deactivateReversalResponse></litleOnlineResponse>");
@@ -1290,13 +1445,41 @@ public class TestLitleOnline {
     @Test
     public void testLoadReversal() throws Exception {
         LoadReversal loadReversal = new LoadReversal();
+        GiftCardCardType giftCard = new GiftCardCardType();
+        giftCard.setCardValidationNum("411");
+        giftCard.setExpDate("0502");
+        giftCard.setNumber("5400000000000000");
+        giftCard.setType(MethodOfPaymentTypeEnum.GC);
+        giftCard.setPin("1234");
         loadReversal.setLitleTxnId(123L);
+        loadReversal.setCard(giftCard);
+        loadReversal.setId("id");
+        loadReversal.setOriginalAmount(45l);
+        loadReversal.setOriginalRefCode("3");
+        loadReversal.setOriginalSequenceNumber("999999");
+        loadReversal.setOriginalSystemTraceId(5);
+        loadReversal.setOriginalTxnTime(new XMLGregorianCalendarImpl());
 
         Communication mockedCommunication = mock(Communication.class);
         when(
                 mockedCommunication
                         .requestToServer(
-                                matches(".*?<litleOnlineRequest.*?<loadReversal><litleTxnId>123</litleTxnId></loadReversal></litleOnlineRequest>.*?"),
+                                matches(".*?<litleOnlineRequest.*?<loadReversal id=\"id\">"
+                                		+ "<litleTxnId>123</litleTxnId>"
+                                		+ "<card>"
+                                		+ "<type>GC</type>"
+                                		+ "<number>5400000000000000</number>"
+                                		+ "<expDate>0502</expDate>"
+                                		+ "<cardValidationNum>411</cardValidationNum>"
+                                		+ "<pin>1234</pin>"
+                                		+ "</card>"
+                                		+ "<originalRefCode>3</originalRefCode>"
+                                		+ "<originalAmount>45</originalAmount>"
+                                		+ "<originalTxnTime></originalTxnTime>"
+                                		+ "<originalSystemTraceId>5</originalSystemTraceId>"
+                                		+ "<originalSequenceNumber>999999</originalSequenceNumber>"
+                                		+ "</loadReversal>"
+                                		+ "</litleOnlineRequest>.*?"),
                                 any(Properties.class)))
                 .thenReturn(
                         "<litleOnlineResponse version='8.21' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><loadReversalResponse><litleTxnId>123456</litleTxnId></loadReversalResponse></litleOnlineResponse>");
@@ -1314,7 +1497,12 @@ public class TestLitleOnline {
         when(
                 mockedCommunication
                         .requestToServer(
-                                matches(".*?<litleOnlineRequest.*?merchantId=\"905\".*?<loadReversal><litleTxnId>123</litleTxnId></loadReversal></litleOnlineRequest>.*?"),
+                                matches(".*?<litleOnlineRequest.*?merchantId=\"905\".*?"
+                                		+ "<loadReversal>"
+                                		+ "<litleTxnId>123</litleTxnId>"
+                                		+ "<originalSystemTraceId>0</originalSystemTraceId>"
+                                		+ "</loadReversal>"
+                                		+ "</litleOnlineRequest>.*?"),
                                 any(Properties.class)))
                 .thenReturn(
                         "<litleOnlineResponse version='8.21' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><loadReversalResponse><litleTxnId>123456</litleTxnId></loadReversalResponse></litleOnlineResponse>");
@@ -1328,13 +1516,39 @@ public class TestLitleOnline {
     @Test
     public void testUnLoadReversal() throws Exception {
         UnloadReversal unloadReversal = new UnloadReversal();
+        GiftCardCardType giftCard = new GiftCardCardType();
+        giftCard.setCardValidationNum("411");
+        giftCard.setExpDate("0502");
+        giftCard.setNumber("5400000000000000");
+        giftCard.setType(MethodOfPaymentTypeEnum.GC);
+        giftCard.setPin("1234");
         unloadReversal.setLitleTxnId(123L);
+        unloadReversal.setCard(giftCard);
+        unloadReversal.setId("id");
+        unloadReversal.setOriginalRefCode("3");
+        unloadReversal.setOriginalSequenceNumber("999999");
+        unloadReversal.setOriginalSystemTraceId(5);
+        unloadReversal.setOriginalTxnTime(new XMLGregorianCalendarImpl());
 
         Communication mockedCommunication = mock(Communication.class);
         when(
                 mockedCommunication
                         .requestToServer(
-                                matches(".*?<litleOnlineRequest.*?<unloadReversal><litleTxnId>123</litleTxnId></unloadReversal></litleOnlineRequest>.*?"),
+                                matches(".*?<litleOnlineRequest.*?<unloadReversal id=\"id\">"
+                                		+ "<litleTxnId>123</litleTxnId>"
+                                		+ "<card>"
+                                		+ "<type>GC</type>"
+                                		+ "<number>5400000000000000</number>"
+                                		+ "<expDate>0502</expDate>"
+                                		+ "<cardValidationNum>411</cardValidationNum>"
+                                		+ "<pin>1234</pin>"
+                                		+ "</card>"
+                                		+ "<originalRefCode>3</originalRefCode>"
+                                		+ "<originalTxnTime></originalTxnTime>"
+                                		+ "<originalSystemTraceId>5</originalSystemTraceId>"
+                                		+ "<originalSequenceNumber>999999</originalSequenceNumber>"
+                                		+ "</unloadReversal>"
+                                		+ "</litleOnlineRequest>.*?"),
                                 any(Properties.class)))
                 .thenReturn(
                         "<litleOnlineResponse version='8.21' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><unloadReversalResponse><litleTxnId>123456</litleTxnId></unloadReversalResponse></litleOnlineResponse>");
@@ -1352,7 +1566,12 @@ public class TestLitleOnline {
         when(
                 mockedCommunication
                         .requestToServer(
-                                matches(".*?<litleOnlineRequest.*?merchantId=\"905\".*?<unloadReversal><litleTxnId>123</litleTxnId></unloadReversal></litleOnlineRequest>.*?"),
+                                matches(".*?<litleOnlineRequest.*?merchantId=\"905\".*?"
+                                		+ "<unloadReversal>"
+                                		+ "<litleTxnId>123</litleTxnId>"
+                                		+ "<originalSystemTraceId>0</originalSystemTraceId>"
+                                		+ "</unloadReversal>"
+                                		+ "</litleOnlineRequest>.*?"),
                                 any(Properties.class)))
                 .thenReturn(
                         "<litleOnlineResponse version='8.21' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><unloadReversalResponse><litleTxnId>123456</litleTxnId></unloadReversalResponse></litleOnlineResponse>");
@@ -1366,13 +1585,44 @@ public class TestLitleOnline {
     @Test
     public void testRefundReversal() throws Exception {
         RefundReversal refundReversal = new RefundReversal();
+        GiftCardCardType giftCard = new GiftCardCardType();
+        giftCard.setType(MethodOfPaymentTypeEnum.GC);
+        giftCard.setCardValidationNum("411");
+        giftCard.setExpDate("0655");
+        giftCard.setNumber("4100000000000001");
+        giftCard.setPin("9999");
+        giftCard.setTrack("track data goes here");
+        
         refundReversal.setLitleTxnId(123L);
-
+        refundReversal.setId("id");
+        refundReversal.setReportGroup("rptGrp");
+        refundReversal.setCard(giftCard);
+        refundReversal.setOriginalRefCode("ref");
+        refundReversal.setOriginalAmount(44455l);
+        refundReversal.setOriginalTxnTime(new XMLGregorianCalendarImpl());
+        refundReversal.setOriginalSystemTraceId(3);
+        refundReversal.setOriginalSequenceNumber("222222");
+        
         Communication mockedCommunication = mock(Communication.class);
         when(
                 mockedCommunication
                         .requestToServer(
-                                matches(".*?<litleOnlineRequest.*?<refundReversal><litleTxnId>123</litleTxnId></refundReversal></litleOnlineRequest>.*?"),
+                                matches(".*?<litleOnlineRequest.*?<refundReversal reportGroup=\"rptGrp\" id=\"id\">"
+                                		+ "<litleTxnId>123</litleTxnId>"
+                                		+ "<card>"
+                                		+ "<track>track data goes here</track>"
+                                		+ "<type>GC</type>"
+                                		+ "<number>4100000000000001</number>"
+                                		+ "<expDate>0655</expDate>"
+                                		+ "<cardValidationNum>411</cardValidationNum>"
+                                		+ "<pin>9999</pin>"
+                                		+ "</card><originalRefCode>ref</originalRefCode>"
+                                		+ "<originalAmount>44455</originalAmount>"
+                                		+ "<originalTxnTime></originalTxnTime>"
+                                		+ "<originalSystemTraceId>3</originalSystemTraceId>"
+                                		+ "<originalSequenceNumber>222222</originalSequenceNumber>"
+                                		+ "</refundReversal>"
+                                		+ "</litleOnlineRequest>.*?"),
                                 any(Properties.class)))
                 .thenReturn(
                         "<litleOnlineResponse version='8.21' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><refundReversalResponse><litleTxnId>123456</litleTxnId></refundReversalResponse></litleOnlineResponse>");
@@ -1380,7 +1630,7 @@ public class TestLitleOnline {
         RefundReversalResponse response = litle.refundReversal(refundReversal);
         assertEquals(123456L, response.getLitleTxnId());
     }
-
+    
     @Test
     public void testRefundReversalWithOverrides() throws Exception {
         RefundReversal refundReversal = new RefundReversal();
@@ -1390,7 +1640,12 @@ public class TestLitleOnline {
         when(
                 mockedCommunication
                         .requestToServer(
-                                matches(".*?<litleOnlineRequest.*?merchantId=\"905\".*?<refundReversal><litleTxnId>123</litleTxnId></refundReversal></litleOnlineRequest>.*?"),
+                                matches(".*?<litleOnlineRequest.*?merchantId=\"905\".*?"
+                                		+ "<refundReversal>"
+                                		+ "<litleTxnId>123</litleTxnId>"
+                                		+ "<originalSystemTraceId>0</originalSystemTraceId>"
+                                		+ "</refundReversal>"
+                                		+ "</litleOnlineRequest>.*?"),
                                 any(Properties.class)))
                 .thenReturn(
                         "<litleOnlineResponse version='8.21' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><refundReversalResponse><litleTxnId>123456</litleTxnId></refundReversalResponse></litleOnlineResponse>");
@@ -1404,13 +1659,43 @@ public class TestLitleOnline {
     @Test
     public void testDepositReversal() throws Exception {
         DepositReversal depositReversal = new DepositReversal();
+        GiftCardCardType giftCard = new GiftCardCardType();
+        giftCard.setNumber("400000000000001");
+        giftCard.setExpDate("0150");
+        giftCard.setCardValidationNum("411");
+        giftCard.setPin("1234");
+        giftCard.setType(MethodOfPaymentTypeEnum.GC);
+        
         depositReversal.setLitleTxnId(123L);
-
+        depositReversal.setId("id");
+        depositReversal.setReportGroup("Planets");
+        depositReversal.setCard(giftCard);
+        depositReversal.setOriginalRefCode("101");
+        depositReversal.setOriginalAmount(3456l);
+        depositReversal.setOriginalTxnTime(new XMLGregorianCalendarImpl());
+        depositReversal.setOriginalSystemTraceId(33);
+        depositReversal.setOriginalSequenceNumber("111111");
+        
         Communication mockedCommunication = mock(Communication.class);
         when(
                 mockedCommunication
                         .requestToServer(
-                                matches(".*?<litleOnlineRequest.*?<depositReversal><litleTxnId>123</litleTxnId></depositReversal></litleOnlineRequest>.*?"),
+                                matches(".*?<litleOnlineRequest.*?<depositReversal reportGroup=\"Planets\" id=\"id\">"
+                                		+ "<litleTxnId>123</litleTxnId>"
+                                		+ "<card>"
+                                		+ "<type>GC</type>"
+                                		+ "<number>400000000000001</number>"
+                                		+ "<expDate>0150</expDate>"
+                                		+ "<cardValidationNum>411</cardValidationNum>"
+                                		+ "<pin>1234</pin>"
+                                		+ "</card>"
+                                		+ "<originalRefCode>101</originalRefCode>"
+                                		+ "<originalAmount>3456</originalAmount>"
+                                		+ "<originalTxnTime></originalTxnTime>"
+                                		+ "<originalSystemTraceId>33</originalSystemTraceId>"
+                                		+ "<originalSequenceNumber>111111</originalSequenceNumber>"
+                                		+ "</depositReversal>"
+                                		+ "</litleOnlineRequest>.*?"),
                                 any(Properties.class)))
                 .thenReturn(
                         "<litleOnlineResponse version='8.21' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><depositReversalResponse><litleTxnId>123456</litleTxnId></depositReversalResponse></litleOnlineResponse>");
@@ -1428,7 +1713,12 @@ public class TestLitleOnline {
         when(
                 mockedCommunication
                         .requestToServer(
-                                matches(".*?<litleOnlineRequest.*?merchantId=\"905\".*?<depositReversal><litleTxnId>123</litleTxnId></depositReversal></litleOnlineRequest>.*?"),
+                                matches(".*?<litleOnlineRequest.*?merchantId=\"905\".*?"
+                                		+ "<depositReversal>"
+                                		+ "<litleTxnId>123</litleTxnId>"
+                                		+ "<originalSystemTraceId>0</originalSystemTraceId>"
+                                		+ "</depositReversal>"
+                                		+ "</litleOnlineRequest>.*?"),
                                 any(Properties.class)))
                 .thenReturn(
                         "<litleOnlineResponse version='8.21' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><depositReversalResponse><litleTxnId>123456</litleTxnId></depositReversalResponse></litleOnlineResponse>");
@@ -1437,6 +1727,355 @@ public class TestLitleOnline {
         overrides.setMerchantId("905");
         DepositReversalResponse response = litle.depositReversal(depositReversal, overrides);
         assertEquals(123456L, response.getLitleTxnId());
+    }
+    
+    @Test
+    public void testGiftCardAuthReversal() throws Exception {
+        GiftCardAuthReversal gcAuthReversal = new GiftCardAuthReversal();
+        GiftCardCardType giftCard = new GiftCardCardType();
+        giftCard.setType(MethodOfPaymentTypeEnum.GC);
+        giftCard.setCardValidationNum("411");
+        giftCard.setExpDate("0655");
+        giftCard.setNumber("4100000000000001");
+        giftCard.setPin("9999");
+        
+        gcAuthReversal.setLitleTxnId(123L);
+        gcAuthReversal.setId("id");
+        gcAuthReversal.setReportGroup("rptGrp");
+        gcAuthReversal.setCard(giftCard);
+        gcAuthReversal.setOriginalRefCode("ref");
+        gcAuthReversal.setOriginalAmount(44455l);
+        gcAuthReversal.setOriginalTxnTime(new XMLGregorianCalendarImpl());
+        gcAuthReversal.setOriginalSystemTraceId(3);
+        gcAuthReversal.setOriginalSequenceNumber("222222");
+        
+        Communication mockedCommunication = mock(Communication.class);
+        when(
+                mockedCommunication
+                        .requestToServer(
+                                matches(".*?<litleOnlineRequest.*?<giftCardAuthReversal reportGroup=\"rptGrp\" id=\"id\">"
+                                		+ "<litleTxnId>123</litleTxnId>"
+                                		+ "<card>"
+                                		+ "<type>GC</type>"
+                                		+ "<number>4100000000000001</number>"
+                                		+ "<expDate>0655</expDate>"
+                                		+ "<cardValidationNum>411</cardValidationNum>"
+                                		+ "<pin>9999</pin>"
+                                		+ "</card>"
+                                		+ "<originalRefCode>ref</originalRefCode>"
+                                		+ "<originalAmount>44455</originalAmount>"
+                                		+ "<originalTxnTime></originalTxnTime>"
+                                		+ "<originalSystemTraceId>3</originalSystemTraceId>"
+                                		+ "<originalSequenceNumber>222222</originalSequenceNumber>"
+                                		+ "</giftCardAuthReversal>"
+                                		+ "</litleOnlineRequest>.*?"),
+                                any(Properties.class)))
+                .thenReturn(
+                        "<litleOnlineResponse version=\"11.0\" xmlns=\"http://www.litle.com/schema\" response=\"0\" message=\"Valid Format\">"
+                        + "<giftCardAuthReversalResponse id=\"id\" reportGroup=\"rptGrp\">"
+                        + "<litleTxnId>21825673457518565</litleTxnId>"
+                        + "<response>330</response>"
+                        + "<responseTime>2016-11-21T18:08:48</responseTime>"
+                        + "<postDate>2016-11-22</postDate>"
+                        + "<message>Invalid Payment Type</message>"
+                        + "<giftCardResponse>"
+                        + "<txnTime>2016-11-21T13:08:48</txnTime>"
+                        + "<systemTraceId>0</systemTraceId>"
+                        + "</giftCardResponse>"
+                        + "</giftCardAuthReversalResponse>"
+                        + "</litleOnlineResponse>");
+        litle.setCommunication(mockedCommunication);
+        GiftCardAuthReversalResponse response = litle.giftCardAuthReversal(gcAuthReversal);
+        assertEquals(21825673457518565L, response.getLitleTxnId());
+    }
+    
+    @Test
+    public void testGiftCardAuthReversal_withOverrides() throws Exception {
+        GiftCardAuthReversal gcAuthReversal = new GiftCardAuthReversal();
+        GiftCardCardType giftCard = new GiftCardCardType();
+        giftCard.setType(MethodOfPaymentTypeEnum.GC);
+        giftCard.setCardValidationNum("411");
+        giftCard.setExpDate("0655");
+        giftCard.setNumber("4100000000000001");
+        giftCard.setPin("9999");
+        
+        gcAuthReversal.setLitleTxnId(123L);
+        gcAuthReversal.setId("id");
+        gcAuthReversal.setReportGroup("rptGrp");
+        gcAuthReversal.setCard(giftCard);
+        gcAuthReversal.setOriginalRefCode("ref");
+        gcAuthReversal.setOriginalAmount(44455l);
+        gcAuthReversal.setOriginalTxnTime(new XMLGregorianCalendarImpl());
+        gcAuthReversal.setOriginalSystemTraceId(3);
+        gcAuthReversal.setOriginalSequenceNumber("222222");
+        
+        Communication mockedCommunication = mock(Communication.class);
+        when(
+                mockedCommunication
+                        .requestToServer(
+                                matches(".*?<litleOnlineRequest.*?merchantId=\"905\".*?"
+                                		+ "<giftCardAuthReversal reportGroup=\"rptGrp\" id=\"id\">"
+                                		+ "<litleTxnId>123</litleTxnId>"
+                                		+ "<card>"
+                                		+ "<type>GC</type>"
+                                		+ "<number>4100000000000001</number>"
+                                		+ "<expDate>0655</expDate>"
+                                		+ "<cardValidationNum>411</cardValidationNum>"
+                                		+ "<pin>9999</pin>"
+                                		+ "</card>"
+                                		+ "<originalRefCode>ref</originalRefCode>"
+                                		+ "<originalAmount>44455</originalAmount>"
+                                		+ "<originalTxnTime></originalTxnTime>"
+                                		+ "<originalSystemTraceId>3</originalSystemTraceId>"
+                                		+ "<originalSequenceNumber>222222</originalSequenceNumber>"
+                                		+ "</giftCardAuthReversal>"
+                                		+ "</litleOnlineRequest>.*?"),
+                                any(Properties.class)))
+                .thenReturn(
+                        "<litleOnlineResponse version=\"11.0\" xmlns=\"http://www.litle.com/schema\" response=\"0\" message=\"Valid Format\">"
+                        + "<giftCardAuthReversalResponse id=\"id\" reportGroup=\"rptGrp\">"
+                        + "<litleTxnId>21825673457518565</litleTxnId>"
+                        + "<response>330</response>"
+                        + "<responseTime>2016-11-21T18:08:48</responseTime>"
+                        + "<postDate>2016-11-22</postDate>"
+                        + "<message>Invalid Payment Type</message>"
+                        + "<giftCardResponse>"
+                        + "<txnTime>2016-11-21T13:08:48</txnTime>"
+                        + "<systemTraceId>0</systemTraceId>"
+                        + "</giftCardResponse>"
+                        + "</giftCardAuthReversalResponse>"
+                        + "</litleOnlineResponse>");
+        litle.setCommunication(mockedCommunication);
+        LitleOnlineRequest overrides = new LitleOnlineRequest();
+        overrides.setMerchantId("905");
+        GiftCardAuthReversalResponse response = litle.giftCardAuthReversal(gcAuthReversal, overrides);
+        assertEquals(21825673457518565L, response.getLitleTxnId());
+    }
+    
+    @Test
+    public void testGiftCardCapture() throws Exception {
+        GiftCardCapture gcCapture = new GiftCardCapture();
+        GiftCardCardType giftCard = new GiftCardCardType();
+        giftCard.setType(MethodOfPaymentTypeEnum.GC);
+        giftCard.setCardValidationNum("411");
+        giftCard.setExpDate("0655");
+        giftCard.setNumber("4100000000000001");
+        giftCard.setPin("9999");
+        
+        gcCapture.setLitleTxnId(123L);
+        gcCapture.setId("id");
+        gcCapture.setReportGroup("rptGrp");
+        gcCapture.setCaptureAmount(2434l);
+        gcCapture.setCard(giftCard);
+        gcCapture.setOriginalRefCode("ref");
+        gcCapture.setOriginalAmount(44455l);
+        gcCapture.setOriginalTxnTime(new XMLGregorianCalendarImpl());
+        
+        Communication mockedCommunication = mock(Communication.class);
+        when(
+                mockedCommunication
+                        .requestToServer(
+                                matches(".*?<litleOnlineRequest.*?<giftCardCapture reportGroup=\"rptGrp\" id=\"id\">"
+                                		+ "<litleTxnId>123</litleTxnId>"
+                                		+ "<captureAmount>2434</captureAmount>"
+                                		+ "<card>"
+                                		+ "<type>GC</type>"
+                                		+ "<number>4100000000000001</number>"
+                                		+ "<expDate>0655</expDate>"
+                                		+ "<cardValidationNum>411</cardValidationNum>"
+                                		+ "<pin>9999</pin>"
+                                		+ "</card>"
+                                		+ "<originalRefCode>ref</originalRefCode>"
+                                		+ "<originalAmount>44455</originalAmount>"
+                                		+ "<originalTxnTime></originalTxnTime>"
+                                		+ "</giftCardCapture>"
+                                		+ "</litleOnlineRequest>.*?"),
+                                any(Properties.class)))
+                .thenReturn(
+                        "<litleOnlineResponse version=\"11.0\" xmlns=\"http://www.litle.com/schema\" response=\"0\" message=\"Valid Format\">"
+                        + "<giftCardCaptureResponse id=\"id\" reportGroup=\"rptGrp\">"
+                        + "<litleTxnId>21825673457518565</litleTxnId>"
+                        + "<response>330</response>"
+                        + "<responseTime>2016-11-21T18:35:55</responseTime>"
+                        + "<postDate>2016-11-22</postDate>"
+                        + "<message>Invalid Payment Type</message>"
+                        + "<giftCardResponse>"
+                        + "<txnTime>2016-11-21T13:35:55</txnTime>"
+                        + "<systemTraceId>0</systemTraceId>"
+                        + "</giftCardResponse>"
+                        + "</giftCardCaptureResponse>"
+                        + "</litleOnlineResponse>");
+        litle.setCommunication(mockedCommunication);
+        GiftCardCaptureResponse response = litle.giftCardCapture(gcCapture);
+        assertEquals(21825673457518565L, response.getLitleTxnId());
+    }
+    
+    @Test
+    public void testGiftCardCapture_withOverrides() throws Exception {
+    	GiftCardCapture gcCapture = new GiftCardCapture();
+        GiftCardCardType giftCard = new GiftCardCardType();
+        giftCard.setType(MethodOfPaymentTypeEnum.GC);
+        giftCard.setCardValidationNum("411");
+        giftCard.setExpDate("0655");
+        giftCard.setNumber("4100000000000001");
+        giftCard.setPin("9999");
+        
+        gcCapture.setLitleTxnId(123L);
+        gcCapture.setId("id");
+        gcCapture.setReportGroup("rptGrp");
+        gcCapture.setCaptureAmount(2434l);
+        gcCapture.setCard(giftCard);
+        gcCapture.setOriginalRefCode("ref");
+        gcCapture.setOriginalAmount(44455l);
+        gcCapture.setOriginalTxnTime(new XMLGregorianCalendarImpl());
+        
+        Communication mockedCommunication = mock(Communication.class);
+        when(
+                mockedCommunication
+                        .requestToServer(
+                        		matches(".*?<litleOnlineRequest.*?merchantId=\"905\".*?"
+                        				+ "<giftCardCapture reportGroup=\"rptGrp\" id=\"id\">"
+                                		+ "<litleTxnId>123</litleTxnId>"
+                                		+ "<captureAmount>2434</captureAmount>"
+                                		+ "<card>"
+                                		+ "<type>GC</type>"
+                                		+ "<number>4100000000000001</number>"
+                                		+ "<expDate>0655</expDate>"
+                                		+ "<cardValidationNum>411</cardValidationNum>"
+                                		+ "<pin>9999</pin>"
+                                		+ "</card>"
+                                		+ "<originalRefCode>ref</originalRefCode>"
+                                		+ "<originalAmount>44455</originalAmount>"
+                                		+ "<originalTxnTime></originalTxnTime>"
+                                		+ "</giftCardCapture>"
+                                		+ "</litleOnlineRequest>.*?"),
+                                any(Properties.class)))
+                .thenReturn(
+                		"<litleOnlineResponse version=\"11.0\" xmlns=\"http://www.litle.com/schema\" response=\"0\" message=\"Valid Format\">"
+                                + "<giftCardCaptureResponse id=\"id\" reportGroup=\"rptGrp\">"
+                                + "<litleTxnId>21825673457518565</litleTxnId>"
+                                + "<response>330</response>"
+                                + "<responseTime>2016-11-21T18:35:55</responseTime>"
+                                + "<postDate>2016-11-22</postDate>"
+                                + "<message>Invalid Payment Type</message>"
+                                + "<giftCardResponse>"
+                                + "<txnTime>2016-11-21T13:35:55</txnTime>"
+                                + "<systemTraceId>0</systemTraceId>"
+                                + "</giftCardResponse>"
+                                + "</giftCardCaptureResponse>"
+                                + "</litleOnlineResponse>");
+        litle.setCommunication(mockedCommunication);
+        LitleOnlineRequest overrides = new LitleOnlineRequest();
+        overrides.setMerchantId("905");
+        GiftCardCaptureResponse response = litle.giftCardCapture(gcCapture, overrides);
+        assertEquals(21825673457518565L, response.getLitleTxnId());
+    }
+    
+    @Test
+    public void testGiftCardCredit() throws Exception {
+        GiftCardCredit gcCredit = new GiftCardCredit();
+        GiftCardCardType giftCard = new GiftCardCardType();
+        giftCard.setType(MethodOfPaymentTypeEnum.GC);
+        giftCard.setCardValidationNum("411");
+        giftCard.setExpDate("0655");
+        giftCard.setNumber("4100000000000001");
+        giftCard.setPin("9999");
+        
+        gcCredit.setLitleTxnId(123L);
+        gcCredit.setId("id");
+        gcCredit.setReportGroup("rptGrp");
+        gcCredit.setCreditAmount(3399l);
+        gcCredit.setCard(giftCard);
+        
+        Communication mockedCommunication = mock(Communication.class);
+        when(
+                mockedCommunication
+                        .requestToServer(
+                                matches(".*?<litleOnlineRequest.*?<giftCardCredit reportGroup=\"rptGrp\" id=\"id\">"
+                                		+ "<litleTxnId>123</litleTxnId>"
+                                		+ "<creditAmount>3399</creditAmount>"
+                                		+ "<card>"
+                                		+ "<type>GC</type>"
+                                		+ "<number>4100000000000001</number>"
+                                		+ "<expDate>0655</expDate>"
+                                		+ "<cardValidationNum>411</cardValidationNum>"
+                                		+ "<pin>9999</pin>"
+                                		+ "</card>"
+                                		+ "</giftCardCredit>"
+                                		+ "</litleOnlineRequest>.*?"),
+                                any(Properties.class)))
+                .thenReturn(
+                        "<litleOnlineResponse version=\"11.0\" xmlns=\"http://www.litle.com/schema\" response=\"0\" message=\"Valid Format\">"
+                        + "<giftCardCreditResponse id=\"id\" reportGroup=\"rptGrp\">"
+                        + "<litleTxnId>21825673457518565</litleTxnId>"
+                        + "<response>330</response>"
+                        + "<responseTime>2016-11-21T18:54:41</responseTime>"
+                        + "<postDate>2016-11-22</postDate>"
+                        + "<message>Invalid Payment Type</message>"
+                        + "<giftCardResponse>"
+                        + "<txnTime>2016-11-21T13:54:41</txnTime>"
+                        + "<systemTraceId>0</systemTraceId>"
+                        + "</giftCardResponse>"
+                        + "</giftCardCreditResponse>"
+                        + "</litleOnlineResponse>");
+        litle.setCommunication(mockedCommunication);
+        GiftCardCreditResponse response = litle.giftCardCredit(gcCredit);
+        assertEquals(21825673457518565L, response.getLitleTxnId());
+    }
+    
+    @Test
+    public void testGiftCardCredit_withOverrides() throws Exception {
+    	GiftCardCredit gcCredit = new GiftCardCredit();
+        GiftCardCardType giftCard = new GiftCardCardType();
+        giftCard.setType(MethodOfPaymentTypeEnum.GC);
+        giftCard.setCardValidationNum("411");
+        giftCard.setExpDate("0655");
+        giftCard.setNumber("4100000000000001");
+        giftCard.setPin("9999");
+        
+        gcCredit.setLitleTxnId(123L);
+        gcCredit.setId("id");
+        gcCredit.setReportGroup("rptGrp");
+        gcCredit.setCreditAmount(3399l);
+        gcCredit.setCard(giftCard);
+        
+        Communication mockedCommunication = mock(Communication.class);
+        when(
+                mockedCommunication
+                        .requestToServer(
+                        		matches(".*?<litleOnlineRequest.*?merchantId=\"905\".*?"
+                        				+ "<giftCardCredit reportGroup=\"rptGrp\" id=\"id\">"
+                                		+ "<litleTxnId>123</litleTxnId>"
+                                		+ "<creditAmount>3399</creditAmount>"
+                                		+ "<card>"
+                                		+ "<type>GC</type>"
+                                		+ "<number>4100000000000001</number>"
+                                		+ "<expDate>0655</expDate>"
+                                		+ "<cardValidationNum>411</cardValidationNum>"
+                                		+ "<pin>9999</pin>"
+                                		+ "</card>"
+                                		+ "</giftCardCredit>"
+                                		+ "</litleOnlineRequest>.*?"),
+                                any(Properties.class)))
+                .thenReturn(
+                		"<litleOnlineResponse version=\"11.0\" xmlns=\"http://www.litle.com/schema\" response=\"0\" message=\"Valid Format\">"
+                                + "<giftCardCreditResponse id=\"id\" reportGroup=\"rptGrp\">"
+                                + "<litleTxnId>21825673457518565</litleTxnId>"
+                                + "<response>330</response>"
+                                + "<responseTime>2016-11-21T18:54:41</responseTime>"
+                                + "<postDate>2016-11-22</postDate>"
+                                + "<message>Invalid Payment Type</message>"
+                                + "<giftCardResponse>"
+                                + "<txnTime>2016-11-21T13:54:41</txnTime>"
+                                + "<systemTraceId>0</systemTraceId>"
+                                + "</giftCardResponse>"
+                                + "</giftCardCreditResponse>"
+                                + "</litleOnlineResponse>");
+        litle.setCommunication(mockedCommunication);
+        LitleOnlineRequest overrides = new LitleOnlineRequest();
+        overrides.setMerchantId("905");
+        GiftCardCreditResponse response = litle.giftCardCredit(gcCredit, overrides);
+        assertEquals(21825673457518565L, response.getLitleTxnId());
     }
     
     @Test

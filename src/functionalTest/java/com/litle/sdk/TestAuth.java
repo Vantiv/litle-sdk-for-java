@@ -22,6 +22,7 @@ import com.litle.sdk.generate.Pos;
 import com.litle.sdk.generate.PosCapabilityTypeEnum;
 import com.litle.sdk.generate.PosCardholderIdTypeEnum;
 import com.litle.sdk.generate.PosEntryModeTypeEnum;
+import com.litle.sdk.generate.ProcessingTypeEnum;
 
 public class TestAuth {
 
@@ -40,6 +41,68 @@ public class TestAuth {
 		authorization.setAmount(106L);
 		authorization.setOrderSource(OrderSourceType.ECOMMERCE);
 	    authorization.setId("id");
+		CardType card = new CardType();
+		card.setType(MethodOfPaymentTypeEnum.VI);
+		card.setNumber("4100000000000000");
+		card.setExpDate("1210");
+		authorization.setCard(card);
+
+		AuthorizationResponse response = litle.authorize(authorization);
+		assertEquals(response.getMessage(), "000",response.getResponse());
+		assertEquals("63225578415568556365452427825", response.getNetworkTransactionId());
+	}
+	
+	@Test
+	public void testAuthWithAndroidpay() throws Exception {
+		Authorization authorization = new Authorization();
+		authorization.setReportGroup("Planets");
+		authorization.setOrderId("12344");
+		authorization.setAmount(106L);
+		authorization.setOrderSource(OrderSourceType.ANDROIDPAY);
+	    authorization.setId("id");
+		CardType card = new CardType();
+		card.setType(MethodOfPaymentTypeEnum.VI);
+		card.setNumber("4100000000000000");
+		card.setExpDate("1210");
+		authorization.setCard(card);
+
+		AuthorizationResponse response = litle.authorize(authorization);
+		assertEquals(response.getMessage(), "000",response.getResponse());
+		assertEquals("aHR0cHM6Ly93d3cueW91dHViZS5jb20vd2F0Y2g/dj1kUXc0dzlXZ1hjUQ0K", response.getAndroidpayResponse().getCryptogram());
+		assertEquals("01", response.getAndroidpayResponse().getExpMonth());
+		assertEquals("2050", response.getAndroidpayResponse().getExpYear());
+	}
+	
+	@Test
+	public void simpleAuthWithProcessngType() throws Exception {
+		Authorization authorization = new Authorization();
+		authorization.setReportGroup("Planets");
+		authorization.setOrderId("12344");
+		authorization.setAmount(106L);
+		authorization.setOrderSource(OrderSourceType.ECOMMERCE);
+	    authorization.setId("id");
+	    authorization.setProcessingType(ProcessingTypeEnum.ACCOUNT_FUNDING);
+		CardType card = new CardType();
+		card.setType(MethodOfPaymentTypeEnum.VI);
+		card.setNumber("4100000000000000");
+		card.setExpDate("1210");
+		authorization.setCard(card);
+
+		AuthorizationResponse response = litle.authorize(authorization);
+		assertEquals(response.getMessage(), "000",response.getResponse());
+	}
+	
+	@Test
+	public void simpleAuthWithOrigNetworkTxnAndOrigAmount() throws Exception {
+		Authorization authorization = new Authorization();
+		authorization.setReportGroup("Planets");
+		authorization.setOrderId("12344");
+		authorization.setAmount(106L);
+		authorization.setOrderSource(OrderSourceType.ECOMMERCE);
+	    authorization.setId("id");
+	    authorization.setProcessingType(ProcessingTypeEnum.INITIAL_INSTALLMENT);
+	    authorization.setOriginalNetworkTransactionId("zz12547879");
+	    authorization.setOriginalTransactionAmount(3955l);
 		CardType card = new CardType();
 		card.setType(MethodOfPaymentTypeEnum.VI);
 		card.setNumber("4100000000000000");
@@ -118,7 +181,7 @@ public class TestAuth {
 	}
 
 	@Test
-	public void accountUpdate() throws Exception {
+	public void testAccountUpdate() throws Exception {
 		Authorization authorization = new Authorization();
 		authorization.setReportGroup("Planets");
 		authorization.setOrderId("12344");

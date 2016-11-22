@@ -125,6 +125,7 @@ public class LitleBatchResponse {
 	 * @param processor
 	 * @return true or false, indicating whether another transaction was read.
 	 */
+	@SuppressWarnings("unchecked")
 	public boolean processNextTransaction(LitleResponseProcessor processor){
 	    String txnXml = "";
 	    LitleTransactionInterface objToRet;

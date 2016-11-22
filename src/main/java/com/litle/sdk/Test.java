@@ -24,6 +24,9 @@ import com.litle.sdk.generate.EcheckSalesResponse;
 import com.litle.sdk.generate.EcheckVerificationResponse;
 import com.litle.sdk.generate.ForceCaptureResponse;
 import com.litle.sdk.generate.FundingInstructionVoidResponse;
+import com.litle.sdk.generate.GiftCardAuthReversal;
+import com.litle.sdk.generate.GiftCardCapture;
+import com.litle.sdk.generate.GiftCardCredit;
 import com.litle.sdk.generate.LoadResponse;
 import com.litle.sdk.generate.MethodOfPaymentTypeEnum;
 import com.litle.sdk.generate.OrderSourceType;
@@ -162,50 +165,59 @@ public class Test {
                 }
 
                 public void processSubmerchantCreditResponse(
-                        SubmerchantCreditResponse submerchantCreditResponse) {
-                    }
+                		SubmerchantCreditResponse submerchantCreditResponse) {
+                }
 
                 public void processPayFacCreditResponse(
                         PayFacCreditResponse payFacCreditResponse) {
-                    }
+                }
 
                 public void processVendorCreditRespsonse(
                         VendorCreditResponse vendorCreditResponse) {
-                    }
+                }
 
                 public void processReserveCreditResponse(
                         ReserveCreditResponse reserveCreditResponse) {
-                    }
+                }
 
                 public void processPhysicalCheckCreditResponse(
                         PhysicalCheckCreditResponse checkCreditResponse) {
-                    }
+                }
 
                 public void processSubmerchantDebitResponse(
                         SubmerchantDebitResponse submerchantDebitResponse) {
-                    }
+                }
 
                 public void processPayFacDebitResponse(
                         PayFacDebitResponse payFacDebitResponse) {
-                    }
+                }
 
                 public void processVendorDebitResponse(
                         VendorDebitResponse vendorDebitResponse) {
-                    }
+                }
 
                 public void processReserveDebitResponse(
                         ReserveDebitResponse reserveDebitResponse) {
-                    }
+                }
 
                 public void processPhysicalCheckDebitResponse(
                         PhysicalCheckDebitResponse checkDebitResponse) {
-                    }
+                }
 
                 public void processFundingInstructionVoidResponse(
                         FundingInstructionVoidResponse fundingInstructionVoidResponse) {
-                    // TODO Auto-generated method stub
-                    
                 }
+                
+                public void processGiftCardAuthReversal(
+                		GiftCardAuthReversal giftCardAuthReversal) {
+                }
+                
+				public void processGiftCardCapture(GiftCardCapture giftCardCapture) {
+				}
+				
+				public void processGiftCardCredit(GiftCardCredit giftCardCredit) {
+				}
+                	
             })){
                 System.out.println("Processed another txn!");
             }

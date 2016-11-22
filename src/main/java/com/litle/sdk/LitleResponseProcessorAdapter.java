@@ -19,6 +19,9 @@ import com.litle.sdk.generate.EcheckSalesResponse;
 import com.litle.sdk.generate.EcheckVerificationResponse;
 import com.litle.sdk.generate.ForceCaptureResponse;
 import com.litle.sdk.generate.FundingInstructionVoidResponse;
+import com.litle.sdk.generate.GiftCardAuthReversal;
+import com.litle.sdk.generate.GiftCardCapture;
+import com.litle.sdk.generate.GiftCardCredit;
 import com.litle.sdk.generate.LoadResponse;
 import com.litle.sdk.generate.PayFacCreditResponse;
 import com.litle.sdk.generate.PayFacDebitResponse;
@@ -160,5 +163,14 @@ public class LitleResponseProcessorAdapter implements LitleResponseProcessor {
     public void processFundingInstructionVoidResponse(
             FundingInstructionVoidResponse fundingInstructionVoidResponse) {
         }
+
+	public void processGiftCardAuthReversal(GiftCardAuthReversal giftCardAuthReversal) {
+	}
+
+	public void processGiftCardCapture(GiftCardCapture giftCardCapture) {
+	}
+
+	public void processGiftCardCredit(GiftCardCredit giftCardCredit) {
+	}
 
 }
