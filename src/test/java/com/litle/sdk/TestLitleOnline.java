@@ -2130,7 +2130,7 @@ public class TestLitleOnline {
         
         Communication mockedComm = mock (Communication.class);
         when(mockedComm.requestToServer(matches(".*?<litleOnlineRequest.*?<queryTransaction.*id=\"1234\".*?customerId=\"customerId\".*?<origId>org1</origId>.*?<origActionType>A</origActionType>.*?"),
-                any(Properties.class))).thenReturn("<litleOnlineResponse version='10.1' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><queryTransactionResponse id='1234' customerId='customerId'> <response>150</response> <responseTime>2015-04-14T12:37:26</responseTime> <message>Original transaction not found</message><matchCount>0</matchCount></queryTransactionResponse></litleOnlineResponse>");
+                any(Properties.class))).thenReturn("<litleOnlineResponse version='11.0' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><queryTransactionResponse id='1234' customerId='customerId'> <response>150</response> <responseTime>2015-04-14T12:37:26</responseTime> <message>Original transaction not found</message><matchCount>0</matchCount></queryTransactionResponse></litleOnlineResponse>");
         
         litle.setCommunication(mockedComm);
         TransactionTypeWithReportGroup response = litle.queryTransaction(queryTransaction);
@@ -2152,7 +2152,7 @@ public class TestLitleOnline {
         
         Communication mockedComm = mock (Communication.class); 
         when(mockedComm.requestToServer(matches(".*?<litleOnlineRequest.*?<queryTransaction.*id=\"findId\".*?customerId=\"customerId\".*?<origId>org1</origId>.*?<origActionType>A</origActionType>.*?"),
-                any(Properties.class))).thenReturn("<litleOnlineResponse version='10.1' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><queryTransactionResponse id='findId' customerId='customerId'> <response>150</response> <responseTime>2015-04-14T12:37:26</responseTime> " +
+                any(Properties.class))).thenReturn("<litleOnlineResponse version='11.0' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><queryTransactionResponse id='findId' customerId='customerId'> <response>150</response> <responseTime>2015-04-14T12:37:26</responseTime> " +
                 		"<message>Original transaction found</message><matchCount>1</matchCount>" +
                 		"<results_max10> <authorizationResponse id=\"findId\" > <litleTxnId>1111111</litleTxnId> <orderId>150306_auth</orderId> <response>000</response><responseTime>2015-04-14T12:37:23</responseTime><postDate>2015-04-14</postDate><message>Approved</message></authorizationResponse></results_max10></queryTransactionResponse></litleOnlineResponse>");
         
@@ -2178,7 +2178,7 @@ public class TestLitleOnline {
         
         Communication mockedComm = mock (Communication.class);
         when(mockedComm.requestToServer(matches(".*?<litleOnlineRequest.*?<queryTransaction.*id=\"1234\".*?customerId=\"customerId\".*?<origId>org1</origId>.*?<origActionType>A</origActionType>.*?"),
-                any(Properties.class))).thenReturn("<litleOnlineResponse version='10.1' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><queryTransactionUnavailableResponse id='1234' customerId='customerId'><litleTxnId>123456</litleTxnId> <response>123</response> <message>Sample message</message></queryTransactionUnavailableResponse></litleOnlineResponse>");
+                any(Properties.class))).thenReturn("<litleOnlineResponse version='11.0' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><queryTransactionUnavailableResponse id='1234' customerId='customerId'><litleTxnId>123456</litleTxnId> <response>123</response> <message>Sample message</message></queryTransactionUnavailableResponse></litleOnlineResponse>");
         
         litle.setCommunication(mockedComm);
         TransactionTypeWithReportGroup response =litle.queryTransaction(queryTransaction);
@@ -2206,7 +2206,7 @@ public class TestLitleOnline {
                                 matches(".*?<litleOnlineRequest.*?<fraudCheck.*?<advancedFraudChecks>.*?</advancedFraudChecks>.*?</fraudCheck>.*?"),
                                 any(Properties.class)))
                 .thenReturn(
-                        "<litleOnlineResponse version='10.1' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><fraudCheckResponse id='' reportGroup='Default Report Group' customerId=''><litleTxnId>602413782865196123</litleTxnId><response>123</response><responseTime>2016-07-11T15:12:34</responseTime><message>Call Discover</message><advancedFraudResults><deviceReviewStatus>pass</deviceReviewStatus><deviceReputationScore>42</deviceReputationScore><triggeredRule>triggered_rule_1</triggeredRule><triggeredRule>triggered_rule_2</triggeredRule><triggeredRule>triggered_rule_3</triggeredRule><triggeredRule>triggered_rule_4</triggeredRule><triggeredRule>triggered_rule_5</triggeredRule></advancedFraudResults></fraudCheckResponse></litleOnlineResponse>");
+                        "<litleOnlineResponse version='11.0' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><fraudCheckResponse id='' reportGroup='Default Report Group' customerId=''><litleTxnId>602413782865196123</litleTxnId><response>123</response><responseTime>2016-07-11T15:12:34</responseTime><message>Call Discover</message><advancedFraudResults><deviceReviewStatus>pass</deviceReviewStatus><deviceReputationScore>42</deviceReputationScore><triggeredRule>triggered_rule_1</triggeredRule><triggeredRule>triggered_rule_2</triggeredRule><triggeredRule>triggered_rule_3</triggeredRule><triggeredRule>triggered_rule_4</triggeredRule><triggeredRule>triggered_rule_5</triggeredRule></advancedFraudResults></fraudCheckResponse></litleOnlineResponse>");
         litle.setCommunication(mockedCommunication);        
         
         FraudCheckResponse fraudCheckResponse = litle.fraudCheck(fraudCheck);
