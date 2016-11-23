@@ -231,7 +231,7 @@ public class TestCert4Echeck {
 		
 		EcheckCreditResponse response = litle.echeckCredit(credit);
 		assertEquals(response.getMessage(),"001", response.getResponse());
-		assertEquals(response.getMessage(),"Transaction Received", response.getMessage());
+		assertEquals(response.getMessage(),"Approved", response.getMessage());
 	}
 	
 	@Test
@@ -254,7 +254,7 @@ public class TestCert4Echeck {
 		
 		EcheckCreditResponse response = litle.echeckCredit(credit);
 		assertEquals(response.getMessage(),"001", response.getResponse());
-		assertEquals(response.getMessage(),"Transaction Received", response.getMessage());
+		assertEquals(response.getMessage(),"Approved", response.getMessage());
 	}
 	
 	@Test
@@ -277,7 +277,7 @@ public class TestCert4Echeck {
 		
 		EcheckCreditResponse response = litle.echeckCredit(credit);
 		assertEquals(response.getMessage(),"001", response.getResponse());
-		assertEquals(response.getMessage(),"Transaction Received", response.getMessage());
+		assertEquals(response.getMessage(),"Approved", response.getMessage());
 	}
 	
 	@Test
@@ -288,7 +288,7 @@ public class TestCert4Echeck {
 		
 		EcheckCreditResponse response = litle.echeckCredit(credit);
 		assertEquals(response.getMessage(),"001", response.getResponse());
-		assertEquals(response.getMessage(),"Transaction Received", response.getMessage());
+		assertEquals(response.getMessage(),"Approved", response.getMessage());
 	}
 	
 	@Test
@@ -299,7 +299,7 @@ public class TestCert4Echeck {
 		
 		EcheckCreditResponse response = litle.echeckCredit(credit);
 		assertEquals(response.getMessage(),"001", response.getResponse());
-		assertEquals(response.getMessage(),"Transaction Received", response.getMessage());
+		assertEquals(response.getMessage(),"Approved", response.getMessage());
 	}
 
 }

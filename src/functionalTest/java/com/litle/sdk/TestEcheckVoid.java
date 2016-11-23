@@ -23,7 +23,7 @@ public class TestEcheckVoid {
 		echeckvoid.setLitleTxnId(123456789101112L);
 		echeckvoid.setId("id");
 		EcheckVoidResponse response = litle.echeckVoid(echeckvoid);
-		assertEquals("Transaction Received", response.getMessage());
+		assertEquals("Approved", response.getMessage());
 	}
 }
 

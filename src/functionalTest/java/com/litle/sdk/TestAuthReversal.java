@@ -26,7 +26,7 @@ public class TestAuthReversal {
 		reversal.setId("id");
 		
 		AuthReversalResponse response = litle.authReversal(reversal);
-		assertEquals("Transaction Received", response.getMessage());
+		assertEquals("Approved", response.getMessage());
 	}
 
 }

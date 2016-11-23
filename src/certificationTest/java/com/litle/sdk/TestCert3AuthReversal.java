@@ -63,14 +63,14 @@ public class TestCert3AuthReversal {
 		capture.setId("id");
 		CaptureResponse captureResponse = litle.capture(capture);
 		assertEquals(captureResponse.getMessage(), "001", captureResponse.getResponse());
-		assertEquals(captureResponse.getMessage(), "Transaction Received", captureResponse.getMessage());
+		assertEquals(captureResponse.getMessage(), "Approved", captureResponse.getMessage());
 
 		AuthReversal reversal = new AuthReversal();
 		reversal.setId("id");
 		reversal.setLitleTxnId(authorizeResponse.getLitleTxnId());
 		AuthReversalResponse reversalResponse = litle.authReversal(reversal);
 		assertEquals(reversalResponse.getMessage(), "001", reversalResponse.getResponse());
-		assertEquals(reversalResponse.getMessage(), "Transaction Received", reversalResponse.getMessage());
+		assertEquals(reversalResponse.getMessage(), "Approved", reversalResponse.getMessage());
 	}
 	
 	@Test
@@ -111,7 +111,7 @@ public class TestCert3AuthReversal {
 		reversal.setLitleTxnId(authorizeResponse.getLitleTxnId());
 		AuthReversalResponse reversalResponse = litle.authReversal(reversal);
 		assertEquals(reversalResponse.getMessage(), "001", reversalResponse.getResponse());
-		assertEquals(reversalResponse.getMessage(), "Transaction Received", reversalResponse.getMessage());
+		assertEquals(reversalResponse.getMessage(), "Approved", reversalResponse.getMessage());
 	}
 	
 	@Test
@@ -148,7 +148,7 @@ public class TestCert3AuthReversal {
 		reversal.setLitleTxnId(authorizeResponse.getLitleTxnId());
 		AuthReversalResponse reversalResponse = litle.authReversal(reversal);
 		assertEquals(reversalResponse.getMessage(), "001", reversalResponse.getResponse());
-		assertEquals(reversalResponse.getMessage(), "Transaction Received", reversalResponse.getMessage());
+		assertEquals(reversalResponse.getMessage(), "Approved", reversalResponse.getMessage());
 	}
 	
 	@Test
@@ -184,7 +184,7 @@ public class TestCert3AuthReversal {
 		capture.setId("id");
 		CaptureResponse captureResponse = litle.capture(capture);
 		assertEquals(captureResponse.getMessage(), "001", captureResponse.getResponse());
-		assertEquals(captureResponse.getMessage(), "Transaction Received", captureResponse.getMessage());
+		assertEquals(captureResponse.getMessage(), "Approved", captureResponse.getMessage());
 		
 		AuthReversal reversal = new AuthReversal();
 		reversal.setLitleTxnId(authorizeResponse.getLitleTxnId());
@@ -192,7 +192,7 @@ public class TestCert3AuthReversal {
 		reversal.setId("id");
 		AuthReversalResponse reversalResponse = litle.authReversal(reversal);
 		assertEquals(reversalResponse.getMessage(), "001", reversalResponse.getResponse());
-		assertEquals(reversalResponse.getMessage(), "Transaction Received", reversalResponse.getMessage());
+		assertEquals(reversalResponse.getMessage(), "Approved", reversalResponse.getMessage());
 	}
 	
 	@Test
@@ -218,7 +218,7 @@ public class TestCert3AuthReversal {
 		reversal.setId("id");
 		AuthReversalResponse reversalResponse = litle.authReversal(reversal);
 		assertEquals(reversalResponse.getMessage(), "001", reversalResponse.getResponse());
-		assertEquals(reversalResponse.getMessage(), "Transaction Received", reversalResponse.getMessage());
+		assertEquals(reversalResponse.getMessage(), "Approved", reversalResponse.getMessage());
 	}
 
 }

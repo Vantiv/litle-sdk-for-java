@@ -29,7 +29,7 @@ public class OrphanedRefundExample {
         System.out.println("Response: " + response.getResponse());
         System.out.println("Message: " + response.getMessage());
         System.out.println("Litle Transaction ID: " + response.getLitleTxnId());
-	if(!response.getMessage().equals("Transaction Received"))
+	if(!response.getMessage().equals("Approved"))
         throw new RuntimeException(" The OrphanedRefundExample does not give the right response");
     }
 }

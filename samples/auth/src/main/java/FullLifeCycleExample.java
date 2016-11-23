@@ -48,7 +48,7 @@ public class FullLifeCycleExample {
         System.out.println("Message: " + creditResponse.getMessage());
         System.out.println("Litle Transaction ID: " + creditResponse.getLitleTxnId());
 	// In your sample, you can ignore this 	
-	if(!creditResponse.getMessage().equals("Transaction Received")||!captureResponse.getMessage().equals("Transaction Received")||!authResponse.getMessage().equals("Approved"))
+	if(!creditResponse.getMessage().equals("Approved")||!captureResponse.getMessage().equals("Approved")||!authResponse.getMessage().equals("Approved"))
         throw new RuntimeException(" The AuthWithTokenExample does not give the right response");
   
         //TODO - Fix the void here

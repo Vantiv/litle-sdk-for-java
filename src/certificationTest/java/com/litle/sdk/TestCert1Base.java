@@ -65,21 +65,21 @@ public class TestCert1Base {
 		capture.setId("id");
 		CaptureResponse captureresponse = litle.capture(capture);
 		assertEquals(captureresponse.getMessage(), "001",captureresponse.getResponse());
-		assertEquals(captureresponse.getMessage(), "Transaction Received",captureresponse.getMessage());
+		assertEquals(captureresponse.getMessage(), "Approved",captureresponse.getMessage());
 		
 		Credit credit = new Credit();
 		credit.setLitleTxnId(captureresponse.getLitleTxnId());
 		credit.setId("id");
 		CreditResponse creditresponse = litle.credit(credit);
 		assertEquals(creditresponse.getMessage(), "001",creditresponse.getResponse());
-		assertEquals(creditresponse.getMessage(), "Transaction Received",creditresponse.getMessage());
+		assertEquals(creditresponse.getMessage(), "Approved",creditresponse.getMessage());
 		
 		com.litle.sdk.generate.Void newvoid = new com.litle.sdk.generate.Void();
 		newvoid.setLitleTxnId(creditresponse.getLitleTxnId());
 		newvoid.setId("id");
 		VoidResponse voidresponse = litle.dovoid(newvoid);
 		assertEquals(voidresponse.getMessage(), "001",voidresponse.getResponse());
-		assertEquals(voidresponse.getMessage(), "Transaction Received",voidresponse.getMessage());
+		assertEquals(voidresponse.getMessage(), "Approved",voidresponse.getMessage());
 	}
 	
 	@Test
@@ -147,14 +147,14 @@ public class TestCert1Base {
 		credit.setId("id");
 		CreditResponse creditresponse = litle.credit(credit);
 		assertEquals(creditresponse.getMessage(), "001",creditresponse.getResponse());
-		assertEquals(creditresponse.getMessage(), "Transaction Received",creditresponse.getMessage());
+		assertEquals(creditresponse.getMessage(), "Approved",creditresponse.getMessage());
 		
 		com.litle.sdk.generate.Void newvoid = new com.litle.sdk.generate.Void();
 		newvoid.setLitleTxnId(creditresponse.getLitleTxnId());
 		newvoid.setId("id");
 		VoidResponse voidresponse = litle.dovoid(newvoid);
 		assertEquals(voidresponse.getMessage(), "001",voidresponse.getResponse());
-		assertEquals(voidresponse.getMessage(), "Transaction Received",voidresponse.getMessage());
+		assertEquals(voidresponse.getMessage(), "Approved",voidresponse.getMessage());
 	}
 	
 	@Test
@@ -195,21 +195,21 @@ public class TestCert1Base {
 		capture.setId("id");
 		CaptureResponse captureresponse = litle.capture(capture);
 		assertEquals(captureresponse.getMessage(), "001",captureresponse.getResponse());
-		assertEquals(captureresponse.getMessage(), "Transaction Received",captureresponse.getMessage());
+		assertEquals(captureresponse.getMessage(), "Approved",captureresponse.getMessage());
 		
 		Credit credit = new Credit();
 		credit.setLitleTxnId(captureresponse.getLitleTxnId());
 		credit.setId("id");
 		CreditResponse creditresponse = litle.credit(credit);
 		assertEquals(creditresponse.getMessage(), "001",creditresponse.getResponse());
-		assertEquals(creditresponse.getMessage(), "Transaction Received",creditresponse.getMessage());
+		assertEquals(creditresponse.getMessage(), "Approved",creditresponse.getMessage());
 		
 		com.litle.sdk.generate.Void newvoid = new com.litle.sdk.generate.Void();
 		newvoid.setLitleTxnId(creditresponse.getLitleTxnId());
 		newvoid.setId("id");
 		VoidResponse voidresponse = litle.dovoid(newvoid);
 		assertEquals(voidresponse.getMessage(), "001",voidresponse.getResponse());
-		assertEquals(voidresponse.getMessage(), "Transaction Received",voidresponse.getMessage());
+		assertEquals(voidresponse.getMessage(), "Approved",voidresponse.getMessage());
 	}
 	
 	@Test
@@ -285,14 +285,14 @@ public class TestCert1Base {
 		credit.setId("id");
 		CreditResponse creditresponse = litle.credit(credit);
 		assertEquals(creditresponse.getMessage(), "001",creditresponse.getResponse());
-		assertEquals(creditresponse.getMessage(), "Transaction Received",creditresponse.getMessage());
+		assertEquals(creditresponse.getMessage(), "Approved",creditresponse.getMessage());
 		
 		com.litle.sdk.generate.Void newvoid = new com.litle.sdk.generate.Void();
 		newvoid.setLitleTxnId(creditresponse.getLitleTxnId());
 		newvoid.setId("id");
 		VoidResponse voidresponse = litle.dovoid(newvoid);
 		assertEquals(voidresponse.getMessage(), "001",voidresponse.getResponse());
-		assertEquals(voidresponse.getMessage(), "Transaction Received",voidresponse.getMessage());
+		assertEquals(voidresponse.getMessage(), "Approved",voidresponse.getMessage());
 	}
 	
 	@Test
@@ -329,21 +329,21 @@ public class TestCert1Base {
 		capture.setId("id");
 		CaptureResponse captureresponse = litle.capture(capture);
 		assertEquals(captureresponse.getMessage(), "001",captureresponse.getResponse());
-		assertEquals(captureresponse.getMessage(), "Transaction Received",captureresponse.getMessage());
+		assertEquals(captureresponse.getMessage(), "Approved",captureresponse.getMessage());
 		
 		Credit credit = new Credit();
 		credit.setLitleTxnId(captureresponse.getLitleTxnId());
 		credit.setId("id");
 		CreditResponse creditresponse = litle.credit(credit);
 		assertEquals(creditresponse.getMessage(), "001",creditresponse.getResponse());
-		assertEquals(creditresponse.getMessage(), "Transaction Received",creditresponse.getMessage());
+		assertEquals(creditresponse.getMessage(), "Approved",creditresponse.getMessage());
 		
 		com.litle.sdk.generate.Void newvoid = new com.litle.sdk.generate.Void();
 		newvoid.setLitleTxnId(creditresponse.getLitleTxnId());
 		newvoid.setId("id");
 		VoidResponse voidresponse = litle.dovoid(newvoid);
 		assertEquals(voidresponse.getMessage(), "001",voidresponse.getResponse());
-		assertEquals(voidresponse.getMessage(), "Transaction Received",voidresponse.getMessage());
+		assertEquals(voidresponse.getMessage(), "Approved",voidresponse.getMessage());
 	}
 	
 	@Test
@@ -411,14 +411,14 @@ public class TestCert1Base {
 		credit.setId("id");
 		CreditResponse creditresponse = litle.credit(credit);
 		assertEquals(creditresponse.getMessage(), "001",creditresponse.getResponse());
-		assertEquals(creditresponse.getMessage(), "Transaction Received",creditresponse.getMessage());
+		assertEquals(creditresponse.getMessage(), "Approved",creditresponse.getMessage());
 		
 		com.litle.sdk.generate.Void newvoid = new com.litle.sdk.generate.Void();
 		newvoid.setLitleTxnId(creditresponse.getLitleTxnId());
 		newvoid.setId("id");
 		VoidResponse voidresponse = litle.dovoid(newvoid);
 		assertEquals(voidresponse.getMessage(), "001",voidresponse.getResponse());
-		assertEquals(voidresponse.getMessage(), "Transaction Received",voidresponse.getMessage());
+		assertEquals(voidresponse.getMessage(), "Approved",voidresponse.getMessage());
 	}
 	
 	@Test
@@ -454,21 +454,21 @@ public class TestCert1Base {
 		capture.setId("id");
 		CaptureResponse captureresponse = litle.capture(capture);
 		assertEquals(captureresponse.getMessage(), "001",captureresponse.getResponse());
-		assertEquals(captureresponse.getMessage(), "Transaction Received",captureresponse.getMessage());
+		assertEquals(captureresponse.getMessage(), "Approved",captureresponse.getMessage());
 		
 		Credit credit = new Credit();
 		credit.setLitleTxnId(captureresponse.getLitleTxnId());
 		credit.setId("id");
 		CreditResponse creditresponse = litle.credit(credit);
 		assertEquals(creditresponse.getMessage(), "001",creditresponse.getResponse());
-		assertEquals(creditresponse.getMessage(), "Transaction Received",creditresponse.getMessage());
+		assertEquals(creditresponse.getMessage(), "Approved",creditresponse.getMessage());
 		
 		com.litle.sdk.generate.Void newvoid = new com.litle.sdk.generate.Void();
 		newvoid.setLitleTxnId(creditresponse.getLitleTxnId());
 		newvoid.setId("id");
 		VoidResponse voidresponse = litle.dovoid(newvoid);
 		assertEquals(voidresponse.getMessage(), "001",voidresponse.getResponse());
-		assertEquals(voidresponse.getMessage(), "Transaction Received",voidresponse.getMessage());
+		assertEquals(voidresponse.getMessage(), "Approved",voidresponse.getMessage());
 	}
 	
 	@Test
@@ -534,14 +534,14 @@ public class TestCert1Base {
 		credit.setId("id");
 		CreditResponse creditresponse = litle.credit(credit);
 		assertEquals(creditresponse.getMessage(), "001",creditresponse.getResponse());
-		assertEquals(creditresponse.getMessage(), "Transaction Received",creditresponse.getMessage());
+		assertEquals(creditresponse.getMessage(), "Approved",creditresponse.getMessage());
 		
 		com.litle.sdk.generate.Void newvoid = new com.litle.sdk.generate.Void();
 		newvoid.setLitleTxnId(creditresponse.getLitleTxnId());
 		newvoid.setId("id");
 		VoidResponse voidresponse = litle.dovoid(newvoid);
 		assertEquals(voidresponse.getMessage(), "001",voidresponse.getResponse());
-		assertEquals(voidresponse.getMessage(), "Transaction Received",voidresponse.getMessage());
+		assertEquals(voidresponse.getMessage(), "Approved",voidresponse.getMessage());
 	}
 	
 	@Test
@@ -573,21 +573,21 @@ public class TestCert1Base {
 		capture.setId("id");
 		CaptureResponse captureresponse = litle.capture(capture);
 		assertEquals(captureresponse.getMessage(), "001",captureresponse.getResponse());
-		assertEquals(captureresponse.getMessage(), "Transaction Received",captureresponse.getMessage());
+		assertEquals(captureresponse.getMessage(), "Approved",captureresponse.getMessage());
 		
 		Credit credit = new Credit();
 		credit.setLitleTxnId(captureresponse.getLitleTxnId());
 		credit.setId("id");
 		CreditResponse creditresponse = litle.credit(credit);
 		assertEquals(creditresponse.getMessage(), "001",creditresponse.getResponse());
-		assertEquals(creditresponse.getMessage(), "Transaction Received",creditresponse.getMessage());
+		assertEquals(creditresponse.getMessage(), "Approved",creditresponse.getMessage());
 		
 		com.litle.sdk.generate.Void newvoid = new com.litle.sdk.generate.Void();
 		newvoid.setLitleTxnId(creditresponse.getLitleTxnId());
 		newvoid.setId("id");
 		VoidResponse voidresponse = litle.dovoid(newvoid);
 		assertEquals(voidresponse.getMessage(), "001",voidresponse.getResponse());
-		assertEquals(voidresponse.getMessage(), "Transaction Received",voidresponse.getMessage());
+		assertEquals(voidresponse.getMessage(), "Approved",voidresponse.getMessage());
 	}
 	
 	@Test
@@ -645,14 +645,14 @@ public class TestCert1Base {
 		credit.setId("id");
 		CreditResponse creditresponse = litle.credit(credit);
 		assertEquals(creditresponse.getMessage(), "001",creditresponse.getResponse());
-		assertEquals(creditresponse.getMessage(), "Transaction Received",creditresponse.getMessage());
+		assertEquals(creditresponse.getMessage(), "Approved",creditresponse.getMessage());
 		
 		com.litle.sdk.generate.Void newvoid = new com.litle.sdk.generate.Void();
 		newvoid.setLitleTxnId(creditresponse.getLitleTxnId());
 		newvoid.setId("id");
 		VoidResponse voidresponse = litle.dovoid(newvoid);
 		assertEquals(voidresponse.getMessage(), "001",voidresponse.getResponse());
-		assertEquals(voidresponse.getMessage(), "Transaction Received",voidresponse.getMessage());
+		assertEquals(voidresponse.getMessage(), "Approved",voidresponse.getMessage());
 	}
 	
 	@Test
@@ -718,7 +718,7 @@ public class TestCert1Base {
 		newvoid.setId("id");
 		VoidResponse voidresponse = litle.dovoid(newvoid);
 		assertEquals(voidresponse.getMessage(), "001",voidresponse.getResponse());
-		assertEquals(voidresponse.getMessage(), "Transaction Received",voidresponse.getMessage());
+		assertEquals(voidresponse.getMessage(), "Approved",voidresponse.getMessage());
 	}
 	
 	@Test
