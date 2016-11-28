@@ -230,8 +230,8 @@ public class TestCert4Echeck {
 		credit.setId("id");
 		
 		EcheckCreditResponse response = litle.echeckCredit(credit);
-		assertEquals(response.getMessage(),"001", response.getResponse());
-		assertEquals(response.getMessage(),"Approved", response.getMessage());
+		assertEquals(response.getMessage(),"301", response.getResponse());
+		assertEquals(response.getMessage(),"Invalid Account Number", response.getMessage());
 	}
 	
 	@Test
@@ -253,7 +253,7 @@ public class TestCert4Echeck {
 		credit.setId("id");
 		
 		EcheckCreditResponse response = litle.echeckCredit(credit);
-		assertEquals(response.getMessage(),"001", response.getResponse());
+		assertEquals(response.getMessage(),"000", response.getResponse());
 		assertEquals(response.getMessage(),"Approved", response.getMessage());
 	}
 	
@@ -276,7 +276,7 @@ public class TestCert4Echeck {
 		credit.setId("id");
 		
 		EcheckCreditResponse response = litle.echeckCredit(credit);
-		assertEquals(response.getMessage(),"001", response.getResponse());
+		assertEquals(response.getMessage(),"000", response.getResponse());
 		assertEquals(response.getMessage(),"Approved", response.getMessage());
 	}
 	
@@ -287,7 +287,7 @@ public class TestCert4Echeck {
 		credit.setId("id");
 		
 		EcheckCreditResponse response = litle.echeckCredit(credit);
-		assertEquals(response.getMessage(),"001", response.getResponse());
+		assertEquals(response.getMessage(),"000", response.getResponse());
 		assertEquals(response.getMessage(),"Approved", response.getMessage());
 	}
 	
@@ -298,8 +298,8 @@ public class TestCert4Echeck {
 		credit.setId("id");
 		
 		EcheckCreditResponse response = litle.echeckCredit(credit);
-		assertEquals(response.getMessage(),"001", response.getResponse());
-		assertEquals(response.getMessage(),"Approved", response.getMessage());
+		assertEquals(response.getMessage(),"360", response.getResponse());
+		assertEquals(response.getMessage(),"No transaction found with specified litleTxnId", response.getMessage());
 	}
 
 }
