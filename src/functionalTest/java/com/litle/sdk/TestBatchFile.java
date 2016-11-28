@@ -14,12 +14,7 @@ import java.util.Properties;
 
 import javax.xml.bind.JAXBException;
 
-import org.junit.ClassRule;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.TestRule;
-import org.junit.runner.Description;
-import org.junit.runners.model.Statement;
 
 import com.litle.sdk.generate.AccountUpdate;
 import com.litle.sdk.generate.AccountUpdateResponse;
@@ -67,7 +62,6 @@ import com.litle.sdk.generate.IntervalTypeEnum;
 import com.litle.sdk.generate.LitleTransactionInterface;
 import com.litle.sdk.generate.Load;
 import com.litle.sdk.generate.LoadResponse;
-import com.litle.sdk.generate.MerchantDataType;
 import com.litle.sdk.generate.MethodOfPaymentTypeEnum;
 import com.litle.sdk.generate.ObjectFactory;
 import com.litle.sdk.generate.OrderSourceType;
@@ -875,7 +869,6 @@ public class TestBatchFile {
 
                     public void processFundingInstructionVoidResponse(
                             FundingInstructionVoidResponse fundingInstructionVoidResponse) {
-                        // TODO Auto-generated method stub
                         
                     }
                 })) {
@@ -1259,8 +1252,6 @@ public class TestBatchFile {
 
                     public void processFundingInstructionVoidResponse(
                             FundingInstructionVoidResponse fundingInstructionVoidResponse) {
-                        // TODO Auto-generated method stub
-                        
                     }
 
                 })) {
@@ -1531,8 +1522,6 @@ public class TestBatchFile {
 
                     public void processFundingInstructionVoidResponse(
                             FundingInstructionVoidResponse fundingInstructionVoidResponse) {
-                        // TODO Auto-generated method stub
-                        
                     }
                 })) {
             txns++;
@@ -1833,7 +1822,8 @@ public class TestBatchFile {
 
         public void processFundingInstructionVoidResponse(
                 FundingInstructionVoidResponse fundingInstructionVoidResponse) {
-            // TODO Auto-generated method stub
+        	assertNotNull(fundingInstructionVoidResponse.getLitleTxnId());
+            responseCount++;
             
         }
     }

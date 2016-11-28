@@ -24,7 +24,6 @@ import com.litle.sdk.generate.CaptureGivenAuth;
 import com.litle.sdk.generate.CardType;
 import com.litle.sdk.generate.Credit;
 import com.litle.sdk.generate.EcheckCredit;
-import com.litle.sdk.generate.EcheckPreNoteCredit;
 import com.litle.sdk.generate.EcheckPreNoteSale;
 import com.litle.sdk.generate.EcheckRedeposit;
 import com.litle.sdk.generate.EcheckSale;
@@ -186,12 +185,12 @@ public class TestLitleBatchRequest {
         return echeckPreNoteSale;
     }
 
-    private EcheckPreNoteCredit createTestEcheckPreNoteCredit(String orderId) {
-        EcheckPreNoteCredit echeckPreNoteCredit = new EcheckPreNoteCredit();
-        // In unit test, we don't fill all the required fields
-        echeckPreNoteCredit.setOrderId(orderId);
-        return echeckPreNoteCredit;
-    }
+//    private EcheckPreNoteCredit createTestEcheckPreNoteCredit(String orderId) {
+//        EcheckPreNoteCredit echeckPreNoteCredit = new EcheckPreNoteCredit();
+//        // In unit test, we don't fill all the required fields
+//        echeckPreNoteCredit.setOrderId(orderId);
+//        return echeckPreNoteCredit;
+//    }
 
     @Test
     public void testAddSale() {
