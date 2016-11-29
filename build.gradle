@@ -97,7 +97,7 @@ task processXsd (type: Copy) {
     }
     
     doLast {
-	        ant.replaceregexp(file:"$xsdOutput/litleTransaction_v${SCHEMA_VERSION}.xsd", match:"(attributeFormDefault=\"unqualified\")>", replace:"\\1 xmlns:jaxb=\"http://java.sun.com/xml/ns/jaxb\" jaxb:version=\"2.0\">", byline:true)
+	    ant.replaceregexp(file:"$xsdOutput/litleTransaction_v${SCHEMA_VERSION}.xsd", match:"(attributeFormDefault=\"unqualified\")>", replace:"\\1 xmlns:jaxb=\"http://java.sun.com/xml/ns/jaxb\" jaxb:version=\"2.0\">", byline:true)
         ant.replaceregexp(file:"$xsdOutput/litleCommon_v${SCHEMA_VERSION}.xsd", match:"(elementFormDefault=\"qualified\")>", replace:"\\1 xmlns:jaxb=\"http://java.sun.com/xml/ns/jaxb\" jaxb:version=\"2.0\">", byline:true)
         ant.replaceregexp(file:"$xsdOutput/litleTransaction_v${SCHEMA_VERSION}.xsd", match:"transaction\" type=\"xp:transactionType\" abstract=\"true\"/>", replace:"transaction\" type=\"xp:transactionType\" abstract=\"true\"/>    \n\n    <xs:complexType name=\"litleTransactionInterface\" abstract=\"true\"/>", byline:true)
         ant.replaceregexp(file:"$xsdOutput/litleTransaction_v${SCHEMA_VERSION}.xsd", match:"name=\"transactionType\">", replace:"name=\"transactionType\">    \n        <xs:complexContent>    \n            <xs:extension base=\"xp:litleTransactionInterface\">", byline:true)

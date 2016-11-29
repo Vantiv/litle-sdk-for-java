@@ -12,6 +12,7 @@ import com.litle.sdk.generate.CardType;
 import com.litle.sdk.generate.MethodOfPaymentTypeEnum;
 import com.litle.sdk.generate.OrderSourceType;
 import com.litle.sdk.generate.PayPal;
+import com.litle.sdk.generate.ProcessingTypeEnum;
 import com.litle.sdk.generate.Sale;
 import com.litle.sdk.generate.SaleResponse;
 
@@ -89,7 +90,7 @@ public class TestSale {
         applepayType.setHeader(applepayHeaderType);
         applepayType.setData("user");
         applepayType.setSignature("sign");
-        applepayType.setVersion("1");
+        applepayType.setVersion("12345");
 
         sale.setApplepay(applepayType);
         SaleResponse response = litle.sale(sale);
@@ -113,4 +114,41 @@ public class TestSale {
         SaleResponse response = litle.sale(sale);
         assertEquals("Approved", response.getMessage());
     }
+	
+	@Test
+	public void testSaleWithProcesingType() throws Exception{
+		Sale sale = new Sale();
+		sale.setAmount(106L);
+		sale.setLitleTxnId(123456L);
+		sale.setOrderId("12344");
+		sale.setOrderSource(OrderSourceType.ECOMMERCE);
+		sale.setProcessingType(ProcessingTypeEnum.ACCOUNT_FUNDING);
+		CardType card = new CardType();
+		card.setType(MethodOfPaymentTypeEnum.VI);
+		card.setNumber("4100000000000000");
+		card.setExpDate("1210");
+		sale.setCard(card);
+		SaleResponse response = litle.sale(sale);
+		assertEquals("Approved", response.getMessage());
+	}
+	
+	@Test
+	public void testSaleWithOrigNetworkTxnIdandAmount() throws Exception{
+		Sale sale = new Sale();
+		sale.setAmount(106L);
+		sale.setLitleTxnId(123456L);
+		sale.setOrderId("12344");
+		sale.setOrderSource(OrderSourceType.ECOMMERCE);
+		sale.setOriginalNetworkTransactionId("9876543210");
+		sale.setOriginalTransactionAmount(5523l);
+		CardType card = new CardType();
+		card.setType(MethodOfPaymentTypeEnum.VI);
+		card.setNumber("4100000000000000");
+		card.setExpDate("1210");
+		sale.setCard(card);
+		SaleResponse response = litle.sale(sale);
+		assertEquals("Approved", response.getMessage());
+		assertEquals("63225578415568556365452427825", response.getNetworkTransactionId());
+	}
+	
 }
