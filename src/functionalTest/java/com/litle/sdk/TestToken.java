@@ -65,7 +65,7 @@ public class TestToken {
         applepayType.setHeader(applepayHeaderType);
         applepayType.setData("user");
         applepayType.setSignature("sign");
-        applepayType.setVersion("1");
+        applepayType.setVersion("12345");
         token.setApplepay(applepayType);
         RegisterTokenResponse response = litle.registerToken(token);
         assertEquals("Account number was successfully registered", response.getMessage());
