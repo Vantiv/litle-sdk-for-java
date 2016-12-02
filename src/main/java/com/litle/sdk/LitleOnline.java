@@ -726,7 +726,8 @@ public class LitleOnline {
 			}
 
 			LitleOnlineResponse response = (LitleOnlineResponse)LitleContext.getJAXBContext().createUnmarshaller().unmarshal(new StringReader(xmlResponse));
-			if("1".equals(response.getResponse())) {
+			// non-zero responses indicate a problem
+			if(!"0".equals(response.getResponse())) {
 				throw new LitleOnlineException(response.getMessage());
 			}
 			return response;

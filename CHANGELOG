@@ -1,5 +1,8 @@
 = LitleOnline CHANGELOG
 
+==Version 10.5.1 (December 2, 2016)
+*Bug: handle all non-zero responses from Vantiv 
+
 ==Version 10.5.0 (November 21, 2016)
 Support for network response fields
 

@@ -109,7 +109,6 @@ public class TestLitleOnline {
 
 	@Test
 	public void testAuth() throws Exception {
-
 		Authorization authorization = new Authorization();
 		authorization.setReportGroup("Planets");
 		authorization.setOrderId("12344");
@@ -135,8 +134,37 @@ public class TestLitleOnline {
 	}
 	
 	@Test
-    public void testAuthWithApplepayAndSecondaryAmountAndWallet() throws Exception {
+	public void testAuth_withErrorResponse() throws Exception {
+		Authorization authorization = new Authorization();
+		authorization.setReportGroup("Planets");
+		authorization.setOrderId("12344");
+		authorization.setAmount(106L);
+		authorization.setOrderSource(OrderSourceType.ECOMMERCE);
+		CardType card = new CardType();
+		card.setType(MethodOfPaymentTypeEnum.VI);
+		card.setNumber("4100000000000002");
+		card.setExpDate("1210");
+		authorization.setCard(card);
 
+		Communication mockedCommunication = mock(Communication.class);
+		when(
+				mockedCommunication
+						.requestToServer(
+								matches(".*?<litleOnlineRequest.*?<authorization.*?<card>.*?<number>4100000000000002</number>.*?</card>.*?</authorization>.*?"),
+								any(Properties.class)))
+				.thenReturn(
+						"<litleOnlineResponse version=\"1.0\" xmlns=\"http://www.litle.com/schema/online\" response=\"3\" message=\"Invalid credentials. Contact support@litle.com.\"></litleOnlineResponse>");
+		litle.setCommunication(mockedCommunication);
+		try {
+			litle.authorize(authorization);
+			fail("Should throw an exception!");
+		} catch (LitleOnlineException loe) {
+			assertEquals("Invalid credentials. Contact support@litle.com.", loe.getMessage());
+		}
+	}
+	
+	@Test
+    public void testAuthWithApplepayAndSecondaryAmountAndWallet() throws Exception {
         Authorization authorization = new Authorization();
         authorization.setReportGroup("Planets");
         authorization.setOrderId("12344");
@@ -177,7 +205,6 @@ public class TestLitleOnline {
 
 	@Test
 	public void testAuthWithOverrides() throws Exception {
-
 		Authorization authorization = new Authorization();
 		authorization.setReportGroup("Planets");
 		authorization.setOrderId("12344");
@@ -206,12 +233,10 @@ public class TestLitleOnline {
 
 	@Test
 	public void testAuthReversal() throws Exception {
-
 		AuthReversal reversal = new AuthReversal();
 		reversal.setLitleTxnId(12345678000L);
 		reversal.setAmount(106L);
 		reversal.setPayPalNotes("Notes");
-
 
 		Communication mockedCommunication = mock(Communication.class);
 		when(
@@ -228,7 +253,6 @@ public class TestLitleOnline {
 
 	@Test
 	public void testAuthReversalWithOverrides() throws Exception {
-
 		AuthReversal reversal = new AuthReversal();
 		reversal.setLitleTxnId(12345678000L);
 		reversal.setAmount(106L);
@@ -250,10 +274,8 @@ public class TestLitleOnline {
 		assertEquals(123L, authreversal.getLitleTxnId());
 	}
 
-
 	@Test
 	public void testCapture() throws Exception {
-
 		Capture capture = new Capture();
 		capture.setLitleTxnId(123456000L);
 		capture.setAmount(106L);
@@ -274,7 +296,6 @@ public class TestLitleOnline {
 
 	@Test
 	public void testCaptureWithOverrides() throws Exception {
-
 		Capture capture = new Capture();
 		capture.setLitleTxnId(123456000L);
 		capture.setAmount(106L);
@@ -296,10 +317,8 @@ public class TestLitleOnline {
 		assertEquals(123L, captureresponse.getLitleTxnId());
 	}
 
-
 	@Test
 	public void testCaptureGivenAuth() throws Exception {
-
 		CaptureGivenAuth capturegivenauth = new CaptureGivenAuth();
 		capturegivenauth.setAmount(106L);
 		capturegivenauth.setSecondaryAmount(10L);
@@ -333,7 +352,6 @@ public class TestLitleOnline {
 
 	@Test
 	public void testCaptureGivenAuthWithOverrides() throws Exception {
-
 		CaptureGivenAuth capturegivenauth = new CaptureGivenAuth();
 		capturegivenauth.setAmount(106L);
 		capturegivenauth.setOrderId("12344");
@@ -367,10 +385,8 @@ public class TestLitleOnline {
 		assertEquals(123L, capturegivenauthresponse.getLitleTxnId());
 	}
 
-
 	@Test
 	public void testCredit() throws Exception {
-
 		Credit credit = new Credit();
 		credit.setAmount(106L);
         credit.setSecondaryAmount(10L);
@@ -641,7 +657,6 @@ public class TestLitleOnline {
 
 	@Test
 	public void testLitleOnlineException() throws Exception {
-
 		Authorization authorization = new Authorization();
 		authorization.setReportGroup("Planets");
 		authorization.setOrderId("12344");
@@ -672,7 +687,6 @@ public class TestLitleOnline {
 
 	@Test
 	public void testJAXBException() throws Exception {
-
 		Authorization authorization = new Authorization();
 		authorization.setReportGroup("Planets");
 		authorization.setOrderId("12344");
@@ -703,8 +717,6 @@ public class TestLitleOnline {
 
 	@Test
 	public void testDefaultReportGroup() throws Exception {
-
-
 		Authorization authorization = new Authorization();
 		authorization.setOrderId("12344");
 		authorization.setAmount(106L);
@@ -755,7 +767,6 @@ public class TestLitleOnline {
 		AuthorizationResponse authorize = litle.authorize(authorization);
 		assertEquals("Default Report Group", authorize.getReportGroup());
 	}
-
 
 	@Test
 	public void testEcheckVoid() throws Exception {
@@ -854,7 +865,6 @@ public class TestLitleOnline {
 
     @Test
     public void testCancelSubscriptionWithOverrides() throws Exception {
-
         CancelSubscription cancel = new CancelSubscription();
         cancel.setSubscriptionId(12345L);
 
@@ -1498,7 +1508,6 @@ public class TestLitleOnline {
         QueryTransactionResponse queryTransactionResponse = (QueryTransactionResponse)response;
         assertEquals("1234", queryTransactionResponse.getId());
         assertEquals("customerId", queryTransactionResponse.getCustomerId());
-        
     }
     
     @Test
@@ -1508,8 +1517,6 @@ public class TestLitleOnline {
         queryTransaction.setCustomerId("customerId");
         queryTransaction.setOrigId("org1");
         queryTransaction.setOrigActionType(ActionTypeEnum.A);
-        
-        
         
         Communication mockedComm = mock (Communication.class); 
         when(mockedComm.requestToServer(matches(".*?<litleOnlineRequest.*?<queryTransaction.*id=\"findId\".*?customerId=\"customerId\".*?<origId>org1</origId>.*?<origActionType>A</origActionType>.*?"),
@@ -1548,7 +1555,6 @@ public class TestLitleOnline {
         assertEquals(123456L,unavailableResponse.getLitleTxnId());
         assertEquals("Sample message", unavailableResponse.getMessage());
     }
-    
 
     public void testFraudCheck() throws Exception{
         FraudCheck fraudCheck = new FraudCheck();
@@ -1558,7 +1564,6 @@ public class TestLitleOnline {
         advancedFraudChecks.setCustomAttribute2("42");
         advancedFraudChecks.setCustomAttribute3("5");
         fraudCheck.setAdvancedFraudChecks(advancedFraudChecks);
-        
         
         Communication mockedCommunication = mock(Communication.class);
         when(
