@@ -134,7 +134,7 @@ public class TestLitleOnline {
 	}
 	
 	@Test
-	public void testAuth_withErrorResponse() throws Exception {
+	public void testAuth_withErrorResponse_InvalidCredential() throws Exception {
 		Authorization authorization = new Authorization();
 		authorization.setReportGroup("Planets");
 		authorization.setOrderId("12344");
@@ -158,8 +158,68 @@ public class TestLitleOnline {
 		try {
 			litle.authorize(authorization);
 			fail("Should throw an exception!");
-		} catch (LitleOnlineException loe) {
-			assertEquals("Invalid credentials. Contact support@litle.com.", loe.getMessage());
+		} catch (VantivInvalidCredentialException vice) {
+			assertEquals("Invalid credentials. Contact support@litle.com.", vice.getMessage());
+		}
+	}
+	
+	@Test
+	public void testAuth_withErrorResponse_ConnectionLimitExceeded() throws Exception {
+		Authorization authorization = new Authorization();
+		authorization.setReportGroup("Planets");
+		authorization.setOrderId("12344");
+		authorization.setAmount(106L);
+		authorization.setOrderSource(OrderSourceType.ECOMMERCE);
+		CardType card = new CardType();
+		card.setType(MethodOfPaymentTypeEnum.VI);
+		card.setNumber("4100000000000002");
+		card.setExpDate("1210");
+		authorization.setCard(card);
+
+		Communication mockedCommunication = mock(Communication.class);
+		when(
+				mockedCommunication
+						.requestToServer(
+								matches(".*?<litleOnlineRequest.*?<authorization.*?<card>.*?<number>4100000000000002</number>.*?</card>.*?</authorization>.*?"),
+								any(Properties.class)))
+				.thenReturn(
+						"<litleOnlineResponse version=\"1.0\" xmlns=\"http://www.litle.com/schema/online\" response=\"4\" message=\"Connection limit exceeded. Contact support@litle.com.\"></litleOnlineResponse>");
+		litle.setCommunication(mockedCommunication);
+		try {
+			litle.authorize(authorization);
+			fail("Should throw an exception!");
+		} catch (VantivConnectionLimitExceededException vcle) {
+			assertEquals("Connection limit exceeded. Contact support@litle.com.", vcle.getMessage());
+		}
+	}
+	
+	@Test
+	public void testAuth_withErrorResponse_ObjectionableContent() throws Exception {
+		Authorization authorization = new Authorization();
+		authorization.setReportGroup("Planets");
+		authorization.setOrderId("12344");
+		authorization.setAmount(106L);
+		authorization.setOrderSource(OrderSourceType.ECOMMERCE);
+		CardType card = new CardType();
+		card.setType(MethodOfPaymentTypeEnum.VI);
+		card.setNumber("4100000000000002");
+		card.setExpDate("1210");
+		authorization.setCard(card);
+
+		Communication mockedCommunication = mock(Communication.class);
+		when(
+				mockedCommunication
+						.requestToServer(
+								matches(".*?<litleOnlineRequest.*?<authorization.*?<card>.*?<number>4100000000000002</number>.*?</card>.*?</authorization>.*?"),
+								any(Properties.class)))
+				.thenReturn(
+						"<litleOnlineResponse version=\"1.0\" xmlns=\"http://www.litle.com/schema/online\" response=\"5\" message=\"Objectionable content detected. Contact support@litle.com.\"></litleOnlineResponse>");
+		litle.setCommunication(mockedCommunication);
+		try {
+			litle.authorize(authorization);
+			fail("Should throw an exception!");
+		} catch (VantivObjectionableContentException voce) {
+			assertEquals("Objectionable content detected. Contact support@litle.com.", voce.getMessage());
 		}
 	}
 	
@@ -678,9 +738,9 @@ public class TestLitleOnline {
 						"<litleOnlineResponse version='8.10' response='1' message='Error validating xml data against the schema' xmlns='http://www.litle.com/schema'><authorizationResponse><litleTxnId>123</litleTxnId></authorizationResponse></litleOnlineResponse>");
 		litle.setCommunication(mockedCommunication);
 		try{
-		litle.authorize(authorization);
-		fail("Expected Exception");
-		} catch(LitleOnlineException e){
+			litle.authorize(authorization);
+			fail("Expected Exception");
+		} catch (LitleOnlineException e){
 			assertEquals("Error validating xml data against the schema", e.getMessage());
 		}
 	}
@@ -708,8 +768,8 @@ public class TestLitleOnline {
 						"no xml");
 		litle.setCommunication(mockedCommunication);
 		try{
-		litle.authorize(authorization);
-		fail("Expected Exception");
+			litle.authorize(authorization);
+			fail("Expected Exception");
 		} catch(LitleOnlineException e){
 			assertEquals("Error validating xml data against the schema", e.getMessage());
 		}
@@ -1488,7 +1548,6 @@ public class TestLitleOnline {
         litle.setCommunication(mockedCommunication);
         SaleResponse saleresponse = litle.sale(sale);
         assertEquals(123L, saleresponse.getLitleTxnId());
-        
     }
     
     @Test
