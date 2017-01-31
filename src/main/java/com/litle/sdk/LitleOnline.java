@@ -79,19 +79,24 @@ import com.litle.sdk.generate.UpdatePlanResponse;
 import com.litle.sdk.generate.UpdateSubscription;
 import com.litle.sdk.generate.UpdateSubscriptionResponse;
 import com.litle.sdk.generate.VoidResponse;
+import org.apache.http.client.config.RequestConfig;
+import org.apache.http.protocol.BasicHttpContext;
 
 public class LitleOnline {
 
 	private Properties config;
 	private Communication communication;
 	private Boolean removeStubs = false;
+	private BasicHttpContext context;
+	private RequestConfig requestConfig;
 
 	/**
 	 * Construct a LitleOnline using the configuration specified in $HOME/.litle_SDK_config.properties
 	 */
 	public LitleOnline() {
 
-		communication = new Communication();
+		communication = Communication.getInstance();
+		context = new BasicHttpContext();
 		FileInputStream fileInputStream = null;
 
 		try {
@@ -102,9 +107,11 @@ public class LitleOnline {
 			throw new LitleOnlineException("Configuration file not found." +
 					" If you are not using the .litle_SDK_config.properties file," +
 					" please use the " + LitleOnline.class.getSimpleName() + "(Properties) constructor." +
-					" If you are using .litle_SDK_config.properties, you can generate one using java -jar litle-sdk-for-java-x.xx.jar", e);
+					" If you are using .litle_SDK_config.properties, you can" +
+					" generate one using java -jar litle-sdk-for-java-x.xx.jar", e);
 		} catch (IOException e) {
-			throw new LitleOnlineException("Configuration file could not be loaded.  Check to see if the user running this has permission to access the file", e);
+			throw new LitleOnlineException("Configuration file could not be loaded. " +
+					"Check to see if the user running this has permission to access the file", e);
 		} finally {
 		    if (fileInputStream != null){
 		        try {
@@ -124,28 +131,58 @@ public class LitleOnline {
 	 *
 	 * 	url (eg https://payments.litle.com/vap/communicator/online)
 	 *	reportGroup (eg "Default Report Group")
-	 *	username
-	 *	merchantId
-	 *	password
-	 *	version (eg 8.10)
-	 *	timeout (in seconds)
-	 *	Optional properties are:
-	 *	proxyHost
-	 *	proxyPort
-	 *	printxml (possible values "true" and "false" - defaults to false)
+	 *	username : Vantiv eCommerce username
+	 *	merchantId : Vantiv eCommerce merchantId
+	 *	password : Vantiv eCommerce transaction password
+	 *	version : e.g. 10.5 (XML version *NOT* SDK version)
+	 *	timeout : in seconds, this will set the timeout for waiting on the HTTP connection pool as well
 	 *
-	 * @param config
+     *	Optional properties are:
+	 *	proxyHost : host name of your proxy server
+	 *	proxyPort : port number for your proxy server
+	 *	printxml : possible values "true" and "false" - defaults to false
+     *  httpConnPoolSize : number of connections to keep on the HTTP connection pool
+     *  httpKeepAlive : "true" or "false" sets the HTTP header to Connection 'keep-alive' (true) or 'close' (false)
+	 *
+	 * @param config {@link Properties} used to configure transactions
 	 */
 	public LitleOnline(Properties config) {
 		this.config = config;
-		communication = new Communication();
+        context = new BasicHttpContext();
+		communication = Communication.getInstance();
 	}
 
     public LitleOnline(Properties config, Boolean removeStubs) {
         this.config = config;
         this.removeStubs = removeStubs;
-        communication = new Communication();
+        context = new BasicHttpContext();
+        communication = Communication.getInstance();
     }
+
+    /**
+     *
+     * @param communication {@link Communication} used to send transactions to Vantiv eCommerce
+     */
+
+	public LitleOnline(Communication communication) {
+        context = new BasicHttpContext();
+		this.communication = communication;
+	}
+
+	/**
+     *  Properties are same as {@link LitleOnline}({@link Properties} config)
+     *
+     * @param config {@link Properties} to use for configuration
+     * @param requestConfig {@link RequestConfig} to define the properties on the HTTP connection. requestConfig will
+     *                      override {@link Properties} configurations
+     *
+	 */
+	public LitleOnline(Properties config, RequestConfig requestConfig) {
+		this.config = config;
+        context = new BasicHttpContext();
+		this.requestConfig = requestConfig;
+		this.communication = Communication.getInstance();
+	}
 
 	protected void setCommunication(Communication communication) {
 		this.communication = communication;
@@ -719,8 +756,8 @@ public class LitleOnline {
 			    xmlRequest = xmlRequest.replaceAll("<[A-Za-z]+\\s*/>", "");
 			}
 
-			String xmlResponse = communication.requestToServer(xmlRequest, config);
-			//bandaid for a problem on the backend
+			String xmlResponse = communication.requestToServer(xmlRequest, config, context, requestConfig);
+			// bandaid for a problem on the backend
 			if(xmlResponse.contains("http://www.litle.com/schema/online")){
 			    xmlResponse = xmlResponse.replace("http://www.litle.com/schema/online", "http://www.litle.com/schema");
 			}
@@ -741,7 +778,6 @@ public class LitleOnline {
 			return response;
 		} catch(JAXBException ume) {
 			throw new LitleOnlineException("Error validating xml data against the schema", ume);
-		} finally {
 		}
 	}
 

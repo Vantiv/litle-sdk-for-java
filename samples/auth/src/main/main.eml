@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component inherit-compiler-output="true" inheritJdk="true">
+	<output-test url="file://$MODULE_DIR$/../../../../out/test/main"/>
+	<exclude-output/>
+	<contentEntry url="file://$MODULE_DIR$"/>
+	<levels>
+		<level name="httpcore-4.0" value="project"/>
+		<level name="junit-4.11" value="project"/>
+		<level name="hamcrest-core-1.3" value="project"/>
+		<level name="java" value="project"/>
+	</levels>
+</component>

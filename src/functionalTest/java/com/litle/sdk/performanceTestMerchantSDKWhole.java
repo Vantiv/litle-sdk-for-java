@@ -28,7 +28,7 @@ public class performanceTestMerchantSDKWhole {
     	date.set(Calendar.YEAR, 1999);
     	date.set(Calendar.MONTH, 7);
     	date.set(Calendar.DAY_OF_MONTH, 26);
-    	Contact ct = null;
+    	Contact ct = new Contact();
 
     	for (int i =0; i < 50 ; i++)
 		{
@@ -68,13 +68,6 @@ public class performanceTestMerchantSDKWhole {
     	    ct.setCompanyName("AAAAABBBBBNNNNNMMMMMLLLLLLLLLLUUUUUTTTTT");
     	    ct.setCountry(CountryTypeEnum.AD);
     	    ct.setEmail("ssssssssssssssssssssssssssssssssssssssssssssssstest@emailcsdfafdasdf.com");
-    	   /* ct.setFirstName(value);
-    	    ct.setlas
-
-
-    	    sale.setBillToAddress(value)
-
-    	    */
     		CardType card = new CardType();
     		card.setType(MethodOfPaymentTypeEnum.VI);
     		card.setNumber("4100000000000002");

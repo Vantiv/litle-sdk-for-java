@@ -45,7 +45,7 @@ public class LitleBatchFileRequest{
 	 * Construct a LitleBatchFileRequest using the configuration specified in location specified by requestFileName
 	 */
 	public LitleBatchFileRequest(String requestFileName) {
-		intializeMembers(requestFileName);
+		initializeMembers(requestFileName);
 	}
 
 	/**
@@ -73,11 +73,11 @@ public class LitleBatchFileRequest{
 	 * proxyPort
 	 * printxml (possible values "true" and "false" defaults to false)
 	 *
-	 * @param RequestFileName
-	 *            , config
+	 * @param requestFileName
+	 * @param properties
 	 */
 	public LitleBatchFileRequest(String requestFileName, Properties properties) {
-		intializeMembers(requestFileName, properties);
+		initializeMembers(requestFileName, properties);
 	}
 
 	/**
@@ -87,20 +87,20 @@ public class LitleBatchFileRequest{
 	 */
 	public LitleBatchFileRequest(String requestFileName, Configuration config) {
 		this.config = config;
-		intializeMembers(requestFileName, null);
+		initializeMembers(requestFileName, null);
 	}
 
-	private void intializeMembers(String requestFileName) {
-		intializeMembers(requestFileName, null);
+	private void initializeMembers(String requestFileName) {
+		initializeMembers(requestFileName, null);
 	}
 
-	public void intializeMembers(String requestFileName, Properties in_properties) throws LitleBatchException{
+	public void initializeMembers(String requestFileName, Properties in_properties) throws LitleBatchException{
 		try {
 			this.jc = JAXBContext.newInstance("com.litle.sdk.generate");
 			if(config == null){
 				config = new Configuration();
 			}
-			this.communication = new Communication();
+			this.communication = Communication.getInstance();
 			this.litleBatchRequestList = new ArrayList<LitleBatchRequest>();
 			this.requestFileName = requestFileName;
 			marshaller = jc.createMarshaller();
@@ -152,7 +152,7 @@ public class LitleBatchFileRequest{
 	/**
 	 * Returns a LitleBatchRequest object, the container for transactions.
 	 * @param merchantId
-	 * @return
+	 * @return LitleBatchFileRequest
 	 * @throws LitleBatchException
 	 */
 	public LitleBatchRequest createBatch(String merchantId)
@@ -167,7 +167,6 @@ public class LitleBatchFileRequest{
 	 * object call sendToLitle method.
 	 *
 	 * @throws LitleBatchException
-	 * @throws JAXBException
 	 */
 	public void generateRequestFile() throws LitleBatchException {
 		try {
@@ -202,7 +201,10 @@ public class LitleBatchFileRequest{
 			tempBatchRequestFile.delete();
 			litleReqWriter.close();
 		} catch (IOException e) {
-			throw new LitleBatchException("Error while creating a batch request file. Check to see if the current user has permission to read and write to " + this.properties.getProperty("batchRequestFolder"), e);
+			throw new LitleBatchException(
+					"Error while creating a batch request file. " +
+							"Check to see if the current user has permission to read and write to "
+					+ this.properties.getProperty("batchRequestFolder"), e);
 		}
 
 	}
@@ -226,7 +228,8 @@ public class LitleBatchFileRequest{
 					"batchRequestFolder", "batchResponseFolder", "sftpUsername", "sftpPassword", "merchantId"};
 
 			for (String prop : allProperties) {
-				// if the value of a property is not set, look at the Properties member of the class first, and the .properties file next.
+				// if the value of a property is not set,
+				// look at the Properties member of the class first, and the .properties file next.
 				if (config.getProperty(prop) == null) {
 					if ( this.properties != null && this.properties.get(prop) != null ){
 						config.setProperty(prop, this.properties.getProperty(prop));
@@ -241,9 +244,12 @@ public class LitleBatchFileRequest{
 				}
 			}
 		} catch (FileNotFoundException e) {
-			throw new LitleBatchException("File .litle_SDK_config.properties was not found. Please run the Setup.java application to create the file at location "+ (new Configuration()).location(), e);
+			throw new LitleBatchException("File .litle_SDK_config.properties was not found. " +
+					"Please run the Setup.java application to create the file at location " +
+					(new Configuration()).location(), e);
 		} catch (IOException e) {
-			throw new LitleBatchException("There was an exception while reading the .litle_SDK_config.properties file.", e);
+			throw new LitleBatchException(
+					"There was an exception while reading the .litle_SDK_config.properties file.", e);
 		}
 	}
 
@@ -285,7 +291,9 @@ public class LitleBatchFileRequest{
             return retObj;
 
         } catch (IOException e) {
-            throw new LitleBatchException("There was an exception while creating the Litle Request file. Check to see if the current user has permission to read and write to " + this.properties.getProperty("batchRequestFolder"), e);
+            throw new LitleBatchException("There was an exception while creating the Litle Request file. " +
+					"Check to see if the current user has permission to read and write to " +
+					this.properties.getProperty("batchRequestFolder"), e);
         }
 	}
 
@@ -316,7 +324,9 @@ public class LitleBatchFileRequest{
             LitleBatchFileResponse retObj = new LitleBatchFileResponse(responseFile);
             return retObj;
         } catch (IOException e) {
-            throw new LitleBatchException("There was an exception while creating the Litle Request file. Check to see if the current user has permission to read and write to " + this.properties.getProperty("batchRequestFolder"), e);
+            throw new LitleBatchException("There was an exception while creating the Litle Request file. " +
+					"Check to see if the current user has permission to read and write to " +
+					this.properties.getProperty("batchRequestFolder"), e);
         }
 	}
 
@@ -341,7 +351,9 @@ public class LitleBatchFileRequest{
             }
             communication.sendLitleRequestFileToSFTP(requestFile, properties);
         } catch (IOException e) {
-            throw new LitleBatchException("There was an exception while creating the Litle Request file. Check to see if the current user has permission to read and write to " + this.properties.getProperty("batchRequestFolder"), e);
+            throw new LitleBatchException("There was an exception while creating the Litle Request file. " +
+					"Check to see if the current user has permission to read and write to " +
+					this.properties.getProperty("batchRequestFolder"), e);
         }
     }
 
@@ -356,7 +368,9 @@ public class LitleBatchFileRequest{
             LitleBatchFileResponse retObj = new LitleBatchFileResponse(responseFile);
             return retObj;
         } catch (IOException e) {
-            throw new LitleBatchException("There was an exception while creating the Litle Request file. Check to see if the current user has permission to read and write to " + this.properties.getProperty("batchRequestFolder"), e);
+            throw new LitleBatchException("There was an exception while creating the Litle Request file. " +
+					"Check to see if the current user has permission to read and write to " +
+					this.properties.getProperty("batchRequestFolder"), e);
         }
     }
 
@@ -405,8 +419,9 @@ public class LitleBatchFileRequest{
                     "There was an exception while marshalling BatchRequest or LitleRequest objects.", e);
         } catch (IOException e) {
             throw new LitleBatchException(
-                    "There was an exception while creating the Litle Request file. Check to see if the current user has permission to read and write to "
-                            + this.properties.getProperty("batchRequestFolder"), e);
+                    "There was an exception while creating the Litle Request file. " +
+							"Check to see if the current user has permission to read and write to " +
+							this.properties.getProperty("batchRequestFolder"), e);
         }
     }
 

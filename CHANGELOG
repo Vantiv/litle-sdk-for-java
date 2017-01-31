@@ -1,5 +1,9 @@
 = LitleOnline CHANGELOG
 
+==Version 10.5.3 (January 31, 2017)
+*Feature: create a pol of http connections for communication with Vantiv
+*Feature: update Apache HTTP Client library to 4.5.3 to support pooling of connections
+
 ==Version 10.5.1 (December 2, 2016)
 *Bug: handle all non-zero responses from Vantiv 
 

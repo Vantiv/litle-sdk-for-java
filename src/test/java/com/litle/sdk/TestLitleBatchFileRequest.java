@@ -55,7 +55,7 @@ public class TestLitleBatchFileRequest {
         configToPass.setProperty("username", "usr1");
         configToPass.setProperty("password", "pass");
 
-        litleBatchFileRequest.intializeMembers("testFile.xml", configToPass);
+        litleBatchFileRequest.initializeMembers("testFile.xml", configToPass);
 
         assertEquals(litleBatchFileRequest.getConfig().getProperty("username"), "usr1");
         assertEquals(litleBatchFileRequest.getConfig().getProperty("password"), "pass");
