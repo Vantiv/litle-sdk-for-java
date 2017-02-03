@@ -16,7 +16,7 @@ public class TestSDKhttpPooling {
 
 	@BeforeClass
 	public static void beforeClass() throws Exception {
-	    System.setOut(new PrintStream(new File("/usr/local/litle-home/barnold/git/litle-sdk-for-java/thread.out")));
+	    System.setOut(new PrintStream(new File("/tmp/thread.out")));
 	}
 
 	@Test
