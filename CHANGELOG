@@ -1,5 +1,8 @@
 = LitleOnline CHANGELOG
 
+==Version 9.12 (Mar 15, 2017)
+* Feature: add sepaDirectDebit and ideal for sale transaction
+* Feature: add eciIndicator for androidpayResponse
 
 ==Version 9.10 (Oct 31, 2016)
 * Feature: add androidpay
