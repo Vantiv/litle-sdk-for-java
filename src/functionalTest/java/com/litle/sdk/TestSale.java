@@ -12,12 +12,14 @@ import com.litle.sdk.generate.CardTokenType;
 import com.litle.sdk.generate.CardType;
 import com.litle.sdk.generate.Contact;
 import com.litle.sdk.generate.CountryTypeEnum;
+import com.litle.sdk.generate.IdealType;
 import com.litle.sdk.generate.MethodOfPaymentTypeEnum;
 import com.litle.sdk.generate.OrderSourceType;
 import com.litle.sdk.generate.PayPal;
 import com.litle.sdk.generate.ProcessingTypeEnum;
 import com.litle.sdk.generate.Sale;
 import com.litle.sdk.generate.SaleResponse;
+import com.litle.sdk.generate.SepaDirectDebitType;
 import com.litle.sdk.generate.Wallet;
 import com.litle.sdk.generate.WalletSourceType;
 
@@ -42,9 +44,9 @@ public class TestSale {
 		card.setNumber("4100000000000000");
 		card.setExpDate("1210");
 		sale.setCard(card);
-		
+
 		SaleResponse response = litle.sale(sale);
-		
+
 		assertEquals("Approved", response.getMessage());
 	}
 
@@ -60,9 +62,9 @@ public class TestSale {
 		paypal.setToken("1234");
 		paypal.setTransactionId("123456");
 		sale.setPaypal(paypal);
-		
+
 		SaleResponse response = litle.sale(sale);
-		
+
 		assertEquals("Approved", response.getMessage());
 	}
 
@@ -88,7 +90,7 @@ public class TestSale {
 
         sale.setApplepay(applepayType);
         SaleResponse response = litle.sale(sale);
-        
+
         assertEquals("Insufficient Funds", response.getMessage());
         assertEquals(new Long(110),response.getApplepayResponse().getTransactionAmount());
     }
@@ -117,7 +119,7 @@ public class TestSale {
         sale.setToken(token);
 
         SaleResponse response = litle.sale(sale);
-        
+
         assertEquals("Approved", response.getMessage());
         assertEquals("aHR0cHM6Ly93d3cueW91dHViZS5jb20vd2F0Y2g/dj1kUXc0dzlXZ1hjUQ0K", response.getAndroidpayResponse().getCryptogram());
 	}
@@ -134,12 +136,12 @@ public class TestSale {
 		token.setLitleToken("1111222233334000");
 		token.setType(MethodOfPaymentTypeEnum.VI);
 		sale.setToken(token);
-		
+
 		SaleResponse response = litle.sale(sale);
-		
+
 		assertEquals("Approved", response.getMessage());
 	}
-	
+
 	@Test
 	public void testSaleWithWallet_Visa() throws Exception{
 		Sale sale = new Sale();
@@ -154,12 +156,12 @@ public class TestSale {
 		sale.setCard(card);
 		Wallet wallet = new Wallet();
 		wallet.setWalletSourceType(WalletSourceType.VISA_CHECKOUT);
-		
+
 		SaleResponse response = litle.sale(sale);
-		
+
 		assertEquals("Approved", response.getMessage());
 	}
-	
+
 	@Test
 	public void testSaleWithWallet_Mastercard() throws Exception{
 		Sale sale = new Sale();
@@ -174,12 +176,12 @@ public class TestSale {
 		sale.setCard(card);
 		Wallet wallet = new Wallet();
 		wallet.setWalletSourceType(WalletSourceType.MASTER_PASS);
-		
+
 		SaleResponse response = litle.sale(sale);
-		
+
 		assertEquals("Approved", response.getMessage());
 	}
-	
+
 	@Test
 	public void testSaleWithProcessingType() throws Exception{
 		Sale sale = new Sale();
@@ -193,12 +195,12 @@ public class TestSale {
 		card.setExpDate("1210");
 		sale.setCard(card);
 		sale.setProcessingType(ProcessingTypeEnum.INITIAL_INSTALLMENT);
-		
+
 		SaleResponse response = litle.sale(sale);
-		
+
 		assertEquals("Approved", response.getMessage());
 	}
-	
+
 	@Test
 	public void testSaleWithOrigTxnIdAndOrigAmount() throws Exception{
 		Sale sale = new Sale();
@@ -213,14 +215,14 @@ public class TestSale {
 		sale.setCard(card);
 		sale.setOriginalNetworkTransactionId("98765432109876543210");
 		sale.setOriginalTransactionAmount(700l);
-		
+
 		SaleResponse response = litle.sale(sale);
-		
+
 		assertEquals("Approved", response.getMessage());
 		// no network txn Id because it's a MC transaction, only VI returns this value from the Sandbox
 		assertNull(response.getNetworkTransactionId());
 	}
-	
+
 	@Test
 	public void testSaleWithNetworkTxnIdResponseAndCardSuffixResponse() throws Exception{
 		Sale sale = new Sale();
@@ -236,11 +238,51 @@ public class TestSale {
 		sale.setCard(card);
 		sale.setOriginalNetworkTransactionId("98765432109876543210");
 		sale.setOriginalTransactionAmount(700l);
-		
+
 		SaleResponse response = litle.sale(sale);
-		
+
 		assertEquals("Approved", response.getMessage());
 		assertEquals("63225578415568556365452427825", response.getNetworkTransactionId());
 		assertEquals("123456", response.getCardSuffix());
 	}
+
+    @Test
+    public void testSaleWithsepaDirectDebit() throws Exception{
+        Sale sale = new Sale();
+        sale.setAmount(106L);
+        sale.setLitleTxnId(123456L);
+        sale.setOrderId("12344");
+        sale.setOrderSource(OrderSourceType.ECOMMERCE);
+
+        SepaDirectDebitType sepaDirectDebit = new SepaDirectDebitType();
+        sepaDirectDebit.setIban("SepaDirectDebit Iban");
+        sepaDirectDebit.setMandateProvider("Merchant");
+        sepaDirectDebit.setSequenceType("OneTime");
+        sale.setSepaDirectDebit(sepaDirectDebit);
+
+        SaleResponse response = litle.sale(sale);
+
+        assertEquals("Approved", response.getMessage());
+        assertEquals("http://redirect.url.vantiv.com", response.getSepaDirectDebitResponse().getRedirectUrl());
+        assertEquals("jj2d1d372osmmt7tb8epm0a99q", response.getSepaDirectDebitResponse().getRedirectToken());
+    }
+
+    @Test
+    public void testSaleWithIdeal() throws Exception{
+        Sale sale = new Sale();
+        sale.setAmount(106L);
+        sale.setLitleTxnId(123456L);
+        sale.setOrderId("12344");
+        sale.setOrderSource(OrderSourceType.ECOMMERCE);
+
+        IdealType ideal = new IdealType();
+        ideal.setPreferredLanguage(CountryTypeEnum.AD);
+        sale.setIdeal(ideal);
+
+        SaleResponse response = litle.sale(sale);
+
+        assertEquals("Approved", response.getMessage());
+        assertEquals("http://redirect.url.vantiv.com", response.getIdealResponse().getRedirectUrl());
+        assertEquals("jj2d1d372osmmt7tb8epm0a99q", response.getIdealResponse().getRedirectToken());
+    }
 }
