@@ -122,6 +122,7 @@ public class TestSale {
 
         assertEquals("Approved", response.getMessage());
         assertEquals("aHR0cHM6Ly93d3cueW91dHViZS5jb20vd2F0Y2g/dj1kUXc0dzlXZ1hjUQ0K", response.getAndroidpayResponse().getCryptogram());
+        assertEquals("22", response.getAndroidpayResponse().getEciIndicator());
 	}
 
 	@Test
