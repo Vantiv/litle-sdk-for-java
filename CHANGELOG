@@ -1,5 +1,8 @@
 = LitleOnline CHANGELOG
 
+==Version 9.12.1 (Mar 17, 2017)
+* Feature: Improve unicode support.
+
 ==Version 9.12 (Mar 15, 2017)
 * Feature: add sepaDirectDebit and ideal for sale transaction
 * Feature: add eciIndicator for androidpayResponse
