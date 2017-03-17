@@ -1,6 +1,9 @@
 package com.litle.sdk;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -33,6 +36,23 @@ public class TestAuth {
 		litle = new LitleOnline();
 	}
 
+    @Test
+    public void simpleAuthWithCardUTF8() throws Exception {
+        Authorization authorization = new Authorization();
+        authorization.setReportGroup("русский中文");
+        authorization.setOrderId("12344");
+        authorization.setAmount(106L);
+        authorization.setOrderSource(OrderSourceType.ECOMMERCE);
+        CardType card = new CardType();
+        card.setType(MethodOfPaymentTypeEnum.VI);
+        card.setNumber("4100000000000000");
+        card.setExpDate("1210");
+        authorization.setCard(card);
+
+        AuthorizationResponse response = litle.authorize(authorization);
+        assertEquals("русский中文",response.getReportGroup());
+    }
+
 	@Test
 	public void simpleAuthWithCard() throws Exception {
 		Authorization authorization = new Authorization();
@@ -49,7 +69,7 @@ public class TestAuth {
 		AuthorizationResponse response = litle.authorize(authorization);
 		assertEquals(response.getMessage(), "000",response.getResponse());
 	}
-	
+
 	@Test
 	public void simpleAuthWithAndroidPay() throws Exception {
 		Authorization authorization = new Authorization();
@@ -148,7 +168,7 @@ public class TestAuth {
 		authorization.setCard(card);
 
 		AuthorizationResponse response = litle.authorize(authorization);
-		
+
 		assertEquals("4100100000000000", response.getAccountUpdater().getOriginalCardInfo().getNumber());
 	}
 
@@ -173,7 +193,7 @@ public class TestAuth {
 		authorization.setPos(pos);
 
 		AuthorizationResponse response = litle.authorize(authorization);
-		
+
 		assertEquals(response.getMessage(), "Approved",response.getMessage());
 	}
 
@@ -200,10 +220,10 @@ public class TestAuth {
         authorization.setCard(card);
 
         AuthorizationResponse response = litle.authorize(authorization);
-        
+
         assertEquals(response.getMessage(), "Approved", response.getMessage());
 	}
-	
+
 	@Test
 	public void testAuthWithProcessingType() throws Exception {
 		Authorization authorization = new Authorization();
@@ -220,13 +240,13 @@ public class TestAuth {
 	    card.setExpDate("1215");
 	    card.setType(MethodOfPaymentTypeEnum.VI);
         authorization.setCard(card);
-        
+
         AuthorizationResponse response = litle.authorize(authorization);
-        
+
         assertEquals("Approved", response.getMessage());
         assertEquals("63225578415568556365452427825", response.getNetworkTransactionId());
 	}
-	
+
 	@Test
 	public void testAuthWithWallet() throws Exception {
 		Authorization authorization = new Authorization();
@@ -245,13 +265,13 @@ public class TestAuth {
         authorization.setCard(card);
         Wallet wallet = new Wallet();
         wallet.setWalletSourceType(WalletSourceType.VISA_CHECKOUT);
-        
+
         AuthorizationResponse response = litle.authorize(authorization);
-        
+
         assertEquals("Approved", response.getMessage());
         assertEquals("63225578415568556365452427825", response.getNetworkTransactionId());
 	}
-	
+
 	@Test
 	public void testAuthWithWalletAndCardSuffixResponse() throws Exception {
 		Authorization authorization = new Authorization();
@@ -270,12 +290,12 @@ public class TestAuth {
         authorization.setCard(card);
         Wallet wallet = new Wallet();
         wallet.setWalletSourceType(WalletSourceType.MASTER_PASS);
-        
+
         AuthorizationResponse response = litle.authorize(authorization);
-        
+
         assertEquals("Approved", response.getMessage());
         assertNull(response.getNetworkTransactionId());
         assertEquals("123456", response.getCardSuffix());
 	}
-	
+
 }

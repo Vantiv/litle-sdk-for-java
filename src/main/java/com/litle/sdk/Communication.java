@@ -64,7 +64,7 @@ public class Communication {
 		httpclient = temp;
 		streamData = new StreamData();
 	}
-	
+
 	private static String getBestProtocol(final String[] availableProtocols) {
 		for (int i = 0; i < availableProtocols.length; ++i) {
 			// Assuming best protocol is at end
@@ -98,7 +98,7 @@ public class Communication {
 		}
 
 		HttpPost post = new HttpPost(configuration.getProperty("url"));
-		post.setHeader("Content-Type", "text/xml");
+		post.setHeader("Content-Type", "application/xml;charset=\"UTF-8\"");
 		post.setHeader("Connection","close");
 		HttpEntity entity = null;
 		try {
@@ -108,14 +108,15 @@ public class Communication {
 			if (printxml) {
 				System.out.println("Request XML: " + xmlRequest);
 			}
-			post.setEntity(new StringEntity(xmlRequest));
+			post.setEntity(new StringEntity(xmlRequest,"UTF-8"));
 
 			HttpResponse response = httpclient.execute(post);
 			if(response.getStatusLine().getStatusCode() != 200) {
 				throw new LitleOnlineException(response.getStatusLine().getStatusCode() + ":" + response.getStatusLine().getReasonPhrase());
 			}
 			entity = response.getEntity();
-			xmlResponse = EntityUtils.toString(entity);
+			entity = response.getEntity();
+			xmlResponse = EntityUtils.toString(entity, "UTF-8");
 
 			if (printxml) {
 				System.out.println("Response XML: " + xmlResponse);
