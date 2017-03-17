@@ -33,6 +33,24 @@ public class TestAuth {
 		litle = new LitleOnline();
 	}
 
+    @Test
+    public void simpleAuthWithCardUTF8() throws Exception {
+        Authorization authorization = new Authorization();
+        authorization.setReportGroup("русский中文");
+        authorization.setOrderId("12344");
+        authorization.setAmount(106L);
+        authorization.setOrderSource(OrderSourceType.ECOMMERCE);
+        authorization.setId("id");
+        CardType card = new CardType();
+        card.setType(MethodOfPaymentTypeEnum.VI);
+        card.setNumber("4100000000000000");
+        card.setExpDate("1210");
+        authorization.setCard(card);
+
+        AuthorizationResponse response = litle.authorize(authorization);
+        assertEquals("русский中文",response.getReportGroup());
+    }
+
 	@Test
 	public void simpleAuthWithCard() throws Exception {
 		Authorization authorization = new Authorization();
@@ -51,7 +69,7 @@ public class TestAuth {
 		assertEquals(response.getMessage(), "000",response.getResponse());
 		assertEquals("63225578415568556365452427825", response.getNetworkTransactionId());
 	}
-	
+
 	@Test
 	public void testAuthWithAndroidpay() throws Exception {
 		Authorization authorization = new Authorization();
@@ -72,7 +90,7 @@ public class TestAuth {
 		assertEquals("01", response.getAndroidpayResponse().getExpMonth());
 		assertEquals("2050", response.getAndroidpayResponse().getExpYear());
 	}
-	
+
 	@Test
 	public void simpleAuthWithProcessngType() throws Exception {
 		Authorization authorization = new Authorization();
@@ -91,7 +109,7 @@ public class TestAuth {
 		AuthorizationResponse response = litle.authorize(authorization);
 		assertEquals(response.getMessage(), "000",response.getResponse());
 	}
-	
+
 	@Test
 	public void simpleAuthWithOrigNetworkTxnAndOrigAmount() throws Exception {
 		Authorization authorization = new Authorization();
@@ -130,7 +148,7 @@ public class TestAuth {
 		AuthorizationResponse response = litle.authorize(authorization);
 		assertEquals(response.getMessage(), "Approved",response.getMessage());
 	}
-	
+
 	@Test
     public void simpleAuthWithApplepayAndSecondaryAmount() throws Exception {
         Authorization authorization = new Authorization();
@@ -239,7 +257,7 @@ public class TestAuth {
 	    enhanced.getDetailTaxes().add(dt2);
 	    authorization.setEnhancedData(enhanced);
 	    CardType card = new CardType();
-	    card.setNumber("4100000000000000"); 
+	    card.setNumber("4100000000000000");
 	    card.setExpDate("1215");
 	    card.setType(MethodOfPaymentTypeEnum.VI);
         authorization.setCard(card);
