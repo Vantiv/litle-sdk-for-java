@@ -3,6 +3,9 @@ package com.litle.sdk;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.FileInputStream;
+import java.util.Properties;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -18,7 +21,13 @@ public class TestCert2AuthEnhanced {
 
 	@BeforeClass
 	public static void beforeClass() throws Exception {
-		litle = new LitleOnline();
+        Properties config = new Properties();
+        FileInputStream fileInputStream = new FileInputStream((new Configuration()).location());
+        config.load(fileInputStream);
+        config.setProperty("url", "https://prelive.litle.com/vap/communicator/online");
+        config.setProperty("proxyHost", "");
+        config.setProperty("proxyPort", "");
+        litle = new LitleOnline(config);
 	}
 
 	@Test
