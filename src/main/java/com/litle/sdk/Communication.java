@@ -197,6 +197,7 @@ public class Communication {
             while((line = reader.readLine()) != null){
                 System.out.println(line);
             }
+            reader.close();
 	    }
 
 	    try {

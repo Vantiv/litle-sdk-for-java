@@ -8,7 +8,7 @@
 
     <xs:complexType name="transactionType">
         <xs:attribute name="id" type="xp:stringMin1Max25CollapseWhiteSpaceType" use="required" />
-        <xs:attribute name="customerId" type="xp:customerIdType" use="optional"/>
+        <xs:attribute name="customerId" type="xp:customerIdType" use="optional" />
     </xs:complexType>
 
     <xs:complexType name="transactionTypeWithReportGroup">
@@ -409,6 +409,9 @@
                             <xs:element name="paypage" type="xp:cardPaypageType" />
                             <xs:element name="applepay" type="xp:applepayType" />
                             <xs:element name="sepaDirectDebit" type="xp:sepaDirectDebitType" />
+                            <xs:element name="ideal" type="xp:idealType" />
+                            <xs:element name="giropay" type="xp:giropayType" />
+                            <xs:element name="sofort" type="xp:sofortType" />
                         </xs:choice>
                         <xs:element ref="xp:billMeLaterRequest" minOccurs="0" />
                         <!-- fraudCheck is not used in the mapping -->
@@ -551,7 +554,7 @@
                             <xs:element name="amount" type="xp:transactionAmountType" minOccurs="1" />
                             <xs:element name="orderSource" type="xp:orderSourceType" />
                             <xs:choice>
-                                     <xs:element name="card" type="xp:cardType"/>
+                                     <xs:element name="card" type="xp:giftCardCardType"/>
                                      <xs:element name="virtualGiftCard" type="xp:virtualGiftCardType"/>
                             </xs:choice>
                     </xs:sequence>
@@ -567,7 +570,7 @@
                    <xs:sequence>
                             <xs:element name="orderId" type="xp:string25Type" />
                             <xs:element name="orderSource" type="xp:orderSourceType" />
-                            <xs:element name="card" type="xp:cardType" minOccurs="1" />
+                            <xs:element name="card" type="xp:giftCardCardType" minOccurs="1" />
                     </xs:sequence>
                 </xs:extension>
             </xs:complexContent>
@@ -582,7 +585,7 @@
                             <xs:element name="orderId" type="xp:string25Type" />
                             <xs:element name="amount" type="xp:transactionAmountType" minOccurs="1" />
                             <xs:element name="orderSource" type="xp:orderSourceType" />
-                            <xs:element name="card" type="xp:cardType" minOccurs="1" />
+                            <xs:element name="card" type="xp:giftCardCardType" minOccurs="1" />
                     </xs:sequence>
                 </xs:extension>
             </xs:complexContent>
@@ -597,7 +600,7 @@
                             <xs:element name="orderId" type="xp:string25Type" />
                             <xs:element name="amount" type="xp:transactionAmountType" minOccurs="1" />
                             <xs:element name="orderSource" type="xp:orderSourceType" />
-                            <xs:element name="card" type="xp:cardType" minOccurs="1" />
+                            <xs:element name="card" type="xp:giftCardCardType" minOccurs="1" />
                     </xs:sequence>
                 </xs:extension>
             </xs:complexContent>
@@ -624,7 +627,7 @@
                    <xs:sequence>
                             <xs:element name="orderId" type="xp:string25Type" />
                             <xs:element name="orderSource" type="xp:orderSourceType" />
-                            <xs:element name="card" type="xp:cardType" minOccurs="1" />
+                            <xs:element name="card" type="xp:giftCardCardType" minOccurs="1" />
                     </xs:sequence>
                 </xs:extension>
             </xs:complexContent>
@@ -1218,7 +1221,6 @@
                         <!-- postDate is online only -->
                         <xs:element name="postDate" type="xs:date" minOccurs="0" />
                         <xs:element name="message" type="xp:messageType" />
-                        <xs:element ref="xp:accountUpdater" minOccurs="0" />
                         <xs:element ref="xp:fraudResult" minOccurs="0" />
                         <xs:element ref="xp:giftCardResponse" />                        
                     </xs:all>
@@ -1303,6 +1305,12 @@
                         <xs:element ref="xp:androidpayResponse" minOccurs="0"/>
                         <!-- If SEPA Direct Debit transaction -->
                         <xs:element ref="xp:sepaDirectDebitResponse" minOccurs="0"/>
+                        <!-- If iDEAL transaction -->
+                        <xs:element ref="xp:idealResponse" minOccurs="0"/>
+                        <!-- If Giropay transaction -->
+                        <xs:element ref="xp:giropayResponse" minOccurs="0"/>
+                        <!-- If Sofort transaction -->
+                        <xs:element ref="xp:sofortResponse" minOccurs="0"/>
                         <!-- For merchant initiated transactions -->
                         <xs:element name="networkTransactionId" type="xp:string30Type" minOccurs="0" /> 
                     </xs:all>
@@ -1343,8 +1351,6 @@
                         <!-- online only -->
                         <xs:element name="postDate" type="xs:date" minOccurs="0" />
                         <xs:element name="message" type="xp:messageType" />
-                        <!-- if tokenenized merchant -->
-                        <xs:element name="tokenResponse" type="xp:tokenResponseType" minOccurs="0"/>
                         <xs:element ref="xp:fraudResult" minOccurs="0" />
                         <xs:element ref="xp:giftCardResponse" />                        
                     </xs:all>
@@ -1503,6 +1509,7 @@
                             <xs:element name="litleTxnId" type="xp:litleIdType" />
                             <xs:element name="amount" type="xp:transactionAmountType" minOccurs="0" />
                             <xs:element ref="xp:customBilling" minOccurs="0" />
+                            <xs:element name="customIdentifier" type="xp:string15Type" minOccurs="0" />
                         </xs:sequence>
                         <xs:sequence>
                             <xs:element name="orderId" type="xp:string25Type" />
@@ -1515,6 +1522,7 @@
                             <xs:element ref="xp:echeckOrEcheckToken" />
                             <xs:element ref="xp:customBilling" minOccurs="0" />
                             <xs:element name="merchantData" type="xp:merchantDataType" minOccurs="0" />
+                            <xs:element name="customIdentifier" type="xp:string15Type" minOccurs="0" />
                         </xs:sequence>
                     </xs:choice>
                 </xs:extension>
@@ -1533,6 +1541,7 @@
                                 <xs:element name="amount" type="xp:transactionAmountType" minOccurs="0" />
                                 <xs:element name="secondaryAmount" type="xp:transactionAmountType" minOccurs="0" />
                                 <xs:element ref="xp:customBilling" minOccurs="0" />
+                                <xs:element name="customIdentifier" type="xp:string15Type" minOccurs="0" />
                             </xs:sequence>
                             <xs:sequence>
                                 <xs:element name="orderId" type="xp:string25Type" />
@@ -1543,6 +1552,7 @@
                                 <xs:element ref="xp:echeckOrEcheckToken" />
                                 <xs:element ref="xp:customBilling" minOccurs="0" />
                                 <xs:element name="merchantData" type="xp:merchantDataType" minOccurs="0" />
+                                <xs:element name="customIdentifier" type="xp:string15Type" minOccurs="0" />
                             </xs:sequence>
                         </xs:choice>
                     </xs:sequence>
@@ -1556,7 +1566,6 @@
             <xs:complexContent>
                 <xs:extension base="xp:transactionTypeWithReportGroup">
                     <xs:all>
-                        <xs:element name="litleTxnId" type="xp:litleIdType" minOccurs="0" />
                         <xs:element name="orderId" type="xp:string25Type" />
                         <xs:element name="amount" type="xp:transactionAmountType" /> <!-- required but not tied to sale -->
                         <xs:element name="orderSource" type="xp:orderSourceType" />
@@ -1707,6 +1716,7 @@
                         <xs:element name="litleTxnId" type="xp:litleIdType" />
                         <xs:element ref="xp:echeckOrEcheckToken" minOccurs="0"/>
                         <xs:element name="merchantData" type="xp:merchantDataType" minOccurs="0" />
+                        <xs:element name="customIdentifier" type="xp:string15Type" minOccurs="0" />
                     </xs:sequence>
                 </xs:extension>
             </xs:complexContent>
@@ -2143,6 +2153,7 @@
              <xs:element name="cryptogram" type="xp:authenticationValueType" minOccurs="0"/>
              <xs:element name="expMonth" type="xp:string2Type" minOccurs="0"/>
              <xs:element name="expYear" type="xp:string4Type" minOccurs="0"/>
+             <xs:element name="eciIndicator" type="xp:string2Type" minOccurs="0"/>
           </xs:sequence>
        </xs:complexType>
     </xs:element>
@@ -2210,6 +2221,54 @@
                 <xs:element name="redirectUrl" type="xp:string256Type" minOccurs="0" />
                 <xs:element name="redirectToken" type="xp:string128Type" minOccurs="0" />
                 <xs:element name="mandateReference" type="xp:string256Type" minOccurs="0" />
+            </xs:all>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:complexType name="idealType">
+        <xs:all>
+            <xs:element name="preferredLanguage" type="xp:countryTypeEnum" minOccurs="0"/>
+        </xs:all>
+    </xs:complexType>
+
+    <xs:element name="idealResponse">
+        <xs:complexType>
+            <xs:all>
+                <xs:element name="redirectUrl" type="xp:string256Type" minOccurs="0"/>
+                <xs:element name="redirectToken" type="xp:string128Type" minOccurs="0"/>
+                <xs:element name="paymentPurpose" type="xp:string256Type" minOccurs="0"/>
+            </xs:all>
+        </xs:complexType>
+    </xs:element>
+    
+        <xs:complexType name="giropayType">
+        <xs:all>
+            <xs:element name="preferredLanguage" type="xp:countryTypeEnum" minOccurs="0"/>
+        </xs:all>
+    </xs:complexType>
+
+    <xs:element name="giropayResponse">
+        <xs:complexType>
+            <xs:all>
+                <xs:element name="redirectUrl" type="xp:string256Type" minOccurs="0"/>
+                <xs:element name="redirectToken" type="xp:string128Type" minOccurs="0"/>
+                <xs:element name="paymentPurpose" type="xp:string256Type" minOccurs="0"/>
+            </xs:all>
+        </xs:complexType>
+    </xs:element>
+    
+        <xs:complexType name="sofortType">
+        <xs:all>
+            <xs:element name="preferredLanguage" type="xp:countryTypeEnum" minOccurs="0"/>
+        </xs:all>
+    </xs:complexType>
+
+    <xs:element name="sofortResponse">
+        <xs:complexType>
+            <xs:all>
+                <xs:element name="redirectUrl" type="xp:string256Type" minOccurs="0"/>
+                <xs:element name="redirectToken" type="xp:string128Type" minOccurs="0"/>
+                <xs:element name="paymentPurpose" type="xp:string256Type" minOccurs="0"/>
             </xs:all>
         </xs:complexType>
     </xs:element>

@@ -221,8 +221,6 @@
                         <xs:element name="origId" type="xp:string25Type" minOccurs="1" />
                         <xs:element name="origActionType" type="xp:actionTypeEnum" minOccurs="1" />
                         <xs:element name="origLitleTxnId" type="xp:litleIdType" minOccurs="0" />
-                        <xs:element name="origOrderId" type="xp:string25Type" minOccurs="0" />
-                        <xs:element name="origAccountNumber" type="xp:ccAccountNumberType" minOccurs="0"/>
                     </xs:sequence>
                 </xs:extension>
             </xs:complexContent>

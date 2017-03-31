@@ -101,6 +101,7 @@ import com.litle.sdk.generate.VendorCredit;
 import com.litle.sdk.generate.VendorCreditResponse;
 import com.litle.sdk.generate.VendorDebit;
 import com.litle.sdk.generate.VendorDebitResponse;
+import com.litle.sdk.generate.VirtualGiftCardType;
 
 public class TestBatchFile {
 
@@ -154,7 +155,7 @@ public class TestBatchFile {
         prepDir(workingDirResponses);
 
         Properties configOverrides = new Properties();
-        configOverrides.setProperty("batchHost", "prelive.litle.com"); 
+        configOverrides.setProperty("batchHost", "prelive.litle.com");
         configOverrides.setProperty("batchPort", "15000");
 
         configOverrides.setProperty("batchRequestFolder", workingDirRequests);
@@ -343,7 +344,7 @@ public class TestBatchFile {
         prepDir(workingDirResponses);
 
         Properties configOverrides = new Properties();
-        configOverrides.setProperty("batchHost", "prelive.litle.com"); 
+        configOverrides.setProperty("batchHost", "prelive.litle.com");
         configOverrides.setProperty("sftpTimeout", "720000");
 
         configOverrides.setProperty("batchRequestFolder", workingDirRequests);
@@ -369,7 +370,7 @@ public class TestBatchFile {
 
     private void prepareTestRequest(LitleBatchFileRequest request)
             throws FileNotFoundException, JAXBException {
-        
+
         Properties configFromFile = request.getConfig();
 
         LitleBatchRequest batchRequest1 = request.createBatch(configFromFile.getProperty("merchantId"));
@@ -580,7 +581,7 @@ public class TestBatchFile {
         echeckSuccess.setAccType(EcheckAccountTypeEnum.CORPORATE);
         echeckSuccess.setRoutingNum("011075150");
         echeckSuccess.setCheckNum("123455");
-        
+
 
         EcheckType echeckAccErr = new EcheckType();
         echeckAccErr.setAccNum("10@2969901");
@@ -809,7 +810,7 @@ public class TestBatchFile {
 
                     public void processFundingInstructionVoidResponse(
                             FundingInstructionVoidResponse fundingInstructionVoidResponse) {
-                        
+
                     }
 
 					public void processGiftCardAuthReversal(GiftCardAuthReversal giftCardAuthReversal) {
@@ -827,7 +828,7 @@ public class TestBatchFile {
 
         assertEquals(transactionCount, txns);
     }
-    
+
     @Test
     public void testPFIFInstructionTxn() {
         String requestFileName = "litleSdk-testBatchFile-PFIF.xml";
@@ -868,16 +869,15 @@ public class TestBatchFile {
         submerchantCredit.setId("ID");
         submerchantCredit.setCustomIdentifier("custom field");
         batch.addTransaction(submerchantCredit);
-        
+
         PayFacCredit payFacCredit = new PayFacCredit();
         payFacCredit.setReportGroup("Planets");
         payFacCredit.setFundingSubmerchantId("12346");
         payFacCredit.setFundsTransferId("000");
         payFacCredit.setAmount(1000L);
         payFacCredit.setId("ID");
-        payFacCredit.setCustomIdentifier("custom field");
         batch.addTransaction(payFacCredit);
-        
+
         VendorCredit vendorCredit = new VendorCredit();
         vendorCredit.setReportGroup("Planets");
         vendorCredit.setFundingSubmerchantId("12347");
@@ -886,27 +886,24 @@ public class TestBatchFile {
         vendorCredit.setAmount(1000L);
         vendorCredit.setAccountInfo(echeck);
         vendorCredit.setId("ID");
-        vendorCredit.setCustomIdentifier("custom field");
         batch.addTransaction(vendorCredit);
-        
+
         ReserveCredit reserveCredit = new ReserveCredit();
         reserveCredit.setReportGroup("Planets");
         reserveCredit.setFundingSubmerchantId("12348");
         reserveCredit.setFundsTransferId("000");
         reserveCredit.setAmount(1000L);
         reserveCredit.setId("ID");
-        reserveCredit.setCustomIdentifier("custom field");
         batch.addTransaction(reserveCredit);
-        
+
         PhysicalCheckCredit physicalCheckCredit = new PhysicalCheckCredit();
         physicalCheckCredit.setReportGroup("Planets");
         physicalCheckCredit.setFundingSubmerchantId("12349");
         physicalCheckCredit.setFundsTransferId("000");
         physicalCheckCredit.setAmount(1000L);
         physicalCheckCredit.setId("ID");
-        physicalCheckCredit.setCustomIdentifier("custom field");
         batch.addTransaction(physicalCheckCredit);
-        
+
         SubmerchantDebit submerchantDebit = new SubmerchantDebit();
         submerchantDebit.setReportGroup("Planets");
         submerchantDebit.setFundingSubmerchantId("12345");
@@ -917,16 +914,15 @@ public class TestBatchFile {
         submerchantDebit.setId("ID");
         submerchantDebit.setCustomIdentifier("custom field");
         batch.addTransaction(submerchantDebit);
-        
+
         PayFacDebit payFacDebit = new PayFacDebit();
         payFacDebit.setReportGroup("Planets");
         payFacDebit.setFundingSubmerchantId("12346");
         payFacDebit.setFundsTransferId("000");
         payFacDebit.setAmount(1000L);
         payFacDebit.setId("ID");
-        payFacDebit.setCustomIdentifier("cusotom field");
         batch.addTransaction(payFacDebit);
-        
+
         VendorDebit vendorDebit = new VendorDebit();
         vendorDebit.setReportGroup("Planets");
         vendorDebit.setFundingSubmerchantId("12347");
@@ -935,25 +931,22 @@ public class TestBatchFile {
         vendorDebit.setAmount(1000L);
         vendorDebit.setAccountInfo(echeck);
         vendorDebit.setId("ID");
-        vendorDebit.setCustomIdentifier("custom field");
         batch.addTransaction(vendorDebit);
-        
+
         ReserveDebit reserveDebit = new ReserveDebit();
         reserveDebit.setReportGroup("Planets");
         reserveDebit.setFundingSubmerchantId("12348");
         reserveDebit.setFundsTransferId("000");
         reserveDebit.setAmount(1000L);
         reserveDebit.setId("ID");
-        reserveDebit.setCustomIdentifier("cuetom field");
         batch.addTransaction(reserveDebit);
-        
+
         PhysicalCheckDebit physicalCheckDebit = new PhysicalCheckDebit();
         physicalCheckDebit.setReportGroup("Planets");
         physicalCheckDebit.setFundingSubmerchantId("12349");
         physicalCheckDebit.setFundsTransferId("000");
         physicalCheckDebit.setAmount(1000L);
         physicalCheckDebit.setId("ID");
-        physicalCheckDebit.setCustomIdentifier("custom field");
         batch.addTransaction(physicalCheckDebit);
 
         int transactionCount = batch.getNumberOfTransactions();
@@ -993,12 +986,22 @@ public class TestBatchFile {
         card.setExpDate("1218");
         card.setNumber("4100000000000001");
 
+        VirtualGiftCardType virtualGiftCard = new VirtualGiftCardType();
+        virtualGiftCard.setGiftCardBin("abcd1234");
+
+        GiftCardCardType giftCard = new GiftCardCardType();
+        giftCard.setType(MethodOfPaymentTypeEnum.GC);
+        giftCard.setNumber("4100000000000001");
+        giftCard.setExpDate("0850");
+        giftCard.setCardValidationNum("111");
+        giftCard.setPin("4111");
+
         Activate activate = new Activate();
         activate.setReportGroup("Planets");
         activate.setOrderSource(OrderSourceType.ECOMMERCE);
         activate.setAmount(100L);
         activate.setOrderId("abc");
-        activate.setCard(card);
+        activate.setVirtualGiftCard(virtualGiftCard);
         activate.setId("id");
         batch.addTransaction(activate);
 
@@ -1006,7 +1009,7 @@ public class TestBatchFile {
         deactivate.setReportGroup("Planets");
         deactivate.setOrderId("def");
         deactivate.setOrderSource(OrderSourceType.ECOMMERCE);
-        deactivate.setCard(card);
+        deactivate.setCard(giftCard);
         deactivate.setId("id");
         batch.addTransaction(deactivate);
 
@@ -1015,7 +1018,7 @@ public class TestBatchFile {
         load.setOrderId("ghi");
         load.setAmount(100L);
         load.setOrderSource(OrderSourceType.ECOMMERCE);
-        load.setCard(card);
+        load.setCard(giftCard);
         load.setId("id");
         batch.addTransaction(load);
 
@@ -1024,7 +1027,7 @@ public class TestBatchFile {
         unload.setOrderId("jkl");
         unload.setAmount(100L);
         unload.setOrderSource(OrderSourceType.ECOMMERCE);
-        unload.setCard(card);
+        unload.setCard(giftCard);
         unload.setId("id");
         batch.addTransaction(unload);
 
@@ -1032,17 +1035,12 @@ public class TestBatchFile {
         balanceInquiry.setReportGroup("Planets");
         balanceInquiry.setOrderId("mno");
         balanceInquiry.setOrderSource(OrderSourceType.ECOMMERCE);
-        balanceInquiry.setCard(card);
+        balanceInquiry.setCard(giftCard);
         balanceInquiry.setId("id");
         batch.addTransaction(balanceInquiry);
-        
-        GiftCardCardType giftCard = new GiftCardCardType();
-        giftCard.setType(MethodOfPaymentTypeEnum.GC);
-        giftCard.setNumber("4100000000000001");
-        giftCard.setExpDate("0850");
-        giftCard.setCardValidationNum("111");
-        giftCard.setPin("4111");
-        
+
+
+
 //        GiftCardAuthReversal gcAuthReversal = new GiftCardAuthReversal();
 //        gcAuthReversal.setId("979797");
 //        gcAuthReversal.setCustomerId("customer_23");
@@ -1066,7 +1064,7 @@ public class TestBatchFile {
 //        gcCapture.setOriginalAmount(44455l);
 //        gcCapture.setOriginalTxnTime(new XMLGregorianCalendarImpl(new GregorianCalendar()));
 //        batch.addTransaction(gcCapture);
-//        
+//
 //        GiftCardCredit gcCredit = new GiftCardCredit();
 //        gcCredit.setLitleTxnId(369852147l);
 //        gcCredit.setId("id");
@@ -1075,7 +1073,7 @@ public class TestBatchFile {
 //        gcCredit.setCreditAmount(1942l);
 //        gcCredit.setCard(giftCard);
 //        batch.addTransaction(gcCredit);
-        
+
         LitleBatchFileResponse fileResponse = request.sendToLitle();
         LitleBatchResponse batchResponse = fileResponse
                 .getNextLitleBatchResponse();
@@ -1840,22 +1838,22 @@ public class TestBatchFile {
         public void processFundingInstructionVoidResponse(
                 FundingInstructionVoidResponse fundingInstructionVoidResponse) {
             // TODO Auto-generated method stub
-            
+
         }
 
 		public void processGiftCardAuthReversal(GiftCardAuthReversal giftCardAuthReversal) {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		public void processGiftCardCapture(GiftCardCapture giftCardCapture) {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		public void processGiftCardCredit(GiftCardCredit giftCardCredit) {
 			// TODO Auto-generated method stub
-			
+
 		}
     }
 
