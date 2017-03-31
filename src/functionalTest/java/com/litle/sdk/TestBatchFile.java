@@ -968,7 +968,7 @@ public class TestBatchFile {
 
     @Test
     public void testGiftCardTransactions() {
-        String requestFileName = "litleSdk-testBatchFile-RECURRING.xml";
+        String requestFileName = "litleSdk-testBatchFile-GiftCardTransactions.xml";
         LitleBatchFileRequest request = new LitleBatchFileRequest(
                 requestFileName);
 
@@ -1001,7 +1001,7 @@ public class TestBatchFile {
         activate.setOrderSource(OrderSourceType.ECOMMERCE);
         activate.setAmount(100L);
         activate.setOrderId("abc");
-        activate.setVirtualGiftCard(virtualGiftCard);
+        activate.setCard(giftCard);
         activate.setId("id");
         batch.addTransaction(activate);
 
@@ -1074,9 +1074,9 @@ public class TestBatchFile {
 //        gcCredit.setCard(giftCard);
 //        batch.addTransaction(gcCredit);
 
+        int transactionCount = batch.getNumberOfTransactions();
         LitleBatchFileResponse fileResponse = request.sendToLitle();
-        LitleBatchResponse batchResponse = fileResponse
-                .getNextLitleBatchResponse();
+        LitleBatchResponse batchResponse = fileResponse.getNextLitleBatchResponse();
         int txns = 0;
         // iterate over all transactions in the file with a custom response
         // processor
