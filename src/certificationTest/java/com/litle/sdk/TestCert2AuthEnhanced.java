@@ -25,7 +25,7 @@ public class TestCert2AuthEnhanced {
 	public static void beforeClass() throws Exception {
 		litle = new LitleOnline();
 	}
-	
+
 	@Test
 	public void test14() throws Exception {
 		Authorization authorization = new Authorization();
@@ -37,7 +37,7 @@ public class TestCert2AuthEnhanced {
 		card.setNumber("4457010200000247");
 		card.setExpDate("0812");
 		authorization.setCard(card);
-		
+
 		AuthorizationResponse response = litle.authorize(authorization);
 		assertEquals(response.getMessage(), "000",response.getResponse());
 		assertEquals(response.getMessage(), "Approved",response.getMessage());
@@ -46,7 +46,7 @@ public class TestCert2AuthEnhanced {
 		assertEquals(response.getMessage(), "NO",response.getEnhancedAuthResponse().getFundingSource().getReloadable());
 		assertEquals(response.getMessage(), "GIFT",response.getEnhancedAuthResponse().getFundingSource().getPrepaidCardType());
 	}
-	
+
 	@Test
 	public void test15() throws Exception {
 		Authorization authorization = new Authorization();
@@ -58,7 +58,7 @@ public class TestCert2AuthEnhanced {
 		card.setNumber("5500000254444445");
 		card.setExpDate("0312");
 		authorization.setCard(card);
-		
+
 		AuthorizationResponse response = litle.authorize(authorization);
 		assertEquals(response.getMessage(), "000",response.getResponse());
 		assertEquals(response.getMessage(), "Approved",response.getMessage());
@@ -67,7 +67,7 @@ public class TestCert2AuthEnhanced {
 		assertEquals(response.getMessage(), "YES",response.getEnhancedAuthResponse().getFundingSource().getReloadable());
 		assertEquals(response.getMessage(), "PAYROLL",response.getEnhancedAuthResponse().getFundingSource().getPrepaidCardType());
 	}
-	
+
 	@Test
 	public void test16() throws Exception {
 		Authorization authorization = new Authorization();
@@ -79,7 +79,7 @@ public class TestCert2AuthEnhanced {
 		card.setNumber("5592106621450897");
 		card.setExpDate("0312");
 		authorization.setCard(card);
-		
+
 		AuthorizationResponse response = litle.authorize(authorization);
 		assertEquals(response.getMessage(), "000",response.getResponse());
 		assertEquals(response.getMessage(), "Approved",response.getMessage());
@@ -88,7 +88,7 @@ public class TestCert2AuthEnhanced {
 		assertEquals(response.getMessage(), "YES",response.getEnhancedAuthResponse().getFundingSource().getReloadable());
 		assertEquals(response.getMessage(), "PAYROLL",response.getEnhancedAuthResponse().getFundingSource().getPrepaidCardType());
 	}
-	
+
 	@Test
 	public void test17() throws Exception {
 		Authorization authorization = new Authorization();
@@ -100,7 +100,7 @@ public class TestCert2AuthEnhanced {
 		card.setNumber("5590409551104142");
 		card.setExpDate("0312");
 		authorization.setCard(card);
-		
+
 		AuthorizationResponse response = litle.authorize(authorization);
 		assertEquals(response.getMessage(), "000",response.getResponse());
 		assertEquals(response.getMessage(), "Approved",response.getMessage());
@@ -109,7 +109,7 @@ public class TestCert2AuthEnhanced {
 		assertEquals(response.getMessage(), "YES",response.getEnhancedAuthResponse().getFundingSource().getReloadable());
 		assertEquals(response.getMessage(), "PAYROLL",response.getEnhancedAuthResponse().getFundingSource().getPrepaidCardType());
 	}
-	
+
 	@Test
 	public void test18() throws Exception {
 		Authorization authorization = new Authorization();
@@ -121,7 +121,7 @@ public class TestCert2AuthEnhanced {
 		card.setNumber("5587755665222179");
 		card.setExpDate("0312");
 		authorization.setCard(card);
-		
+
 		AuthorizationResponse response = litle.authorize(authorization);
 		assertEquals(response.getMessage(), "000",response.getResponse());
 		assertEquals(response.getMessage(), "Approved",response.getMessage());
@@ -130,7 +130,7 @@ public class TestCert2AuthEnhanced {
 		assertEquals(response.getMessage(), "YES",response.getEnhancedAuthResponse().getFundingSource().getReloadable());
 		assertEquals(response.getMessage(), "PAYROLL",response.getEnhancedAuthResponse().getFundingSource().getPrepaidCardType());
 	}
-	
+
 	@Test
 	public void test19() throws Exception {
 		Authorization authorization = new Authorization();
@@ -142,7 +142,7 @@ public class TestCert2AuthEnhanced {
 		card.setNumber("5445840176552850");
 		card.setExpDate("0312");
 		authorization.setCard(card);
-		
+
 		AuthorizationResponse response = litle.authorize(authorization);
 		assertEquals(response.getMessage(), "000",response.getResponse());
 		assertEquals(response.getMessage(), "Approved",response.getMessage());
@@ -151,7 +151,7 @@ public class TestCert2AuthEnhanced {
 		assertEquals(response.getMessage(), "YES",response.getEnhancedAuthResponse().getFundingSource().getReloadable());
 		assertEquals(response.getMessage(), "PAYROLL",response.getEnhancedAuthResponse().getFundingSource().getPrepaidCardType());
 	}
-	
+
 	@Test
 	public void test20() throws Exception {
 		Authorization authorization = new Authorization();
@@ -163,7 +163,7 @@ public class TestCert2AuthEnhanced {
 		card.setNumber("5390016478904678");
 		card.setExpDate("0312");
 		authorization.setCard(card);
-		
+
 		AuthorizationResponse response = litle.authorize(authorization);
 		assertEquals(response.getMessage(), "000",response.getResponse());
 		assertEquals(response.getMessage(), "Approved",response.getMessage());
@@ -172,7 +172,7 @@ public class TestCert2AuthEnhanced {
 		assertEquals(response.getMessage(), "YES",response.getEnhancedAuthResponse().getFundingSource().getReloadable());
 		assertEquals(response.getMessage(), "PAYROLL",response.getEnhancedAuthResponse().getFundingSource().getPrepaidCardType());
 	}
-	
+
 	@Test
 	public void test21() throws Exception {
 		Authorization authorization = new Authorization();
@@ -184,14 +184,14 @@ public class TestCert2AuthEnhanced {
 		card.setNumber("4457010201000246");
 		card.setExpDate("0912");
 		authorization.setCard(card);
-		
+
 		AuthorizationResponse response = litle.authorize(authorization);
 		assertEquals(response.getMessage(), "000",response.getResponse());
 		assertEquals(response.getMessage(), "Approved",response.getMessage());
 		assertEquals(response.getMessage(), AffluenceTypeEnum.AFFLUENT,response.getEnhancedAuthResponse().getAffluence());
-	
+
 	}
-	
+
 	@Test
 	public void test22() throws Exception {
 		Authorization authorization = new Authorization();
@@ -203,14 +203,14 @@ public class TestCert2AuthEnhanced {
 		card.setNumber("4457010202000245");
 		card.setExpDate("1111");
 		authorization.setCard(card);
-		
+
 		AuthorizationResponse response = litle.authorize(authorization);
 		assertEquals(response.getMessage(), "000",response.getResponse());
 		assertEquals(response.getMessage(), "Approved",response.getMessage());
 		assertEquals(response.getMessage(), AffluenceTypeEnum.MASS_AFFLUENT,response.getEnhancedAuthResponse().getAffluence());
-	
+
 	}
-	
+
 	@Test
 	public void test23() throws Exception {
 		Authorization authorization = new Authorization();
@@ -222,14 +222,14 @@ public class TestCert2AuthEnhanced {
 		card.setNumber("5112010201000109");
 		card.setExpDate("0412");
 		authorization.setCard(card);
-		
+
 		AuthorizationResponse response = litle.authorize(authorization);
 		assertEquals(response.getMessage(), "000",response.getResponse());
 		assertEquals(response.getMessage(), "Approved",response.getMessage());
 		assertEquals(response.getMessage(), AffluenceTypeEnum.AFFLUENT,response.getEnhancedAuthResponse().getAffluence());
-	
+
 	}
-	
+
 	@Test
 	public void test24() throws Exception {
 		Authorization authorization = new Authorization();
@@ -241,14 +241,14 @@ public class TestCert2AuthEnhanced {
 		card.setNumber("5112010202000108");
 		card.setExpDate("0812");
 		authorization.setCard(card);
-		
+
 		AuthorizationResponse response = litle.authorize(authorization);
 		assertEquals(response.getMessage(), "000",response.getResponse());
 		assertEquals(response.getMessage(), "Approved",response.getMessage());
 		assertEquals(response.getMessage(), AffluenceTypeEnum.MASS_AFFLUENT,response.getEnhancedAuthResponse().getAffluence());
-	
+
 	}
-	
+
 	@Test
 	public void test25() throws Exception {
 		Authorization authorization = new Authorization();
@@ -260,14 +260,14 @@ public class TestCert2AuthEnhanced {
 		card.setNumber("4100204446270000");
 		card.setExpDate("1112");
 		authorization.setCard(card);
-		
+
 		AuthorizationResponse response = litle.authorize(authorization);
 		assertEquals(response.getMessage(), "000",response.getResponse());
 		assertEquals(response.getMessage(), "Approved",response.getMessage());
 		assertEquals(response.getMessage(), "BRA",response.getEnhancedAuthResponse().getIssuerCountry());
-	
+
 	}
-	
+
 	@Test
 	public void test26() throws Exception {
 		Authorization authorization = new Authorization();
@@ -286,12 +286,12 @@ public class TestCert2AuthEnhanced {
 		healthcareiias.setHealthcareAmounts(healthcareamounts);
 		healthcareiias.setIIASFlag(IIASFlagType.Y);
 		authorization.setHealthcareIIAS(healthcareiias);
-		
+
 		AuthorizationResponse response = litle.authorize(authorization);
 		assertEquals(response.getMessage(), "341",response.getResponse());
-		assertEquals(response.getMessage(), "Invalid healthcare amounts",response.getMessage());
+		assertEquals(response.getMessage().toLowerCase(), "Invalid healthcare amounts".toLowerCase());
 	}
-	
+
 	@Test
 	public void test27() throws Exception {
 		Authorization authorization = new Authorization();
@@ -311,12 +311,12 @@ public class TestCert2AuthEnhanced {
 		healthcareiias.setHealthcareAmounts(healthcareamounts);
 		healthcareiias.setIIASFlag(IIASFlagType.Y);
 		authorization.setHealthcareIIAS(healthcareiias);
-		
+
 		AuthorizationResponse response = litle.authorize(authorization);
 		assertEquals(response.getMessage(), "341",response.getResponse());
-		assertEquals(response.getMessage(), "Invalid healthcare amounts",response.getMessage());
+		assertEquals(response.getMessage().toLowerCase(), "Invalid healthcare amounts".toLowerCase());
 	}
-	
+
 	@Test
 	public void test28() throws Exception {
 		Authorization authorization = new Authorization();
@@ -336,12 +336,12 @@ public class TestCert2AuthEnhanced {
 		healthcareiias.setHealthcareAmounts(healthcareamounts);
 		healthcareiias.setIIASFlag(IIASFlagType.Y);
 		authorization.setHealthcareIIAS(healthcareiias);
-		
+
 		AuthorizationResponse response = litle.authorize(authorization);
 		assertEquals(response.getMessage(), "000",response.getResponse());
 		assertEquals(response.getMessage(), "Approved",response.getMessage());
 	}
-	
+
 	@Test
 	public void test29() throws Exception {
 		Authorization authorization = new Authorization();
@@ -364,12 +364,12 @@ public class TestCert2AuthEnhanced {
 		healthcareiias.setHealthcareAmounts(healthcareamounts);
 		healthcareiias.setIIASFlag(IIASFlagType.Y);
 		authorization.setHealthcareIIAS(healthcareiias);
-		
+
 		AuthorizationResponse response = litle.authorize(authorization);
 		assertEquals(response.getMessage(), "341",response.getResponse());
-		assertEquals(response.getMessage(), "Invalid healthcare amounts",response.getMessage());
+		assertEquals(response.getMessage().toLowerCase(), "Invalid healthcare amounts".toLowerCase());
 	}
-	
+
 	@Test
 	public void test30() throws Exception {
 		Authorization authorization = new Authorization();
@@ -392,12 +392,12 @@ public class TestCert2AuthEnhanced {
 		healthcareiias.setHealthcareAmounts(healthcareamounts);
 		healthcareiias.setIIASFlag(IIASFlagType.Y);
 		authorization.setHealthcareIIAS(healthcareiias);
-		
+
 		AuthorizationResponse response = litle.authorize(authorization);
 		assertEquals(response.getMessage(), "341",response.getResponse());
-		assertEquals(response.getMessage(), "Invalid healthcare amounts",response.getMessage());
+		assertEquals(response.getMessage().toLowerCase(), "Invalid healthcare amounts".toLowerCase());
 	}
-	
+
 	@Test
 	public void test31() throws Exception {
 		Authorization authorization = new Authorization();
@@ -418,12 +418,12 @@ public class TestCert2AuthEnhanced {
 		healthcareiias.setHealthcareAmounts(healthcareamounts);
 		healthcareiias.setIIASFlag(IIASFlagType.Y);
 		authorization.setHealthcareIIAS(healthcareiias);
-		
+
 		AuthorizationResponse response = litle.authorize(authorization);
 		assertEquals(response.getMessage(), "010",response.getResponse());
 		assertEquals(response.getMessage(), "Partially Approved",response.getMessage());
 		assertEquals(response.getMessage(), 18699L,response.getApprovedAmount().longValue());
 	}
-	
+
 
 }
