@@ -14,20 +14,21 @@ import com.litle.sdk.generate.RFRRequest;
 
 public class TestRFRFile {
 
-    String merchantId = "0180-xml10";
-
 	@Test
     public void testSendToLitleSFTP() throws Exception {
         String requestFileName = "litleSdk-testRFRFile-fileConfigSFTP.xml";
         RFRRequest rfrRequest = new RFRRequest();
-        AccountUpdateFileRequestData data = new AccountUpdateFileRequestData();
-        data.setMerchantId(merchantId);
-        data.setPostDay(Calendar.getInstance());
-        rfrRequest.setAccountUpdateFileRequestData(data);
 
         LitleRFRFileRequest request = new LitleRFRFileRequest(requestFileName, rfrRequest);
 
         Properties configFromFile = request.getConfig();
+
+        AccountUpdateFileRequestData data = new AccountUpdateFileRequestData();
+        data.setMerchantId(configFromFile.getProperty("merchantId"));
+        data.setPostDay(Calendar.getInstance());
+        rfrRequest.setAccountUpdateFileRequestData(data);
+
+
 
         // pre-assert the config file has required param values
         assertEquals("prelive.litle.com", configFromFile.getProperty("batchHost"));
@@ -56,11 +57,6 @@ public class TestRFRFile {
     public void testSendToLitleStream() throws Exception {
         String requestFileName = "litleSdk-testRFRFile-fileConfig.xml";
         RFRRequest rfrRequest = new RFRRequest();
-        AccountUpdateFileRequestData data = new AccountUpdateFileRequestData();
-        data.setMerchantId(merchantId);
-        data.setPostDay(Calendar.getInstance());
-        rfrRequest.setAccountUpdateFileRequestData(data);
-
         LitleRFRFileRequest request = new LitleRFRFileRequest(requestFileName, rfrRequest);
 
         Properties configFromFile = request.getConfig();
@@ -75,17 +71,21 @@ public class TestRFRFile {
         String workingDirResponses = configFromFile.getProperty("batchResponseFolder");
         prepDir(workingDirResponses);
 
-
+        AccountUpdateFileRequestData data = new AccountUpdateFileRequestData();
+        System.out.println("asdfsdf" + configFromFile.getProperty("merchantId"));
+        data.setMerchantId(configFromFile.getProperty("merchantId"));
+        data.setPostDay(Calendar.getInstance());
+        rfrRequest.setAccountUpdateFileRequestData(data);
 
         /* call method under test */
-        
+
         try {
             LitleRFRFileResponse response = request.sendToLitleStream();
 
             // assert request and response files were created properly
             assertGeneratedFiles(workingDirRequests, workingDirResponses, requestFileName, request, response);
         } catch (Exception e) {
-           
+
         }
     }
 
