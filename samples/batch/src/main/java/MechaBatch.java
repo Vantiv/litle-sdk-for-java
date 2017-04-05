@@ -11,9 +11,9 @@ public class MechaBatch {
     public static void main(String[] args) {    	
     	String requestFileName = "litleSdk-testBatchFile-MECHA.xml";
 	LitleBatchFileRequest request = new LitleBatchFileRequest(requestFileName);
-	String merchantId = "0180-xml10";
 	Properties configFromFile = request.getConfig();
-	 
+	String merchantId = configFromFile.getProperty("merchantId");
+	
 	LitleBatchRequest batch = request.createBatch(merchantId);
 	 
 	//card
