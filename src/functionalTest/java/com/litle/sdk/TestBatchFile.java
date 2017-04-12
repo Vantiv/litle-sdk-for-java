@@ -10,98 +10,14 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.Properties;
 
 import javax.xml.bind.JAXBException;
 
+import com.litle.sdk.generate.*;
+import com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl;
 import org.junit.Test;
-
-import com.litle.sdk.generate.AccountUpdate;
-import com.litle.sdk.generate.AccountUpdateResponse;
-import com.litle.sdk.generate.Activate;
-import com.litle.sdk.generate.ActivateResponse;
-import com.litle.sdk.generate.AuthInformation;
-import com.litle.sdk.generate.AuthReversal;
-import com.litle.sdk.generate.AuthReversalResponse;
-import com.litle.sdk.generate.Authorization;
-import com.litle.sdk.generate.AuthorizationResponse;
-import com.litle.sdk.generate.BalanceInquiry;
-import com.litle.sdk.generate.BalanceInquiryResponse;
-import com.litle.sdk.generate.CancelSubscription;
-import com.litle.sdk.generate.CancelSubscriptionResponse;
-import com.litle.sdk.generate.Capture;
-import com.litle.sdk.generate.CaptureGivenAuth;
-import com.litle.sdk.generate.CaptureGivenAuthResponse;
-import com.litle.sdk.generate.CaptureResponse;
-import com.litle.sdk.generate.CardType;
-import com.litle.sdk.generate.Contact;
-import com.litle.sdk.generate.CreatePlan;
-import com.litle.sdk.generate.CreatePlanResponse;
-import com.litle.sdk.generate.Credit;
-import com.litle.sdk.generate.CreditResponse;
-import com.litle.sdk.generate.Deactivate;
-import com.litle.sdk.generate.DeactivateResponse;
-import com.litle.sdk.generate.EcheckAccountTypeEnum;
-import com.litle.sdk.generate.EcheckCredit;
-import com.litle.sdk.generate.EcheckCreditResponse;
-import com.litle.sdk.generate.EcheckPreNoteCredit;
-import com.litle.sdk.generate.EcheckPreNoteCreditResponse;
-import com.litle.sdk.generate.EcheckPreNoteSale;
-import com.litle.sdk.generate.EcheckPreNoteSaleResponse;
-import com.litle.sdk.generate.EcheckRedeposit;
-import com.litle.sdk.generate.EcheckRedepositResponse;
-import com.litle.sdk.generate.EcheckSale;
-import com.litle.sdk.generate.EcheckSalesResponse;
-import com.litle.sdk.generate.EcheckType;
-import com.litle.sdk.generate.EcheckVerification;
-import com.litle.sdk.generate.EcheckVerificationResponse;
-import com.litle.sdk.generate.ForceCapture;
-import com.litle.sdk.generate.ForceCaptureResponse;
-import com.litle.sdk.generate.FundingInstructionVoidResponse;
-import com.litle.sdk.generate.GiftCardAuthReversal;
-import com.litle.sdk.generate.GiftCardCapture;
-import com.litle.sdk.generate.GiftCardCardType;
-import com.litle.sdk.generate.GiftCardCredit;
-import com.litle.sdk.generate.IntervalTypeEnum;
-import com.litle.sdk.generate.LitleTransactionInterface;
-import com.litle.sdk.generate.Load;
-import com.litle.sdk.generate.LoadResponse;
-import com.litle.sdk.generate.MethodOfPaymentTypeEnum;
-import com.litle.sdk.generate.ObjectFactory;
-import com.litle.sdk.generate.OrderSourceType;
-import com.litle.sdk.generate.PayFacCredit;
-import com.litle.sdk.generate.PayFacCreditResponse;
-import com.litle.sdk.generate.PayFacDebit;
-import com.litle.sdk.generate.PayFacDebitResponse;
-import com.litle.sdk.generate.PhysicalCheckCredit;
-import com.litle.sdk.generate.PhysicalCheckCreditResponse;
-import com.litle.sdk.generate.PhysicalCheckDebit;
-import com.litle.sdk.generate.PhysicalCheckDebitResponse;
-import com.litle.sdk.generate.RegisterTokenRequestType;
-import com.litle.sdk.generate.RegisterTokenResponse;
-import com.litle.sdk.generate.ReserveCredit;
-import com.litle.sdk.generate.ReserveCreditResponse;
-import com.litle.sdk.generate.ReserveDebit;
-import com.litle.sdk.generate.ReserveDebitResponse;
-import com.litle.sdk.generate.Sale;
-import com.litle.sdk.generate.SaleResponse;
-import com.litle.sdk.generate.SubmerchantCredit;
-import com.litle.sdk.generate.SubmerchantCreditResponse;
-import com.litle.sdk.generate.SubmerchantDebit;
-import com.litle.sdk.generate.SubmerchantDebitResponse;
-import com.litle.sdk.generate.Unload;
-import com.litle.sdk.generate.UnloadResponse;
-import com.litle.sdk.generate.UpdateCardValidationNumOnToken;
-import com.litle.sdk.generate.UpdateCardValidationNumOnTokenResponse;
-import com.litle.sdk.generate.UpdatePlan;
-import com.litle.sdk.generate.UpdatePlanResponse;
-import com.litle.sdk.generate.UpdateSubscription;
-import com.litle.sdk.generate.UpdateSubscriptionResponse;
-import com.litle.sdk.generate.VendorCredit;
-import com.litle.sdk.generate.VendorCreditResponse;
-import com.litle.sdk.generate.VendorDebit;
-import com.litle.sdk.generate.VendorDebitResponse;
-import com.litle.sdk.generate.VirtualGiftCardType;
 
 public class TestBatchFile {
 
@@ -813,13 +729,14 @@ public class TestBatchFile {
 
                     }
 
-					public void processGiftCardAuthReversal(GiftCardAuthReversal giftCardAuthReversal) {
+					public void processGiftCardAuthReversalResponse(
+					        GiftCardAuthReversalResponse giftCardAuthReversalResponse) {
 					}
 
-					public void processGiftCardCapture(GiftCardCapture giftCardCapture) {
+					public void processGiftCardCaptureResponse(GiftCardCaptureResponse giftCardCaptureResponse) {
 					}
 
-					public void processGiftCardCredit(GiftCardCredit giftCardCredit) {
+					public void processGiftCardCreditResponse(GiftCardCreditResponse giftCardCreditResponse) {
 					}
                 })) {
 
@@ -1041,38 +958,38 @@ public class TestBatchFile {
 
 
 
-//        GiftCardAuthReversal gcAuthReversal = new GiftCardAuthReversal();
-//        gcAuthReversal.setId("979797");
-//        gcAuthReversal.setCustomerId("customer_23");
-//        gcAuthReversal.setLitleTxnId(8521478963210145l);
-//        gcAuthReversal.setReportGroup("rptGrp2");
-//        gcAuthReversal.setOriginalAmount(45l);
-//        gcAuthReversal.setOriginalSequenceNumber("333333");
-//        gcAuthReversal.setOriginalTxnTime(new XMLGregorianCalendarImpl(new GregorianCalendar()));
-//        gcAuthReversal.setOriginalSystemTraceId(0);
-//        gcAuthReversal.setOriginalRefCode("ref");
-//        gcAuthReversal.setCard(giftCard);
-//        batch.addTransaction(gcAuthReversal);
-//
-//        GiftCardCapture gcCapture = new GiftCardCapture();
-//        gcCapture.setLitleTxnId(123L);
-//        gcCapture.setId("id");
-//        gcCapture.setReportGroup("rptGrp");
-//        gcCapture.setCaptureAmount(2434l);
-//        gcCapture.setCard(giftCard);
-//        gcCapture.setOriginalRefCode("ref");
-//        gcCapture.setOriginalAmount(44455l);
-//        gcCapture.setOriginalTxnTime(new XMLGregorianCalendarImpl(new GregorianCalendar()));
-//        batch.addTransaction(gcCapture);
-//
-//        GiftCardCredit gcCredit = new GiftCardCredit();
-//        gcCredit.setLitleTxnId(369852147l);
-//        gcCredit.setId("id");
-//        gcCredit.setReportGroup("rptGrp1");
-//        gcCredit.setCustomerId("customer_22");
-//        gcCredit.setCreditAmount(1942l);
-//        gcCredit.setCard(giftCard);
-//        batch.addTransaction(gcCredit);
+        GiftCardAuthReversal gcAuthReversal = new GiftCardAuthReversal();
+        gcAuthReversal.setId("979797");
+        gcAuthReversal.setCustomerId("customer_23");
+        gcAuthReversal.setLitleTxnId(8521478963210145l);
+        gcAuthReversal.setReportGroup("rptGrp2");
+        gcAuthReversal.setOriginalAmount(45l);
+        gcAuthReversal.setOriginalSequenceNumber("333333");
+        gcAuthReversal.setOriginalTxnTime(new XMLGregorianCalendarImpl(new GregorianCalendar()));
+        gcAuthReversal.setOriginalSystemTraceId(0);
+        gcAuthReversal.setOriginalRefCode("ref");
+        gcAuthReversal.setCard(giftCard);
+        batch.addTransaction(gcAuthReversal);
+
+        GiftCardCapture gcCapture = new GiftCardCapture();
+        gcCapture.setLitleTxnId(123L);
+        gcCapture.setId("id");
+        gcCapture.setReportGroup("rptGrp");
+        gcCapture.setCaptureAmount(2434l);
+        gcCapture.setCard(giftCard);
+        gcCapture.setOriginalRefCode("ref");
+        gcCapture.setOriginalAmount(44455l);
+        gcCapture.setOriginalTxnTime(new XMLGregorianCalendarImpl(new GregorianCalendar()));
+        batch.addTransaction(gcCapture);
+
+        GiftCardCredit gcCredit = new GiftCardCredit();
+        gcCredit.setLitleTxnId(369852147l);
+        gcCredit.setId("id");
+        gcCredit.setReportGroup("rptGrp1");
+        gcCredit.setCustomerId("customer_22");
+        gcCredit.setCreditAmount(1942l);
+        gcCredit.setCard(giftCard);
+        batch.addTransaction(gcCredit);
 
         int transactionCount = batch.getNumberOfTransactions();
         LitleBatchFileResponse fileResponse = request.sendToLitle();
@@ -1086,6 +1003,7 @@ public class TestBatchFile {
                             AuthorizationResponse authorizationResponse) {
                         assertNotNull(authorizationResponse.getLitleTxnId());
                     }
+
 
                     public void processCaptureResponse(
                             CaptureResponse captureResponse) {
@@ -1251,13 +1169,16 @@ public class TestBatchFile {
                             FundingInstructionVoidResponse fundingInstructionVoidResponse) {
                     }
 
-					public void processGiftCardAuthReversal(GiftCardAuthReversal giftCardAuthReversal) {
+					public void processGiftCardAuthReversalResponse(GiftCardAuthReversalResponse giftCardAuthReversalResponse) {
+                        assertNotNull(giftCardAuthReversalResponse.getLitleTxnId());
 					}
 
-					public void processGiftCardCapture(GiftCardCapture giftCardCapture) {
+					public void processGiftCardCaptureResponse(GiftCardCaptureResponse giftCardCaptureResponse) {
+                        assertNotNull(giftCardCaptureResponse.getLitleTxnId());
 					}
 
-					public void processGiftCardCredit(GiftCardCredit giftCardCredit) {
+					public void processGiftCardCreditResponse(GiftCardCreditResponse giftCardCreditResponse) {
+                        assertNotNull(giftCardCreditResponse.getLitleTxnId());
 					}
                 })) {
             txns++;
@@ -1529,13 +1450,13 @@ public class TestBatchFile {
                             FundingInstructionVoidResponse fundingInstructionVoidResponse) {
                     }
 
-					public void processGiftCardAuthReversal(GiftCardAuthReversal giftCardAuthReversal) {
+					public void processGiftCardAuthReversalResponse(GiftCardAuthReversalResponse giftCardAuthReversalResponse) {
 					}
 
-					public void processGiftCardCapture(GiftCardCapture giftCardCapture) {
+					public void processGiftCardCaptureResponse(GiftCardCaptureResponse giftCardCaptureResponse) {
 					}
 
-					public void processGiftCardCredit(GiftCardCredit giftCardCredit) {
+					public void processGiftCardCreditResponse(GiftCardCreditResponse giftCardCreditResponse) {
 					}
                 })) {
             txns++;
@@ -1837,23 +1758,23 @@ public class TestBatchFile {
 
         public void processFundingInstructionVoidResponse(
                 FundingInstructionVoidResponse fundingInstructionVoidResponse) {
-            // TODO Auto-generated method stub
-
+            assertNotNull(fundingInstructionVoidResponse.getLitleTxnId());
+            responseCount++;
         }
 
-		public void processGiftCardAuthReversal(GiftCardAuthReversal giftCardAuthReversal) {
-			// TODO Auto-generated method stub
-
+		public void processGiftCardAuthReversalResponse(GiftCardAuthReversalResponse giftCardAuthReversalResponse) {
+			assertNotNull(giftCardAuthReversalResponse.getLitleTxnId());
+            responseCount++;
 		}
 
-		public void processGiftCardCapture(GiftCardCapture giftCardCapture) {
-			// TODO Auto-generated method stub
-
+		public void processGiftCardCaptureResponse(GiftCardCaptureResponse giftCardCaptureResponse) {
+			assertNotNull(giftCardCaptureResponse.getLitleTxnId());
+            responseCount++;
 		}
 
-		public void processGiftCardCredit(GiftCardCredit giftCardCredit) {
-			// TODO Auto-generated method stub
-
+		public void processGiftCardCreditResponse(GiftCardCreditResponse giftCardCreditResponse) {
+			assertNotNull(giftCardCreditResponse.getLitleTxnId());
+            responseCount++;
 		}
     }
 

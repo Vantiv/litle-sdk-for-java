@@ -1,44 +1,6 @@
 package com.litle.sdk;
 
-import com.litle.sdk.generate.AccountUpdateResponse;
-import com.litle.sdk.generate.ActivateResponse;
-import com.litle.sdk.generate.AuthReversalResponse;
-import com.litle.sdk.generate.AuthorizationResponse;
-import com.litle.sdk.generate.BalanceInquiryResponse;
-import com.litle.sdk.generate.CancelSubscriptionResponse;
-import com.litle.sdk.generate.CaptureGivenAuthResponse;
-import com.litle.sdk.generate.CaptureResponse;
-import com.litle.sdk.generate.CreatePlanResponse;
-import com.litle.sdk.generate.CreditResponse;
-import com.litle.sdk.generate.DeactivateResponse;
-import com.litle.sdk.generate.EcheckCreditResponse;
-import com.litle.sdk.generate.EcheckPreNoteCreditResponse;
-import com.litle.sdk.generate.EcheckPreNoteSaleResponse;
-import com.litle.sdk.generate.EcheckRedepositResponse;
-import com.litle.sdk.generate.EcheckSalesResponse;
-import com.litle.sdk.generate.EcheckVerificationResponse;
-import com.litle.sdk.generate.ForceCaptureResponse;
-import com.litle.sdk.generate.FundingInstructionVoidResponse;
-import com.litle.sdk.generate.GiftCardAuthReversal;
-import com.litle.sdk.generate.GiftCardCapture;
-import com.litle.sdk.generate.GiftCardCredit;
-import com.litle.sdk.generate.LoadResponse;
-import com.litle.sdk.generate.PayFacCreditResponse;
-import com.litle.sdk.generate.PayFacDebitResponse;
-import com.litle.sdk.generate.PhysicalCheckCreditResponse;
-import com.litle.sdk.generate.PhysicalCheckDebitResponse;
-import com.litle.sdk.generate.RegisterTokenResponse;
-import com.litle.sdk.generate.ReserveCreditResponse;
-import com.litle.sdk.generate.ReserveDebitResponse;
-import com.litle.sdk.generate.SaleResponse;
-import com.litle.sdk.generate.SubmerchantCreditResponse;
-import com.litle.sdk.generate.SubmerchantDebitResponse;
-import com.litle.sdk.generate.UnloadResponse;
-import com.litle.sdk.generate.UpdateCardValidationNumOnTokenResponse;
-import com.litle.sdk.generate.UpdatePlanResponse;
-import com.litle.sdk.generate.UpdateSubscriptionResponse;
-import com.litle.sdk.generate.VendorCreditResponse;
-import com.litle.sdk.generate.VendorDebitResponse;
+import com.litle.sdk.generate.*;
 
 /**
  * Implement this interface in order to process transactions on LitleBatchResponse objects with the .processNextTransaction method.
@@ -119,9 +81,9 @@ public interface LitleResponseProcessor {
     
     void processFundingInstructionVoidResponse(FundingInstructionVoidResponse fundingInstructionVoidResponse);
     
-    void processGiftCardAuthReversal(GiftCardAuthReversal giftCardAuthReversal);
+    void processGiftCardAuthReversalResponse(GiftCardAuthReversalResponse giftCardAuthReversalResponse);
     
-    void processGiftCardCapture(GiftCardCapture giftCardCapture);
+    void processGiftCardCaptureResponse(GiftCardCaptureResponse giftCardCaptureResponse);
     
-    void processGiftCardCredit(GiftCardCredit giftCardCredit);
+    void processGiftCardCreditResponse(GiftCardCreditResponse giftCardCreditResponse);
 }
