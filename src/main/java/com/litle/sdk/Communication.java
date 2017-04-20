@@ -21,6 +21,7 @@ import org.apache.http.conn.scheme.SchemeRegistry;
 import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.client.DefaultHttpRequestRetryHandler;
 import org.apache.http.impl.conn.BasicClientConnectionManager;
 import org.apache.http.params.CoreConnectionPNames;
 import org.apache.http.util.EntityUtils;
@@ -57,6 +58,7 @@ public class Communication {
                 reg.register(http);
                 ClientConnectionManager manager = new BasicClientConnectionManager(reg);
                 temp = new DefaultHttpClient(manager);
+                temp.setHttpRequestRetryHandler(new DefaultHttpRequestRetryHandler(0,false));
             }
         } catch (GeneralSecurityException ex) {
             throw new IllegalStateException(ex);
