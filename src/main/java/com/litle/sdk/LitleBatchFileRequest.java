@@ -73,8 +73,8 @@ public class LitleBatchFileRequest{
 	 * proxyPort
 	 * printxml (possible values "true" and "false" defaults to false)
 	 *
-	 * @param RequestFileName
-	 *            , config
+	 * @param requestFileName {@link String} batch request file name
+	 * @param properties {@link Properties} configuration properties
 	 */
 	public LitleBatchFileRequest(String requestFileName, Properties properties) {
 		intializeMembers(requestFileName, properties);
@@ -82,8 +82,8 @@ public class LitleBatchFileRequest{
 
 	/**
 	 * This constructor is primarily here for test purposes only.
-	 * @param requestFileName
-	 * @param config
+	 * @param requestFileName {@link String} batch request file name
+	 * @param config {@link Configuration} configuration
 	 */
 	public LitleBatchFileRequest(String requestFileName, Configuration config) {
 		this.config = config;
@@ -151,9 +151,9 @@ public class LitleBatchFileRequest{
 
 	/**
 	 * Returns a LitleBatchRequest object, the container for transactions.
-	 * @param merchantId
-	 * @return
-	 * @throws LitleBatchException
+	 * @param merchantId {@link String} merchant id to be used for the batch
+	 * @return litleBatchRequest {@link LitleBatchRequest} the batch request to be submitted
+	 * @throws LitleBatchException {@link LitleBatchException} exception creating the batch
 	 */
 	public LitleBatchRequest createBatch(String merchantId)
 			throws LitleBatchException {

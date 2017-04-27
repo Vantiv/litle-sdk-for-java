@@ -1,5 +1,9 @@
 = LitleOnline CHANGELOG
 
+==Version 9.12.2 (Apr 27, 2017)
+* Feature: Update httpclient to v4.5.2, commons-io to v2.5, jsch to v0.1.54, JUnit to v4.12
+* Feature: refactor Communication to use httpclient builder
+
 ==Version 9.12.1 (Mar 17, 2017)
 * Feature: Improve unicode support.
 
@@ -14,35 +18,35 @@
 * Feature: cardSuffix added on responses
 
 ==Version 9.9 (March 30, 2016)
-*Add Gift Card Pin Support
+* Feature: Add Gift Card Pin Support
 
 ==Version 9.8
-Added androidpay test cases
+* Feature: Added androidpay test cases
 
 ==Version 9.3.4 (June 7, 2016)
 *Feature: add TLSv1.1 and 1.2 as preferred protocols, needed for Sandbox connectivity
 *Feature: new method that allows closing of file resources
 
 ==Version 9.3.2
-*HTTP timeout set to 500ms
+* Feature: HTTP timeout set to 500ms
 
 ==Version 9.3.1 (March 9, 2015)
 *Feature: PFIF instruction transaction was added
 
 ==Version 9.3.0 (February 13, 2015)
-*Feature: Applepay support was added
-*Feature: Secondary amount support was added
-*Feature: Wallet support was added
-*Feature: EcheckPreNoteSale batch transaction type support was added
-*Feature: EcheckPreNoteCredit batch transaction type support was added
+* Feature: Applepay support was added
+* Feature: Secondary amount support was added
+* Feature: Wallet support was added
+* Feature: EcheckPreNoteSale batch transaction type support was added
+* Feature: EcheckPreNoteCredit batch transaction type support was added
 
 ==Version 9.0.0 (August 26, 2014)
-*Support version 9
-*modify xsd
+* Feature: Support version 9
+* Feature: modify xsd
 
 == Version 8.27.0 (August 26, 2014)
-* Add samples in the build
-* modify xsd
+* Feature: Add samples in the build
+* Feature: modify xsd
 
 == Version 8.25.4 (June 6, 2014)
 * Feature: Migrate build to Gradle
