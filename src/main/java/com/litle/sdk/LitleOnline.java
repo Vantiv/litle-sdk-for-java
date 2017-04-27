@@ -132,7 +132,7 @@ public class LitleOnline {
 	 *	proxyPort
 	 *	printxml (possible values "true" and "false" - defaults to false)
 	 *
-	 * @param config
+	 * @param config {@link Properties} configuration properties
 	 */
 	public LitleOnline(Properties config) {
 		this.config = config;
@@ -725,7 +725,6 @@ public class LitleOnline {
 			return response;
 		} catch(JAXBException ume) {
 			throw new LitleOnlineException("Error validating xml data against the schema", ume);
-		} finally {
 		}
 	}
 

@@ -31,7 +31,7 @@ public class StreamData {
 	 * @param hostname The name of the machine ( either dns name or full ip address )
 	 * @param port The port on the machine that you want to connect to.
 	 * @param timeOut The time ( in mills ) that the socket should wait on reading before timing out.
-	 * @throws Exception when any exception occurs trying to connect to the machine/port.
+	 * @throws IOException when any exception occurs trying to connect to the machine/port.
 	 */
 	public void init(String hostname, String port, int timeOut, boolean SSL) throws IOException {
 		try {
@@ -75,8 +75,7 @@ public class StreamData {
 	/**
 	 * This method will write to the Response file from the socket.
 	 * 
-	 * @param File Empty response file to write to
-	 * @return Void
+	 * @param xmlResponseFile {@link File} Empty response file to write to
 	 * @throws IOException when a read exception occurs
 	 */
 	public void dataIn(File xmlResponseFile) throws IOException {
@@ -117,8 +116,7 @@ public class StreamData {
 	/**
 	 * This method will read from the request file and write to the socket.
 	 * 
-	 * @param File Empty response file to write to
-	 * @return Void
+	 * @param file {@link File} Empty response file to write to
 	 * @throws IOException when a read exception occurs
 	 */
 	public void dataOut(File file) throws IOException {
