@@ -1,8 +1,9 @@
 = LitleOnline CHANGELOG
 
-==Version 9.12.2 (Apr 27, 2017)
+==Version 9.12.2 (May 5, 2017)
 * Feature: Update httpclient to v4.5.2, commons-io to v2.5, jsch to v0.1.54, JUnit to v4.12
 * Feature: refactor Communication to use httpclient builder
+* Feature: Add specific exceptions for Open access responses
 
 ==Version 9.12.1 (Mar 17, 2017)
 * Feature: Improve unicode support.
