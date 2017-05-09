@@ -41,7 +41,8 @@ sourceSets {
 }
 
 dependencies{
-    compile group:'com.jcraft', name:'jsch', version:'0.1.51'
+    // https://mvnrepository.com/artifact/com.jcraft/jsch
+    compile group: 'com.jcraft', name: 'jsch', version: '0.1.54'
     // https://mvnrepository.com/artifact/commons-io/commons-io
     compile group: 'commons-io', name: 'commons-io', version: '2.5'
     // https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient
