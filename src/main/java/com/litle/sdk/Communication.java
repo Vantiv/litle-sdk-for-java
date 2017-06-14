@@ -47,34 +47,34 @@ public class Communication {
 
 	public Communication() {
 		try {
-			if (getBestProtocol(SSLContext.getDefault().getDefaultSSLParameters().getProtocols()) == null) {
-				String protocol = getBestProtocol(SSLContext.getDefault().getSupportedSSLParameters().getProtocols());
-				if (protocol == null) {
-					throw new IllegalStateException("No supported TLS protocols available");
-				}
-				SSLContext ctx = SSLContexts.custom().useProtocol(protocol).build();
-				ConnectionSocketFactory plainSocketFactory = new PlainConnectionSocketFactory();
-				LayeredConnectionSocketFactory sslSocketFactory = new SSLConnectionSocketFactory(ctx);
 
-				Registry<ConnectionSocketFactory> registry = RegistryBuilder.<ConnectionSocketFactory>create()
-						.register("http", plainSocketFactory)
-						.register("https", sslSocketFactory)
-						.build();
-
-				BasicHttpClientConnectionManager manager = new BasicHttpClientConnectionManager(registry);
-
-				HttpRequestRetryHandler requestRetryHandler = new DefaultHttpRequestRetryHandler(0, true);
-				// Vantiv will a close an idle connection, so we define our Keep-alive strategy to be below that threshold
-				ConnectionKeepAliveStrategy keepAliveStrategy = new ConnectionKeepAliveStrategy() {
-					public long getKeepAliveDuration(HttpResponse response, HttpContext context) {
-						return KEEP_ALIVE_DURATION;
-					}
-				};
-				httpClient = HttpClients.custom().setConnectionManager(manager)
-						.setRetryHandler(requestRetryHandler)
-						.setKeepAliveStrategy(keepAliveStrategy)
-						.build();
+			String protocol = getBestProtocol(SSLContext.getDefault().getSupportedSSLParameters().getProtocols());
+			if (protocol == null) {
+				throw new IllegalStateException("No supported TLS protocols available");
 			}
+			SSLContext ctx = SSLContexts.custom().useProtocol(protocol).build();
+			ConnectionSocketFactory plainSocketFactory = new PlainConnectionSocketFactory();
+			LayeredConnectionSocketFactory sslSocketFactory = new SSLConnectionSocketFactory(ctx);
+
+			Registry<ConnectionSocketFactory> registry = RegistryBuilder.<ConnectionSocketFactory>create()
+					.register("http", plainSocketFactory)
+					.register("https", sslSocketFactory)
+					.build();
+
+			BasicHttpClientConnectionManager manager = new BasicHttpClientConnectionManager(registry);
+
+			HttpRequestRetryHandler requestRetryHandler = new DefaultHttpRequestRetryHandler(0, true);
+			// Vantiv will a close an idle connection, so we define our Keep-alive strategy to be below that threshold
+			ConnectionKeepAliveStrategy keepAliveStrategy = new ConnectionKeepAliveStrategy() {
+				public long getKeepAliveDuration(HttpResponse response, HttpContext context) {
+					return KEEP_ALIVE_DURATION;
+				}
+			};
+			httpClient = HttpClients.custom().setConnectionManager(manager)
+					.setRetryHandler(requestRetryHandler)
+					.setKeepAliveStrategy(keepAliveStrategy)
+					.build();
+
 			streamData = new StreamData();
 		} catch (GeneralSecurityException ex) {
 			throw new IllegalStateException(ex);
