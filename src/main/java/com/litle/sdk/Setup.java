@@ -15,22 +15,17 @@ public class Setup {
 	private static final HashMap<String,String> URL_MAP = new HashMap<String,String>() {
 		{
 			put("sandbox","https://www.testlitle.com/sandbox/communicator/online");
-			put("cert","https://prelive.litle.com/vap/communicator/online");
-			put("precert","https://postlive.litle.com/vap/communicator/online");
-			put("production","https://payments.litle.com/vap/communicator/online");
-			put("batchsandbox","https://www.testlitle.com/sandbox");
-			put("batchcert","cert.litle.com");
-			put("batchprecert","precert.litle.com");
-			put("batchproduction", "payments.litle.com");
+			put("prelive","https://payments.vantivprelive.com/vap/communicator/online");
+			put("production","https://payments.vantivcnp.com/vap/communicator/online");
+			put("batchcert","payments.vantivprelive.com");
+			put("batchproduction", "payments.vantivcnp.com");
 		}
 	};
 
 	@SuppressWarnings("serial")
 	private static final HashMap<String,String> PORT_MAP = new HashMap<String,String>() {
 		{
-			put("batchsandbox","15000");
-			put("batchcert","15000");
-			put("batchprecert","15000");
+			put("batchprelive","15000");
 			put("batchproduction", "15000");
 		}
 	};
@@ -48,7 +43,7 @@ public class Setup {
 		BufferedReader stdin = new BufferedReader
 	      (new InputStreamReader(System.in));
 
-		System.out.println("Welcome to Litle Java_SDK");
+		System.out.println("Welcome to Vantiv eCommerce Java_SDK");
 		System.out.print("Please input your presenter user name: ");
 		config.put("username", stdin.readLine());
 		System.out.print("Please input your presenter password: ");
@@ -60,17 +55,15 @@ public class Setup {
 			if( badInput ){
 				System.out.println("====== Invalid choice entered ======");
 			}
-			System.out.println("Please choose an environment from the following list (example: 'cert'):");
+			System.out.println("Please choose an environment from the following list (example: 'prelive'):");
 			System.out.println("\tsandbox => www.testlitle.com");
-			System.out.println("\tcert => cert.litle.com");
-			System.out.println("\tprecert => precert.litle.com");
-			System.out.println("\tproduction => payments.litle.com");
+			System.out.println("\tprelive => payments.vantivprelive.com");
+			System.out.println("\tproduction => payments.vantivcnp.com");
 			System.out.println("\tother => You will be asked for all the values");
 			lastUserInput = stdin.readLine();
 			if(
-				lastUserInput.compareToIgnoreCase("cert") == 0 ||
+				lastUserInput.compareToIgnoreCase("prelive") == 0 ||
 				lastUserInput.compareToIgnoreCase("sandbox") == 0 ||
-				lastUserInput.compareToIgnoreCase("precert") == 0 ||
 				lastUserInput.compareToIgnoreCase("production") == 0
 			) {
 				// standard predefined cases
@@ -82,7 +75,7 @@ public class Setup {
 				// user wants to enter custom values
 				System.out.println("Please input the URL for online transactions (ex: https://www.testlitle.com/sandbox/communicator/online):");
 				config.put("url", stdin.readLine());
-				System.out.println("Please input the Host name for batch transactions (ex: payments.litle.com):");
+				System.out.println("Please input the Host name for batch transactions (ex: payments.vantivcnp.com):");
 				config.put("batchHost", stdin.readLine());
 				System.out.println("Please input the port number for batch transactions (ex: 15000):");
 				config.put("batchPort", stdin.readLine());
@@ -137,7 +130,7 @@ public class Setup {
 		config.put("maxTransactionsPerBatch", "100000");
 
 		config.store(configFile, "");
-		System.out.println("The Litle configuration file has been generated, the file is located at " + file.getAbsolutePath());
+		System.out.println("The Vantiv eCommerce configuration file has been generated, the file is located at " + file.getAbsolutePath());
 		
 		configFile.close();
 	}
