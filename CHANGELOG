@@ -1,4 +1,7 @@
 = LitleOnline CHANGELOG
+==Version 11.0.2 (July 31, 2017)
+* BugFix: fix how a Communication instance is created
+* Feature: update URLs to be current, not including Sandbox
 
 ==Version 11.0.1 (Apr 20, 2017)
 * Feature: update commons-io and http-client versions
