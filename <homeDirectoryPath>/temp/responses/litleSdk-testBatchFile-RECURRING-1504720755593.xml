@@ -1,0 +1,32 @@
+<litleResponse version="11.3" xmlns="http://www.litle.com/schema" response="0" message="Valid Format" litleSessionId="82921389014876172">
+<batchResponse litleBatchId="82921389014876180" merchantId="1288791">
+<cancelSubscriptionResponse>
+    <litleTxnId>82921389014876214</litleTxnId>
+    <response>000</response>
+    <message>Approved</message>
+    <responseTime>2017-09-06T17:59:16</responseTime>
+    <subscriptionId>12345</subscriptionId>
+</cancelSubscriptionResponse>
+<updateSubscriptionResponse>
+    <litleTxnId>82921389014876222</litleTxnId>
+    <response>000</response>
+    <message>Approved</message>
+    <responseTime>2017-09-06T17:59:16</responseTime>
+    <subscriptionId>12345</subscriptionId>
+</updateSubscriptionResponse>
+<createPlanResponse>
+    <litleTxnId>82921389014876230</litleTxnId>
+    <response>000</response>
+    <message>Approved</message>
+    <responseTime>2017-09-06T17:59:16</responseTime>
+    <planCode>abc</planCode>
+</createPlanResponse>
+<updatePlanResponse>
+    <litleTxnId>82921389014876248</litleTxnId>
+    <response>000</response>
+    <message>Approved</message>
+    <responseTime>2017-09-06T17:59:16</responseTime>
+    <planCode>def</planCode>
+</updatePlanResponse>
+</batchResponse>
+</litleResponse>

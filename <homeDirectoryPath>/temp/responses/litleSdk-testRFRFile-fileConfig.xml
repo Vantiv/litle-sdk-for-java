@@ -1,0 +1,5 @@
+<litleResponse version="11.2" xmlns="http://www.litle.com/schema">
+<RFRResponse response="1" message="Error validating xml data against the schema on line 6
+uncompleted content model. expecting: &lt;accountUpdateFileRequestData&gt;,&lt;litleSessionId&gt;">
+</RFRResponse>
+</litleResponse>

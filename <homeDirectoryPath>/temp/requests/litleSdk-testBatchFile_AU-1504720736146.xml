@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><litleRequest version="11.3" numBatchRequests="1" xmlns="http://www.litle.com/schema"><authentication><user>SDKTEAM</user><password>V3r5K6v7</password></authentication> <batchRequest merchantSdk="Java;11.3.0" numAccountUpdates="1" merchantId="1288791" xmlns="http://www.litle.com/schema">
+<accountUpdate xmlns="http://www.litle.com/schema" reportGroup="Planets" id="12345" customerId="0987">
+    <orderId>1234</orderId>
+    <card>
+        <type>VI</type>
+        <number>4100000000000001</number>
+        <expDate>1210</expDate>
+    </card>
+</accountUpdate>
+</batchRequest>
+</litleRequest>

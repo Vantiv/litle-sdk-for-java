@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><litleRequest version="11.3" numBatchRequests="1" xmlns="http://www.litle.com/schema"><authentication><user>SDKTEAM</user><password>V3r5K6v7</password></authentication> <batchRequest merchantSdk="Java;11.3.0" numGiftCardAuthReversals="1" giftCardAuthReversalOriginalAmount="45" numGiftCardCaptures="1" giftCardCaptureAmount="2434" numGiftCardCredits="1" giftCardCreditAmount="1942" numActivates="1" numDeactivates="1" activateAmount="100" numLoads="1" loadAmount="100" numUnloads="1" unloadAmount="100" numBalanceInquirys="1" merchantId="1288791" xmlns="http://www.litle.com/schema">
+<activate xmlns="http://www.litle.com/schema" reportGroup="Planets" id="id">
+    <orderId>abc</orderId>
+    <amount>100</amount>
+    <orderSource>ecommerce</orderSource>
+    <card>
+        <type>GC</type>
+        <number>4100000000000001</number>
+        <expDate>0850</expDate>
+        <cardValidationNum>111</cardValidationNum>
+        <pin>4111</pin>
+    </card>
+</activate>
+
+<deactivate xmlns="http://www.litle.com/schema" reportGroup="Planets" id="id">
+    <orderId>def</orderId>
+    <orderSource>ecommerce</orderSource>
+    <card>
+        <type>GC</type>
+        <number>4100000000000001</number>
+        <expDate>0850</expDate>
+        <cardValidationNum>111</cardValidationNum>
+        <pin>4111</pin>
+    </card>
+</deactivate>
+
+<load xmlns="http://www.litle.com/schema" reportGroup="Planets" id="id">
+    <orderId>ghi</orderId>
+    <amount>100</amount>
+    <orderSource>ecommerce</orderSource>
+    <card>
+        <type>GC</type>
+        <number>4100000000000001</number>
+        <expDate>0850</expDate>
+        <cardValidationNum>111</cardValidationNum>
+        <pin>4111</pin>
+    </card>
+</load>
+
+<unload xmlns="http://www.litle.com/schema" reportGroup="Planets" id="id">
+    <orderId>jkl</orderId>
+    <amount>100</amount>
+    <orderSource>ecommerce</orderSource>
+    <card>
+        <type>GC</type>
+        <number>4100000000000001</number>
+        <expDate>0850</expDate>
+        <cardValidationNum>111</cardValidationNum>
+        <pin>4111</pin>
+    </card>
+</unload>
+
+<balanceInquiry xmlns="http://www.litle.com/schema" reportGroup="Planets" id="id">
+    <orderId>mno</orderId>
+    <orderSource>ecommerce</orderSource>
+    <card>
+        <type>GC</type>
+        <number>4100000000000001</number>
+        <expDate>0850</expDate>
+        <cardValidationNum>111</cardValidationNum>
+        <pin>4111</pin>
+    </card>
+</balanceInquiry>
+
+<giftCardAuthReversal xmlns="http://www.litle.com/schema" reportGroup="rptGrp2" id="979797" customerId="customer_23">
+    <litleTxnId>8521478963210145</litleTxnId>
+    <card>
+        <type>GC</type>
+        <number>4100000000000001</number>
+        <expDate>0850</expDate>
+        <cardValidationNum>111</cardValidationNum>
+        <pin>4111</pin>
+    </card>
+    <originalRefCode>ref</originalRefCode>
+    <originalAmount>45</originalAmount>
+    <originalTxnTime>2017-09-06T13:59:33.172-04:00</originalTxnTime>
+    <originalSystemTraceId>0</originalSystemTraceId>
+    <originalSequenceNumber>333333</originalSequenceNumber>
+</giftCardAuthReversal>
+
+<giftCardCapture xmlns="http://www.litle.com/schema" reportGroup="rptGrp" id="id">
+    <litleTxnId>123</litleTxnId>
+    <captureAmount>2434</captureAmount>
+    <card>
+        <type>GC</type>
+        <number>4100000000000001</number>
+        <expDate>0850</expDate>
+        <cardValidationNum>111</cardValidationNum>
+        <pin>4111</pin>
+    </card>
+    <originalRefCode>ref</originalRefCode>
+    <originalAmount>44455</originalAmount>
+    <originalTxnTime>2017-09-06T13:59:33.173-04:00</originalTxnTime>
+</giftCardCapture>
+
+<giftCardCredit xmlns="http://www.litle.com/schema" reportGroup="rptGrp1" id="id" customerId="customer_22">
+    <litleTxnId>369852147</litleTxnId>
+    <creditAmount>1942</creditAmount>
+    <card>
+        <type>GC</type>
+        <number>4100000000000001</number>
+        <expDate>0850</expDate>
+        <cardValidationNum>111</cardValidationNum>
+        <pin>4111</pin>
+    </card>
+</giftCardCredit>
+</batchRequest>
+</litleRequest>
