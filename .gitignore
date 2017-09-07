@@ -1,8 +1,6 @@
 #.project
 bin/
-build/
 .gradle
-test/
 .classpath
 .project
 .settings/
@@ -10,7 +8,6 @@ test/
 .idea/
 .idea/compiler.xml
 .idea/encodings.xml
-.idea/gradle.xml
 .idea/libraries/Gradle__junit_junit_4_11.xml
 .idea/libraries/Gradle__org_hamcrest_hamcrest_core_1_3.xml
 .idea/libraries/Gradle__org_mockito_mockito_all_1_9_5.xml
@@ -21,8 +18,4 @@ test/
 .idea/workspace.xml
 lib/
 out/
-samples/auth/src/main/main.iml
-samples/token/src/main/main8.iml
-src/certificationTest/certificationTest.iml
-src/functionalTest/functionalTest.iml
-src/main/main1.iml
+

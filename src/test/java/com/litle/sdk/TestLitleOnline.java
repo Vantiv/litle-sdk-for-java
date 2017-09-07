@@ -1422,6 +1422,7 @@ public class TestLitleOnline {
         DeactivateReversal deactivateReversal = new DeactivateReversal();
         deactivateReversal.setLitleTxnId(123l);
 
+
         Communication mockedCommunication = mock(Communication.class);
         when(
                 mockedCommunication
