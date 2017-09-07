@@ -1427,7 +1427,7 @@ public class TestLitleOnline {
         when(
                 mockedCommunication
                         .requestToServer(
-                                matches(".*?<litleOnlineRequest merchantId=\"905\" merchantSdk=.*version=\"11.0\" xmlns=\"http://www.litle.com/schema\">.*?"
+                                matches(".*?<litleOnlineRequest merchantId=\"905\" merchantSdk=.*version=\"11.3\" xmlns=\"http://www.litle.com/schema\">.*?"
                                 		+ "<deactivateReversal>"
                                 		+ "<litleTxnId>123</litleTxnId>"
                                 		+ "<originalSystemTraceId>0</originalSystemTraceId>"
