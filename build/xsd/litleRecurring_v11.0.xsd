@@ -1,0 +1,252 @@
+<xs:schema targetNamespace="http://www.litle.com/schema" xmlns:xp="http://www.litle.com/schema"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+
+    <xs:include schemaLocation="litleCommon_v11.0.xsd" />
+
+    <xs:element name="recurringTransaction" type="xp:recurringTransactionType" abstract="true" />
+    <xs:element name="recurringTransactionResponse" type="xp:recurringTransactionResponseType" abstract="true" />
+
+    <xs:complexType name="recurringTransactionType">
+    </xs:complexType>
+
+    <xs:complexType name="recurringTransactionResponseType">
+        <xs:sequence>
+            <xs:element name="litleTxnId" type="xp:litleIdType" />
+            <xs:element name="response" type="xp:responseType" />
+            <xs:element name="message" type="xs:string" />
+            <xs:element name="responseTime" type="xs:dateTime" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:element name="cancelSubscription" substitutionGroup="xp:recurringTransaction" >
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="xp:recurringTransactionType">
+                    <xs:sequence>
+                         <xs:element name="subscriptionId" type="xp:litleIdType" />
+                      </xs:sequence>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="updateSubscription" substitutionGroup="xp:recurringTransaction" >
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="xp:recurringTransactionType">
+                    <xs:sequence>
+                         <xs:element name="subscriptionId" type="xp:litleIdType" />
+                         <xs:element name="planCode" type="xp:string25Type" minOccurs="0" />
+                         <xs:element ref="xp:billToAddress" minOccurs="0" />
+                         <xs:choice minOccurs="0">
+                             <xs:element name="card" type="xp:cardType" />
+                             <xs:element name="token" type="xp:cardTokenType" />
+                             <xs:element name="paypage" type="xp:cardPaypageType" />
+                         </xs:choice>
+                         <xs:element name="billingDate" type="xs:date" minOccurs="0"/>
+                         <xs:element name="createDiscount" type="xp:createDiscountType" minOccurs="0" maxOccurs="unbounded"/>
+                         <xs:element name="updateDiscount" type="xp:updateDiscountType" minOccurs="0" maxOccurs="unbounded"/>
+                         <xs:element name="deleteDiscount" type="xp:deleteDiscountType" minOccurs="0" maxOccurs="unbounded"/>
+                         <xs:element name="createAddOn" type="xp:createAddOnType" minOccurs="0" maxOccurs="unbounded"/>
+                         <xs:element name="updateAddOn" type="xp:updateAddOnType" minOccurs="0" maxOccurs="unbounded"/>
+                         <xs:element name="deleteAddOn" type="xp:deleteAddOnType" minOccurs="0" maxOccurs="unbounded"/>
+                      </xs:sequence>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="createPlan" substitutionGroup="xp:recurringTransaction" >
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="xp:recurringTransactionType">
+                    <xs:sequence>
+                         <xs:element name="planCode" type="xp:string25Type"/>
+                         <xs:element name="name" type="xp:nameType"/>
+                         <xs:element name="description" type="xp:nameType" minOccurs="0"/>
+                         <xs:element name="intervalType" type="xp:intervalTypeEnum"/>
+                         <xs:element name="amount" type="xp:transactionAmountType"/>
+                         <xs:element name="numberOfPayments" type="xp:numberOfPaymentsType" minOccurs="0"/>
+                         <xs:element name="trialNumberOfIntervals" type="xp:numberOfPaymentsType" minOccurs="0"/>
+                         <xs:element name="trialIntervalType" type="xp:trialIntervalTypeEnum" minOccurs="0"/>
+                         <xs:element name="active" type="xs:boolean" minOccurs="0"/>
+                      </xs:sequence>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="updatePlan" substitutionGroup="xp:recurringTransaction" >
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="xp:recurringTransactionType">
+                    <xs:sequence>
+                         <xs:element name="planCode" type="xp:string25Type" />
+                         <xs:element name="active" type="xs:boolean" />
+                      </xs:sequence>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="cancelSubscriptionResponse" substitutionGroup="xp:recurringTransactionResponse">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="xp:recurringTransactionResponseType">
+                    <xs:sequence>
+                         <xs:element name="subscriptionId" type="xp:litleIdType" />
+                      </xs:sequence>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="updateSubscriptionResponse" substitutionGroup="xp:recurringTransactionResponse">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="xp:recurringTransactionResponseType">
+                    <xs:sequence>
+                         <xs:element name="subscriptionId" type="xp:litleIdType" />
+                         <xs:element name="tokenResponse" type="xp:tokenResponseType" minOccurs="0"/>
+                      </xs:sequence>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="createPlanResponse" substitutionGroup="xp:recurringTransactionResponse">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="xp:recurringTransactionResponseType">
+                    <xs:sequence>
+                         <xs:element name="planCode" type="xp:string25Type"/>
+                      </xs:sequence>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="updatePlanResponse" substitutionGroup="xp:recurringTransactionResponse">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="xp:recurringTransactionResponseType">
+                    <xs:sequence>
+                         <xs:element name="planCode" type="xp:string25Type"/>
+                      </xs:sequence>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <!--Recurring Types -->
+    <xs:complexType name="recurringSubscriptionType">
+        <xs:sequence>
+            <xs:element name="planCode" type="xp:string25Type" />
+            <xs:element name="numberOfPayments" type="xp:numberOfPaymentsType" minOccurs="0"/>
+            <xs:element name="startDate" type="xs:date" minOccurs="0"/>
+            <xs:element name="amount" type="xp:transactionAmountType" minOccurs="0"/>
+            <xs:element name="createDiscount" type="xp:createDiscountType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="createAddOn" type="xp:createAddOnType" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:simpleType name="numberOfPaymentsType">
+        <xs:restriction base="xs:integer">
+            <xs:minInclusive value="1" />
+            <xs:maxInclusive value="99" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="intervalTypeEnum">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="ANNUAL" />
+            <xs:enumeration value="SEMIANNUAL" />
+            <xs:enumeration value="QUARTERLY" />
+            <xs:enumeration value="MONTHLY" />
+            <xs:enumeration value="WEEKLY" />
+         </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="trialIntervalTypeEnum">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="MONTH" />
+            <xs:enumeration value="DAY" />
+         </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="litleInternalRecurringRequestType">
+        <xs:sequence>
+            <xs:element name="subscriptionId" type="xp:litleIdType" />
+            <xs:element name="recurringTxnId" type="xp:litleIdType" />
+            <xs:element name="finalPayment" type="xs:boolean" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="recurringRequestType">
+        <xs:sequence>
+            <xs:element name="subscription" type="xp:recurringSubscriptionType" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="recurringResponseType">
+        <xs:sequence>
+            <xs:element name="subscriptionId" type="xp:litleIdType" />
+            <xs:element name="responseCode" type="xp:responseType" />
+            <xs:element name="responseMessage" type="xp:messageType" />
+            <xs:element name="recurringTxnId" type="xp:litleIdType" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="createDiscountType">
+        <xs:sequence>
+            <xs:element name="discountCode" type="xp:string25Type" />
+            <xs:element name="name" type="xp:nameType" />
+            <xs:element name="amount" type="xp:transactionAmountType" />
+            <xs:element name="startDate" type="xs:date" />
+            <xs:element name="endDate" type="xs:date" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="updateDiscountType">
+        <xs:sequence>
+            <xs:element name="discountCode" type="xp:string25Type" />
+            <xs:element name="name" type="xp:nameType" minOccurs="0"/>
+            <xs:element name="amount" type="xp:transactionAmountType" minOccurs="0"/>
+            <xs:element name="startDate" type="xs:date" minOccurs="0"/>
+            <xs:element name="endDate" type="xs:date" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="deleteDiscountType">
+        <xs:sequence>
+            <xs:element name="discountCode" type="xp:string25Type" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="createAddOnType">
+        <xs:sequence>
+            <xs:element name="addOnCode" type="xp:string25Type" />
+            <xs:element name="name" type="xp:nameType" />
+            <xs:element name="amount" type="xp:transactionAmountType" />
+            <xs:element name="startDate" type="xs:date" />
+            <xs:element name="endDate" type="xs:date" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="updateAddOnType">
+        <xs:sequence>
+            <xs:element name="addOnCode" type="xp:string25Type" />
+            <xs:element name="name" type="xp:nameType" minOccurs="0"/>
+            <xs:element name="amount" type="xp:transactionAmountType" minOccurs="0"/>
+            <xs:element name="startDate" type="xs:date" minOccurs="0"/>
+            <xs:element name="endDate" type="xs:date" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="deleteAddOnType">
+        <xs:sequence>
+            <xs:element name="addOnCode" type="xp:string25Type" />
+        </xs:sequence>
+    </xs:complexType>
+
+</xs:schema>
