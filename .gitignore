@@ -18,4 +18,5 @@ bin/
 .idea/workspace.xml
 lib/
 out/
+build/
 
