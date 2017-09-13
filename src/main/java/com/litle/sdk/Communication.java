@@ -126,11 +126,11 @@ public class Communication {
             post.setEntity(new StringEntity(xmlRequest,"UTF-8"));
 
             HttpResponse response = httpClient.execute(post);
+            entity = response.getEntity();
             if (response.getStatusLine().getStatusCode() != 200) {
                 throw new LitleOnlineException(response.getStatusLine().getStatusCode() + ":" +
                         response.getStatusLine().getReasonPhrase());
             }
-            entity = response.getEntity();
             xmlResponse = EntityUtils.toString(entity,"UTF-8");
 
             if (printxml) {
