@@ -133,7 +133,7 @@ public class LitleOnline {
 	 *	merchantId
 	 *	password
 	 *	version (eg 8.10)
-	 *	timeout (in seconds)
+	 *	timeout (in milliseconds)
 	 *	Optional properties are:
 	 *	proxyHost
 	 *	proxyPort
