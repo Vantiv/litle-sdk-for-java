@@ -67,7 +67,7 @@ jacocoTestReport {
 
 jar{
     manifest {
-        attributes("Implementation-Title":"Litle SDK For Java 1.5 and greater", "Implementation-Version":"${JAR_VERSION}","Implementation-Vendor":"Litle&Co","Main-Class":"com.litle.sdk.Setup")
+        attributes("Implementation-Title":"Litle SDK For Java 1.5 and greater", "Implementation-Version":"${JAR_VERSION}","Implementation-Vendor":"Vantiv-eCommerce","Main-Class":"com.litle.sdk.Setup")
     }
     destinationDir = file("${DIST_DIR_15}/lib")
     archiveName = "litle-sdk-for-java-${JAR_VERSION}.jar"
