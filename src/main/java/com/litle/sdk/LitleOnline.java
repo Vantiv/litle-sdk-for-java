@@ -143,7 +143,30 @@ public class LitleOnline {
 		}
 	}
 
+<<<<<<< HEAD
 
+=======
+	/**
+	 * Construct a LitleOnline specifying the configuration in code.  This should be used by integrations that
+	 * have another way to specify their configuration settings (ofbiz, etc)
+	 *
+	 * Properties that *must* be set are:
+	 *
+	 * 	url (eg https://payments.litle.com/vap/communicator/online)
+	 *	reportGroup (eg "Default Report Group")
+	 *	username
+	 *	merchantId
+	 *	password
+	 *	version (eg 8.10)
+	 *	timeout (in milliseconds)
+	 *	Optional properties are:
+	 *	proxyHost
+	 *	proxyPort
+	 *	printxml (possible values "true" and "false" - defaults to false)
+	 *
+	 * @param config
+	 */
+>>>>>>> 1f77120415ad2f690c2c8fa4d838acbaf7041bd9
 	public LitleOnline(Properties config) {
 		this.config = config;
 		communication = new Communication();
