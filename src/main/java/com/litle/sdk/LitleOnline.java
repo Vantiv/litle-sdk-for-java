@@ -51,6 +51,8 @@ import com.litle.sdk.generate.ForceCapture;
 import com.litle.sdk.generate.ForceCaptureResponse;
 import com.litle.sdk.generate.FraudCheck;
 import com.litle.sdk.generate.FraudCheckResponse;
+import com.litle.sdk.generate.FundingInstructionVoid;
+import com.litle.sdk.generate.FundingInstructionVoidResponse;
 import com.litle.sdk.generate.GiftCardAuthReversal;
 import com.litle.sdk.generate.GiftCardAuthReversalResponse;
 import com.litle.sdk.generate.GiftCardCapture;
@@ -63,14 +65,30 @@ import com.litle.sdk.generate.Load;
 import com.litle.sdk.generate.LoadResponse;
 import com.litle.sdk.generate.LoadReversal;
 import com.litle.sdk.generate.LoadReversalResponse;
+import com.litle.sdk.generate.PayFacCredit;
+import com.litle.sdk.generate.PayFacCreditResponse;
+import com.litle.sdk.generate.PayFacDebit;
+import com.litle.sdk.generate.PayFacDebitResponse;
+import com.litle.sdk.generate.PhysicalCheckCredit;
+import com.litle.sdk.generate.PhysicalCheckCreditResponse;
+import com.litle.sdk.generate.PhysicalCheckDebit;
+import com.litle.sdk.generate.PhysicalCheckDebitResponse;
 import com.litle.sdk.generate.QueryTransaction;
 import com.litle.sdk.generate.RecurringTransactionResponseType;
 import com.litle.sdk.generate.RefundReversal;
 import com.litle.sdk.generate.RefundReversalResponse;
 import com.litle.sdk.generate.RegisterTokenRequestType;
 import com.litle.sdk.generate.RegisterTokenResponse;
+import com.litle.sdk.generate.ReserveCredit;
+import com.litle.sdk.generate.ReserveCreditResponse;
+import com.litle.sdk.generate.ReserveDebit;
+import com.litle.sdk.generate.ReserveDebitResponse;
 import com.litle.sdk.generate.Sale;
 import com.litle.sdk.generate.SaleResponse;
+import com.litle.sdk.generate.SubmerchantCredit;
+import com.litle.sdk.generate.SubmerchantCreditResponse;
+import com.litle.sdk.generate.SubmerchantDebit;
+import com.litle.sdk.generate.SubmerchantDebitResponse;
 import com.litle.sdk.generate.TransactionTypeWithReportGroup;
 import com.litle.sdk.generate.TransactionTypeWithReportGroupAndPartial;
 import com.litle.sdk.generate.Unload;
@@ -83,6 +101,10 @@ import com.litle.sdk.generate.UpdatePlan;
 import com.litle.sdk.generate.UpdatePlanResponse;
 import com.litle.sdk.generate.UpdateSubscription;
 import com.litle.sdk.generate.UpdateSubscriptionResponse;
+import com.litle.sdk.generate.VendorCredit;
+import com.litle.sdk.generate.VendorCreditResponse;
+import com.litle.sdk.generate.VendorDebit;
+import com.litle.sdk.generate.VendorDebitResponse;
 import com.litle.sdk.generate.VoidResponse;
 
 public class LitleOnline {
@@ -121,26 +143,7 @@ public class LitleOnline {
 		}
 	}
 
-	/**
-	 * Construct a LitleOnline specifying the configuration in code.  This should be used by integrations that
-	 * have another way to specify their configuration settings (ofbiz, etc)
-	 *
-	 * Properties that *must* be set are:
-	 *
-	 * 	url (eg https://payments.litle.com/vap/communicator/online)
-	 *	reportGroup (eg "Default Report Group")
-	 *	username
-	 *	merchantId
-	 *	password
-	 *	version (eg 8.10)
-	 *	timeout (in seconds)
-	 *	Optional properties are:
-	 *	proxyHost
-	 *	proxyPort
-	 *	printxml (possible values "true" and "false" - defaults to false)
-	 *
-	 * @param config
-	 */
+
 	public LitleOnline(Properties config) {
 		this.config = config;
 		communication = new Communication();
@@ -700,6 +703,202 @@ public class LitleOnline {
         return (GiftCardCreditResponse)newresponse.getValue();
     }
 
+    
+    
+    
+    public PayFacCreditResponse payFacCredit(PayFacCredit payFacCredit) {
+        LitleOnlineRequest request = createLitleOnlineRequest();
+        return payFacCredit(payFacCredit, request);
+    }
+    
+    public PayFacCreditResponse payFacCredit(PayFacCredit payFacCredit, LitleOnlineRequest overrides) {
+        LitleOnlineRequest request = fillInMissingFieldsFromConfig(overrides);
+
+        request.setTransaction(LitleContext.getObjectFactory().createPayFacCredit(payFacCredit));
+        LitleOnlineResponse response = sendToLitle(request);
+        JAXBElement<? extends TransactionTypeWithReportGroup> newresponse = response.getTransactionResponse();
+        return (PayFacCreditResponse)newresponse.getValue();
+    }
+    
+    
+    public PayFacDebitResponse payFacDebit(PayFacDebit payFacDebit) {
+        LitleOnlineRequest request = createLitleOnlineRequest();
+        return payFacDebit(payFacDebit, request);
+    }
+    
+    public PayFacDebitResponse payFacDebit(PayFacDebit payFacDebit, LitleOnlineRequest overrides) {
+        LitleOnlineRequest request = fillInMissingFieldsFromConfig(overrides);
+
+        request.setTransaction(LitleContext.getObjectFactory().createPayFacDebit(payFacDebit));
+        LitleOnlineResponse response = sendToLitle(request);
+        JAXBElement<? extends TransactionTypeWithReportGroup> newresponse = response.getTransactionResponse();
+        return (PayFacDebitResponse)newresponse.getValue();
+    }
+    
+    
+    
+    public SubmerchantCreditResponse submerchantCredit(SubmerchantCredit submerchantCredit) {
+        LitleOnlineRequest request = createLitleOnlineRequest();
+        return submerchantCredit(submerchantCredit, request);
+    }
+    
+    public SubmerchantCreditResponse submerchantCredit(SubmerchantCredit submerchantCredit, LitleOnlineRequest overrides) {
+        LitleOnlineRequest request = fillInMissingFieldsFromConfig(overrides);
+
+        request.setTransaction(LitleContext.getObjectFactory().createSubmerchantCredit(submerchantCredit));
+        LitleOnlineResponse response = sendToLitle(request);
+        JAXBElement<? extends TransactionTypeWithReportGroup> newresponse = response.getTransactionResponse();
+        return (SubmerchantCreditResponse)newresponse.getValue();
+    }
+    
+    
+    public SubmerchantDebitResponse submerchantDebit(SubmerchantDebit submerchantDebit) {
+        LitleOnlineRequest request = createLitleOnlineRequest();
+        return submerchantDebit(submerchantDebit, request);
+    }
+    
+    public SubmerchantDebitResponse submerchantDebit(SubmerchantDebit submerchantDebit, LitleOnlineRequest overrides) {
+        LitleOnlineRequest request = fillInMissingFieldsFromConfig(overrides);
+
+        request.setTransaction(LitleContext.getObjectFactory().createSubmerchantDebit(submerchantDebit));
+        LitleOnlineResponse response = sendToLitle(request);
+        JAXBElement<? extends TransactionTypeWithReportGroup> newresponse = response.getTransactionResponse();
+        return (SubmerchantDebitResponse)newresponse.getValue();
+    }
+    
+    public ReserveCreditResponse submerchantDebit(ReserveCredit reserveCredit) {
+        LitleOnlineRequest request = createLitleOnlineRequest();
+        return reserveCredit(reserveCredit, request);
+    }
+    
+    public ReserveCreditResponse reserveCredit(ReserveCredit reserveCredit, LitleOnlineRequest overrides) {
+        LitleOnlineRequest request = fillInMissingFieldsFromConfig(overrides);
+
+        request.setTransaction(LitleContext.getObjectFactory().createReserveCredit(reserveCredit));
+        LitleOnlineResponse response = sendToLitle(request);
+        JAXBElement<? extends TransactionTypeWithReportGroup> newresponse = response.getTransactionResponse();
+        return (ReserveCreditResponse)newresponse.getValue();
+    }
+    
+    
+    
+    
+    public ReserveDebitResponse submerchantDebit(ReserveDebit reserveDebit) {
+        LitleOnlineRequest request = createLitleOnlineRequest();
+        return reserveDebit(reserveDebit, request);
+    }
+    
+    public ReserveDebitResponse reserveDebit(ReserveDebit reserveDebit, LitleOnlineRequest overrides) {
+        LitleOnlineRequest request = fillInMissingFieldsFromConfig(overrides);
+
+        request.setTransaction(LitleContext.getObjectFactory().createReserveDebit(reserveDebit));
+        LitleOnlineResponse response = sendToLitle(request);
+        JAXBElement<? extends TransactionTypeWithReportGroup> newresponse = response.getTransactionResponse();
+        return (ReserveDebitResponse)newresponse.getValue();
+    }
+    
+    
+    
+    public FundingInstructionVoidResponse fundingInstructionVoid(FundingInstructionVoid fundingInstructionVoid) {
+        LitleOnlineRequest request = createLitleOnlineRequest();
+        return fundingInstructionVoid(fundingInstructionVoid, request);
+    }
+    
+    public FundingInstructionVoidResponse fundingInstructionVoid(FundingInstructionVoid fundingInstructionVoid, LitleOnlineRequest overrides) {
+        LitleOnlineRequest request = fillInMissingFieldsFromConfig(overrides);
+
+        request.setTransaction(LitleContext.getObjectFactory().createFundingInstructionVoid(fundingInstructionVoid));
+        LitleOnlineResponse response = sendToLitle(request);
+        JAXBElement<? extends TransactionTypeWithReportGroup> newresponse = response.getTransactionResponse();
+        return (FundingInstructionVoidResponse)newresponse.getValue();
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    public VendorCreditResponse vendorCredit(VendorCredit vendorCredit) {
+        LitleOnlineRequest request = createLitleOnlineRequest();
+        return vendorCredit(vendorCredit, request);
+    }
+    
+    public VendorCreditResponse vendorCredit(VendorCredit vendorCredit, LitleOnlineRequest overrides) {
+        LitleOnlineRequest request = fillInMissingFieldsFromConfig(overrides);
+
+        request.setTransaction(LitleContext.getObjectFactory().createVendorCredit(vendorCredit));
+        LitleOnlineResponse response = sendToLitle(request);
+        JAXBElement<? extends TransactionTypeWithReportGroup> newresponse = response.getTransactionResponse();
+        return (VendorCreditResponse)newresponse.getValue();
+    }
+    
+    
+    
+    
+    public VendorDebitResponse physicalCheckDebit(VendorDebit vendorDebit) {
+        LitleOnlineRequest request = createLitleOnlineRequest();
+        return vendorDebit(vendorDebit, request);
+    }
+    
+    public VendorDebitResponse vendorDebit(VendorDebit vendorDebit, LitleOnlineRequest overrides) {
+        LitleOnlineRequest request = fillInMissingFieldsFromConfig(overrides);
+
+        request.setTransaction(LitleContext.getObjectFactory().createVendorDebit(vendorDebit));
+        LitleOnlineResponse response = sendToLitle(request);
+        JAXBElement<? extends TransactionTypeWithReportGroup> newresponse = response.getTransactionResponse();
+        return (VendorDebitResponse)newresponse.getValue();
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    public PhysicalCheckCreditResponse physicalCheckCredit(PhysicalCheckCredit physicalCheckCredit) {
+        LitleOnlineRequest request = createLitleOnlineRequest();
+        return physicalCheckCredit(physicalCheckCredit, request);
+    }
+    
+    public PhysicalCheckCreditResponse physicalCheckCredit(PhysicalCheckCredit physicalCheckCredit, LitleOnlineRequest overrides) {
+        LitleOnlineRequest request = fillInMissingFieldsFromConfig(overrides);
+
+        request.setTransaction(LitleContext.getObjectFactory().createPhysicalCheckCredit(physicalCheckCredit));
+        LitleOnlineResponse response = sendToLitle(request);
+        JAXBElement<? extends TransactionTypeWithReportGroup> newresponse = response.getTransactionResponse();
+        return (PhysicalCheckCreditResponse)newresponse.getValue();
+    }
+    
+    
+    
+    
+    public PhysicalCheckDebitResponse physicalCheckDebit(PhysicalCheckDebit physicalCheckDebit) {
+        LitleOnlineRequest request = createLitleOnlineRequest();
+        return physicalCheckDebit(physicalCheckDebit, request);
+    }
+    
+    public PhysicalCheckDebitResponse physicalCheckDebit(PhysicalCheckDebit physicalCheckDebit, LitleOnlineRequest overrides) {
+        LitleOnlineRequest request = fillInMissingFieldsFromConfig(overrides);
+
+        request.setTransaction(LitleContext.getObjectFactory().createPhysicalCheckDebit(physicalCheckDebit));
+        LitleOnlineResponse response = sendToLitle(request);
+        JAXBElement<? extends TransactionTypeWithReportGroup> newresponse = response.getTransactionResponse();
+        return (PhysicalCheckDebitResponse)newresponse.getValue();
+    }
+    
+    
+    
+    
 	private LitleOnlineRequest createLitleOnlineRequest() {
 		LitleOnlineRequest request = new LitleOnlineRequest();
 		request.setMerchantId(config.getProperty("merchantId"));
