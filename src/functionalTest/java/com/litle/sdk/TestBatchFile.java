@@ -313,6 +313,7 @@ public class TestBatchFile {
         LitleBatchFileRequest request = new LitleBatchFileRequest(
                 requestFileName);
 
+
         Properties configFromFile = request.getConfig();
 
         // pre-assert the config file has required param values
@@ -321,6 +322,7 @@ public class TestBatchFile {
         assertEquals("15000", configFromFile.getProperty("batchPort"));
 
         LitleBatchRequest batch = request.createBatch(configFromFile.getProperty("merchantId"));
+
 
         // card
         CardType card = new CardType();
@@ -897,6 +899,8 @@ public class TestBatchFile {
         assertEquals("15000", configFromFile.getProperty("batchPort"));
 
         LitleBatchRequest batch = request.createBatch(configFromFile.getProperty("merchantId"));
+
+        batch.setSameDayFunding(true);
 
         CardType card = new CardType();
         card.setType(MethodOfPaymentTypeEnum.GC);
