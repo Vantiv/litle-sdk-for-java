@@ -465,8 +465,8 @@ public class LitleBatchRequest {
         this.numOfTxn = numOfTxn;
     }
 
-    public void setSameDayFunding(boolean sameDayFunding) { this.setSameDayFunding(sameDayFunding); }
+    public void setSameDayFunding(boolean sameDayFunding) { batchRequest.setSameDayFunding(sameDayFunding); }
 
-    public boolean isSameDayFunding() { return this.isSameDayFunding(); }
+    public boolean isSameDayFunding() { return batchRequest.isSameDayFunding(); }
 
 }
