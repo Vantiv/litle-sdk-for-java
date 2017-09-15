@@ -541,6 +541,7 @@ public class TestLitleBatchRequest {
         physicalCheckDebit.setFundsTransferId("1234567");
         physicalCheckDebit.setAmount(110L);
         litleBatchRequest.addTransaction(physicalCheckDebit);
+      
 
         assertEquals(1, litleBatchRequest.getBatchRequest()
                 .getNumSubmerchantCredit().intValue());

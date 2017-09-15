@@ -84,6 +84,8 @@ import com.litle.sdk.generate.LoadReversal;
 import com.litle.sdk.generate.LoadReversalResponse;
 import com.litle.sdk.generate.MethodOfPaymentTypeEnum;
 import com.litle.sdk.generate.OrderSourceType;
+import com.litle.sdk.generate.PayFacCredit;
+import com.litle.sdk.generate.PayFacCreditResponse;
 import com.litle.sdk.generate.QueryTransaction;
 import com.litle.sdk.generate.QueryTransactionResponse;
 import com.litle.sdk.generate.QueryTransactionUnavailableResponse;
@@ -2216,5 +2218,34 @@ public class TestLitleOnline {
         assertEquals(new Integer(42), advancedFraudResultsType.getDeviceReputationScore());
         assertEquals(5, advancedFraudResultsType.getTriggeredRules().size());
     }
+    
+    
+    //@Test
+/*    public void testPayFacCredit() throws Exception {
+      
+        PayFacCredit payFacCredit = new PayFacCredit();
+        payFacCredit.setFundingSubmerchantId("12345");
+        payFacCredit.setFundsTransferId("1234567");
+        payFacCredit.setAmount(108L);
+      Communication mockedCommunication = mock(Communication.class);
+        when(
+                mockedCommunication
+                        .requestToServer(
+                                matches(".*?<litleOnlineRequest.*?<payFacCredit reportGroup=\"rptGrp\" id=\"id\">"
+                                        + "<fundingSubmerchantId>12345</fundingSubmerchantId>"
+                                        + "<fundsTransferId>1234567</fundsTransferId>"
+                                        + "<amount>108L</amount>"
+                                        + "</payFacCredit>"
+                                        + "</litleOnlineRequest>.*?"),
+                                any(Properties.class)))
+                .thenReturn(
+                        "<litleOnlineResponse version=\"11.0\" xmlns=\"http://www.litle.com/schema\" response=\"0\" message=\"Valid Format\">"
+                        + "<payFacCreditResponse id=\"id\" reportGroup=\"rptGrp\">"
+                        + "</payFacCreditResponse>"
+                        + "</litleOnlineResponse>");
+        litle.setCommunication(mockedCommunication);
+        PayFacCreditResponse response = litle.payFacCredit(payFacCredit);
+       // assertEquals(21825673457518565L, response.getLitleTxnId());
+    }*/
 
 }
