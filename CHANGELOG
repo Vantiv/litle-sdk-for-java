@@ -1,4 +1,10 @@
 = LitleOnline CHANGELOG
+
+==Version 11.2.0 (Sept 15, 2017)
+* Feature: sameDayFunding added to batches
+* Feature: orderId on account update responses
+* Bugfix: consume HTTP entity even if non-200 response returned
+
 ==Version 11.0.2 (July 31, 2017)
 * BugFix: fix how a Communication instance is created
 * Feature: update URLs to be current, not including Sandbox
