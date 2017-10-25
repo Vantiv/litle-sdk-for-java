@@ -161,13 +161,13 @@ public class Communication {
                 proxy = new HttpHost(proxyHost, Integer.valueOf(proxyPort));
                 requestConfig = RequestConfig.copy(RequestConfig.DEFAULT)
                         .setProxy(proxy)
-                        .setConnectionRequestTimeout(Integer.valueOf(httpTimeout))
-                        .setConnectTimeout(DEFAULT_CONNECT_TIMEOUT)
+                          .setConnectTimeout(DEFAULT_CONNECT_TIMEOUT)
                         .setSocketTimeout(DEFAULT_CONNECT_TIMEOUT)
                         .build();
             } else {
                 requestConfig = RequestConfig.copy(RequestConfig.DEFAULT)
-                        .setConnectionRequestTimeout(Integer.valueOf(httpTimeout))
+                        .setConnectTimeout(DEFAULT_CONNECT_TIMEOUT)
+                        .setSocketTimeout(DEFAULT_CONNECT_TIMEOUT)
                         .build();
             }
         } else {
