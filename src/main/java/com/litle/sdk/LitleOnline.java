@@ -967,6 +967,7 @@ public class LitleOnline {
 
 			String xmlResponse = communication.requestToServer(xmlRequest, config);
 			//bandaid for a problem on the backend
+			System.out.println("RESPONSE"+xmlResponse);
 			if(xmlResponse.contains("http://www.litle.com/schema/online")){
 			    xmlResponse = xmlResponse.replace("http://www.litle.com/schema/online", "http://www.litle.com/schema");
 			}
