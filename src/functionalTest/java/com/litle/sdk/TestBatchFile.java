@@ -58,6 +58,7 @@ import com.litle.sdk.generate.EcheckVerificationResponse;
 import com.litle.sdk.generate.ForceCapture;
 import com.litle.sdk.generate.ForceCaptureResponse;
 import com.litle.sdk.generate.FundingInstructionVoidResponse;
+import com.litle.sdk.generate.GiftCardCardType;
 import com.litle.sdk.generate.IntervalTypeEnum;
 import com.litle.sdk.generate.LitleTransactionInterface;
 import com.litle.sdk.generate.Load;
@@ -1029,7 +1030,7 @@ public class TestBatchFile {
 
         LitleBatchRequest batch = request.createBatch(configFromFile.getProperty("merchantId"));
 
-        CardType giftCard = new CardType();
+        GiftCardCardType giftCard = new GiftCardCardType();
         giftCard.setType(MethodOfPaymentTypeEnum.GC);
         giftCard.setExpDate("1218");
         giftCard.setNumber("4100000000000001");

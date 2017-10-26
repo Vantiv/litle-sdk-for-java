@@ -1344,7 +1344,7 @@ public class TestLitleOnline {
     @Test
     public void testDeActivateReversalWithOverrides() throws Exception {
         DeactivateReversal deactivateReversal = new DeactivateReversal();
-        deactivateReversal.setLitleTxnId(123);
+        deactivateReversal.setLitleTxnId(123L);
 
         Communication mockedCommunication = mock(Communication.class);
         when(

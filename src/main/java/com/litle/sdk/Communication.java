@@ -152,8 +152,9 @@ public class Communication {
 		String xmlResponse;
 		String proxyHost = configuration.getProperty("proxyHost");
 		String proxyPort = configuration.getProperty("proxyPort");
-        String httpTimeout = configuration.getProperty("timeout", "6000");
+        int httpTimeout = Integer.valueOf(configuration.getProperty("timeout", "6000"));
         HttpHost proxy;
+        int httpSocketTimeout =4000;
         RequestConfig requestConfig = null;
         if (reqCfg == null) {
             if (proxyHost != null && proxyHost.length() > 0 && proxyPort != null
@@ -161,13 +162,13 @@ public class Communication {
                 proxy = new HttpHost(proxyHost, Integer.valueOf(proxyPort));
                 requestConfig = RequestConfig.copy(RequestConfig.DEFAULT)
                         .setProxy(proxy)
-                          .setConnectTimeout(DEFAULT_CONNECT_TIMEOUT)
-                        .setSocketTimeout(DEFAULT_CONNECT_TIMEOUT)
+                        .setSocketTimeout(httpSocketTimeout)
+                        .setConnectTimeout(httpTimeout)
                         .build();
             } else {
                 requestConfig = RequestConfig.copy(RequestConfig.DEFAULT)
-                        .setConnectTimeout(DEFAULT_CONNECT_TIMEOUT)
-                        .setSocketTimeout(DEFAULT_CONNECT_TIMEOUT)
+                        .setSocketTimeout(httpSocketTimeout)
+                        .setConnectTimeout(httpTimeout)
                         .build();
             }
         } else {

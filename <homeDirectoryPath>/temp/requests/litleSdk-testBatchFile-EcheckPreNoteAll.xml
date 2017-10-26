@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><litleRequest version="11.0" numBatchRequests="1" xmlns="http://www.litle.com/schema"><authentication><user>SDKTEAM</user><password>V3r5K6v7</password></authentication> <batchRequest merchantSdk="Java;11.0.0" numEcheckPreNoteSale="3" numEcheckPreNoteCredit="3" merchantId="1288791" xmlns="http://www.litle.com/schema">
+<echeckPreNoteSale xmlns="http://www.litle.com/schema" reportGroup="Planets" id="Id">
+    <orderId>000</orderId>
+    <orderSource>ecommerce</orderSource>
+    <billToAddress>
+        <name>Bob</name>
+        <city>Lowell</city>
+        <state>MA</state>
+        <email>Bob@litle.com</email>
+    </billToAddress>
+    <echeck>
+        <accType>Corporate</accType>
+        <accNum>1092969901</accNum>
+        <routingNum>011075150</routingNum>
+        <checkNum>123455</checkNum>
+    </echeck>
+</echeckPreNoteSale>
+
+<echeckPreNoteSale xmlns="http://www.litle.com/schema" reportGroup="Planets" id="Id">
+    <orderId>301</orderId>
+    <orderSource>ecommerce</orderSource>
+    <billToAddress>
+        <name>Bob</name>
+        <city>Lowell</city>
+        <state>MA</state>
+        <email>Bob@litle.com</email>
+    </billToAddress>
+    <echeck>
+        <accType>Corporate</accType>
+        <accNum>10@2969901</accNum>
+        <routingNum>011100012</routingNum>
+        <checkNum>123455</checkNum>
+    </echeck>
+</echeckPreNoteSale>
+
+<echeckPreNoteSale xmlns="http://www.litle.com/schema" reportGroup="Planets" id="Id">
+    <orderId>900</orderId>
+    <orderSource>ecommerce</orderSource>
+    <billToAddress>
+        <name>Bob</name>
+        <city>Lowell</city>
+        <state>MA</state>
+        <email>Bob@litle.com</email>
+    </billToAddress>
+    <echeck>
+        <accType>Checking</accType>
+        <accNum>6099999992</accNum>
+        <routingNum>053133052</routingNum>
+        <checkNum>123455</checkNum>
+    </echeck>
+</echeckPreNoteSale>
+
+<echeckPreNoteCredit xmlns="http://www.litle.com/schema" reportGroup="Planets" id="Id">
+    <orderId>000</orderId>
+    <orderSource>ecommerce</orderSource>
+    <billToAddress>
+        <name>Bob</name>
+        <city>Lowell</city>
+        <state>MA</state>
+        <email>Bob@litle.com</email>
+    </billToAddress>
+    <echeck>
+        <accType>Corporate</accType>
+        <accNum>1092969901</accNum>
+        <routingNum>011075150</routingNum>
+        <checkNum>123455</checkNum>
+    </echeck>
+</echeckPreNoteCredit>
+
+<echeckPreNoteCredit xmlns="http://www.litle.com/schema" reportGroup="Planets" id="Id">
+    <orderId>301</orderId>
+    <orderSource>ecommerce</orderSource>
+    <billToAddress>
+        <name>Bob</name>
+        <city>Lowell</city>
+        <state>MA</state>
+        <email>Bob@litle.com</email>
+    </billToAddress>
+    <echeck>
+        <accType>Corporate</accType>
+        <accNum>10@2969901</accNum>
+        <routingNum>011100012</routingNum>
+        <checkNum>123455</checkNum>
+    </echeck>
+</echeckPreNoteCredit>
+
+<echeckPreNoteCredit xmlns="http://www.litle.com/schema" reportGroup="Planets" id="Id">
+    <orderId>900</orderId>
+    <orderSource>ecommerce</orderSource>
+    <billToAddress>
+        <name>Bob</name>
+        <city>Lowell</city>
+        <state>MA</state>
+        <email>Bob@litle.com</email>
+    </billToAddress>
+    <echeck>
+        <accType>Checking</accType>
+        <accNum>6099999992</accNum>
+        <routingNum>053133052</routingNum>
+        <checkNum>123455</checkNum>
+    </echeck>
+</echeckPreNoteCredit>
+</batchRequest>
+</litleRequest>

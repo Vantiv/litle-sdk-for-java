@@ -1,0 +1,116 @@
+<litleResponse version="11.0" xmlns="http://www.litle.com/schema" response="0" message="Valid Format" litleSessionId="82921741285785617">
+<batchResponse litleBatchId="82921741285785625" merchantId="1288791">
+<giftCardCaptureResponse id="id" reportGroup="rptGrp">
+    <litleTxnId>82921741285867613</litleTxnId>
+    <response>301</response>
+    <responseTime>2017-10-26T12:29:00</responseTime>
+    <message>Invalid Account Number</message>
+    <giftCardResponse>
+        <availableBalance>0</availableBalance>
+        <txnTime>2017-10-26T08:28:59</txnTime>
+        <systemTraceId>949452</systemTraceId>
+        <sequenceNumber>949452</sequenceNumber>
+    </giftCardResponse>
+</giftCardCaptureResponse>
+<giftCardCreditResponse id="id" reportGroup="rptGrp1" customerId="customer_22">
+    <litleTxnId>82921741285867621</litleTxnId>
+    <response>301</response>
+    <responseTime>2017-10-26T12:29:00</responseTime>
+    <message>Invalid Account Number</message>
+    <giftCardResponse>
+        <availableBalance>0</availableBalance>
+        <txnTime>2017-10-26T08:28:59</txnTime>
+        <systemTraceId>951441</systemTraceId>
+        <sequenceNumber>951441</sequenceNumber>
+    </giftCardResponse>
+</giftCardCreditResponse>
+<giftCardAuthReversalResponse id="979797" reportGroup="rptGrp2" customerId="customer_23">
+    <litleTxnId>82921741285867639</litleTxnId>
+    <response>301</response>
+    <responseTime>2017-10-26T12:29:00</responseTime>
+    <message>Invalid Account Number</message>
+    <giftCardResponse>
+        <availableBalance>0</availableBalance>
+        <txnTime>2017-10-26T08:28:59</txnTime>
+        <systemTraceId>953447</systemTraceId>
+        <sequenceNumber>953447</sequenceNumber>
+    </giftCardResponse>
+</giftCardAuthReversalResponse>
+<activateResponse id="id" reportGroup="Planets">
+    <litleTxnId>82921741285867647</litleTxnId>
+    <response>301</response>
+    <responseTime>2017-10-26T12:29:00</responseTime>
+    <message>Invalid Account Number</message>
+    <fraudResult>
+        <cardValidationResult>P</cardValidationResult>
+    </fraudResult>
+    <giftCardResponse>
+        <availableBalance>0</availableBalance>
+        <txnTime>2017-10-26T08:28:59</txnTime>
+        <systemTraceId>286423</systemTraceId>
+        <sequenceNumber>286423</sequenceNumber>
+    </giftCardResponse>
+</activateResponse>
+<balanceInquiryResponse id="id" reportGroup="Planets">
+    <litleTxnId>82921741285867654</litleTxnId>
+    <response>301</response>
+    <responseTime>2017-10-26T12:29:00</responseTime>
+    <message>Invalid Account Number</message>
+    <fraudResult>
+        <cardValidationResult>P</cardValidationResult>
+    </fraudResult>
+    <giftCardResponse>
+        <availableBalance>0</availableBalance>
+        <txnTime>2017-10-26T08:29:00</txnTime>
+        <systemTraceId>286431</systemTraceId>
+        <sequenceNumber>286431</sequenceNumber>
+    </giftCardResponse>
+</balanceInquiryResponse>
+<loadResponse id="id" reportGroup="Planets">
+    <litleTxnId>82921741285867662</litleTxnId>
+    <response>301</response>
+    <responseTime>2017-10-26T12:29:01</responseTime>
+    <message>Invalid Account Number</message>
+    <fraudResult>
+        <cardValidationResult>P</cardValidationResult>
+    </fraudResult>
+    <giftCardResponse>
+        <availableBalance>0</availableBalance>
+        <txnTime>2017-10-26T08:29:00</txnTime>
+        <systemTraceId>31375</systemTraceId>
+        <sequenceNumber>031375</sequenceNumber>
+    </giftCardResponse>
+</loadResponse>
+<unloadResponse id="id" reportGroup="Planets">
+    <litleTxnId>82921741285867670</litleTxnId>
+    <response>301</response>
+    <responseTime>2017-10-26T12:29:01</responseTime>
+    <message>Invalid Account Number</message>
+    <fraudResult>
+        <cardValidationResult>P</cardValidationResult>
+    </fraudResult>
+    <giftCardResponse>
+        <availableBalance>0</availableBalance>
+        <txnTime>2017-10-26T08:29:00</txnTime>
+        <systemTraceId>33363</systemTraceId>
+        <sequenceNumber>033363</sequenceNumber>
+    </giftCardResponse>
+</unloadResponse>
+<deactivateResponse id="id" reportGroup="Planets">
+    <litleTxnId>82921741285867688</litleTxnId>
+    <response>301</response>
+    <responseTime>2017-10-26T12:29:01</responseTime>
+    <message>Invalid Account Number</message>
+    <fraudResult>
+        <cardValidationResult>P</cardValidationResult>
+    </fraudResult>
+    <approvedAmount>0</approvedAmount>
+    <giftCardResponse>
+        <availableBalance>0</availableBalance>
+        <txnTime>2017-10-26T08:29:00</txnTime>
+        <systemTraceId>35368</systemTraceId>
+        <sequenceNumber>035368</sequenceNumber>
+    </giftCardResponse>
+</deactivateResponse>
+</batchResponse>
+</litleResponse>

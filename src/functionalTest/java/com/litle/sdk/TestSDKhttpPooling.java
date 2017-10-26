@@ -21,7 +21,7 @@ public class TestSDKhttpPooling {
 
 	@Test
 	public void testThreads() throws Exception {
-	    List<GetThread> threadList = new ArrayList<>();
+	    List<GetThread> threadList = new ArrayList();
 	    for (int i = 0; i < 30; i++) {
 	        threadList.add(new GetThread());
         }
