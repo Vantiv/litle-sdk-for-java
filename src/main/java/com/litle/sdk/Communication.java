@@ -154,7 +154,6 @@ public class Communication {
 		String proxyPort = configuration.getProperty("proxyPort");
         int httpTimeout = Integer.valueOf(configuration.getProperty("timeout", "6000"));
         HttpHost proxy;
-        int httpSocketTimeout =4000;
         RequestConfig requestConfig = null;
         if (reqCfg == null) {
             if (proxyHost != null && proxyHost.length() > 0 && proxyPort != null
@@ -162,12 +161,12 @@ public class Communication {
                 proxy = new HttpHost(proxyHost, Integer.valueOf(proxyPort));
                 requestConfig = RequestConfig.copy(RequestConfig.DEFAULT)
                         .setProxy(proxy)
-                        .setSocketTimeout(httpSocketTimeout)
+                        .setSocketTimeout(httpTimeout)
                         .setConnectTimeout(httpTimeout)
                         .build();
             } else {
                 requestConfig = RequestConfig.copy(RequestConfig.DEFAULT)
-                        .setSocketTimeout(httpSocketTimeout)
+                        .setSocketTimeout(httpTimeout)
                         .setConnectTimeout(httpTimeout)
                         .build();
             }
