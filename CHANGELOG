@@ -1,5 +1,9 @@
 = LitleOnline CHANGELOG
 
+==Version 9.12.3 (Oct. 27, 2017)
+* Feature: Update URLs in examples
+* BugFix: Update HTTP timeout to set socket timeout
+
 ==Version 9.12.2 (May 5, 2017)
 * Feature: Update httpclient to v4.5.2, commons-io to v2.5, jsch to v0.1.54, JUnit to v4.12
 * Feature: refactor Communication to use httpclient builder
