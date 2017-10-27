@@ -1,22 +1,4 @@
 = LitleOnline CHANGELOG
-==Version 11.0.2 (July 31, 2017)
-* BugFix: fix how a Communication instance is created
-* Feature: update URLs to be current, not including Sandbox
-
-==Version 11.0.1 (Apr 20, 2017)
-* Feature: update commons-io and http-client versions
-* Feature: disable auto retry in HTTP client connection
-* Feature: add specific events for Open access error responses
-
-==Version 11.0 (Apr 12, 2017)
-* Feature: implement Vantiv eCommerce XMLv11.0
-* Feature: SEPA Support
-* Feature: iDEAL support
-* Feature: new giftCard transactions
-* Feature: giroPay support
-* Feature: Network Enhancements mandates
-* Feature: add support for raw network response
-* Bug fix: specify char encoding in HTTP header
 
 ==Version 10.1.1 (June 7, 2016)
 Add method to close file resources

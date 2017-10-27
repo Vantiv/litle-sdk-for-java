@@ -4,9 +4,25 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import com.litle.sdk.generate.*;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import com.litle.sdk.generate.ApplepayHeaderType;
+import com.litle.sdk.generate.ApplepayType;
+import com.litle.sdk.generate.Authorization;
+import com.litle.sdk.generate.AuthorizationResponse;
+import com.litle.sdk.generate.CardType;
+import com.litle.sdk.generate.Contact;
+import com.litle.sdk.generate.DetailTax;
+import com.litle.sdk.generate.EnhancedData;
+import com.litle.sdk.generate.MethodOfPaymentTypeEnum;
+import com.litle.sdk.generate.OrderSourceType;
+import com.litle.sdk.generate.PayPal;
+import com.litle.sdk.generate.Pos;
+import com.litle.sdk.generate.PosCapabilityTypeEnum;
+import com.litle.sdk.generate.PosCardholderIdTypeEnum;
+import com.litle.sdk.generate.PosEntryModeTypeEnum;
+import com.litle.sdk.generate.ProcessingTypeEnum;
 
 public class TestAuth {
 
@@ -52,22 +68,6 @@ public class TestAuth {
 		AuthorizationResponse response = litle.authorize(authorization);
 		assertEquals(response.getMessage(), "000",response.getResponse());
 		assertEquals("63225578415568556365452427825", response.getNetworkTransactionId());
-	}
-
-	@Test
-	public void simpleAuthWith_eProtectRegId() throws Exception {
-		Authorization authorization = new Authorization();
-		authorization.setReportGroup("Planets");
-		authorization.setOrderId("12344");
-		authorization.setAmount(106L);
-		authorization.setOrderSource(OrderSourceType.ECOMMERCE);
-		authorization.setId("id");
-		CardPaypageType eProtectObject = new CardPaypageType();
-		eProtectObject.setPaypageRegistrationId("returned_registration_id");
-		authorization.setPaypage(eProtectObject);
-
-		AuthorizationResponse response = litle.authorize(authorization);
-		assertEquals(response.getMessage(), "000",response.getResponse());
 	}
 
 	@Test
