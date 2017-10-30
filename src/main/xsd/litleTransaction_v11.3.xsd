@@ -1,8 +1,8 @@
 <xs:schema targetNamespace="http://www.litle.com/schema" xmlns:xp="http://www.litle.com/schema"
     xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
 
-    <xs:include schemaLocation="litleCommon_v11.0.xsd" />
-    <xs:include schemaLocation="litleRecurring_v11.0.xsd" />
+    <xs:include schemaLocation="litleCommon_v11.3.xsd" />
+    <xs:include schemaLocation="litleRecurring_v11.3.xsd" />
 
     <xs:element name="transaction" type="xp:transactionType" abstract="true" />
 
@@ -235,7 +235,7 @@
                             <xs:element name="debtRepayment" type="xs:boolean" minOccurs="0" />
                             <xs:element name="advancedFraudChecks" type="xp:advancedFraudChecksType" minOccurs="0"/>
                             <xs:element ref="xp:wallet" minOccurs="0" />
-	                        <xs:element name="processingType" type="xp:processingTypeEnum" minOccurs="0" />
+                            <xs:element name="processingType" type="xp:processingTypeEnum" minOccurs="0" />
                             <xs:element name="originalNetworkTransactionId" type="xp:string30Type" minOccurs="0" />
                             <xs:element name="originalTransactionAmount" type="xp:transactionAmountType" minOccurs="0" />
                         </xs:sequence>
@@ -261,7 +261,7 @@
             </xs:complexContent>
         </xs:complexType>
     </xs:element>
-    
+
     <xs:element name="giftCardAuthReversal" substitutionGroup="xp:transaction">
         <xs:complexType>
             <xs:complexContent>
@@ -278,7 +278,7 @@
                 </xs:extension>
             </xs:complexContent>
         </xs:complexType>
-    </xs:element>    
+    </xs:element>
 
     <xs:element name="capture" substitutionGroup="xp:transaction">
         <xs:complexType>
@@ -315,7 +315,7 @@
                 </xs:extension>
             </xs:complexContent>
         </xs:complexType>
-    </xs:element>    
+    </xs:element>
 
     <xs:element name="forceCapture" substitutionGroup="xp:transaction">
         <xs:complexType>
@@ -528,9 +528,9 @@
                     <xs:sequence>
                         <xs:choice>
                             <xs:sequence>
-                               	<xs:element name="litleTxnId" type="xp:litleIdType" minOccurs="0"/>
-                               	<xs:element name="creditAmount" type="xp:transactionAmountType" />
-                               	<xs:element name="card" type="xp:giftCardCardType" />
+                                <xs:element name="litleTxnId" type="xp:litleIdType" minOccurs="0"/>
+                                <xs:element name="creditAmount" type="xp:transactionAmountType" />
+                                <xs:element name="card" type="xp:giftCardCardType" />
                             </xs:sequence>
                             <xs:sequence>
                                 <xs:element name="orderId" type="xp:string25Type" />
@@ -543,20 +543,20 @@
                 </xs:extension>
             </xs:complexContent>
         </xs:complexType>
-    </xs:element>    
+    </xs:element>
 
     <xs:element name="activate" substitutionGroup="xp:transaction">
         <xs:complexType>
             <xs:complexContent>
                 <xs:extension base="xp:transactionTypeWithReportGroup">
-                   <xs:sequence>
-                            <xs:element name="orderId" type="xp:string25Type" />
-                            <xs:element name="amount" type="xp:transactionAmountType" minOccurs="1" />
-                            <xs:element name="orderSource" type="xp:orderSourceType" />
-                            <xs:choice>
-                                     <xs:element name="card" type="xp:giftCardCardType"/>
-                                     <xs:element name="virtualGiftCard" type="xp:virtualGiftCardType"/>
-                            </xs:choice>
+                    <xs:sequence>
+                        <xs:element name="orderId" type="xp:string25Type" />
+                        <xs:element name="amount" type="xp:transactionAmountType" minOccurs="1" />
+                        <xs:element name="orderSource" type="xp:orderSourceType" />
+                        <xs:choice>
+                            <xs:element name="card" type="xp:giftCardCardType"/>
+                            <xs:element name="virtualGiftCard" type="xp:virtualGiftCardType"/>
+                        </xs:choice>
                     </xs:sequence>
                 </xs:extension>
             </xs:complexContent>
@@ -567,40 +567,40 @@
         <xs:complexType>
             <xs:complexContent>
                 <xs:extension base="xp:transactionTypeWithReportGroup">
-                   <xs:sequence>
-                            <xs:element name="orderId" type="xp:string25Type" />
-                            <xs:element name="orderSource" type="xp:orderSourceType" />
-                            <xs:element name="card" type="xp:giftCardCardType" minOccurs="1" />
+                    <xs:sequence>
+                        <xs:element name="orderId" type="xp:string25Type" />
+                        <xs:element name="orderSource" type="xp:orderSourceType" />
+                        <xs:element name="card" type="xp:giftCardCardType" minOccurs="1" />
                     </xs:sequence>
                 </xs:extension>
             </xs:complexContent>
         </xs:complexType>
     </xs:element>
 
-     <xs:element name="load" substitutionGroup="xp:transaction">
+    <xs:element name="load" substitutionGroup="xp:transaction">
         <xs:complexType>
             <xs:complexContent>
                 <xs:extension base="xp:transactionTypeWithReportGroup">
-                   <xs:sequence>
-                            <xs:element name="orderId" type="xp:string25Type" />
-                            <xs:element name="amount" type="xp:transactionAmountType" minOccurs="1" />
-                            <xs:element name="orderSource" type="xp:orderSourceType" />
-                            <xs:element name="card" type="xp:giftCardCardType" minOccurs="1" />
+                    <xs:sequence>
+                        <xs:element name="orderId" type="xp:string25Type" />
+                        <xs:element name="amount" type="xp:transactionAmountType" minOccurs="1" />
+                        <xs:element name="orderSource" type="xp:orderSourceType" />
+                        <xs:element name="card" type="xp:giftCardCardType" minOccurs="1" />
                     </xs:sequence>
                 </xs:extension>
             </xs:complexContent>
         </xs:complexType>
     </xs:element>
 
-     <xs:element name="unload" substitutionGroup="xp:transaction">
+    <xs:element name="unload" substitutionGroup="xp:transaction">
         <xs:complexType>
             <xs:complexContent>
                 <xs:extension base="xp:transactionTypeWithReportGroup">
-                   <xs:sequence>
-                            <xs:element name="orderId" type="xp:string25Type" />
-                            <xs:element name="amount" type="xp:transactionAmountType" minOccurs="1" />
-                            <xs:element name="orderSource" type="xp:orderSourceType" />
-                            <xs:element name="card" type="xp:giftCardCardType" minOccurs="1" />
+                    <xs:sequence>
+                        <xs:element name="orderId" type="xp:string25Type" />
+                        <xs:element name="amount" type="xp:transactionAmountType" minOccurs="1" />
+                        <xs:element name="orderSource" type="xp:orderSourceType" />
+                        <xs:element name="card" type="xp:giftCardCardType" minOccurs="1" />
                     </xs:sequence>
                 </xs:extension>
             </xs:complexContent>
@@ -624,10 +624,10 @@
         <xs:complexType>
             <xs:complexContent>
                 <xs:extension base="xp:transactionTypeWithReportGroup">
-                   <xs:sequence>
-                            <xs:element name="orderId" type="xp:string25Type" />
-                            <xs:element name="orderSource" type="xp:orderSourceType" />
-                            <xs:element name="card" type="xp:giftCardCardType" minOccurs="1" />
+                    <xs:sequence>
+                        <xs:element name="orderId" type="xp:string25Type" />
+                        <xs:element name="orderSource" type="xp:orderSourceType" />
+                        <xs:element name="card" type="xp:giftCardCardType" minOccurs="1" />
                     </xs:sequence>
                 </xs:extension>
             </xs:complexContent>
@@ -883,7 +883,7 @@
                         <xs:element ref="xp:accountUpdater" minOccurs="0" />
                         <xs:element ref="xp:fraudResult" minOccurs="0" />
                         <xs:element ref="xp:billMeLaterResponseData" minOccurs="0" />
-                        <!-- if tokenenized merchant -->
+                        <!-- if tokenized merchant -->
                         <xs:element name="tokenResponse" type="xp:tokenResponseType" minOccurs="0"/>
                         <xs:element ref="xp:enhancedAuthResponse" minOccurs="0" />
                         <xs:element name="recycling" type="xp:recyclingType" minOccurs="0"/>
@@ -894,7 +894,7 @@
                         <xs:element name="cardSuffix" type="xp:cardSuffixType" minOccurs="0" />
                         <xs:element ref="xp:androidpayResponse" minOccurs="0"/>
                         <!-- For merchant initiated transactions -->
-                        <xs:element name="networkTransactionId" type="xp:string30Type" minOccurs="0" /> 
+                        <xs:element name="networkTransactionId" type="xp:string30Type" minOccurs="0" />
                     </xs:all>
                 </xs:extension>
             </xs:complexContent>
@@ -962,14 +962,14 @@
             <xs:element name="recycleEngineActive" type="xs:boolean" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
-    
+
     <xs:complexType name="networkSubField" >
         <xs:sequence>
             <xs:element name="fieldValue" type="xp:networkMessageValue" minOccurs="1" maxOccurs="1"/>
         </xs:sequence>
         <xs:attribute name="fieldNumber" type="xs:integer" use="required"/>
     </xs:complexType>
-    
+
     <xs:simpleType name="networkFieldNameEnumType">
         <xs:restriction base="xs:string">
             <xs:enumeration value="Transaction Amount" />
@@ -991,9 +991,9 @@
             <xs:enumeration value="Reserved for Private Use" />
         </xs:restriction>
     </xs:simpleType>
-    
+
     <xs:complexType name="networkField">
-       <xs:sequence>
+        <xs:sequence>
             <xs:choice>
                 <xs:element name="fieldValue" type="xp:networkMessageValue" minOccurs="1" maxOccurs="1"/>
                 <xs:element name="networkSubField" type="xp:networkSubField" maxOccurs="unbounded" minOccurs="0" />
@@ -1002,13 +1002,13 @@
         <xs:attribute name="fieldNumber" type="xs:integer" use="required"/>
         <xs:attribute name="fieldName" type="xp:networkFieldNameEnumType" use="required"/>
     </xs:complexType>
-    
+
     <xs:complexType name="networkResponse">
         <xs:sequence>
             <xs:element name="endpoint" type="xp:string256Type" minOccurs="1" maxOccurs="1"/>
             <xs:element name="networkField" type="xp:networkField" maxOccurs="unbounded" minOccurs="0" />
         </xs:sequence>
-    </xs:complexType> 
+    </xs:complexType>
 
     <xs:complexType name="recyclingRequestType">
         <xs:sequence>
@@ -1055,7 +1055,7 @@
             </xs:complexContent>
         </xs:complexType>
     </xs:element>
-    
+
     <xs:element name="giftCardAuthReversalResponse" substitutionGroup="xp:transactionResponse">
         <xs:complexType>
             <xs:complexContent>
@@ -1072,9 +1072,9 @@
                 </xs:extension>
             </xs:complexContent>
         </xs:complexType>
-    </xs:element>    
+    </xs:element>
 
-  <xs:element name="depositReversalResponse" substitutionGroup="xp:transactionResponse">
+    <xs:element name="depositReversalResponse" substitutionGroup="xp:transactionResponse">
         <xs:complexType>
             <xs:complexContent>
                 <xs:extension base="xp:transactionTypeWithReportGroup">
@@ -1222,12 +1222,12 @@
                         <xs:element name="postDate" type="xs:date" minOccurs="0" />
                         <xs:element name="message" type="xp:messageType" />
                         <xs:element ref="xp:fraudResult" minOccurs="0" />
-                        <xs:element ref="xp:giftCardResponse" />                        
+                        <xs:element ref="xp:giftCardResponse" />
                     </xs:all>
                 </xs:extension>
             </xs:complexContent>
         </xs:complexType>
-    </xs:element>    
+    </xs:element>
 
     <xs:element name="forceCaptureResponse" substitutionGroup="xp:transactionResponse">
         <xs:complexType>
@@ -1312,7 +1312,7 @@
                         <!-- If Sofort transaction -->
                         <xs:element ref="xp:sofortResponse" minOccurs="0"/>
                         <!-- For merchant initiated transactions -->
-                        <xs:element name="networkTransactionId" type="xp:string30Type" minOccurs="0" /> 
+                        <xs:element name="networkTransactionId" type="xp:string30Type" minOccurs="0" />
                     </xs:all>
                 </xs:extension>
             </xs:complexContent>
@@ -1352,12 +1352,12 @@
                         <xs:element name="postDate" type="xs:date" minOccurs="0" />
                         <xs:element name="message" type="xp:messageType" />
                         <xs:element ref="xp:fraudResult" minOccurs="0" />
-                        <xs:element ref="xp:giftCardResponse" />                        
+                        <xs:element ref="xp:giftCardResponse" />
                     </xs:all>
                 </xs:extension>
             </xs:complexContent>
         </xs:complexType>
-    </xs:element>    
+    </xs:element>
 
     <xs:element name="fraudResult">
         <xs:complexType>
@@ -1429,34 +1429,33 @@
             </xs:complexContent>
         </xs:complexType>
     </xs:element>
-    
+
     <xs:element name="giftCardResponse">
-       <xs:complexType>
-		  <xs:all>
-            <xs:element name="txnTime" type="xs:dateTime" minOccurs="0" />
-            <xs:element name="refCode" type="xp:authCodeType" minOccurs="0" />
-            <xs:element name="systemTraceId" type="xp:systemTraceType" minOccurs="0" />
-            <xs:element name="sequenceNumber" type="xp:sequenceType" minOccurs="0" />
-			 <xs:element name="availableBalance" type="xp:string20Type" minOccurs="0"/>
-             <xs:element name="beginningBalance" type="xp:string20Type" minOccurs="0"/>
-             <xs:element name="endingBalance" type="xp:string20Type" minOccurs="0"/>
-             <xs:element name="cashBackAmount" type="xp:string20Type" minOccurs="0"/>
-          </xs:all>          
-       </xs:complexType>
-   </xs:element>
+        <xs:complexType>
+            <xs:all>
+                <xs:element name="txnTime" type="xs:dateTime" minOccurs="0" />
+                <xs:element name="refCode" type="xp:authCodeType" minOccurs="0" />
+                <xs:element name="systemTraceId" type="xp:systemTraceType" minOccurs="0" />
+                <xs:element name="sequenceNumber" type="xp:sequenceType" minOccurs="0" />
+                <xs:element name="availableBalance" type="xp:string20Type" minOccurs="0"/>
+                <xs:element name="beginningBalance" type="xp:string20Type" minOccurs="0"/>
+                <xs:element name="endingBalance" type="xp:string20Type" minOccurs="0"/>
+                <xs:element name="cashBackAmount" type="xp:string20Type" minOccurs="0"/>
+            </xs:all>
+        </xs:complexType>
+    </xs:element>
 
     <xs:element name="virtualGiftCardResponse">
-       <xs:complexType>
-          <xs:sequence>
-             <xs:element name="accountNumber" type="xp:ccAccountNumberType" minOccurs="0"/>
-             <xs:element name="cardValidationNum" type="xs:string" minOccurs="0"/>
-             <xs:element name="pin" type="xp:pinType" minOccurs="0" />
-          </xs:sequence>
-       </xs:complexType>
-   </xs:element>
-   
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="accountNumber" type="xp:ccAccountNumberType" minOccurs="0"/>
+                <xs:element name="cardValidationNum" type="xs:string" minOccurs="0"/>
+                <xs:element name="pin" type="xp:pinType" minOccurs="0" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
 
-   <xs:element name="balanceInquiryResponse" substitutionGroup="xp:transactionResponse">
+    <xs:element name="balanceInquiryResponse" substitutionGroup="xp:transactionResponse">
         <xs:complexType>
             <xs:complexContent>
                 <xs:extension base="xp:transactionTypeWithReportGroup">
@@ -1572,7 +1571,7 @@
                         <xs:element ref="xp:billToAddress" minOccurs="1" />  <!-- must supply street, city and state as 2 digit postal state -->
                         <xs:element ref="xp:echeckOrEcheckToken" />
                         <xs:element name="merchantData" type="xp:merchantDataType" minOccurs="0" />
-                      </xs:all>
+                    </xs:all>
                 </xs:extension>
             </xs:complexContent>
         </xs:complexType>
@@ -2091,7 +2090,7 @@
                 <xs:simpleType>
                     <xs:restriction base="xs:string">
                         <xs:minLength value="5"/>
-                        <xs:maxLength value="20"/>
+                        <xs:maxLength value="10"/>
                     </xs:restriction>
                 </xs:simpleType>
             </xs:element>
@@ -2132,30 +2131,30 @@
     </xs:complexType>
 
     <xs:element name="applepayResponse">
-       <xs:complexType>
-          <xs:sequence>
-             <xs:element name="applicationPrimaryAccountNumber" type="xp:string20Type" minOccurs="0"/>
-             <xs:element name="applicationExpirationDate" type="xp:string20Type" minOccurs="0"/>
-             <xs:element name="currencyCode" type="xp:string3Type" minOccurs="0"/>
-             <xs:element name="transactionAmount" type="xp:transactionAmountType" minOccurs="0"/>
-             <xs:element name="cardholderName" type="xp:string512Type" minOccurs="0"/>
-             <xs:element name="deviceManufacturerIdentifier" type="xp:string20Type" minOccurs="0"/>
-             <xs:element name="paymentDataType" type="xp:string20Type" minOccurs="0"/>
-             <xs:element name="onlinePaymentCryptogram" type="xp:authenticationValueType" minOccurs="0"/>
-             <xs:element name="eciIndicator" type="xp:string2Type" minOccurs="0"/>
-          </xs:sequence>
-       </xs:complexType>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="applicationPrimaryAccountNumber" type="xp:string20Type" minOccurs="0"/>
+                <xs:element name="applicationExpirationDate" type="xp:string20Type" minOccurs="0"/>
+                <xs:element name="currencyCode" type="xp:string3Type" minOccurs="0"/>
+                <xs:element name="transactionAmount" type="xp:transactionAmountType" minOccurs="0"/>
+                <xs:element name="cardholderName" type="xp:string512Type" minOccurs="0"/>
+                <xs:element name="deviceManufacturerIdentifier" type="xp:string20Type" minOccurs="0"/>
+                <xs:element name="paymentDataType" type="xp:string20Type" minOccurs="0"/>
+                <xs:element name="onlinePaymentCryptogram" type="xp:authenticationValueType" minOccurs="0"/>
+                <xs:element name="eciIndicator" type="xp:string2Type" minOccurs="0"/>
+            </xs:sequence>
+        </xs:complexType>
     </xs:element>
 
     <xs:element name="androidpayResponse">
-       <xs:complexType>
-          <xs:sequence>
-             <xs:element name="cryptogram" type="xp:authenticationValueType" minOccurs="0"/>
-             <xs:element name="expMonth" type="xp:string2Type" minOccurs="0"/>
-             <xs:element name="expYear" type="xp:string4Type" minOccurs="0"/>
-             <xs:element name="eciIndicator" type="xp:string2Type" minOccurs="0"/>
-          </xs:sequence>
-       </xs:complexType>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="cryptogram" type="xp:authenticationValueType" minOccurs="0"/>
+                <xs:element name="expMonth" type="xp:string2Type" minOccurs="0"/>
+                <xs:element name="expYear" type="xp:string4Type" minOccurs="0"/>
+                <xs:element name="eciIndicator" type="xp:string2Type" minOccurs="0"/>
+            </xs:sequence>
+        </xs:complexType>
     </xs:element>
 
     <xs:simpleType name="processingTypeEnum">
@@ -2187,20 +2186,20 @@
                 </xs:simpleType>
             </xs:element>
             <xs:element name="mandateReference" minOccurs="0">
-                 <xs:simpleType>
-                        <xs:restriction base="xs:string">
-                            <xs:minLength value="1"/>
-                            <xs:maxLength value="256"/>
-                        </xs:restriction>
-                  </xs:simpleType>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:minLength value="1"/>
+                        <xs:maxLength value="256"/>
+                    </xs:restriction>
+                </xs:simpleType>
             </xs:element>
             <xs:element name="mandateUrl" minOccurs="0" >
-                 <xs:simpleType>
-                        <xs:restriction base="xs:string">
-                            <xs:minLength value="1"/>
-                            <xs:maxLength value="2000"/>
-                        </xs:restriction>
-                 </xs:simpleType>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:minLength value="1"/>
+                        <xs:maxLength value="2000"/>
+                    </xs:restriction>
+                </xs:simpleType>
             </xs:element>
             <xs:element name="mandateSignatureDate" type="xs:date" minOccurs="0" />
             <xs:element name="iban">
@@ -2224,7 +2223,7 @@
             </xs:all>
         </xs:complexType>
     </xs:element>
-    
+
     <xs:complexType name="idealType">
         <xs:all>
             <xs:element name="preferredLanguage" type="xp:countryTypeEnum" minOccurs="0"/>
@@ -2240,7 +2239,7 @@
             </xs:all>
         </xs:complexType>
     </xs:element>
-    
+
         <xs:complexType name="giropayType">
         <xs:all>
             <xs:element name="preferredLanguage" type="xp:countryTypeEnum" minOccurs="0"/>
@@ -2256,7 +2255,7 @@
             </xs:all>
         </xs:complexType>
     </xs:element>
-    
+
         <xs:complexType name="sofortType">
         <xs:all>
             <xs:element name="preferredLanguage" type="xp:countryTypeEnum" minOccurs="0"/>
@@ -2272,17 +2271,407 @@
             </xs:all>
         </xs:complexType>
     </xs:element>
-    
+
     <xs:simpleType name="systemTraceType">
         <xs:restriction base="xs:int">
             <xs:totalDigits value="6"/>
         </xs:restriction>
-    </xs:simpleType> 
-    
+    </xs:simpleType>
+
     <xs:simpleType name="sequenceType">
-        <xs:restriction base="xs:string"> 
+        <xs:restriction base="xs:string">
             <xs:pattern value="[0-9]{6}|0"/>
-        </xs:restriction>    
-    </xs:simpleType>    
-        
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:element name="submerchantCredit" substitutionGroup="xp:transaction">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="xp:transactionTypeWithReportGroup">
+                    <xs:choice>
+                        <xs:sequence>
+                            <xs:element name="fundingSubmerchantId" type="xp:merchantIdentificationType" />
+                            <xs:element name="submerchantName" type="xp:string256Type"/>
+                            <xs:element name="fundsTransferId" type="xp:string36Type" />
+                            <xs:element name="amount" type="xp:transactionAmountType" />
+                            <xs:element name="accountInfo" type="xp:echeckType" />
+                            <xs:element name="customIdentifier" type="xp:string15Type" minOccurs="0" />
+                        </xs:sequence>
+                    </xs:choice>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="submerchantDebit" substitutionGroup="xp:transaction">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="xp:transactionTypeWithReportGroup">
+                    <xs:choice>
+                        <xs:sequence>
+                            <xs:element name="fundingSubmerchantId" type="xp:merchantIdentificationType" />
+                            <xs:element name="submerchantName" type="xp:string256Type"/>
+                            <xs:element name="fundsTransferId" type="xp:string36Type" />
+                            <xs:element name="amount" type="xp:transactionAmountType" />
+                            <xs:element name="accountInfo" type="xp:echeckType" />
+                            <xs:element name="customIdentifier" type="xp:string15Type" minOccurs="0" />
+                        </xs:sequence>
+                    </xs:choice>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="submerchantCreditResponse" substitutionGroup="xp:transactionResponse">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="xp:transactionTypeWithReportGroup">
+                    <xs:all>
+                        <xs:element name="litleTxnId" type="xp:litleIdType" />
+                        <xs:element name="fundsTransferId" type="xp:string36Type"/>
+                        <xs:element name="response" type="xp:responseType" />
+                        <xs:element name="responseTime" type="xs:dateTime" />
+                        <!-- online only -->
+                        <xs:element name="postDate" type="xs:date" minOccurs="0" />
+                        <xs:element name="message" type="xp:messageType" />
+                    </xs:all>
+                    <xs:attribute name="duplicate" type="xs:boolean" use="optional" />
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="submerchantDebitResponse" substitutionGroup="xp:transactionResponse">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="xp:transactionTypeWithReportGroup">
+                    <xs:all>
+                        <xs:element name="litleTxnId" type="xp:litleIdType" />
+                        <xs:element name="fundsTransferId" type="xp:string36Type"/>
+                        <xs:element name="response" type="xp:responseType" />
+                        <xs:element name="responseTime" type="xs:dateTime" />
+                        <!-- online only -->
+                        <xs:element name="postDate" type="xs:date" minOccurs="0" />
+                        <xs:element name="message" type="xp:messageType" />
+                    </xs:all>
+                    <xs:attribute name="duplicate" type="xs:boolean" use="optional" />
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="payFacDebit" substitutionGroup="xp:transaction">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="xp:transactionTypeWithReportGroup">
+                    <xs:choice>
+                        <xs:sequence>
+                            <xs:element name="fundingSubmerchantId" type="xp:merchantIdentificationType" />
+                            <xs:element name="fundsTransferId" type="xp:string36Type"/>
+                            <xs:element name="amount" type="xp:transactionAmountType" />
+                        </xs:sequence>
+                    </xs:choice>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="payFacCredit" substitutionGroup="xp:transaction">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="xp:transactionTypeWithReportGroup">
+                    <xs:choice>
+                        <xs:sequence>
+                            <xs:element name="fundingSubmerchantId" type="xp:merchantIdentificationType" />
+                            <xs:element name="fundsTransferId" type="xp:string36Type"/>
+                            <xs:element name="amount" type="xp:transactionAmountType" />
+                        </xs:sequence>
+                    </xs:choice>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="payFacCreditResponse" substitutionGroup="xp:transactionResponse">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="xp:transactionTypeWithReportGroup">
+                    <xs:all>
+                        <xs:element name="litleTxnId" type="xp:litleIdType" />
+                        <xs:element name="fundsTransferId" type="xp:string36Type"/>
+                        <xs:element name="response" type="xp:responseType" />
+                        <xs:element name="responseTime" type="xs:dateTime" />
+                        <!-- online only -->
+                        <xs:element name="postDate" type="xs:date" minOccurs="0" />
+                        <xs:element name="message" type="xp:messageType" />
+                    </xs:all>
+                    <xs:attribute name="duplicate" type="xs:boolean" use="optional" />
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="payFacDebitResponse" substitutionGroup="xp:transactionResponse">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="xp:transactionTypeWithReportGroup">
+                    <xs:all>
+                        <xs:element name="litleTxnId" type="xp:litleIdType" />
+                        <xs:element name="fundsTransferId" type="xp:string36Type"/>
+                        <xs:element name="response" type="xp:responseType" />
+                        <xs:element name="responseTime" type="xs:dateTime" />
+                        <!-- online only -->
+                        <xs:element name="postDate" type="xs:date" minOccurs="0" />
+                        <xs:element name="message" type="xp:messageType" />
+                    </xs:all>
+                    <xs:attribute name="duplicate" type="xs:boolean" use="optional" />
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="reserveCredit" substitutionGroup="xp:transaction">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="xp:transactionTypeWithReportGroup">
+                    <xs:choice>
+                        <xs:sequence>
+                            <xs:element name="fundingSubmerchantId" type="xp:merchantIdentificationType" />
+                            <xs:element name="fundsTransferId" type="xp:string36Type"/>
+                            <xs:element name="amount" type="xp:transactionAmountType" />
+                        </xs:sequence>
+                    </xs:choice>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="reserveDebit" substitutionGroup="xp:transaction">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="xp:transactionTypeWithReportGroup">
+                    <xs:choice>
+                        <xs:sequence>
+                            <xs:element name="fundingSubmerchantId" type="xp:merchantIdentificationType" />
+                            <xs:element name="fundsTransferId" type="xp:string36Type"/>
+                            <xs:element name="amount" type="xp:transactionAmountType" />
+                        </xs:sequence>
+                    </xs:choice>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="reserveCreditResponse" substitutionGroup="xp:transactionResponse">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="xp:transactionTypeWithReportGroup">
+                    <xs:all>
+                        <xs:element name="litleTxnId" type="xp:litleIdType" />
+                        <xs:element name="fundsTransferId" type="xp:string36Type"/>
+                        <xs:element name="response" type="xp:responseType" />
+                        <xs:element name="responseTime" type="xs:dateTime" />
+                        <!-- online only -->
+                        <xs:element name="postDate" type="xs:date" minOccurs="0" />
+                        <xs:element name="message" type="xp:messageType" />
+                    </xs:all>
+                    <xs:attribute name="duplicate" type="xs:boolean" use="optional" />
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="reserveDebitResponse" substitutionGroup="xp:transactionResponse">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="xp:transactionTypeWithReportGroup">
+                    <xs:all>
+                        <xs:element name="litleTxnId" type="xp:litleIdType" />
+                        <xs:element name="fundsTransferId" type="xp:string36Type"/>
+                        <xs:element name="response" type="xp:responseType" />
+                        <xs:element name="responseTime" type="xs:dateTime" />
+                        <!-- online only -->
+                        <xs:element name="postDate" type="xs:date" minOccurs="0" />
+                        <xs:element name="message" type="xp:messageType" />
+                    </xs:all>
+                    <xs:attribute name="duplicate" type="xs:boolean" use="optional" />
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="physicalCheckCredit" substitutionGroup="xp:transaction">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="xp:transactionTypeWithReportGroup">
+                    <xs:choice>
+                        <xs:sequence>
+                            <xs:element name="fundingSubmerchantId" type="xp:merchantIdentificationType" />
+                            <xs:element name="fundsTransferId" type="xp:string36Type" />
+                            <xs:element name="amount" type="xp:transactionAmountType" />
+                        </xs:sequence>
+                    </xs:choice>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="physicalCheckCreditResponse" substitutionGroup="xp:transactionResponse">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="xp:transactionTypeWithReportGroup">
+                    <xs:all>
+                        <xs:element name="litleTxnId" type="xp:litleIdType" />
+                        <xs:element name="fundsTransferId" type="xp:string36Type"/>
+                        <xs:element name="response" type="xp:responseType" />
+                        <xs:element name="responseTime" type="xs:dateTime" />
+                        <!-- online only -->
+                        <xs:element name="postDate" type="xs:date" minOccurs="0" />
+                        <xs:element name="message" type="xp:messageType" />
+                    </xs:all>
+                    <xs:attribute name="duplicate" type="xs:boolean" use="optional" />
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="physicalCheckDebit" substitutionGroup="xp:transaction">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="xp:transactionTypeWithReportGroup">
+                    <xs:choice>
+                        <xs:sequence>
+                            <xs:element name="fundingSubmerchantId" type="xp:merchantIdentificationType" />
+                            <xs:element name="fundsTransferId" type="xp:string36Type" />
+                            <xs:element name="amount" type="xp:transactionAmountType" />
+                        </xs:sequence>
+                    </xs:choice>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="physicalCheckDebitResponse" substitutionGroup="xp:transactionResponse">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="xp:transactionTypeWithReportGroup">
+                    <xs:all>
+                        <xs:element name="litleTxnId" type="xp:litleIdType" />
+                        <xs:element name="fundsTransferId" type="xp:string36Type"/>
+                        <xs:element name="response" type="xp:responseType" />
+                        <xs:element name="responseTime" type="xs:dateTime" />
+                        <!-- online only -->
+                        <xs:element name="postDate" type="xs:date" minOccurs="0" />
+                        <xs:element name="message" type="xp:messageType" />
+                    </xs:all>
+                    <xs:attribute name="duplicate" type="xs:boolean" use="optional" />
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="vendorCredit" substitutionGroup="xp:transaction">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="xp:transactionTypeWithReportGroup">
+                    <xs:choice>
+                        <xs:sequence>
+                            <xs:element name="fundingSubmerchantId" type="xp:merchantIdentificationType" />
+                            <xs:element name="vendorName" type="xp:string256Type"/>
+                            <xs:element name="fundsTransferId" type="xp:string36Type" />
+                            <xs:element name="amount" type="xp:transactionAmountType" />
+                            <xs:element name="accountInfo" type="xp:echeckType" />
+                        </xs:sequence>
+                    </xs:choice>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="vendorDebit" substitutionGroup="xp:transaction">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="xp:transactionTypeWithReportGroup">
+                    <xs:choice>
+                        <xs:sequence>
+                            <xs:element name="fundingSubmerchantId" type="xp:merchantIdentificationType" />
+                            <xs:element name="vendorName" type="xp:string256Type"/>
+                            <xs:element name="fundsTransferId" type="xp:string36Type" />
+                            <xs:element name="amount" type="xp:transactionAmountType" />
+                            <xs:element name="accountInfo" type="xp:echeckType" />
+                        </xs:sequence>
+                    </xs:choice>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="vendorDebitResponse" substitutionGroup="xp:transactionResponse">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="xp:transactionTypeWithReportGroup">
+                    <xs:all>
+                        <xs:element name="litleTxnId" type="xp:litleIdType" />
+                        <xs:element name="fundsTransferId" type="xp:string36Type"/>
+                        <xs:element name="response" type="xp:responseType" />
+                        <xs:element name="responseTime" type="xs:dateTime" />
+                        <!-- online only -->
+                        <xs:element name="postDate" type="xs:date" minOccurs="0" />
+                        <xs:element name="message" type="xp:messageType" />
+                    </xs:all>
+                    <xs:attribute name="duplicate" type="xs:boolean" use="optional" />
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="vendorCreditResponse" substitutionGroup="xp:transactionResponse">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="xp:transactionTypeWithReportGroup">
+                    <xs:all>
+                        <xs:element name="litleTxnId" type="xp:litleIdType" />
+                        <xs:element name="fundsTransferId" type="xp:string36Type"/>
+                        <xs:element name="response" type="xp:responseType" />
+                        <xs:element name="responseTime" type="xs:dateTime" />
+                        <!-- online only -->
+                        <xs:element name="postDate" type="xs:date" minOccurs="0" />
+                        <xs:element name="message" type="xp:messageType" />
+                    </xs:all>
+                    <xs:attribute name="duplicate" type="xs:boolean" use="optional" />
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="fundingInstructionVoid" substitutionGroup="xp:transaction">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="xp:transactionTypeWithReportGroup">
+                    <xs:all>
+                        <xs:element name="litleTxnId" type="xp:litleIdType" />
+                    </xs:all>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="fundingInstructionVoidResponse" substitutionGroup="xp:transactionResponse">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="xp:transactionTypeWithReportGroup">
+                    <xs:all>
+                        <xs:element name="litleTxnId" type="xp:litleIdType" />
+                        <xs:element name="response" type="xp:responseType" />
+                        <xs:element name="responseTime" type="xs:dateTime" />
+                        <!-- online only -->
+                        <xs:element name="postDate" type="xs:date" minOccurs="0" />
+                        <xs:element name="message" type="xp:messageType" />
+                    </xs:all>
+                    <xs:attribute name="duplicate" type="xs:boolean" use="optional" />
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
 </xs:schema>
