@@ -1,0 +1,327 @@
+<?xml version="1.0"?>
+<xs:schema targetNamespace="http://www.litle.com/schema" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:xp="http://www.litle.com/schema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+
+    <xs:include schemaLocation="litleTransaction_v11.3.xsd" />
+
+    <xs:element name="litleRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="xp:authentication" />
+                <xs:choice>
+                    <xs:element ref="xp:batchRequest" minOccurs="0" maxOccurs="unbounded" />
+                    <xs:element ref="xp:RFRRequest" minOccurs="0" />
+                </xs:choice>
+            </xs:sequence>
+            <xs:attribute name="version" type="xp:versionType" use="required" />
+            <xs:attribute name="id" type="xp:string25Type" use="optional" />
+            <xs:attribute name="numBatchRequests" type="xs:integer" use="required" />
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="RFRRequest">
+        <xs:complexType>
+            <xs:choice>
+                <xs:element name="litleSessionId" type="xp:litleIdType" />
+                <xs:element ref="xp:accountUpdateFileRequestData" />
+            </xs:choice>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="batchRequest">
+        <xs:complexType>
+            <xs:choice>
+                <xs:element ref="xp:transaction" maxOccurs="unbounded" />
+                <xs:element ref="xp:recurringTransaction" maxOccurs="unbounded" />
+            </xs:choice>
+            <xs:attribute name="merchantSdk" type="xs:string" use="optional" />
+            <xs:attribute name="id" type="xp:string25Type" use="optional" />
+            <xs:attribute name="numAuths" type="xs:integer" use="optional" />
+            <xs:attribute name="authAmount" type="xp:batchTotalAmountType" use="optional" />
+            <xs:attribute name="numAuthReversals" type="xs:integer" use="optional" />
+            <xs:attribute name="authReversalAmount" type="xp:batchTotalAmountType" use="optional" />
+            <xs:attribute name="numGiftCardAuthReversals" type="xs:integer" use="optional" />
+            <xs:attribute name="giftCardAuthReversalOriginalAmount" type="xp:batchTotalAmountType" use="optional" />
+            <xs:attribute name="numCaptures" type="xs:integer" use="optional" />
+            <xs:attribute name="captureAmount" type="xp:batchTotalAmountType" use="optional" />
+            <xs:attribute name="numGiftCardCaptures" type="xs:integer" use="optional" />
+            <xs:attribute name="giftCardCaptureAmount" type="xp:batchTotalAmountType" use="optional" />
+            <xs:attribute name="numExtCaptures" type="xs:integer" use="optional" />
+            <xs:attribute name="extCaptureAmount" type="xp:batchTotalAmountType" use="optional" />
+            <xs:attribute name="numCredits" type="xs:integer" use="optional" />
+            <xs:attribute name="creditAmount" type="xp:batchTotalAmountType" use="optional" />
+            <xs:attribute name="numGiftCardCredits" type="xs:integer" use="optional" />
+            <xs:attribute name="giftCardCreditAmount" type="xp:batchTotalAmountType" use="optional" />
+            <xs:attribute name="numForceCaptures" type="xs:integer" use="optional" />
+            <xs:attribute name="forceCaptureAmount" type="xp:batchTotalAmountType" use="optional" />
+            <xs:attribute name="numSales" type="xs:integer" use="optional" />
+            <xs:attribute name="saleAmount" type="xp:batchTotalAmountType" use="optional" />
+            <xs:attribute name="numCaptureGivenAuths" type="xs:integer" use="optional" />
+            <xs:attribute name="captureGivenAuthAmount" type="xp:batchTotalAmountType" use="optional" />
+            <xs:attribute name="numEcheckSales" type="xs:integer" use="optional" />
+            <xs:attribute name="echeckSalesAmount" type="xp:batchTotalAmountType" use="optional" />
+            <xs:attribute name="numEcheckCredit" type="xs:integer" use="optional" />
+            <xs:attribute name="echeckCreditAmount" type="xp:batchTotalAmountType" use="optional" />
+            <xs:attribute name="numEcheckVerification" type="xs:integer" use="optional" />
+            <xs:attribute name="echeckVerificationAmount" type="xp:batchTotalAmountType" use="optional" />
+            <xs:attribute name="numEcheckRedeposit" type="xs:integer" use="optional" />
+            <xs:attribute name="numEcheckPreNoteSale" type="xs:integer" use="optional" />
+            <xs:attribute name="numEcheckPreNoteCredit" type="xs:integer" use="optional" />
+            <xs:attribute name="numAccountUpdates" type="xs:integer" use="optional" />
+            <xs:attribute name="numTokenRegistrations" type="xs:integer" use="optional" />
+            <xs:attribute name="numUpdateCardValidationNumOnTokens" type="xs:integer" use="optional" />
+            <xs:attribute name="numCancelSubscriptions" type="xs:integer" use="optional" />
+            <xs:attribute name="numUpdateSubscriptions" type="xs:integer" use="optional" />
+            <xs:attribute name="numCreatePlans" type="xs:integer" use="optional" />
+            <xs:attribute name="numUpdatePlans" type="xs:integer" use="optional" />
+            <xs:attribute name="numActivates" type="xs:integer" use="optional" />
+            <xs:attribute name="numDeactivates" type="xs:integer" use="optional" />
+            <xs:attribute name="activateAmount" type="xp:batchTotalAmountType" use="optional" />
+            <xs:attribute name="numLoads" type="xs:integer" use="optional" />
+            <xs:attribute name="loadAmount" type="xp:batchTotalAmountType" use="optional" />
+            <xs:attribute name="numUnloads" type="xs:integer" use="optional" />
+            <xs:attribute name="unloadAmount" type="xp:batchTotalAmountType" use="optional" />
+            <xs:attribute name="numBalanceInquirys" type="xs:integer" use="optional" />
+            <xs:attribute name="numPayFacCredit" type="xs:integer" use="optional" />
+            <xs:attribute name="numPayFacDebit" type="xs:integer" use="optional" />
+            <xs:attribute name="numSubmerchantCredit" type="xs:integer" use="optional" />
+            <xs:attribute name="numSubmerchantDebit" type="xs:integer" use="optional" />
+            <xs:attribute name="numReserveCredit" type="xs:integer" use="optional" />
+            <xs:attribute name="numReserveDebit" type="xs:integer" use="optional" />
+            <xs:attribute name="numVendorDebit" type="xs:integer" use="optional" />
+            <xs:attribute name="numVendorCredit" type="xs:integer" use="optional" />
+            <xs:attribute name="numPhysicalCheckDebit" type="xs:integer" use="optional" />
+            <xs:attribute name="numPhysicalCheckCredit" type="xs:integer" use="optional" />
+            <xs:attribute name="numFundingInstructionVoid" type="xs:integer" use="optional" />
+            <xs:attribute name="payFacCreditAmount" type="xp:batchTotalAmountType" use="optional" />
+            <xs:attribute name="payFacDebitAmount" type="xp:batchTotalAmountType" use="optional" />
+            <xs:attribute name="submerchantCreditAmount" type="xp:batchTotalAmountType" use="optional" />
+            <xs:attribute name="submerchantDebitAmount" type="xp:batchTotalAmountType" use="optional" />
+            <xs:attribute name="reserveCreditAmount" type="xp:batchTotalAmountType" use="optional" />
+            <xs:attribute name="reserveDebitAmount" type="xp:batchTotalAmountType" use="optional" />
+            <xs:attribute name="vendorDebitAmount" type="xp:batchTotalAmountType" use="optional" />
+            <xs:attribute name="vendorCreditAmount" type="xp:batchTotalAmountType" use="optional" />
+            <xs:attribute name="physicalCheckDebitAmount" type="xp:batchTotalAmountType" use="optional" />
+            <xs:attribute name="physicalCheckCreditAmount" type="xp:batchTotalAmountType" use="optional" />
+            <xs:attribute name="sameDayFunding" type="xs:boolean" use="optional" />
+
+            <xs:attribute name="merchantId" type="xp:merchantIdentificationType" use="required" />
+        </xs:complexType>
+    </xs:element>
+
+    <!-- Leaving this element here for reference only.  Note fraudCheckType has been removed and it never gets mapped in Castor, therefore the online version is used in common
+
+        <xs:element name="authorization"
+        substitutionGroup="xp:transaction">
+        <xs:complexType>
+        <xs:complexContent>
+        <xs:extension
+        base="xp:transactionTypeWithReportGroup">
+        <xs:choice>
+        <xs:sequence>
+        <xs:element name="litleTxnId"
+        type="xp:litleIdType" />
+        </xs:sequence>
+        <xs:sequence>
+        <xs:element name="orderId"
+        type="xp:orderIdType" />
+        <xs:element name="amount"
+        type="xp:transactionAmountType" />
+        <xs:element name="orderSource"
+        type="xp:orderSourceType" minOccurs="0" />
+        <xs:element ref="xp:customerInfo"
+        minOccurs="0" />
+        <xs:element ref="xp:billToAddress"
+        minOccurs="0" />
+        <xs:element ref="xp:shipToAddress"
+        minOccurs="0" />
+        <xs:choice>
+        <xs:element name="card"
+        type="xp:cardType" />
+        <xs:element name="paypal"
+        type="xp:payPal" />
+        </xs:choice>
+        <xs:element ref="xp:billMeLaterRequest"
+        minOccurs="0" />
+        <xs:choice>
+        <xs:element name="fraudCheckType"
+        type="xp:fraudCheckType" minOccurs="0" />
+        #  The following element is for 3DS, ECI and transaction id are Visa specific
+        <xs:element
+        name="cardholderAuthentication"
+        type="xp:fraudCheckType" minOccurs="0" />
+        </xs:choice>
+        <xs:element ref="xp:processingInstructions"
+        minOccurs="0" />
+        <xs:element ref="xp:pos" minOccurs="0" />
+        <xs:element ref="xp:enhancedData"
+        minOccurs="0" />
+        </xs:sequence>
+        </xs:choice>
+        </xs:extension>
+        </xs:complexContent>
+        </xs:complexType>
+        </xs:element> -->
+
+    <xs:element name="cardOrToken" abstract="true"/>
+    <xs:element name="card" substitutionGroup="xp:cardOrToken" type="xp:cardType"/>
+    <xs:element name="token" substitutionGroup="xp:cardOrToken" type="xp:cardTokenType"/>
+
+
+    <xs:element name="accountUpdate" substitutionGroup="xp:transaction">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="xp:transactionTypeWithReportGroup">
+                    <xs:all>
+                        <xs:element name="orderId" type="xp:string25Type" />
+                        <xs:element ref="xp:cardOrToken" />
+                    </xs:all>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="litleResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:choice>
+                    <xs:element ref="xp:batchResponse" minOccurs="0" maxOccurs="unbounded" />
+                    <xs:element ref="xp:RFRResponse" />
+                </xs:choice>
+            </xs:sequence>
+            <xs:attribute name="version" type="xp:versionType" use="required" />
+            <xs:attribute name="id" type="xp:string25Type" use="optional" />
+            <xs:attribute name="response" type="xp:responseType" use="required" />
+            <xs:attribute name="message" type="xp:messageType" use="required" />
+            <xs:attribute name="litleSessionId" type="xp:litleIdType" use="required" />
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="RFRResponse">
+        <xs:complexType>
+            <xs:attribute name="response" type="xp:responseType" use="required" />
+            <xs:attribute name="message" type="xp:messageType" use="required" />
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="batchResponse">
+        <xs:complexType>
+            <xs:choice>
+                <xs:element ref="xp:transactionResponse" minOccurs="0" maxOccurs="unbounded" />
+                <xs:element ref="xp:recurringTransactionResponse" minOccurs="0" maxOccurs="unbounded" />
+            </xs:choice>
+            <xs:attribute name="id" type="xp:string25Type" />
+            <xs:attribute name="litleBatchId" type="xp:litleIdType" use="required" />
+            <xs:attribute name="merchantId" type="xp:merchantIdentificationType" use="required" />
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="accountUpdateResponse" substitutionGroup="xp:transactionResponse">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="xp:transactionTypeWithReportGroup">
+                    <xs:all>
+                        <xs:element name="litleTxnId" type="xp:litleIdType" />
+                        <xs:element name="orderId" type="xp:string25Type" />
+                        <xs:element name="response" type="xp:responseType" />
+                        <xs:element name="responseTime" type="xs:dateTime" />
+                        <xs:element name="message" type="xp:messageType" />
+                        <xs:element name="updatedCard" type="xp:cardType" minOccurs="0" />
+                        <xs:element name="originalCard" type="xp:cardType" minOccurs="0" />
+                        <xs:element name="updatedToken" type="xp:cardTokenTypeAU" minOccurs="0" />
+                        <xs:element name="originalToken" type="xp:cardTokenTypeAU" minOccurs="0" />
+                    </xs:all>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="cardTokenTypeAU">
+        <xs:complexContent>
+            <xs:extension base="xp:cardTokenType">
+                <xs:sequence>
+                    <xs:element name="bin" type="xs:string" minOccurs="0"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:simpleType name="batchTotalAmountType">
+        <xs:restriction base="xs:integer">
+            <xs:totalDigits value="10" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="template">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="25" />
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:element name="accountUpdateFileRequestData">
+        <xs:complexType>
+            <xs:all>
+                <xs:element name="merchantId" type="xp:merchantIdentificationType" />
+                <xs:element name="postDay" type="xs:date" minOccurs="0" />
+            </xs:all>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="echeckPreNoteSale" substitutionGroup="xp:transaction">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="xp:transactionTypeWithReportGroup">
+                    <xs:sequence>
+                        <xs:element name="orderId" type="xp:string25Type" />
+                        <xs:element name="orderSource" type="xp:orderSourceType" />
+                        <xs:element ref="xp:billToAddress" />
+                        <xs:element ref="xp:echeck" />
+                        <xs:element name="merchantData" type="xp:merchantDataType" minOccurs="0" />
+                    </xs:sequence>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="echeckPreNoteCredit" substitutionGroup="xp:transaction">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="xp:transactionTypeWithReportGroup">
+                    <xs:sequence>
+                        <xs:element name="orderId" type="xp:string25Type" />
+                        <xs:element name="orderSource" type="xp:orderSourceType" />
+                        <xs:element ref="xp:billToAddress" />
+                        <xs:element ref="xp:echeck" />
+                        <xs:element name="merchantData" type="xp:merchantDataType" minOccurs="0" />
+                    </xs:sequence>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="echeckPreNoteSaleResponse" substitutionGroup="xp:transactionResponse">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="xp:transactionTypeWithReportGroup">
+                    <xs:all>
+                        <xs:element name="litleTxnId" type="xp:litleIdType" />
+                        <xs:element name="response" type="xp:responseType" />
+                        <xs:element name="responseTime" type="xs:dateTime" />
+                        <xs:element name="message" type="xp:messageType" />
+                    </xs:all>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="echeckPreNoteCreditResponse" substitutionGroup="xp:transactionResponse">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="xp:transactionTypeWithReportGroup">
+                    <xs:all>
+                        <xs:element name="litleTxnId" type="xp:litleIdType" />
+                        <xs:element name="response" type="xp:responseType" />
+                        <xs:element name="responseTime" type="xs:dateTime" />
+                        <xs:element name="message" type="xp:messageType" />
+                    </xs:all>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>
+
