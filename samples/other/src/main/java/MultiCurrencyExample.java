@@ -51,7 +51,7 @@ public class MultiCurrencyExample {
         yenProps.setProperty("proxyHost","websenseproxy");  
         yenProps.setProperty("proxyPort","8080");     
         yenProps.setProperty("version","8.10");
-        yenProps.setProperty("timeout","65");
+        yenProps.setProperty("timeout","5000");
         LitleOnline yenCurrency = new LitleOnline(yenProps); //Override the default merchant setup in .litle_SDK_config.properties to force purchase in YEN
         
         AuthorizationResponse response3 = yenCurrency.authorize(authorization);  //Perform the same authorization using YEN instead of USD
