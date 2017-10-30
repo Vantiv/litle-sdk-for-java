@@ -17,10 +17,10 @@ public class Setup {
 			put("sandbox","https://www.testlitle.com/sandbox/communicator/online");
 			put("prelive","https://payments.vantivprelive.com/vap/communicator/online");
 			put("postlive","https://payments.vantivpostlive.com/vap/communicator/online");
-			put("production","https://payments.vantivlitle.com/vap/communicator/online");
+			put("production","https://payments.vantivcnp.com/vap/communicator/online");
 			put("batchprelive","payments.vantivprelive.com");
 			put("batchpostlive","payments.vantivpostlive.com");
-			put("batchproduction", "payments.vantivlitle.com");
+			put("batchproduction", "payments.vantivcnp.com");
 		}
 	};
 
@@ -61,7 +61,7 @@ public class Setup {
 			System.out.println("\tsandbox => www.testlitle.com");
 			System.out.println("\tprelive => payments.vantivprelive.com");
 			System.out.println("\tpostlive => payments.vantivpostlive.com");
-			System.out.println("\tproduction => payments.vantivlitle.com");
+			System.out.println("\tproduction => payments.vantivcnp.com");
 			System.out.println("\tother => You will be asked for all the values");
 			lastUserInput = stdin.readLine();
 			if(
@@ -80,7 +80,7 @@ public class Setup {
 				System.out.println("Please input the URL for online transactions " +
                         "(ex: https://www.testlitle.com/sandbox/communicator/online):");
 				config.put("url", stdin.readLine());
-				System.out.println("Please input the Host name for batch transactions (ex: payments.vantivlitle.com):");
+				System.out.println("Please input the Host name for batch transactions (ex: payments.vantivcnp.com):");
 				config.put("batchHost", stdin.readLine());
 				System.out.println("Please input the port number for batch transactions (ex: 15000):");
 				config.put("batchPort", stdin.readLine());
