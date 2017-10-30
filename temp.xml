@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='utf-8'?>
+<litleOnlineRequest merchantId="101" version="11.0" merchantSdk="DotNet;11.0" xmlns="http://www.litle.com/schema">
+    <authentication>
+        <user>DOTNET</user>
+        <password>TESTCASE</password>
+    </authentication>
+    <sale id="1" reportGroup="Default Report Group">
+        <litleTxnId>123456</litleTxnId>
+        <orderId>12344</orderId>
+        <amount>106</amount>
+        <orderSource>ecommerce</orderSource>
+        <ideal>
+            <preferredLanguage>US</preferredLanguage>
+        </ideal>
+    </sale>
+</litleOnlineRequest>

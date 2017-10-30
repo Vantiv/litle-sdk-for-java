@@ -25,6 +25,6 @@ public class TestUpdateCardValidationNumOnToken {
 		update.setId("id");
 		
 		UpdateCardValidationNumOnTokenResponse response = litle.updateCardValidationNumOnToken(update);
-		//assertEquals(response.getMessage(), "805",response.getResponse());
+		assertEquals(response.getMessage(), "805",response.getResponse());
 	}
 }

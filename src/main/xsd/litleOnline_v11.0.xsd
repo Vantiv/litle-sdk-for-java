@@ -3,7 +3,7 @@
 <xs:schema targetNamespace="http://www.litle.com/schema" xmlns:xp="http://www.litle.com/schema"
     xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
 
-    <xs:include schemaLocation="litleTransaction_v11.3.xsd" />
+    <xs:include schemaLocation="litleTransaction_v11.0.xsd" />
 
     <xs:complexType name="baseRequest">
         <xs:sequence>
@@ -23,7 +23,6 @@
                     <xs:attribute name="merchantId" type="xp:merchantIdentificationType" use="required" />
                     <xs:attribute name="merchantSdk" type="xs:string" use="optional" />
                     <xs:attribute name="loggedInUser" type="xs:string" use="optional"/>
-                    <xs:attribute name="sameDayFunding" type="xs:boolean" use="optional" />
                 </xs:extension>
             </xs:complexContent>
         </xs:complexType>
@@ -142,13 +141,13 @@
         </xs:complexType>
     </xs:element>
 
-    <xs:element name="activateReversal" substitutionGroup="xp:transaction">
+     <xs:element name="activateReversal" substitutionGroup="xp:transaction">
         <xs:complexType>
             <xs:complexContent>
                 <xs:extension base="xp:transactionTypeWithReportGroup">
                     <xs:all>
                         <xs:element name="litleTxnId" type="xp:litleIdType" minOccurs="0" />
-                        <xs:element name="card" type="xp:giftCardCardType" />
+			            <xs:element name="card" type="xp:giftCardCardType" />
                         <xs:element name="virtualGiftCardBin" type="xs:string" minOccurs="0"/>
                         <xs:element name="originalRefCode" type="xp:authCodeType" />
                         <xs:element name="originalAmount" type="xp:transactionAmountType" />
@@ -161,7 +160,7 @@
         </xs:complexType>
     </xs:element>
 
-    <xs:element name="deactivateReversal" substitutionGroup="xp:transaction">
+     <xs:element name="deactivateReversal" substitutionGroup="xp:transaction">
         <xs:complexType>
             <xs:complexContent>
                 <xs:extension base="xp:transactionTypeWithReportGroup">
@@ -178,7 +177,7 @@
         </xs:complexType>
     </xs:element>
 
-    <xs:element name="loadReversal" substitutionGroup="xp:transaction">
+     <xs:element name="loadReversal" substitutionGroup="xp:transaction">
         <xs:complexType>
             <xs:complexContent>
                 <xs:extension base="xp:transactionTypeWithReportGroup">
@@ -196,7 +195,7 @@
         </xs:complexType>
     </xs:element>
 
-    <xs:element name="unloadReversal" substitutionGroup="xp:transaction">
+     <xs:element name="unloadReversal" substitutionGroup="xp:transaction">
         <xs:complexType>
             <xs:complexContent>
                 <xs:extension base="xp:transactionTypeWithReportGroup">
@@ -293,48 +292,6 @@
                         <xs:element name="responseTime" type="xs:dateTime" />
                         <xs:element name="message" type="xs:string"/>
                     </xs:all>
-                </xs:extension>
-            </xs:complexContent>
-        </xs:complexType>
-    </xs:element>
-
-    <xs:element name="fastFunding" substitutionGroup="xp:transaction">
-        <xs:complexType>
-            <xs:complexContent>
-                <xs:extension base="xp:transactionTypeWithReportGroup">
-                    <xs:choice>
-                        <xs:sequence>
-                            <xs:element name="fundingSubmerchantId" type="xp:merchantIdentificationType" />
-                            <xs:element name="submerchantName" type="xp:string256Type"/>
-                            <xs:element name="fundsTransferId" type="xp:stringExactly16AlphanumericType" />
-                            <xs:element name="amount" type="xp:transactionAmountType" />
-                            <xs:choice>
-                                <xs:element name="card" type="xp:cardType" />
-                                <xs:element name="token" type="xp:cardTokenType" />
-                                <xs:element name="paypage" type="xp:cardPaypageType" />
-                            </xs:choice>
-                        </xs:sequence>
-                    </xs:choice>
-                </xs:extension>
-            </xs:complexContent>
-        </xs:complexType>
-    </xs:element>
-
-    <xs:element name="fastFundingResponse" substitutionGroup="xp:transactionResponse">
-        <xs:complexType>
-            <xs:complexContent>
-                <xs:extension base="xp:transactionTypeWithReportGroup">
-                    <xs:all>
-                        <xs:element name="litleTxnId" type="xp:litleIdType" />
-                        <xs:element name="fundsTransferId" type="xp:stringExactly16AlphanumericType"/>
-                        <xs:element name="response" type="xp:responseType" />
-                        <xs:element name="responseTime" type="xs:dateTime" />
-                        <xs:element name="postDate" type="xs:date" minOccurs="0" />
-                        <xs:element name="message" type="xp:messageType" />
-                        <!-- if tokenized merchant -->
-                        <xs:element name="tokenResponse" type="xp:tokenResponseType" minOccurs="0"/>
-                    </xs:all>
-                    <xs:attribute name="duplicate" type="xs:boolean" use="optional" />
                 </xs:extension>
             </xs:complexContent>
         </xs:complexType>

@@ -675,22 +675,22 @@
     </xs:complexType>
     
     <xs:complexType name="giftCardCardType">
-        <xs:complexContent>
+       <xs:complexContent>
             <xs:restriction base="xp:cardType">
                <xs:sequence>
-                    <xs:choice>
-                        <xs:sequence>
-                            <xs:element name="type" type="xp:methodOfPaymentTypeEnum" fixed="GC"/>
-                            <xs:element name="number" type="xp:ccAccountNumberType" minOccurs="0"/>
-                            <xs:element name="expDate" type="xp:expDateType" minOccurs="0" />
-                        </xs:sequence>
-                        <xs:sequence>
-                            <xs:element name="track" type="xp:trackDataType" />
-                        </xs:sequence>
-                    </xs:choice>
-                    <xs:element name="cardValidationNum" type="xp:cvNumType" minOccurs="0" />
-                    <xs:element name="pin" type="xp:pinType" minOccurs="0" />
-                </xs:sequence>
+		            <xs:choice>
+		                <xs:sequence>
+		                    <xs:element name="type" type="xp:methodOfPaymentTypeEnum" fixed="GC"/>
+		                    <xs:element name="number" type="xp:ccAccountNumberType" minOccurs="0"/>
+		                    <xs:element name="expDate" type="xp:expDateType" minOccurs="0" />
+		                </xs:sequence>
+		                <xs:sequence>
+		                    <xs:element name="track" type="xp:trackDataType" />
+		                </xs:sequence>
+		            </xs:choice>
+		            <xs:element name="cardValidationNum" type="xp:cvNumType" minOccurs="0" />
+		            <xs:element name="pin" type="xp:pinType" minOccurs="0" />
+		        </xs:sequence>
             </xs:restriction>
         </xs:complexContent>
     </xs:complexType>    
@@ -708,16 +708,8 @@
             <xs:element name="expDate" type="xp:expDateType" minOccurs="0" />
             <xs:element name="cardValidationNum" type="xp:cvNumType" minOccurs="0" />
             <xs:element name="type" type="xp:methodOfPaymentTypeEnum" minOccurs="0" />
-            <xs:element name="checkoutId" type="xp:checkoutIdType" minOccurs="0" />
         </xs:sequence>
     </xs:complexType>
-
-    <xs:simpleType name="checkoutIdType">
-        <xs:restriction base="xs:string">
-            <xs:minLength value="18" />
-            <xs:maxLength value="18" />
-        </xs:restriction>
-    </xs:simpleType>
 
     <xs:complexType name="cardPaypageType">
         <xs:sequence>
@@ -824,15 +816,9 @@
         </xs:restriction>
     </xs:simpleType>
     
-    <xs:simpleType name="string30Type">
+     <xs:simpleType name="string30Type">
         <xs:restriction base="xs:string">
             <xs:maxLength value="30" />
-        </xs:restriction>
-    </xs:simpleType>
-
-    <xs:simpleType name="stringExactly16AlphanumericType">
-        <xs:restriction base="xs:string">
-            <xs:pattern value="[A-Z,a-z,0-9]{16,16}"/>
         </xs:restriction>
     </xs:simpleType>
 
