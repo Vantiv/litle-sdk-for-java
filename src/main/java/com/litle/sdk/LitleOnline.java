@@ -490,7 +490,8 @@ public class LitleOnline {
 
     public ActivateResponse activate(Activate activate, LitleOnlineRequest overrides) {
         LitleOnlineRequest request = fillInMissingFieldsFromConfig(overrides);
-
+        fillInReportGroup(activate);
+        
         request.setTransaction(LitleContext.getObjectFactory().createActivate(activate));
         LitleOnlineResponse response = sendToLitle(request);
         JAXBElement<? extends TransactionTypeWithReportGroup> newresponse = response.getTransactionResponse();
@@ -504,6 +505,7 @@ public class LitleOnline {
 
     public DeactivateResponse deactivate(Deactivate deactivate, LitleOnlineRequest overrides) {
         LitleOnlineRequest request = fillInMissingFieldsFromConfig(overrides);
+        fillInReportGroup(deactivate);
 
         request.setTransaction(LitleContext.getObjectFactory().createDeactivate(deactivate));
         LitleOnlineResponse response = sendToLitle(request);
@@ -518,7 +520,8 @@ public class LitleOnline {
 
     public LoadResponse load(Load load, LitleOnlineRequest overrides) {
         LitleOnlineRequest request = fillInMissingFieldsFromConfig(overrides);
-
+        fillInReportGroup(load);
+        
         request.setTransaction(LitleContext.getObjectFactory().createLoad(load));
         LitleOnlineResponse response = sendToLitle(request);
         JAXBElement<? extends TransactionTypeWithReportGroup> newresponse = response.getTransactionResponse();
@@ -532,6 +535,7 @@ public class LitleOnline {
 
     public UnloadResponse unload(Unload unload, LitleOnlineRequest overrides) {
         LitleOnlineRequest request = fillInMissingFieldsFromConfig(overrides);
+        fillInReportGroup(unload);
 
         request.setTransaction(LitleContext.getObjectFactory().createUnload(unload));
         LitleOnlineResponse response = sendToLitle(request);
@@ -546,7 +550,8 @@ public class LitleOnline {
 
     public BalanceInquiryResponse balanceInquiry(BalanceInquiry balanceInquiry, LitleOnlineRequest overrides) {
         LitleOnlineRequest request = fillInMissingFieldsFromConfig(overrides);
-
+        fillInReportGroup(balanceInquiry);
+        
         request.setTransaction(LitleContext.getObjectFactory().createBalanceInquiry(balanceInquiry));
         LitleOnlineResponse response = sendToLitle(request);
         JAXBElement<? extends TransactionTypeWithReportGroup> newresponse = response.getTransactionResponse();
@@ -560,7 +565,8 @@ public class LitleOnline {
 
     public ActivateReversalResponse activateReversal(ActivateReversal activateReversal, LitleOnlineRequest overrides) {
         LitleOnlineRequest request = fillInMissingFieldsFromConfig(overrides);
-
+        fillInReportGroup(activateReversal);
+        
         request.setTransaction(LitleContext.getObjectFactory().createActivateReversal(activateReversal));
         LitleOnlineResponse response = sendToLitle(request);
         JAXBElement<? extends TransactionTypeWithReportGroup> newresponse = response.getTransactionResponse();
@@ -574,6 +580,7 @@ public class LitleOnline {
 
     public DeactivateReversalResponse deactivateReversal(DeactivateReversal deactivateReversal, LitleOnlineRequest overrides) {
         LitleOnlineRequest request = fillInMissingFieldsFromConfig(overrides);
+        fillInReportGroup(deactivateReversal);
 
         request.setTransaction(LitleContext.getObjectFactory().createDeactivateReversal(deactivateReversal));
         LitleOnlineResponse response = sendToLitle(request);
@@ -588,6 +595,7 @@ public class LitleOnline {
 
     public LoadReversalResponse loadReversal(LoadReversal loadReversal, LitleOnlineRequest overrides) {
         LitleOnlineRequest request = fillInMissingFieldsFromConfig(overrides);
+        fillInReportGroup(loadReversal);
 
         request.setTransaction(LitleContext.getObjectFactory().createLoadReversal(loadReversal));
         LitleOnlineResponse response = sendToLitle(request);
@@ -602,7 +610,8 @@ public class LitleOnline {
 
     public UnloadReversalResponse unloadReversal(UnloadReversal unloadReversal, LitleOnlineRequest overrides) {
         LitleOnlineRequest request = fillInMissingFieldsFromConfig(overrides);
-
+        fillInReportGroup(unloadReversal);
+        
         request.setTransaction(LitleContext.getObjectFactory().createUnloadReversal(unloadReversal));
         LitleOnlineResponse response = sendToLitle(request);
         JAXBElement<? extends TransactionTypeWithReportGroup> newresponse = response.getTransactionResponse();
@@ -616,7 +625,8 @@ public class LitleOnline {
 
     public RefundReversalResponse refundReversal(RefundReversal refundReversal, LitleOnlineRequest overrides) {
         LitleOnlineRequest request = fillInMissingFieldsFromConfig(overrides);
-
+        fillInReportGroup(refundReversal);
+        
         request.setTransaction(LitleContext.getObjectFactory().createRefundReversal(refundReversal));
         LitleOnlineResponse response = sendToLitle(request);
         JAXBElement<? extends TransactionTypeWithReportGroup> newresponse = response.getTransactionResponse();
@@ -630,7 +640,8 @@ public class LitleOnline {
 
     public DepositReversalResponse depositReversal(DepositReversal depositReversal, LitleOnlineRequest overrides) {
         LitleOnlineRequest request = fillInMissingFieldsFromConfig(overrides);
-
+        fillInReportGroup(depositReversal);
+        
         request.setTransaction(LitleContext.getObjectFactory().createDepositReversal(depositReversal));
         LitleOnlineResponse response = sendToLitle(request);
         JAXBElement<? extends TransactionTypeWithReportGroup> newresponse = response.getTransactionResponse();

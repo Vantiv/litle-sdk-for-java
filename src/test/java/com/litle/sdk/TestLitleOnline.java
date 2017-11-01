@@ -1023,7 +1023,7 @@ public class TestLitleOnline {
         when(
                 mockedCommunication
                         .requestToServer(
-                                matches(".*?<litleOnlineRequest.*?<activate><amount>100</amount></activate></litleOnlineRequest>.*?"),
+                                matches(".*?<litleOnlineRequest.*?<activate reportGroup=\"Default Report Group\"><amount>100</amount></activate></litleOnlineRequest>.*?"),
                                 any(Properties.class)))
                 .thenReturn(
                         "<litleOnlineResponse version='8.21' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><activateResponse><litleTxnId>123456</litleTxnId></activateResponse></litleOnlineResponse>");
@@ -1041,7 +1041,7 @@ public class TestLitleOnline {
         when(
                 mockedCommunication
                         .requestToServer(
-                                matches(".*?<litleOnlineRequest.*?merchantId=\"905\".*?<activate><amount>100</amount></activate></litleOnlineRequest>.*?"),
+                                matches(".*?<litleOnlineRequest.*?merchantId=\"905\".*?<activate reportGroup=\"Default Report Group\"><amount>100</amount></activate></litleOnlineRequest>.*?"),
                                 any(Properties.class)))
                 .thenReturn(
                         "<litleOnlineResponse version='8.21' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><activateResponse><litleTxnId>123456</litleTxnId></activateResponse></litleOnlineResponse>");
@@ -1061,7 +1061,7 @@ public class TestLitleOnline {
         when(
                 mockedCommunication
                         .requestToServer(
-                                matches(".*?<litleOnlineRequest.*?<deactivate><orderId>123</orderId></deactivate></litleOnlineRequest>.*?"),
+                                matches(".*?<litleOnlineRequest.*?<deactivate reportGroup=\"Default Report Group\"><orderId>123</orderId></deactivate></litleOnlineRequest>.*?"),
                                 any(Properties.class)))
                 .thenReturn(
                         "<litleOnlineResponse version='8.21' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><deactivateResponse><litleTxnId>123456</litleTxnId></deactivateResponse></litleOnlineResponse>");
@@ -1079,7 +1079,7 @@ public class TestLitleOnline {
         when(
                 mockedCommunication
                         .requestToServer(
-                                matches(".*?<litleOnlineRequest.*?merchantId=\"905\".*?<deactivate><orderId>123</orderId></deactivate></litleOnlineRequest>.*?"),
+                                matches(".*?<litleOnlineRequest.*?merchantId=\"905\".*?<deactivate reportGroup=\"Default Report Group\"><orderId>123</orderId></deactivate></litleOnlineRequest>.*?"),
                                 any(Properties.class)))
                 .thenReturn(
                         "<litleOnlineResponse version='8.21' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><deactivateResponse><litleTxnId>123456</litleTxnId></deactivateResponse></litleOnlineResponse>");
@@ -1099,7 +1099,7 @@ public class TestLitleOnline {
         when(
                 mockedCommunication
                         .requestToServer(
-                                matches(".*?<litleOnlineRequest.*?<load><orderId>123</orderId></load></litleOnlineRequest>.*?"),
+                                matches(".*?<litleOnlineRequest.*?<load reportGroup=\"Default Report Group\"><orderId>123</orderId></load></litleOnlineRequest>.*?"),
                                 any(Properties.class)))
                 .thenReturn(
                         "<litleOnlineResponse version='8.21' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><loadResponse><litleTxnId>123456</litleTxnId></loadResponse></litleOnlineResponse>");
@@ -1117,7 +1117,7 @@ public class TestLitleOnline {
         when(
                 mockedCommunication
                         .requestToServer(
-                                matches(".*?<litleOnlineRequest.*?merchantId=\"905\".*?<load><orderId>123</orderId></load></litleOnlineRequest>.*?"),
+                                matches(".*?<litleOnlineRequest.*?merchantId=\"905\".*?<load reportGroup=\"Default Report Group\"><orderId>123</orderId></load></litleOnlineRequest>.*?"),
                                 any(Properties.class)))
                 .thenReturn(
                         "<litleOnlineResponse version='8.21' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><loadResponse><litleTxnId>123456</litleTxnId></loadResponse></litleOnlineResponse>");
@@ -1137,7 +1137,7 @@ public class TestLitleOnline {
         when(
                 mockedCommunication
                         .requestToServer(
-                                matches(".*?<litleOnlineRequest.*?<unload><orderId>123</orderId></unload></litleOnlineRequest>.*?"),
+                                matches(".*?<litleOnlineRequest.*?<unload reportGroup=\"Default Report Group\"><orderId>123</orderId></unload></litleOnlineRequest>.*?"),
                                 any(Properties.class)))
                 .thenReturn(
                         "<litleOnlineResponse version='8.21' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><unloadResponse><litleTxnId>123456</litleTxnId></unloadResponse></litleOnlineResponse>");
@@ -1155,7 +1155,7 @@ public class TestLitleOnline {
         when(
                 mockedCommunication
                         .requestToServer(
-                                matches(".*?<litleOnlineRequest.*?merchantId=\"905\".*?<unload><orderId>123</orderId></unload></litleOnlineRequest>.*?"),
+                                matches(".*?<litleOnlineRequest.*?merchantId=\"905\".*?<unload reportGroup=\"Default Report Group\"><orderId>123</orderId></unload></litleOnlineRequest>.*?"),
                                 any(Properties.class)))
                 .thenReturn(
                         "<litleOnlineResponse version='8.21' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><unloadResponse><litleTxnId>123456</litleTxnId></unloadResponse></litleOnlineResponse>");
@@ -1175,7 +1175,7 @@ public class TestLitleOnline {
         when(
                 mockedCommunication
                         .requestToServer(
-                                matches(".*?<litleOnlineRequest.*?<balanceInquiry><orderId>123</orderId></balanceInquiry></litleOnlineRequest>.*?"),
+                                matches(".*?<litleOnlineRequest.*?<balanceInquiry reportGroup=\"Default Report Group\"><orderId>123</orderId></balanceInquiry></litleOnlineRequest>.*?"),
                                 any(Properties.class)))
                 .thenReturn(
                         "<litleOnlineResponse version='8.21' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><balanceInquiryResponse><litleTxnId>123456</litleTxnId></balanceInquiryResponse></litleOnlineResponse>");
@@ -1193,7 +1193,7 @@ public class TestLitleOnline {
         when(
                 mockedCommunication
                         .requestToServer(
-                                matches(".*?<litleOnlineRequest.*?merchantId=\"905\".*?<balanceInquiry><orderId>123</orderId></balanceInquiry></litleOnlineRequest>.*?"),
+                                matches(".*?<litleOnlineRequest.*?merchantId=\"905\".*?<balanceInquiry reportGroup=\"Default Report Group\"><orderId>123</orderId></balanceInquiry></litleOnlineRequest>.*?"),
                                 any(Properties.class)))
                 .thenReturn(
                         "<litleOnlineResponse version='8.21' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><balanceInquiryResponse><litleTxnId>123456</litleTxnId></balanceInquiryResponse></litleOnlineResponse>");
@@ -1213,7 +1213,7 @@ public class TestLitleOnline {
         when(
                 mockedCommunication
                         .requestToServer(
-                                matches(".*?<litleOnlineRequest.*?<activateReversal><litleTxnId>123</litleTxnId></activateReversal></litleOnlineRequest>.*?"),
+                                matches(".*?<litleOnlineRequest.*?<activateReversal reportGroup=\"Default Report Group\"><litleTxnId>123</litleTxnId></activateReversal></litleOnlineRequest>.*?"),
                                 any(Properties.class)))
                 .thenReturn(
                         "<litleOnlineResponse version='8.21' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><activateReversalResponse><litleTxnId>123456</litleTxnId></activateReversalResponse></litleOnlineResponse>");
@@ -1231,7 +1231,7 @@ public class TestLitleOnline {
         when(
                 mockedCommunication
                         .requestToServer(
-                                matches(".*?<litleOnlineRequest.*?merchantId=\"905\".*?<activateReversal><litleTxnId>123</litleTxnId></activateReversal></litleOnlineRequest>.*?"),
+                                matches(".*?<litleOnlineRequest.*?merchantId=\"905\".*?<activateReversal reportGroup=\"Default Report Group\"><litleTxnId>123</litleTxnId></activateReversal></litleOnlineRequest>.*?"),
                                 any(Properties.class)))
                 .thenReturn(
                         "<litleOnlineResponse version='8.21' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><activateReversalResponse><litleTxnId>123456</litleTxnId></activateReversalResponse></litleOnlineResponse>");
@@ -1251,7 +1251,7 @@ public class TestLitleOnline {
         when(
                 mockedCommunication
                         .requestToServer(
-                                matches(".*?<litleOnlineRequest.*?<deactivateReversal><litleTxnId>123</litleTxnId></deactivateReversal></litleOnlineRequest>.*?"),
+                                matches(".*?<litleOnlineRequest.*?<deactivateReversal reportGroup=\"Default Report Group\"><litleTxnId>123</litleTxnId></deactivateReversal></litleOnlineRequest>.*?"),
                                 any(Properties.class)))
                 .thenReturn(
                         "<litleOnlineResponse version='8.21' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><deactivateReversalResponse><litleTxnId>123456</litleTxnId></deactivateReversalResponse></litleOnlineResponse>");
@@ -1269,7 +1269,7 @@ public class TestLitleOnline {
         when(
                 mockedCommunication
                         .requestToServer(
-                                matches(".*?<litleOnlineRequest.*?merchantId=\"905\".*?<deactivateReversal><litleTxnId>123</litleTxnId></deactivateReversal></litleOnlineRequest>.*?"),
+                                matches(".*?<litleOnlineRequest.*?merchantId=\"905\".*?<deactivateReversal reportGroup=\"Default Report Group\"><litleTxnId>123</litleTxnId></deactivateReversal></litleOnlineRequest>.*?"),
                                 any(Properties.class)))
                 .thenReturn(
                         "<litleOnlineResponse version='8.21' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><deactivateReversalResponse><litleTxnId>123456</litleTxnId></deactivateReversalResponse></litleOnlineResponse>");
@@ -1289,7 +1289,7 @@ public class TestLitleOnline {
         when(
                 mockedCommunication
                         .requestToServer(
-                                matches(".*?<litleOnlineRequest.*?<loadReversal><litleTxnId>123</litleTxnId></loadReversal></litleOnlineRequest>.*?"),
+                                matches(".*?<litleOnlineRequest.*?<loadReversal reportGroup=\"Default Report Group\"><litleTxnId>123</litleTxnId></loadReversal></litleOnlineRequest>.*?"),
                                 any(Properties.class)))
                 .thenReturn(
                         "<litleOnlineResponse version='8.21' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><loadReversalResponse><litleTxnId>123456</litleTxnId></loadReversalResponse></litleOnlineResponse>");
@@ -1307,7 +1307,7 @@ public class TestLitleOnline {
         when(
                 mockedCommunication
                         .requestToServer(
-                                matches(".*?<litleOnlineRequest.*?merchantId=\"905\".*?<loadReversal><litleTxnId>123</litleTxnId></loadReversal></litleOnlineRequest>.*?"),
+                                matches(".*?<litleOnlineRequest.*?merchantId=\"905\".*?<loadReversal reportGroup=\"Default Report Group\"><litleTxnId>123</litleTxnId></loadReversal></litleOnlineRequest>.*?"),
                                 any(Properties.class)))
                 .thenReturn(
                         "<litleOnlineResponse version='8.21' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><loadReversalResponse><litleTxnId>123456</litleTxnId></loadReversalResponse></litleOnlineResponse>");
@@ -1327,7 +1327,7 @@ public class TestLitleOnline {
         when(
                 mockedCommunication
                         .requestToServer(
-                                matches(".*?<litleOnlineRequest.*?<unloadReversal><litleTxnId>123</litleTxnId></unloadReversal></litleOnlineRequest>.*?"),
+                                matches(".*?<litleOnlineRequest.*?<unloadReversal reportGroup=\"Default Report Group\"><litleTxnId>123</litleTxnId></unloadReversal></litleOnlineRequest>.*?"),
                                 any(Properties.class)))
                 .thenReturn(
                         "<litleOnlineResponse version='8.21' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><unloadReversalResponse><litleTxnId>123456</litleTxnId></unloadReversalResponse></litleOnlineResponse>");
@@ -1345,7 +1345,7 @@ public class TestLitleOnline {
         when(
                 mockedCommunication
                         .requestToServer(
-                                matches(".*?<litleOnlineRequest.*?merchantId=\"905\".*?<unloadReversal><litleTxnId>123</litleTxnId></unloadReversal></litleOnlineRequest>.*?"),
+                                matches(".*?<litleOnlineRequest.*?merchantId=\"905\".*?<unloadReversal reportGroup=\"Default Report Group\"><litleTxnId>123</litleTxnId></unloadReversal></litleOnlineRequest>.*?"),
                                 any(Properties.class)))
                 .thenReturn(
                         "<litleOnlineResponse version='8.21' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><unloadReversalResponse><litleTxnId>123456</litleTxnId></unloadReversalResponse></litleOnlineResponse>");
@@ -1365,7 +1365,7 @@ public class TestLitleOnline {
         when(
                 mockedCommunication
                         .requestToServer(
-                                matches(".*?<litleOnlineRequest.*?<refundReversal><litleTxnId>123</litleTxnId></refundReversal></litleOnlineRequest>.*?"),
+                                matches(".*?<litleOnlineRequest.*?<refundReversal reportGroup=\"Default Report Group\"><litleTxnId>123</litleTxnId></refundReversal></litleOnlineRequest>.*?"),
                                 any(Properties.class)))
                 .thenReturn(
                         "<litleOnlineResponse version='8.21' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><refundReversalResponse><litleTxnId>123456</litleTxnId></refundReversalResponse></litleOnlineResponse>");
@@ -1383,7 +1383,7 @@ public class TestLitleOnline {
         when(
                 mockedCommunication
                         .requestToServer(
-                                matches(".*?<litleOnlineRequest.*?merchantId=\"905\".*?<refundReversal><litleTxnId>123</litleTxnId></refundReversal></litleOnlineRequest>.*?"),
+                                matches(".*?<litleOnlineRequest.*?merchantId=\"905\".*?<refundReversal reportGroup=\"Default Report Group\"><litleTxnId>123</litleTxnId></refundReversal></litleOnlineRequest>.*?"),
                                 any(Properties.class)))
                 .thenReturn(
                         "<litleOnlineResponse version='8.21' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><refundReversalResponse><litleTxnId>123456</litleTxnId></refundReversalResponse></litleOnlineResponse>");
@@ -1403,7 +1403,7 @@ public class TestLitleOnline {
         when(
                 mockedCommunication
                         .requestToServer(
-                                matches(".*?<litleOnlineRequest.*?<depositReversal><litleTxnId>123</litleTxnId></depositReversal></litleOnlineRequest>.*?"),
+                                matches(".*?<litleOnlineRequest.*?<depositReversal reportGroup=\"Default Report Group\"><litleTxnId>123</litleTxnId></depositReversal></litleOnlineRequest>.*?"),
                                 any(Properties.class)))
                 .thenReturn(
                         "<litleOnlineResponse version='8.21' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><depositReversalResponse><litleTxnId>123456</litleTxnId></depositReversalResponse></litleOnlineResponse>");
@@ -1421,7 +1421,7 @@ public class TestLitleOnline {
         when(
                 mockedCommunication
                         .requestToServer(
-                                matches(".*?<litleOnlineRequest.*?merchantId=\"905\".*?<depositReversal><litleTxnId>123</litleTxnId></depositReversal></litleOnlineRequest>.*?"),
+                                matches(".*?<litleOnlineRequest.*?merchantId=\"905\".*?<depositReversal reportGroup=\"Default Report Group\"><litleTxnId>123</litleTxnId></depositReversal></litleOnlineRequest>.*?"),
                                 any(Properties.class)))
                 .thenReturn(
                         "<litleOnlineResponse version='8.21' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><depositReversalResponse><litleTxnId>123456</litleTxnId></depositReversalResponse></litleOnlineResponse>");
