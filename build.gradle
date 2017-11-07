@@ -205,7 +205,7 @@ task copyLibsToKit(type:Copy, dependsOn:check){
         include '**/httpclient*'
         include '**/httpcore*'
         include '**/httpmime*'
-    include '**/jsch*'
+        include '**/jsch*'
     }
 
     into KIT_DEPENDENCIES_DIR

@@ -1,7 +1,11 @@
 apply plugin : 'java'
 apply plugin : 'eclipse'
 repositories {
-    mavenCentral()
+    // mavenCentral()
+    // added due to peer authenticated issue getting to mavenCentral
+    // remove after testing
+    maven { url "http://jcenter.bintray.com/"}
+    jcenter()
 }
    dependencies{
         compile rootProject
