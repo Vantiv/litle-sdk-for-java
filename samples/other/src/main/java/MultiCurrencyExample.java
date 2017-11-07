@@ -33,7 +33,7 @@ public class MultiCurrencyExample {
         cdnProps.setProperty("proxyHost","websenseproxy");  
          cdnProps.setProperty("proxyPort","8080");      
         cdnProps.setProperty("version","8.10");
-        cdnProps.setProperty("timeout","65");
+        cdnProps.setProperty("timeout","5000");
         LitleOnline cdnCurrency = new LitleOnline(cdnProps); //Override the default merchant setup in .litle_SDK_config.properties to force purchase in CDN
  
         AuthorizationResponse response2 = cdnCurrency.authorize(authorization);  //Perform the same authorization using CDN instead of USD
@@ -50,7 +50,7 @@ public class MultiCurrencyExample {
         yenProps.setProperty("proxyHost","websenseproxy");  
         yenProps.setProperty("proxyPort","8080");     
         yenProps.setProperty("version","8.10");
-        yenProps.setProperty("timeout","65");
+        yenProps.setProperty("timeout","5000");
         LitleOnline yenCurrency = new LitleOnline(yenProps); //Override the default merchant setup in .litle_SDK_config.properties to force purchase in YEN
         
         AuthorizationResponse response3 = yenCurrency.authorize(authorization);  //Perform the same authorization using YEN instead of USD
