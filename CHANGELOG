@@ -1,10 +1,14 @@
 = LitleOnline CHANGELOG
 
-==Version 8.29.4
+== Version 8.30.0 (Nov. 7, 2017)
+* Feature: upping XML version to 8.30
+* Bugfix: adding call to add default report group to all transaction types
+
+== Version 8.29.4
 * Feature: add method to close file resources
 
 ==Version 8.29.2
-HTTP timeout set to 500ms
+* Feature: HTTP timeout set to 500ms
 
 == Version 8.29.1 (March 10, 2015)
 * Bugfix: Fixed a bug in RFR test
@@ -56,51 +60,41 @@ HTTP timeout set to 500ms
 * Feature: Gift Card responses can be returned from AuthReversal
 
 == Version 8.21.0 (September 20, 2013)
-
 * Feature: Support for the following new recurring transactions: CreatePlan, UpdatePlan
 * Feature: Support for the following new gift card transactions: Activate, Deactivate, Load, Unload, Balance Inquiry
 * Feature: Gift card responses are now returned as part of authorzationResponse, authReversalResponse, captureResponse, forceCapture, captureGivenAuthResponse, saleResponse, creditResponse
 * Feature: fraudResult is now returned as part of captureResponse, forceCaptureResponse, captureGivenAuthResponse, creditResponse
 
 == Version 8.20.0 (August 7, 2013)
-
 * Backwards-Incompatible Feature: More initial support for Recurring, including the ability to update or cancel subscriptions.  LitleBatchResponse::getNextResponse now returns LitleTransactionInterface instead of TransactionType.  This is to support the new recurring transaction types which also implement TransactionType.  Most existing uses of TransactionType can just cast from LitleTransactionInterface without any other changes.  The LitleResponseParser interface also includes 3 additional processor methods to handle the 3 transaction types.
 * Feature: Addition of an adapter to the LitleResponseProcessor so that clients don't need to implement all of the methods if most are not used.
 
 == Version 8.19.0 (July 29, 2013)
-
 * Feature: Added deptRepayment as a choice for authorizations, forceCapture, captureGivenAuth, sale
 * Feature: More initial support for Recurring, including a backwards incompatible changing a field from numberOfPaymentsRemaining to numberOfPayments
 
 == Version 8.18.0 (June 14, 2013)
-
 * Feature: Batch support - see https://gist.github.com/litleSDK/5768846 and https://gist.github.com/litleSDK/5768893
 * Feature: Add support for Recurring
 
 == Version 8.17.0 (March 29, 2013)
-
 * Feature: Add support for surcharging credit card transactions
 * Feature: Add support for specifying the terminalId on a pos transaction
 * Feature: Add support for pos transactions on tied refunds
 
 == Version 8.16.3 (March 1, 2013)
-
 * Bugfix: Add Connection:close header to further avoid concurrent connection limit
 
 == Version 8.16.2 (Febuary 20, 2013)
-
 * Bugfix: Kit target was not copying the httpclient jars into the directory where they would be zipped up.
 
 == Version 8.16.1 (Febuary 19, 2013)
-
 * Bugfix: Avoid concurrent connection limit by shutting down the HttpClient connection manager between requests
 
 == Version 8.16.0 (Febuary 1, 2013)
-
 * Feature: Add recyling to voidResponse
 
 == Version 8.15.0 (January 31, 2013)
-
 * Feature: Add merchantData to echeck verifications and echeck redeposits
 
 == Version 8.14.0 (October 23, 2012)
@@ -112,30 +106,23 @@ HTTP timeout set to 500ms
 * Cleanup: Updated httpclient dependency to version 4.0.1
 
 == Version 8.13.2 (June 18, 2012)
-
 * Bugfix: Customer Info Date of Birth was being printed with a time, which violates our specification of YYYY-MM-DD
 
 == Version 8.13.1 (May 22, 2012)
-
 * Feature: Echeck Void now supported
 
 == Version 8.13.0 (May 18, 2012)
-
 * Feature: Authorizations and Sales can accept an optional fraudFilterOverride parameter
 
 == Version 8.12.0 (April 16, 2012)
-
 * Feature: Add support for actionReason on credit
 * Feature: Track SDK Usage
 
 == Version 8.10.2 (April 11, 2012)
-
 * Feature: Adding support for partial overriding of settings username, password, merchantId on a per transaction basis
 
 == Version 8.10.1 (April 9, 2012)
-
 * Bugfix: Config file location on Windows
 
 == Version 8.10.0 (March 23, 2012)
-
 * Initial release
