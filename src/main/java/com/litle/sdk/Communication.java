@@ -12,17 +12,25 @@ import javax.net.ssl.SSLContext;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpRequestRetryHandler;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.conn.ClientConnectionManager;
+import org.apache.http.config.Registry;
+import org.apache.http.config.RegistryBuilder;
+import org.apache.http.conn.ConnectionKeepAliveStrategy;
 import org.apache.http.conn.params.ConnRoutePNames;
-import org.apache.http.conn.scheme.PlainSocketFactory;
-import org.apache.http.conn.scheme.Scheme;
-import org.apache.http.conn.scheme.SchemeRegistry;
-import org.apache.http.conn.ssl.SSLSocketFactory;
+import org.apache.http.conn.socket.ConnectionSocketFactory;
+import org.apache.http.conn.socket.LayeredConnectionSocketFactory;
+import org.apache.http.conn.socket.PlainConnectionSocketFactory;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.impl.conn.BasicClientConnectionManager;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.DefaultHttpRequestRetryHandler;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.impl.conn.BasicHttpClientConnectionManager;
 import org.apache.http.params.CoreConnectionPNames;
+import org.apache.http.protocol.HttpContext;
+import org.apache.http.ssl.SSLContexts;
 import org.apache.http.util.EntityUtils;
 
 import com.jcraft.jsch.Channel;
@@ -34,36 +42,46 @@ import com.jcraft.jsch.SftpException;
 
 public class Communication {
 
-    private static final String[] SUPPORTED_PROTOCOLS = new String[] {"TLSv1.1", "TLSv1.2"};
+	private static final String[] SUPPORTED_PROTOCOLS = new String[] {"TLSv1.1", "TLSv1.2"};
+	private CloseableHttpClient httpClient;
+	private StreamData streamData;
+	private final int KEEP_ALIVE_DURATION = 8000;
 
-    private DefaultHttpClient httpclient;
-    private StreamData streamData;
+	public Communication() {
+		try {
 
-    public Communication() {
-        DefaultHttpClient temp = new DefaultHttpClient();
-        try {
-            if (getBestProtocol(SSLContext.getDefault().getDefaultSSLParameters().getProtocols()) == null) {
-                String protocol = getBestProtocol(SSLContext.getDefault().getSupportedSSLParameters().getProtocols());
-                if (protocol == null) {
-                    throw new IllegalStateException("No supported TLS protocols available");
-                }
-                SchemeRegistry reg = new SchemeRegistry();
-                SSLContext ctx = SSLContext.getInstance(protocol);
-                ctx.init(null, null, null);
-                SSLSocketFactory sf = new SSLSocketFactory(ctx);
-                Scheme https = new Scheme("https", 443, sf);
-                Scheme http = new Scheme("http", 80, PlainSocketFactory.getSocketFactory());
-                reg.register(https);
-                reg.register(http);
-                ClientConnectionManager manager = new BasicClientConnectionManager(reg);
-                temp = new DefaultHttpClient(manager);
-            }
-        } catch (GeneralSecurityException ex) {
-            throw new IllegalStateException(ex);
-        }
-        httpclient = temp;
-        streamData = new StreamData();
-    }
+			String protocol = getBestProtocol(SSLContext.getDefault().getSupportedSSLParameters().getProtocols());
+			if (protocol == null) {
+				throw new IllegalStateException("No supported TLS protocols available");
+			}
+			SSLContext ctx = SSLContexts.custom().useProtocol(protocol).build();
+			ConnectionSocketFactory plainSocketFactory = new PlainConnectionSocketFactory();
+			LayeredConnectionSocketFactory sslSocketFactory = new SSLConnectionSocketFactory(ctx);
+
+			Registry<ConnectionSocketFactory> registry = RegistryBuilder.<ConnectionSocketFactory>create()
+					.register("http", plainSocketFactory)
+					.register("https", sslSocketFactory)
+					.build();
+
+			BasicHttpClientConnectionManager manager = new BasicHttpClientConnectionManager(registry);
+
+			HttpRequestRetryHandler requestRetryHandler = new DefaultHttpRequestRetryHandler(0, true);
+			// Vantiv will a close an idle connection, so we define our Keep-alive strategy to be below that threshold
+			ConnectionKeepAliveStrategy keepAliveStrategy = new ConnectionKeepAliveStrategy() {
+				public long getKeepAliveDuration(HttpResponse response, HttpContext context) {
+					return KEEP_ALIVE_DURATION;
+				}
+			};
+			httpClient = HttpClients.custom().setConnectionManager(manager)
+					.setRetryHandler(requestRetryHandler)
+					.setKeepAliveStrategy(keepAliveStrategy)
+					.build();
+
+			streamData = new StreamData();
+		} catch (GeneralSecurityException ex) {
+			throw new IllegalStateException(ex);
+		}
+	}
 
     private static String getBestProtocol(final String[] availableProtocols) {
         for (int i = 0; i < availableProtocols.length; ++i) {
@@ -78,39 +96,49 @@ public class Communication {
     }
 
 	public String requestToServer(String xmlRequest, Properties configuration) {
-		String xmlResponse = null;
+		String xmlResponse;
 		String proxyHost = configuration.getProperty("proxyHost");
 		String proxyPort = configuration.getProperty("proxyPort");
-		if (proxyHost != null && proxyHost.length() > 0 && proxyPort != null
-				&& proxyHost.length() > 0) {
-			HttpHost proxy = new HttpHost(proxyHost, Integer.valueOf(proxyPort));
-			httpclient.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY, proxy);
-			httpclient.getParams().setParameter(CoreConnectionPNames.SO_LINGER, 0);
-		}
-
-		String httpTimeout = configuration.getProperty("timeout");
-		if (httpTimeout != null && httpTimeout.length() > 0) {
-			httpclient.getParams().setParameter(CoreConnectionPNames.CONNECTION_TIMEOUT,Integer.valueOf(httpTimeout));
+		boolean httpKeepAlive = Boolean.valueOf(configuration.getProperty("httpKeepAlive", "false"));
+		int httpTimeout = Integer.valueOf(configuration.getProperty("timeout", "6000"));
+		HttpHost proxy;
+		RequestConfig requestConfig;
+		if (proxyHost != null && proxyHost.length() > 0 && proxyPort != null && proxyHost.length() > 0) {
+			proxy = new HttpHost(proxyHost, Integer.valueOf(proxyPort));
+			requestConfig = RequestConfig.copy(RequestConfig.DEFAULT)
+					.setProxy(proxy)
+					.setSocketTimeout(httpTimeout)
+					.setConnectTimeout(httpTimeout)
+					.build();
+		} else {
+			requestConfig = RequestConfig.copy(RequestConfig.DEFAULT)
+					.setSocketTimeout(httpTimeout)
+					.setConnectTimeout(httpTimeout)
+					.build();
 		}
 
 		HttpPost post = new HttpPost(configuration.getProperty("url"));
 		post.setHeader("Content-Type", "application/xml;charset=\"UTF-8\"");
-		post.setHeader("Connection","close");
+		if(!httpKeepAlive) {
+			post.setHeader("Connection", "close");
+		}
+
+		post.setConfig(requestConfig);
 		HttpEntity entity = null;
 		try {
 			boolean printxml = configuration.getProperty("printxml") != null
-					&& configuration.getProperty("printxml").equalsIgnoreCase(
-							"true");
+					&& configuration.getProperty("printxml").equalsIgnoreCase("true");
 			if (printxml) {
 				System.out.println("Request XML: " + xmlRequest);
 			}
 			post.setEntity(new StringEntity(xmlRequest,"UTF-8"));
 
-			HttpResponse response = httpclient.execute(post);
-			if(response.getStatusLine().getStatusCode() != 200) {
-				throw new LitleOnlineException(response.getStatusLine().getStatusCode() + ":" + response.getStatusLine().getReasonPhrase());
-			}
+			HttpResponse response = httpClient.execute(post);
 			entity = response.getEntity();
+			if (response.getStatusLine().getStatusCode() != 200) {
+				throw new LitleOnlineException(response.getStatusLine().getStatusCode() + ":" +
+						response.getStatusLine().getReasonPhrase());
+			}
 			xmlResponse = EntityUtils.toString(entity,"UTF-8");
 
 			if (printxml) {
@@ -119,13 +147,14 @@ public class Communication {
 		} catch (IOException e) {
 			throw new LitleOnlineException("Exception connection to Litle", e);
 		} finally {
-			if(entity != null) {
+			if (entity != null) {
 				EntityUtils.consumeQuietly(entity);
 			}
 			post.abort();
 		}
 		return xmlResponse;
 	}
+
 
 	/**
 	 * This method is exclusively used for sending batch file to the communicator.
