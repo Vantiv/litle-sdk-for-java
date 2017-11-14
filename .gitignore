@@ -2,7 +2,10 @@
 bin/
 build/
 .gradle
-test/
 .classpath
 .project
 .settings/
+.idea/
+litle-sdk-for-java.iml
+out/
+sample.xml
