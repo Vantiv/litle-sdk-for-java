@@ -780,7 +780,7 @@ public class LitleOnline {
 			if(this.removeStubs){
 			    xmlRequest = xmlRequest.replaceAll("<[A-Za-z]+\\s*/>", "");
 			}
-System.out.println("REQUEST IS "+xmlRequest);
+
 			String xmlResponse = communication.requestToServer(xmlRequest, config);
 			//bandaid for a problem on the backend
 			if(xmlResponse.contains("http://www.litle.com/schema/online")){
