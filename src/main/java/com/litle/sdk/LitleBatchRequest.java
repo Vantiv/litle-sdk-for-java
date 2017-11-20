@@ -52,15 +52,13 @@ public class LitleBatchRequest {
 	OutputStream osWrttxn;
 
 	int numOfTxn;
-
-
 	private final int maxTransactionsPerBatch;
 	protected int litleLimit_maxTransactionsPerBatch = 100000;
 	private final LitleBatchFileRequest lbfr;
 
-
 	/**
-	 * This method initializes the batch level attributes of the XML and checks if the maxTransactionsPerBatch is not more than the value provided in the properties file
+	 * This method initializes the batch level attributes of the XML
+     * and checks if the maxTransactionsPerBatch is not more than the value provided in the properties file
 	 * @param merchantId
 	 * @param lbfr
 	 * @throws JAXBException
@@ -106,34 +104,40 @@ public class LitleBatchRequest {
 	 * @throws FileNotFoundException
 	 * @throws JAXBException
 	 */
-	public TransactionCodeEnum addTransaction(LitleTransactionInterface transactionType) throws LitleBatchException, LitleBatchFileFullException, LitleBatchBatchFullException {
+	public TransactionCodeEnum addTransaction(LitleTransactionInterface transactionType) throws LitleBatchException {
 		if (numOfTxn == 0) {
             this.file = new File(filePath);
             try {
                 osWrttxn = new FileOutputStream(file.getAbsolutePath());
             } catch (FileNotFoundException e) {
-                throw new LitleBatchException("There was an exception while trying to create a Request file. Please check if the folder: " + lbfr.getConfig().getProperty("batchRequestFolder") +" has read and write access. ");
+                throw new LitleBatchException("There was an exception while trying to create a Request file. " +
+                        "Please check if the folder: " + lbfr.getConfig().getProperty("batchRequestFolder") +" has read and write access. ");
             }
         }
 
 		if(numOfTxn > 0 && batchRequest.getNumAccountUpdates().intValue() != numOfTxn
 		        && (transactionType instanceof AccountUpdate)){
-            throw new LitleBatchException("An account update cannot be added to a batch containing transactions other than other AccountUpdates.");
+            throw new LitleBatchException("An account update cannot be added to a batch containing " +
+                    "transactions other than other AccountUpdates.");
         } else if(numOfTxn > 0 && batchRequest.getNumAccountUpdates().intValue() == numOfTxn &&
                 !(transactionType instanceof AccountUpdate)){
-            throw new LitleBatchException("Transactions that are not AccountUpdates cannot be added to a batch containing AccountUpdates.");
+            throw new LitleBatchException("Transactions that are not AccountUpdates cannot be " +
+                    "added to a batch containing AccountUpdates.");
         }
 
 		TransactionCodeEnum batchFileStatus = verifyFileThresholds();
         if( batchFileStatus == TransactionCodeEnum.FILEFULL){
             Exception e = new Exception();
-            throw new LitleBatchFileFullException("Batch File is already full -- it has reached the maximum number of transactions allowed per batch file.", e);
+            throw new LitleBatchFileFullException("Batch File is already full -- it has reached the " +
+                    "maximum number of transactions allowed per batch file.", e);
         } else if( batchFileStatus == TransactionCodeEnum.BATCHFULL ){
             Exception e = new Exception();
-            throw new LitleBatchBatchFullException("Batch is already full -- it has reached the maximum number of transactions allowed per batch.", e);
+            throw new LitleBatchBatchFullException("Batch is already full -- it has reached the " +
+                    "maximum number of transactions allowed per batch.", e);
         }
 
-        //Adding 1 to the number of transaction. This is on the assumption that we are adding one transaction to the batch at a time.
+        // Adding 1 to the number of transaction.
+        // This is on the assumption that we are adding one transaction to the batch at a time.
         BigInteger numToAdd = new BigInteger("1");
         boolean transactionAdded = false;
 
@@ -353,7 +357,5 @@ public class LitleBatchRequest {
     public void setNumOfTxn(int numOfTxn) {
         this.numOfTxn = numOfTxn;
     }
-
-
 
 }
