@@ -70,4 +70,9 @@ public class TestCommunication {
 		assertEquals(neuteredXml, communication.neuterXml(xml));
 	}
 
+	@Test
+	public void testGetBestProtocol() {
+		assertEquals("TLSv1.2", Communication.getBestProtocol(new String[] {"TLSv1.1", "TLSv1.2"}));
+	}
+
 }
