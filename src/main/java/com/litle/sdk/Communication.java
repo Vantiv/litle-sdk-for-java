@@ -2,6 +2,8 @@ package com.litle.sdk;
 
 import java.io.*;
 import java.security.GeneralSecurityException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Properties;
 
 import javax.net.ssl.SSLContext;
@@ -38,7 +40,7 @@ public class Communication {
 
 	private static Communication instance = null;
 
-    private static final String[] SUPPORTED_PROTOCOLS = new String[] {"TLSv1.1", "TLSv1.2"};
+    private static final String[] SUPPORTED_PROTOCOLS = new String[] {"TLSv1.2", "TLSv1.1"};
 
     private CloseableHttpClient httpclient;
     private StreamData streamData;
@@ -128,16 +130,19 @@ public class Communication {
         }
     }
 
-    private static String getBestProtocol(final String[] availableProtocols) {
-        for (String availableProtocol : availableProtocols) {
-            // Assuming best protocol is at end
-            for (int j = SUPPORTED_PROTOCOLS.length - 1; j >= 0; --j) {
-                if (SUPPORTED_PROTOCOLS[j].equals(availableProtocol)) {
-                    return availableProtocol;
-                }
+    public static String getBestProtocol(final String[] availableProtocols) {
+        String bestProtocol = null;
+        if (availableProtocols == null || availableProtocols.length == 0) {
+            return bestProtocol;
+        }
+        List<String> availableProtocolsList = Arrays.asList(availableProtocols);
+        for (String supportedProtocol: SUPPORTED_PROTOCOLS) {
+            if (availableProtocolsList.contains(supportedProtocol)) {
+                bestProtocol = supportedProtocol;
+                break;
             }
         }
-        return null;
+        return bestProtocol;
     }
 
     /**
