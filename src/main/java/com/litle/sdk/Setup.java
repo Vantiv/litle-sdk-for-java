@@ -135,6 +135,32 @@ public class Setup {
 		config.put("maxAllowedTransactionsPerFile", "500000");
 		config.put("maxTransactionsPerBatch", "100000");
 
+		System.out.print("Use PGP encryption for batch files? (No encryption by default): ");
+		lastUserInput = stdin.readLine();
+		if("true".equals(lastUserInput) || "yes".equals(lastUserInput) || "y".equals(lastUserInput)){
+			config.put("useEncryption", "true");
+			System.out.println("Import Vantiv's public key to gpg key ring?");
+			lastUserInput = stdin.readLine();
+			if("true".equals(lastUserInput) || "yes".equals(lastUserInput) || "y".equals(lastUserInput)) {
+				System.out.print("Please input path to Vantiv's public key (for encryption of batch requests) : ");
+				String publicKey = PgpHelper.importKey(stdin.readLine());
+				config.put("vantivPublicKeyID", publicKey);
+			}
+			else{
+				System.out.print("Please input key ID for Vantiv's public key (imported to your key ring) : ");
+				config.put("vantivPublicKeyID", stdin.readLine());
+			}
+			System.out.print("Passphrase for decryption : ");
+			config.put("gpgPassphrase", stdin.readLine());
+		}
+		else {
+			config.put("useEncryption", "false");
+			config.put("vantivPublicKeyID", "");
+			config.put("gpgPassphrase", "");
+		}
+
+		config.put("deleteBatchFiles", "false");
+
 		config.store(configFile, "");
 		System.out.println("The Litle configuration file has been generated, the file is located at " + file.getAbsolutePath());
 		
