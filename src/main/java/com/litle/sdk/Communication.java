@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Properties;
 
 import javax.net.ssl.SSLContext;
@@ -40,7 +42,7 @@ import com.jcraft.jsch.SftpException;
 
 public class Communication {
 
-	private static final String[] SUPPORTED_PROTOCOLS = new String[] {"TLSv1.1", "TLSv1.2"};
+	private static final String[] SUPPORTED_PROTOCOLS = new String[] {"TLSv1.2", "TLSv1.1"};
 	private static final String NEUTER_STR = "NEUTERED";
 	private CloseableHttpClient httpClient;
 	private StreamData streamData;
@@ -82,16 +84,19 @@ public class Communication {
 		}
 	}
 
-    private static String getBestProtocol(final String[] availableProtocols) {
-        for (int i = 0; i < availableProtocols.length; ++i) {
-            // Assuming best protocol is at end
-            for (int j = SUPPORTED_PROTOCOLS.length - 1; j >= 0; --j) {
-                if (SUPPORTED_PROTOCOLS[j].equals(availableProtocols[i])) {
-                    return availableProtocols[i];
-                }
-            }
-        }
-        return null;
+    public static String getBestProtocol(final String[] availableProtocols) {
+		String bestProtocol = null;
+		if (availableProtocols == null || availableProtocols.length == 0) {
+			return bestProtocol;
+		}
+		List<String> availableProtocolsList = Arrays.asList(availableProtocols);
+		for (String supportedProtocol: SUPPORTED_PROTOCOLS) {
+			if (availableProtocolsList.contains(supportedProtocol)) {
+				bestProtocol = supportedProtocol;
+				break;
+			}
+		}
+		return bestProtocol;
     }
 
 	public String requestToServer(String xmlRequest, Properties configuration) {
