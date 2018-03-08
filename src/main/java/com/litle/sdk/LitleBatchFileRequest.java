@@ -240,7 +240,9 @@ public class LitleBatchFileRequest{
 							localConfig.load(new FileInputStream((new Configuration()).location()));
 							propertiesReadFromFile = true;
 						}
-						config.setProperty(prop, localConfig.getProperty(prop));
+						if(localConfig.getProperty(prop) != null){
+							config.setProperty(prop, localConfig.getProperty(prop));
+						}
 					}
 				}
 			}
