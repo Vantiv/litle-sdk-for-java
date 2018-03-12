@@ -1,7 +1,9 @@
 package com.litle.sdk;
 
 import java.io.*;
+import java.net.Socket;
 import java.security.GeneralSecurityException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
@@ -45,8 +47,8 @@ public class Communication {
     private CloseableHttpClient httpclient;
     private StreamData streamData;
     private Properties config;
+    private String protocol;
     private final int DEFAULT_MAX_IN_POOL = 3;
-    private final int DEFAULT_CONNECT_TIMEOUT = 6000;
     private final int KEEP_ALIVE_DURATION = 8000;
     private int maxHttpConnections;
     private boolean httpKeepAlive = false;
@@ -69,7 +71,7 @@ public class Communication {
     private void init() {
         setConfig();
         try {
-            String protocol = getBestProtocol(SSLContext.getDefault().getSupportedSSLParameters().getProtocols());
+            protocol = getBestProtocol(SSLContext.getDefault().getSupportedSSLParameters().getProtocols());
             if (protocol == null) {
                 throw new IllegalStateException("No supported TLS protocols available");
             }
@@ -239,7 +241,18 @@ public class Communication {
 		int tcpTimeout = Integer.parseInt(configuration.getProperty("batchTcpTimeout"));
 		boolean useSSL = configuration.getProperty("batchUseSSL") != null
 				&& configuration.getProperty("batchUseSSL").equalsIgnoreCase("true");
-		streamData.init(hostName, hostPort, tcpTimeout, useSSL);
+
+        Socket socket = null;
+        try {
+            SSLContext ctx = SSLContexts.custom().useProtocol(protocol).build();
+            socket = new Socket(hostName, Integer.parseInt(hostPort));
+            socket = ctx.getSocketFactory().createSocket(socket, hostName, Integer.parseInt(hostPort), false);
+            socket.setSoTimeout(tcpTimeout);
+        } catch (Exception e) {
+            throw new LitleBatchException("There was an exception while sending batch file to IBC. Please check the batchHost and batchPort", e);
+        }
+
+		streamData.init(socket);
 
 		streamData.dataOut(requestFile);
 
