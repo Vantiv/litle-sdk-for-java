@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.Socket;
 import java.security.GeneralSecurityException;
 import java.util.Arrays;
 import java.util.List;
@@ -44,6 +45,7 @@ public class Communication {
 
 	private static final String[] SUPPORTED_PROTOCOLS = new String[] {"TLSv1.2", "TLSv1.1"};
 	private static final String NEUTER_STR = "NEUTERED";
+	private String protocol;
 	private CloseableHttpClient httpClient;
 	private StreamData streamData;
 	private final int KEEP_ALIVE_DURATION = 8000;
@@ -51,7 +53,7 @@ public class Communication {
 	public Communication() {
 		try {
 
-			String protocol = getBestProtocol(SSLContext.getDefault().getSupportedSSLParameters().getProtocols());
+			protocol = getBestProtocol(SSLContext.getDefault().getSupportedSSLParameters().getProtocols());
 			if (protocol == null) {
 				throw new IllegalStateException("No supported TLS protocols available");
 			}
@@ -179,7 +181,18 @@ public class Communication {
 		int tcpTimeout = Integer.parseInt(configuration.getProperty("batchTcpTimeout"));
 		boolean useSSL = configuration.getProperty("batchUseSSL") != null
 				&& configuration.getProperty("batchUseSSL").equalsIgnoreCase("true");
-		streamData.init(hostName, hostPort, tcpTimeout, useSSL);
+
+        Socket socket = null;
+        try {
+            SSLContext ctx = SSLContexts.custom().useProtocol(protocol).build();
+            socket = new Socket(hostName, Integer.parseInt(hostPort));
+            socket = ctx.getSocketFactory().createSocket(socket, hostName, Integer.parseInt(hostPort), false);
+            socket.setSoTimeout(tcpTimeout);
+        } catch (Exception e) {
+            throw new LitleBatchException("There was an exception while sending batch file to IBC. Please check the batchHost and batchPort", e);
+        }
+
+        streamData.init(socket);
 
 		streamData.dataOut(requestFile);
 
