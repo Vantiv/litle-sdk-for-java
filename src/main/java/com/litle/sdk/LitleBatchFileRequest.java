@@ -317,65 +317,13 @@ public class LitleBatchFileRequest{
 	 * @throws LitleBatchException
 	 */
 	public LitleBatchFileResponse sendToLitleSFTP(boolean useExistingFile) throws LitleBatchException{
-	    try {
-	        if (useExistingFile != true) {
-	            prepareForDelivery();
-	        }
 
-			String useEncryption = properties.getProperty("useEncryption");
-			if ("true".equals(useEncryption)){
-				return sendToLitleSFTPWithEncryption();
-			}
-	        
-            communication.sendLitleRequestFileToSFTP(requestFile, properties);
-            communication.receiveLitleRequestResponseFileFromSFTP(requestFile, responseFile, properties);
+		sendOnlyToLitleSFTP(useExistingFile);
 
-            LitleBatchFileResponse retObj = new LitleBatchFileResponse(responseFile);
+		LitleBatchFileResponse retObj = retrieveOnlyFromLitleSFTP();
 
-			String deleteBatchFiles = properties.getProperty("deleteBatchFiles");
-			if ("true".equals(deleteBatchFiles)){
-				requestFile.delete();
-				responseFile.delete();
-			}
-			
-            return retObj;
-        } catch (IOException e) {
-            throw new LitleBatchException("There was an exception while creating the Litle Request file. " +
-					"Check to see if the current user has permission to read and write to " +
-					this.properties.getProperty("batchRequestFolder"), e);
+		return retObj;
         }
-	}
-
-	private LitleBatchFileResponse sendToLitleSFTPWithEncryption() throws LitleBatchException{
-		try {
-			String encRequestFilename = requestFile.getAbsolutePath() + ".encrypted";
-			String publicKey = properties.getProperty("vantivPublicKeyID");
-			PgpHelper.encrypt(requestFile.getAbsolutePath(), encRequestFilename, publicKey);
-			File encRequestFile = new File(encRequestFilename);
-
-			String encResponseFilename = responseFile.getAbsolutePath() + ".encrypted";
-			File encResponseFile = new File(encResponseFilename);
-
-			communication.sendLitleRequestFileToSFTP(encRequestFile, properties);
-			communication.receiveLitleRequestResponseFileFromSFTP(encRequestFile, encResponseFile, properties);
-
-			String passwd = properties.getProperty("gpgPassphrase");
-			PgpHelper.decrypt(encResponseFilename, responseFile.getAbsolutePath(), passwd);
-
-			LitleBatchFileResponse retObj = new LitleBatchFileResponse(responseFile);
-
-			String deleteBatchFiles = properties.getProperty("deleteBatchFiles");
-			if ("true".equals(deleteBatchFiles)){
-				requestFile.delete();
-				encRequestFile.delete();
-				encResponseFile.delete();
-				responseFile.delete();
-			}
-			return retObj;
-		} catch (Exception e) {
-			throw new LitleBatchException("There was an exception while creating the Litle Request file. Check to see if the current user has permission to read and write to " + this.properties.getProperty("batchRequestFolder"), e);
-		}
-	}
 
 	/**
      * Only sends the file to Litle after sFTP. This method requires separate invocation of the retrieve method.
@@ -397,18 +345,17 @@ public class LitleBatchFileRequest{
                 prepareForDelivery();
             }
 
-			String useEncryption = properties.getProperty("useEncryption");
-			if ("true".equals(useEncryption)){
-				sendOnlyToLitleSFTPWithEncryption();
-				return;
-			}
-            
-            communication.sendLitleRequestFileToSFTP(requestFile, properties);
+			File requestFileToSend = requestFile;
 
-			String deleteBatchFiles = properties.getProperty("deleteBatchFiles");
-			if ("true".equals(deleteBatchFiles)){
-				requestFile.delete();
+			boolean useEncryption = "true".equalsIgnoreCase(properties.getProperty("useEncryption"));
+
+			if(useEncryption) {
+				requestFileToSend = encryptRequestFile();
 			}
+
+			communication.sendLitleRequestFileToSFTP(requestFileToSend, properties);
+
+			checkDeleteBatchRequestFiles(requestFileToSend);
 			
         } catch (IOException e) {
             throw new LitleBatchException("There was an exception while creating the Litle Request file. " +
@@ -417,22 +364,20 @@ public class LitleBatchFileRequest{
         }
     }
 
-	private void sendOnlyToLitleSFTPWithEncryption() throws LitleBatchException{
-		try {
-			String encRequestFilename = requestFile.getAbsolutePath() + ".encrypted";
-			String publicKey = properties.getProperty("vantivPublicKeyID");
-			PgpHelper.encrypt(requestFile.getAbsolutePath(), encRequestFilename, publicKey);
-			File encRequestFile = new File(encRequestFilename);
+	private File encryptRequestFile(){
+		String encRequestFilename = requestFile.getAbsolutePath() + ".encrypted";
+		String publicKey = properties.getProperty("vantivPublicKeyID");
+		PgpHelper.encrypt(requestFile.getAbsolutePath(), encRequestFilename, publicKey);
+		File encRequestFile = new File(encRequestFilename);
+		return encRequestFile;
+	}
 
-			communication.sendLitleRequestFileToSFTP(encRequestFile, properties);
+	private void checkDeleteBatchRequestFiles(File fileToBeDeleted){
+		boolean deleteBatchFiles = "true".equalsIgnoreCase(properties.getProperty("deleteBatchFiles"));
 
-			String deleteBatchFiles = properties.getProperty("deleteBatchFiles");
-			if ("true".equals(deleteBatchFiles)){
-				requestFile.delete();
-				encRequestFile.delete();
-			}
-		} catch (Exception e) {
-			throw new LitleBatchException("There was an exception while creating the Litle Request file. Check to see if the current user has permission to read and write to " + this.properties.getProperty("batchRequestFolder"), e);
+		if (deleteBatchFiles){
+			requestFile.delete();
+			fileToBeDeleted.delete();
 		}
 	}
 
@@ -444,20 +389,27 @@ public class LitleBatchFileRequest{
 	public LitleBatchFileResponse retrieveOnlyFromLitleSFTP() throws LitleBatchException{
         try {
 
-			String useEncryption = properties.getProperty("useEncryption");
-			if ("true".equals(useEncryption)){
-				return retrieveOnlyFromLitleSFTPWithEncryption();
-			}
-			
-            communication.receiveLitleRequestResponseFileFromSFTP(requestFile, responseFile, properties);
-            LitleBatchFileResponse retObj = new LitleBatchFileResponse(responseFile);
+			boolean useEncryption = "true".equalsIgnoreCase(properties.getProperty("useEncryption"));
 
-			String deleteBatchFiles = properties.getProperty("deleteBatchFiles");
-			if ("true".equals(deleteBatchFiles)){
-				responseFile.delete();
+			File requestFileToFetch = requestFile;
+			File responseFileToRecieve = responseFile;
+
+			if(useEncryption) {
+				requestFileToFetch = new File(requestFile.getAbsolutePath() + ".encrypted");
+				responseFileToRecieve = new File(responseFile.getAbsolutePath() + ".encrypted");
 			}
-			
-            return retObj;
+
+			communication.receiveLitleRequestResponseFileFromSFTP(requestFileToFetch, responseFileToRecieve, properties);
+
+			if(useEncryption) {
+				decryptResponseFile();
+			}
+
+			LitleBatchFileResponse retObj = new LitleBatchFileResponse(responseFile);
+
+			checkDeleteBatchResponseFiles(responseFileToRecieve);
+
+			return retObj;
         } catch (IOException e) {
             throw new LitleBatchException("There was an exception while creating the Litle Request file. " +
 					"Check to see if the current user has permission to read and write to " +
@@ -465,28 +417,18 @@ public class LitleBatchFileRequest{
         }
     }
 
-	private LitleBatchFileResponse retrieveOnlyFromLitleSFTPWithEncryption() throws LitleBatchException{
-		try {
-			String encRequestFilename = requestFile.getAbsolutePath() + ".encrypted";
-			File encRequestFile = new File(encRequestFilename);
-			String encResponseFilename = responseFile.getAbsolutePath() + ".encrypted";
-			File encResponseFile = new File(encResponseFilename);
+	private void decryptResponseFile(){
+		String encResponseFilename = responseFile.getAbsolutePath() + ".encrypted";
+		String passwd = properties.getProperty("gpgPassphrase");
+		PgpHelper.decrypt(encResponseFilename, responseFile.getAbsolutePath(), passwd);
+	}
 
-			communication.receiveLitleRequestResponseFileFromSFTP(encRequestFile, encResponseFile, properties);
+	private void checkDeleteBatchResponseFiles(File fileToBeDeleted){
+		boolean deleteBatchFiles = "true".equalsIgnoreCase(properties.getProperty("deleteBatchFiles"));
 
-			String passwd = properties.getProperty("gpgPassphrase");
-			PgpHelper.decrypt(encResponseFilename, responseFile.getAbsolutePath(), passwd);
-
-			LitleBatchFileResponse retObj = new LitleBatchFileResponse(responseFile);
-
-			String deleteBatchFiles = properties.getProperty("deleteBatchFiles");
-			if ("true".equals(deleteBatchFiles)){
-				responseFile.delete();
-				encResponseFile.delete();
-			}
-			return retObj;
-		} catch (Exception e) {
-			throw new LitleBatchException("There was an exception while creating the Litle Request file. Check to see if the current user has permission to read and write to " + this.properties.getProperty("batchRequestFolder"), e);
+		if (deleteBatchFiles){
+			responseFile.delete();
+			fileToBeDeleted.delete();
 		}
 	}
 
