@@ -5,10 +5,10 @@ import java.io.InputStreamReader;
 
 public class PgpHelper {
 
-    public static void encrypt(String encryptInput, String encryptOutput, String publicKey) {
-        String command = "gpg --batch --yes --quiet --no-secmem-warning --armor --output " +encryptOutput+
+    public static void encrypt(String inputFilepath, String encryptedOutputFilepath, String publicKey) {
+        String command = "gpg --batch --yes --quiet --no-secmem-warning --armor --output " +encryptedOutputFilepath+
                 " --recipient "+publicKey+
-                " --trust-model always --encrypt "+encryptInput;
+                " --trust-model always --encrypt "+inputFilepath;
 
         String s = null;
         StringBuilder response = new StringBuilder();
@@ -29,10 +29,10 @@ public class PgpHelper {
         }
     }
 
-    public static void decrypt(String decryptInput, String decryptOutput, String passphrase){
-        String command = "gpg --batch --yes --quiet --no-secmem-warning --no-mdc-warning  --output "+decryptOutput+
+    public static void decrypt(String inputFilepath, String decryptedOutputFilepath, String passphrase){
+        String command = "gpg --batch --yes --quiet --no-secmem-warning --no-mdc-warning  --output "+decryptedOutputFilepath+
                 " --passphrase "+passphrase+
-                " --decrypt "+decryptInput;
+                " --decrypt "+inputFilepath;
 
         String s = null;
         StringBuilder response = new StringBuilder();
@@ -56,8 +56,8 @@ public class PgpHelper {
         }
     }
 
-    public static String importKey(String keyFile){
-        String command = "gpg --import "+keyFile;
+    public static String importKey(String keyFilepath){
+        String command = "gpg --import "+keyFilepath;
 
         String s = null;
         StringBuilder response = new StringBuilder();
