@@ -222,8 +222,8 @@ public class LitleBatchFileRequest{
 			String[] allProperties = { "username", "password", "proxyHost",
 					"proxyPort", "batchHost", "batchPort",
 					"batchTcpTimeout", "batchUseSSL",
-					"maxAllowedTransactionsPerFile", "maxTransactionsPerBatch",
-					"batchRequestFolder", "batchResponseFolder", "sftpUsername", "sftpPassword", "merchantId",
+					"maxAllowedTransactionsPerFile", "maxTransactionsPerBatch", "merchantId",
+					"batchRequestFolder", "batchResponseFolder", "sftpUsername", "sftpPassword", "sftpTimeout",
 					"printxml", "useEncryption", "vantivPublicKeyID", "gpgPassphrase", "deleteBatchFiles"};
 
 			for (String prop : allProperties) {
