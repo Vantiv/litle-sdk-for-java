@@ -48,7 +48,7 @@ public class TestCaptureGivenAuth {
 		capturegivenauth.setCard(card);
 		capturegivenauth.setId("id");
 		CaptureGivenAuthResponse response = litle.captureGivenAuth(capturegivenauth);
-		assertEquals("Approved", response.getMessage());
+		assertEquals("Transaction Received", response.getMessage());
 	}
 	
 	@Test
@@ -72,7 +72,7 @@ public class TestCaptureGivenAuth {
 		capturegivenauth.setToken(cardtoken);
 		capturegivenauth.setId("id");
 		CaptureGivenAuthResponse response = litle.captureGivenAuth(capturegivenauth);
-		assertEquals("Approved", response.getMessage());
+		assertEquals("Transaction Received", response.getMessage());
 	}
 	
 	@Test
@@ -105,7 +105,7 @@ public class TestCaptureGivenAuth {
 		capturegivenauth.setCard(card);
 		capturegivenauth.setId("id");
 		CaptureGivenAuthResponse response = litle.captureGivenAuth(capturegivenauth);
-		assertEquals("Approved", response.getMessage());
+		assertEquals("Transaction Received", response.getMessage());
 	}
 	@Test
 	public void authInfo() throws Exception{
@@ -133,7 +133,7 @@ public class TestCaptureGivenAuth {
 		capturegivenauth.setCard(card);
 		capturegivenauth.setId("id");
 		CaptureGivenAuthResponse response = litle.captureGivenAuth(capturegivenauth);
-		assertEquals("Approved", response.getMessage());
+		assertEquals("Transaction Received", response.getMessage());
 	}
 
 }
