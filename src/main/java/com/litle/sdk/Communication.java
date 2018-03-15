@@ -4,7 +4,10 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.Socket;
 import java.security.GeneralSecurityException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Properties;
 
 import javax.net.ssl.SSLContext;
@@ -38,7 +41,8 @@ import com.jcraft.jsch.SftpException;
 
 public class Communication {
 
-    private static final String[] SUPPORTED_PROTOCOLS = new String[]{"TLSv1.1", "TLSv1.2"};
+    private static final String[] SUPPORTED_PROTOCOLS = new String[]{"TLSv1.2", "TLSv1.1"};
+    private String protocol;
     private CloseableHttpClient httpClient;
     private StreamData streamData;
     private final int KEEP_ALIVE_DURATION = 8000;
@@ -46,7 +50,7 @@ public class Communication {
 
     public Communication() {
         try {
-            String protocol = getBestProtocol(SSLContext.getDefault().getSupportedSSLParameters().getProtocols());
+            protocol = getBestProtocol(SSLContext.getDefault().getSupportedSSLParameters().getProtocols());
             if (protocol == null) {
                 throw new IllegalStateException("No supported TLS protocols available");
             }
@@ -78,16 +82,19 @@ public class Communication {
         }
     }
 
-    private static String getBestProtocol(final String[] availableProtocols) {
-        for (String protocol : availableProtocols) {
-            // Assuming best protocol is at end
-            for (int j = SUPPORTED_PROTOCOLS.length - 1; j >= 0; --j) {
-                if (SUPPORTED_PROTOCOLS[j].equals(protocol)) {
-                    return protocol;
-                }
+    public static String getBestProtocol(final String[] availableProtocols) {
+        String bestProtocol = null;
+        if (availableProtocols == null || availableProtocols.length == 0) {
+            return bestProtocol;
+        }
+        List<String> availableProtocolsList = Arrays.asList(availableProtocols);
+        for (String supportedProtocol: SUPPORTED_PROTOCOLS) {
+            if (availableProtocolsList.contains(supportedProtocol)) {
+                bestProtocol = supportedProtocol;
+                break;
             }
         }
-        return null;
+        return bestProtocol;
     }
 
     public String requestToServer(String xmlRequest, Properties configuration) {
@@ -171,7 +178,18 @@ public class Communication {
         int tcpTimeout = Integer.parseInt(configuration.getProperty("batchTcpTimeout"));
         boolean useSSL = configuration.getProperty("batchUseSSL") != null
                 && configuration.getProperty("batchUseSSL").equalsIgnoreCase("true");
-        streamData.init(hostName, hostPort, tcpTimeout, useSSL);
+
+        Socket socket = null;
+        try {
+            SSLContext ctx = SSLContexts.custom().useProtocol(protocol).build();
+            socket = new Socket(hostName, Integer.parseInt(hostPort));
+            socket = ctx.getSocketFactory().createSocket(socket, hostName, Integer.parseInt(hostPort), false);
+            socket.setSoTimeout(tcpTimeout);
+        } catch (Exception e) {
+            throw new LitleBatchException("There was an exception while sending batch file to IBC. Please check the batchHost and batchPort", e);
+        }
+
+        streamData.init(socket);
 
         streamData.dataOut(requestFile);
 
