@@ -239,8 +239,10 @@ public class Communication {
 		String hostName = configuration.getProperty("batchHost");
 		String hostPort = configuration.getProperty("batchPort");
 		int tcpTimeout = Integer.parseInt(configuration.getProperty("batchTcpTimeout"));
-		boolean useSSL = configuration.getProperty("batchUseSSL") != null
-				&& configuration.getProperty("batchUseSSL").equalsIgnoreCase("true");
+
+        boolean printxml = configuration.getProperty("printxml") != null
+                && configuration.getProperty("printxml").equalsIgnoreCase(
+                "true");
 
         Socket socket = null;
         try {
@@ -254,9 +256,27 @@ public class Communication {
 
 		streamData.init(socket);
 
+        if(printxml){
+            BufferedReader reader = new BufferedReader(new FileReader(requestFile));
+            String line = "";
+            while((line = reader.readLine()) != null){
+                System.out.println(line);
+            }
+            reader.close();
+        }
+
 		streamData.dataOut(requestFile);
 
 		streamData.dataIn(responseFile);
+
+        if(printxml){
+            BufferedReader reader = new BufferedReader(new FileReader(responseFile));
+            String line = "";
+            while((line = reader.readLine()) != null){
+                System.out.println(line);
+            }
+            reader.close();
+        }
 
 		streamData.closeSocket();
 	}
