@@ -1,5 +1,8 @@
 = LitleOnline CHANGELOG
 
+==Version 9.12.4 (March 16, 2017)
+*BugFix : Fixed neutering of xml request and responses
+
 ==Version 9.12.3 (Oct. 27, 2017)
 * Feature: Update URLs in examples
 * BugFix: Update HTTP timeout to set socket timeout
