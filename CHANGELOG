@@ -1,5 +1,9 @@
 = LitleOnline CHANGELOG
 
+== Version 8.31.0
+* Feature: upping XML version to 8.31
+* Feature: Added support for Card on File transactions
+
 == Version 8.30.0 (Nov. 7, 2017)
 * Feature: upping XML version to 8.30
 * Bugfix: adding call to add default report group to all transaction types
