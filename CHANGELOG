@@ -1,5 +1,9 @@
 = LitleOnline CHANGELOG
 
+==Version 10.5.4 (March 16, 2017)
+*Feature: Added PGP encryption/decryption support in batches
+*BugFix : Fixed neutering of xml request and responses
+
 ==Version 10.5.3 (January 31, 2017)
 *Feature: create a pol of http connections for communication with Vantiv
 *Feature: update Apache HTTP Client library to 4.5.3 to support pooling of connections
