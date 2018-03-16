@@ -1,5 +1,9 @@
 = LitleOnline CHANGELOG
 
+==Version 11.3.1 (March 16, 2017)
+*Feature: Added PGP encryption/decryption support in batches
+*BugFix : Fixed neutering of xml request and responses
+
 ==Version 10.1.1 (June 7, 2016)
 Add method to close file resources
 
