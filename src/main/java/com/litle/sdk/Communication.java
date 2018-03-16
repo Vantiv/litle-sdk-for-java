@@ -135,10 +135,11 @@ public class Communication {
 			boolean printxml = "true".equalsIgnoreCase(configuration.getProperty("printxml"));
 			boolean neuterXml = "true".equalsIgnoreCase(configuration.getProperty("neuterXml"));
 			if (printxml) {
+				String xmlToLog = xmlRequest;
 				if (neuterXml) {
-					xmlRequest = neuterXml(xmlRequest);
+					xmlToLog = neuterXml(xmlToLog);
 				}
-				System.out.println("Request XML: " + xmlRequest);
+				System.out.println("Request XML: " + xmlToLog);
 			}
 			post.setEntity(new StringEntity(xmlRequest,"UTF-8"));
 
@@ -151,10 +152,11 @@ public class Communication {
 			xmlResponse = EntityUtils.toString(entity,"UTF-8");
 
 			if (printxml) {
+				String xmlToLog = xmlResponse;
 				if (neuterXml) {
-					xmlResponse = neuterXml(xmlResponse);
+					xmlToLog = neuterXml(xmlToLog);
 				}
-				System.out.println("Response XML: " + xmlResponse);
+				System.out.println("Response XML: " + xmlToLog);
 			}
 		} catch (IOException e) {
 			throw new LitleOnlineException("Exception connection to Litle", e);
