@@ -1,8 +1,8 @@
 <xs:schema targetNamespace="http://www.litle.com/schema" xmlns:xp="http://www.litle.com/schema"
     xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
 
-    <xs:include schemaLocation="litleCommon_v9.12.xsd" />
-    <xs:include schemaLocation="litleRecurring_v9.12.xsd" />
+    <xs:include schemaLocation="litleCommon_v9.14.xsd" />
+    <xs:include schemaLocation="litleRecurring_v9.14.xsd" />
 
     <xs:element name="transaction" type="xp:transactionType" abstract="true" />
 
@@ -375,6 +375,8 @@
                             <xs:element name="applepay" type="xp:applepayType" />
                             <xs:element name="sepaDirectDebit" type="xp:sepaDirectDebitType" />
                             <xs:element name="ideal" type="xp:idealType" />
+                            <xs:element name="giropay" type="xp:giropayType" />
+                            <xs:element name="sofort" type="xp:sofortType" />
                         </xs:choice>
                         <xs:element ref="xp:billMeLaterRequest" minOccurs="0" />
                         <!-- fraudCheck is not used in the mapping -->
@@ -1180,6 +1182,8 @@
                         <!-- If alternative payment method transaction -->
                         <xs:element ref="xp:sepaDirectDebitResponse" minOccurs="0"/>
                         <xs:element ref="xp:idealResponse" minOccurs="0"/>
+                        <xs:element ref="xp:giropayResponse" minOccurs="0"/>
+                        <xs:element ref="xp:sofortResponse" minOccurs="0"/>
                         <!-- For merchant initiated transactions -->
                         <xs:element name="networkTransactionId" type="xp:string30Type" minOccurs="0" />
                     </xs:all>
@@ -1956,7 +1960,7 @@
                 <xs:simpleType>
                     <xs:restriction base="xs:string">
                         <xs:minLength value="5"/>
-                        <xs:maxLength value="20"/>
+                        <xs:maxLength value="10"/>
                     </xs:restriction>
                 </xs:simpleType>
             </xs:element>
@@ -2028,6 +2032,9 @@
             <xs:enumeration value="accountFunding"/>
             <xs:enumeration value="initialRecurring"/>
             <xs:enumeration value="initialInstallment"/>
+            <xs:enumeration value="initialCOF" />
+            <xs:enumeration value="merchantInitiatedCOF" />
+            <xs:enumeration value="cardholderInitiatedCOF" />
         </xs:restriction>
     </xs:simpleType>
 
@@ -2105,6 +2112,38 @@
             </xs:all>
         </xs:complexType>
     </xs:element>
+    
+    <xs:complexType name="giropayType">
+        <xs:all>
+            <xs:element name="preferredLanguage" type="xp:countryTypeEnum" minOccurs="0"/>
+        </xs:all>
+    </xs:complexType>
 
+    <xs:element name="giropayResponse">
+        <xs:complexType>
+            <xs:all>
+                <xs:element name="redirectUrl" type="xp:string256Type" minOccurs="0"/>
+                <xs:element name="redirectToken" type="xp:string128Type" minOccurs="0"/>
+                <xs:element name="paymentPurpose" type="xp:string256Type" minOccurs="0"/>
+            </xs:all>
+        </xs:complexType>
+    </xs:element>
+    
+        <xs:complexType name="sofortType">
+        <xs:all>
+            <xs:element name="preferredLanguage" type="xp:countryTypeEnum" minOccurs="0"/>
+        </xs:all>
+    </xs:complexType>
+
+    <xs:element name="sofortResponse">
+        <xs:complexType>
+            <xs:all>
+                <xs:element name="redirectUrl" type="xp:string256Type" minOccurs="0"/>
+                <xs:element name="redirectToken" type="xp:string128Type" minOccurs="0"/>
+                <xs:element name="paymentPurpose" type="xp:string256Type" minOccurs="0"/>
+            </xs:all>
+        </xs:complexType>
+    </xs:element>
+    
 </xs:schema>
 

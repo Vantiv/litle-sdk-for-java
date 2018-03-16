@@ -165,6 +165,29 @@ public class TestCaptureGivenAuth {
 		
 		assertEquals("Approved", response.getMessage());
 	}
+
+    @Test
+    public void testCaptureGivenAuthWithProcessingTypeCardOnFile() {
+        CaptureGivenAuth capturegivenauth = new CaptureGivenAuth();
+        capturegivenauth.setAmount(106L);
+        capturegivenauth.setOrderId("12344");
+        AuthInformation authInfo = new AuthInformation();
+        Calendar authDate = Calendar.getInstance();
+        authDate.set(2002, Calendar.OCTOBER, 9);
+        authInfo.setAuthDate(authDate);
+        authInfo.setAuthCode("543216");
+        authInfo.setAuthAmount(12345L);
+        capturegivenauth.setAuthInformation(authInfo);
+        capturegivenauth.setOrderSource(OrderSourceType.ECOMMERCE);
+        capturegivenauth.setProcessingType(ProcessingTypeEnum.INITIAL_COF);
+        CardType card = new CardType();
+        card.setType(MethodOfPaymentTypeEnum.VI);
+        card.setNumber("4100000000000000");
+        card.setExpDate("1210");
+        capturegivenauth.setCard(card);
+        CaptureGivenAuthResponse response = litle.captureGivenAuth(capturegivenauth);
+        assertEquals("Approved", response.getMessage());
+    }
 	
 	@Test
 	public void simpleCaptureGivenAuthWithCardOrigTxnIdAndOrigAmount() throws Exception{
