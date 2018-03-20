@@ -19,13 +19,22 @@ import com.litle.sdk.generate.FraudCheckType;
 import com.litle.sdk.generate.MethodOfPaymentTypeEnum;
 import com.litle.sdk.generate.OrderSourceType;
 
+import java.io.FileInputStream;
+import java.util.Properties;
+
 public class TestCert3AuthReversal {
 
 	private static LitleOnline litle;
 
 	@BeforeClass
 	public static void beforeClass() throws Exception {
-		litle = new LitleOnline();
+		Properties config = new Properties();
+		FileInputStream fileInputStream = new FileInputStream((new Configuration()).location());
+		config.load(fileInputStream);
+		config.setProperty("url", "https://prelive.litle.com/vap/communicator/online");
+		config.setProperty("proxyHost", "");
+		config.setProperty("proxyPort", "");
+		litle = new LitleOnline(config);
 	}
 	
 	@Test

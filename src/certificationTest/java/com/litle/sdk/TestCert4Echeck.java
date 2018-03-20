@@ -17,13 +17,22 @@ import com.litle.sdk.generate.EcheckVerification;
 import com.litle.sdk.generate.EcheckVerificationResponse;
 import com.litle.sdk.generate.OrderSourceType;
 
+import java.io.FileInputStream;
+import java.util.Properties;
+
 public class TestCert4Echeck {
 
 	private static LitleOnline litle;
 
 	@BeforeClass
 	public static void beforeClass() throws Exception {
-		litle = new LitleOnline();
+		Properties config = new Properties();
+		FileInputStream fileInputStream = new FileInputStream((new Configuration()).location());
+		config.load(fileInputStream);
+		config.setProperty("url", "https://prelive.litle.com/vap/communicator/online");
+		config.setProperty("proxyHost", "");
+		config.setProperty("proxyPort", "");
+		litle = new LitleOnline(config);
 	}
 	
 	@Test
@@ -89,7 +98,7 @@ public class TestCert4Echeck {
 		
 		EcheckVerificationResponse response = litle.echeckVerification(verification);
 		assertEquals(response.getMessage(),"950", response.getResponse());
-		assertEquals(response.getMessage(),"Declined - Negative Information on File", response.getMessage());
+		assertEquals(response.getMessage(),"Decline - Negative Information on File", response.getMessage());
 	}
 	
 	@Test
@@ -284,7 +293,7 @@ public class TestCert4Echeck {
 		
 		EcheckCreditResponse response = litle.echeckCredit(credit);
 		assertEquals(response.getMessage(),"360", response.getResponse());
-		assertEquals(response.getMessage(),"No transaction found with specified litleTxnId", response.getMessage());
+		assertEquals(response.getMessage(),"No transaction found with specified transaction Id", response.getMessage());
 	}
 
 }

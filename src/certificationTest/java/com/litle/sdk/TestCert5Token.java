@@ -21,13 +21,22 @@ import com.litle.sdk.generate.OrderSourceType;
 import com.litle.sdk.generate.RegisterTokenRequestType;
 import com.litle.sdk.generate.RegisterTokenResponse;
 
+import java.io.FileInputStream;
+import java.util.Properties;
+
 public class TestCert5Token {
 
 	private static LitleOnline litle;
 
 	@BeforeClass
 	public static void beforeClass() throws Exception {
-		litle = new LitleOnline();
+		Properties config = new Properties();
+		FileInputStream fileInputStream = new FileInputStream((new Configuration()).location());
+		config.load(fileInputStream);
+		config.setProperty("url", "https://prelive.litle.com/vap/communicator/online");
+		config.setProperty("proxyHost", "");
+		config.setProperty("proxyPort", "");
+		litle = new LitleOnline(config);
 	}
 	
 	@Test
@@ -97,7 +106,7 @@ public class TestCert5Token {
 		
 		RegisterTokenResponse response = litle.registerToken(request);
 		assertEquals(response.getMessage(), "900", response.getResponse());
-		assertEquals(response.getMessage(), "Invalid bank routing number", response.getMessage());
+		assertEquals(response.getMessage(), "Invalid Bank Routing Number", response.getMessage());
 	}
 	
 	@Test
@@ -137,7 +146,7 @@ public class TestCert5Token {
 		
 		AuthorizationResponse response = litle.authorize(auth);
 		assertEquals(response.getMessage(), "301", response.getResponse());
-		assertEquals(response.getMessage(), "Invalid account number", response.getMessage());
+		assertEquals(response.getMessage(), "Invalid Account Number", response.getMessage());
 	}
 	
 	@Test
