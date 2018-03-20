@@ -76,7 +76,7 @@ public class TestSale {
         SaleResponse response = litle.sale(sale);
 
         assertEquals("Insufficient Funds", response.getMessage());
-        assertEquals(new Long(110),response.getApplepayResponse().getTransactionAmount());
+        assertEquals(new Long(0),response.getApplepayResponse().getTransactionAmount());
     }
 
 	@Test
