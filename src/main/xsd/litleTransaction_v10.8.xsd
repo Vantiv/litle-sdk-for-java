@@ -1,8 +1,8 @@
 <xs:schema targetNamespace="http://www.litle.com/schema" xmlns:xp="http://www.litle.com/schema"
     xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
 
-    <xs:include schemaLocation="litleCommon_v10.5.xsd" />
-    <xs:include schemaLocation="litleRecurring_v10.5.xsd" />
+    <xs:include schemaLocation="litleCommon_v10.8.xsd" />
+    <xs:include schemaLocation="litleRecurring_v10.8.xsd" />
 
     <xs:element name="transaction" type="xp:transactionType" abstract="true" />
 
@@ -2024,6 +2024,7 @@
              <xs:element name="cryptogram" type="xp:authenticationValueType" minOccurs="0"/>
              <xs:element name="expMonth" type="xp:string2Type" minOccurs="0"/>
              <xs:element name="expYear" type="xp:string4Type" minOccurs="0"/>
+             <xs:element name="eciIndicator" type="xp:string2Type" minOccurs="0"/>
           </xs:sequence>
        </xs:complexType>
     </xs:element>
@@ -2033,6 +2034,9 @@
             <xs:enumeration value="accountFunding" />
             <xs:enumeration value="initialRecurring" />
             <xs:enumeration value="initialInstallment" />
+            <xs:enumeration value="initialCOF" />
+            <xs:enumeration value="merchantInitiatedCOF" />
+            <xs:enumeration value="cardholderInitiatedCOF" />
         </xs:restriction>
     </xs:simpleType>
 

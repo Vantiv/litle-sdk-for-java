@@ -2,7 +2,7 @@
 <xs:schema targetNamespace="http://www.litle.com/schema" xmlns:xs="http://www.w3.org/2001/XMLSchema"
     xmlns:xp="http://www.litle.com/schema" elementFormDefault="qualified" attributeFormDefault="unqualified">
 
-    <xs:include schemaLocation="litleTransaction_v10.5.xsd" />
+    <xs:include schemaLocation="litleTransaction_v10.8.xsd" />
 
     <xs:element name="litleRequest">
         <xs:complexType>
@@ -211,6 +211,7 @@
                 <xs:extension base="xp:transactionTypeWithReportGroup">
                     <xs:all>
                         <xs:element name="litleTxnId" type="xp:litleIdType" />
+                        <xs:element name="orderId" type="xp:string25Type" />
                         <xs:element name="response" type="xp:responseType" />
                         <xs:element name="responseTime" type="xs:dateTime" />
                         <xs:element name="message" type="xp:messageType" />
