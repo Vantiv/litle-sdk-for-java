@@ -7,30 +7,12 @@ import java.io.StringWriter;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 
+import com.litle.sdk.generate.*;
 import org.junit.Test;
 
-import com.litle.sdk.generate.CardType;
-import com.litle.sdk.generate.CurrencyCodeEnum;
-import com.litle.sdk.generate.CustomerInfo;
 import com.litle.sdk.generate.CustomerInfo.CustomerType;
-import com.litle.sdk.generate.Authorization;
-import com.litle.sdk.generate.CountryTypeEnum;
 import com.litle.sdk.generate.CustomerInfo.ResidenceStatus;
-import com.litle.sdk.generate.DetailTax;
-import com.litle.sdk.generate.EcheckSale;
-import com.litle.sdk.generate.EnhancedData;
 import com.litle.sdk.generate.EnhancedData.DeliveryType;
-import com.litle.sdk.generate.GovtTaxTypeEnum;
-import com.litle.sdk.generate.HealthcareIIAS;
-import com.litle.sdk.generate.IIASFlagType;
-import com.litle.sdk.generate.MethodOfPaymentTypeEnum;
-import com.litle.sdk.generate.OrderSourceType;
-import com.litle.sdk.generate.Pos;
-import com.litle.sdk.generate.PosCapabilityTypeEnum;
-import com.litle.sdk.generate.PosCardholderIdTypeEnum;
-import com.litle.sdk.generate.PosEntryModeTypeEnum;
-import com.litle.sdk.generate.Sale;
-import com.litle.sdk.generate.TaxTypeIdentifierEnum;
 
 /**
  * The tests in this file are to ensure that the generated code maintains
@@ -130,5 +112,13 @@ public class TestEnumerations {
 	public void iias() {
 		HealthcareIIAS info = new HealthcareIIAS();
 		info.setIIASFlag(IIASFlagType.Y);
+	}
+
+	@Test
+	public void processingType() {
+		CaptureGivenAuth capturegivenauth = new CaptureGivenAuth();
+		capturegivenauth.setProcessingType(ProcessingTypeEnum.INITIAL_COF);
+		capturegivenauth.setProcessingType(ProcessingTypeEnum.MERCHANT_INITIATED_COF);
+		capturegivenauth.setProcessingType(ProcessingTypeEnum.CARDHOLDER_INITIATED_COF);
 	}
 }
