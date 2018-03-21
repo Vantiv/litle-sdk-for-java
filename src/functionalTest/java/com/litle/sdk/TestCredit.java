@@ -138,7 +138,7 @@ public class TestCredit {
     public void testCreditWithLitleTxnId() throws Exception {
     	Credit credit = new Credit();
     	credit.setId("id_required");
-    	credit.setLitleTxnId(112233445566778899l);
+    	credit.setLitleTxnId(112233445566778001l);
     	credit.setAmount(2000L);
     	
     	CreditResponse response = litle.credit(credit);
@@ -158,7 +158,7 @@ public class TestCredit {
     		litle.credit(credit);
     		fail("Shoule throw exception!");
     	} catch (LitleOnlineException lole) {
-    		String exception = "Error validating xml data against the schema cvc-maxLength-valid: Value 'cannot have order and txn Id' with length = '28' is not facet-valid with respect to maxLength '25' for type 'string25Type'.";
+    		String exception = "Error validating xml data against the schema :[error] cvc-maxLength-valid: Value 'cannot have order and txn Id' with length = '28' is not facet-valid with respect to maxLength '25' for type 'string25Type'. (1:363),[error] cvc-type.3.1.3: The value 'cannot have order and txn Id' of element 'orderId' is not valid. (1:363),[error] cvc-complex-type.2.4.a: Invalid content was found starting with element 'litleTxnId'. One of '{\"http://www.litle.com/schema\":amount}' is expected. (1:375)";
     		assertEquals(exception, lole.getMessage());
     	}
     	
