@@ -22,13 +22,20 @@ import com.litle.sdk.generate.Sale;
 import com.litle.sdk.generate.SaleResponse;
 import com.litle.sdk.generate.VoidResponse;
 
+import java.io.FileInputStream;
+import java.util.Properties;
+
 public class TestCert1Base {
 
 	private static LitleOnline litle;
 
 	@BeforeClass
 	public static void beforeClass() throws Exception {
-		litle = new LitleOnline();
+		Properties config = new Properties();
+		FileInputStream fileInputStream = new FileInputStream((new Configuration()).location());
+		config.load(fileInputStream);
+		config.setProperty("url", "https://payments.vantivprelive.com/vap/communicator/online");
+		litle = new LitleOnline(config);
 	}
 	
 	@Test
@@ -177,7 +184,7 @@ public class TestCert1Base {
 		AuthorizationResponse response = litle.authorize(authorization);
 		assertEquals(response.getMessage(), "000",response.getResponse());
 		assertEquals(response.getMessage(), "Approved",response.getMessage());
-		assertEquals(response.getMessage(), "22222",response.getAuthCode());
+		assertEquals(response.getMessage(), "22222 ",response.getAuthCode());
 		assertEquals(response.getMessage(), "10",response.getFraudResult().getAvsResult());
 		assertEquals(response.getMessage(), "M",response.getFraudResult().getCardValidationResult());
 		
@@ -228,7 +235,7 @@ public class TestCert1Base {
 		AuthorizationResponse response = litle.authorize(authorization);
 		assertEquals(response.getMessage(), "000",response.getResponse());
 		assertEquals(response.getMessage(), "Approved",response.getMessage());
-		assertEquals(response.getMessage(), "22222",response.getAuthCode());
+		assertEquals(response.getMessage(), "22222 ",response.getAuthCode());
 		assertEquals(response.getMessage(), "10",response.getFraudResult().getAvsResult());
 		assertEquals(response.getMessage(), "M",response.getFraudResult().getCardValidationResult());
 		
@@ -262,7 +269,7 @@ public class TestCert1Base {
 		SaleResponse response = litle.sale(sale);
 		assertEquals(response.getMessage(), "000",response.getResponse());
 		assertEquals(response.getMessage(), "Approved",response.getMessage());
-		assertEquals(response.getMessage(), "22222",response.getAuthCode());
+		assertEquals(response.getMessage(), "22222 ",response.getAuthCode());
 		assertEquals(response.getMessage(), "10",response.getFraudResult().getAvsResult());
 		assertEquals(response.getMessage(), "M",response.getFraudResult().getCardValidationResult());
 		
@@ -303,7 +310,7 @@ public class TestCert1Base {
 		AuthorizationResponse response = litle.authorize(authorization);
 		assertEquals(response.getMessage(), "000",response.getResponse());
 		assertEquals(response.getMessage(), "Approved",response.getMessage());
-		assertEquals(response.getMessage(), "33333",response.getAuthCode());
+		assertEquals(response.getMessage(), "33333 ",response.getAuthCode());
 		assertEquals(response.getMessage(), "10",response.getFraudResult().getAvsResult());
 		assertEquals(response.getMessage(), "M",response.getFraudResult().getCardValidationResult());
 		
@@ -350,7 +357,7 @@ public class TestCert1Base {
 		AuthorizationResponse response = litle.authorize(authorization);
 		assertEquals(response.getMessage(), "000",response.getResponse());
 		assertEquals(response.getMessage(), "Approved",response.getMessage());
-		assertEquals(response.getMessage(), "33333",response.getAuthCode());
+		assertEquals(response.getMessage(), "33333 ",response.getAuthCode());
 		assertEquals(response.getMessage(), "10",response.getFraudResult().getAvsResult());
 		assertEquals(response.getMessage(), "M",response.getFraudResult().getCardValidationResult());
 		
@@ -380,7 +387,7 @@ public class TestCert1Base {
 		SaleResponse response = litle.sale(sale);
 		assertEquals(response.getMessage(), "000",response.getResponse());
 		assertEquals(response.getMessage(), "Approved",response.getMessage());
-		assertEquals(response.getMessage(), "33333",response.getAuthCode());
+		assertEquals(response.getMessage(), "33333 ",response.getAuthCode());
 		assertEquals(response.getMessage(), "10",response.getFraudResult().getAvsResult());
 		assertEquals(response.getMessage(), "M",response.getFraudResult().getCardValidationResult());
 		
@@ -421,7 +428,7 @@ public class TestCert1Base {
 		AuthorizationResponse response = litle.authorize(authorization);
 		assertEquals(response.getMessage(), "000",response.getResponse());
 		assertEquals(response.getMessage(), "Approved",response.getMessage());
-		assertEquals(response.getMessage(), "44444",response.getAuthCode());
+		assertEquals(response.getMessage(), "44444 ",response.getAuthCode());
 		assertEquals(response.getMessage(), "12",response.getFraudResult().getAvsResult());
 		
 		Capture capture = new Capture();
@@ -467,7 +474,7 @@ public class TestCert1Base {
 		AuthorizationResponse response = litle.authorize(authorization);
 		assertEquals(response.getMessage(), "000",response.getResponse());
 		assertEquals(response.getMessage(), "Approved",response.getMessage());
-		assertEquals(response.getMessage(), "44444",response.getAuthCode());
+		assertEquals(response.getMessage(), "44444 ",response.getAuthCode());
 		assertEquals(response.getMessage(), "12",response.getFraudResult().getAvsResult());
 		
 	}
@@ -496,7 +503,7 @@ public class TestCert1Base {
 		SaleResponse response = litle.sale(sale);
 		assertEquals(response.getMessage(), "000",response.getResponse());
 		assertEquals(response.getMessage(), "Approved",response.getMessage());
-		assertEquals(response.getMessage(), "44444",response.getAuthCode());
+		assertEquals(response.getMessage(), "44444 ",response.getAuthCode());
 		assertEquals(response.getMessage(), "12",response.getFraudResult().getAvsResult());
 		
 		Credit credit = new Credit();

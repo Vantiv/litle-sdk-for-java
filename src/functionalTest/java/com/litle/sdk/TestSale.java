@@ -187,6 +187,63 @@ public class TestSale {
 	}
 
 	@Test
+	public void testSaleWithProcessingTypeCOF() throws Exception{
+		Sale sale = new Sale();
+		sale.setAmount(106L);
+		sale.setLitleTxnId(123456L);
+		sale.setOrderId("12344");
+		sale.setOrderSource(OrderSourceType.ECOMMERCE);
+		CardType card = new CardType();
+		card.setType(MethodOfPaymentTypeEnum.MC);
+		card.setNumber("5400000000000000");
+		card.setExpDate("1210");
+		sale.setCard(card);
+		sale.setProcessingType(ProcessingTypeEnum.INITIAL_COF);
+
+		SaleResponse response = litle.sale(sale);
+
+		assertEquals("Approved", response.getMessage());
+	}
+
+	@Test
+	public void testSaleWithProcessingTypeCOF1() throws Exception{
+		Sale sale = new Sale();
+		sale.setAmount(106L);
+		sale.setLitleTxnId(123456L);
+		sale.setOrderId("12344");
+		sale.setOrderSource(OrderSourceType.ECOMMERCE);
+		CardType card = new CardType();
+		card.setType(MethodOfPaymentTypeEnum.MC);
+		card.setNumber("5400000000000000");
+		card.setExpDate("1210");
+		sale.setCard(card);
+		sale.setProcessingType(ProcessingTypeEnum.MERCHANT_INITIATED_COF);
+
+		SaleResponse response = litle.sale(sale);
+
+		assertEquals("Approved", response.getMessage());
+	}
+
+	@Test
+	public void testSaleWithProcessingTypeCOF2() throws Exception{
+		Sale sale = new Sale();
+		sale.setAmount(106L);
+		sale.setLitleTxnId(123456L);
+		sale.setOrderId("12344");
+		sale.setOrderSource(OrderSourceType.ECOMMERCE);
+		CardType card = new CardType();
+		card.setType(MethodOfPaymentTypeEnum.MC);
+		card.setNumber("5400000000000000");
+		card.setExpDate("1210");
+		sale.setCard(card);
+		sale.setProcessingType(ProcessingTypeEnum.CARDHOLDER_INITIATED_COF);
+
+		SaleResponse response = litle.sale(sale);
+
+		assertEquals("Approved", response.getMessage());
+	}
+
+	@Test
 	public void testSaleWithOrigTxnIdAndOrigAmount() throws Exception{
 		Sale sale = new Sale();
 		sale.setAmount(106L);

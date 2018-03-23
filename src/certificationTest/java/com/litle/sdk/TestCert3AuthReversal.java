@@ -19,13 +19,20 @@ import com.litle.sdk.generate.FraudCheckType;
 import com.litle.sdk.generate.MethodOfPaymentTypeEnum;
 import com.litle.sdk.generate.OrderSourceType;
 
+import java.io.FileInputStream;
+import java.util.Properties;
+
 public class TestCert3AuthReversal {
 
 	private static LitleOnline litle;
 
 	@BeforeClass
 	public static void beforeClass() throws Exception {
-		litle = new LitleOnline();
+		Properties config = new Properties();
+		FileInputStream fileInputStream = new FileInputStream((new Configuration()).location());
+		config.load(fileInputStream);
+		config.setProperty("url", "https://payments.vantivprelive.com/vap/communicator/online");
+		litle = new LitleOnline(config);
 	}
 	
 	@Test
@@ -98,7 +105,7 @@ public class TestCert3AuthReversal {
 		AuthorizationResponse authorizeResponse = litle.authorize(auth);
 		assertEquals(authorizeResponse.getMessage(), "000", authorizeResponse.getResponse());
 		assertEquals(authorizeResponse.getMessage(), "Approved", authorizeResponse.getMessage());
-		assertEquals(authorizeResponse.getMessage(), "22222", authorizeResponse.getAuthCode());
+		assertEquals(authorizeResponse.getMessage(), "22222 ", authorizeResponse.getAuthCode());
 		assertEquals(authorizeResponse.getMessage(), "10", authorizeResponse.getFraudResult().getAvsResult());
 		assertEquals(authorizeResponse.getMessage(), "M", authorizeResponse.getFraudResult().getCardValidationResult());
 		
@@ -133,7 +140,7 @@ public class TestCert3AuthReversal {
 		AuthorizationResponse authorizeResponse = litle.authorize(auth);
 		assertEquals(authorizeResponse.getMessage(), "000", authorizeResponse.getResponse());
 		assertEquals(authorizeResponse.getMessage(), "Approved", authorizeResponse.getMessage());
-		assertEquals(authorizeResponse.getMessage(), "33333", authorizeResponse.getAuthCode());
+		assertEquals(authorizeResponse.getMessage(), "33333 ", authorizeResponse.getAuthCode());
 		assertEquals(authorizeResponse.getMessage(), "10", authorizeResponse.getFraudResult().getAvsResult());
 		assertEquals(authorizeResponse.getMessage(), "M", authorizeResponse.getFraudResult().getCardValidationResult());
 		
@@ -167,7 +174,7 @@ public class TestCert3AuthReversal {
 		AuthorizationResponse authorizeResponse = litle.authorize(auth);
 		assertEquals(authorizeResponse.getMessage(), "000", authorizeResponse.getResponse());
 		assertEquals(authorizeResponse.getMessage(), "Approved", authorizeResponse.getMessage());
-		assertEquals(authorizeResponse.getMessage(), "44444", authorizeResponse.getAuthCode());
+		assertEquals(authorizeResponse.getMessage(), "44444 ", authorizeResponse.getAuthCode());
 		assertEquals(authorizeResponse.getMessage(), "12", authorizeResponse.getFraudResult().getAvsResult());
 		
 		Capture capture = new Capture();
