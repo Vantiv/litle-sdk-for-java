@@ -1,6 +1,9 @@
 = LitleOnline CHANGELOG
 
-==Version 11.3.1 (March 16, 2017)
+==Version 11.4.0 (March 26, 2018)
+* Feature: Added support for Visa card on file transactions
+
+==Version 11.3.1 (March 16, 2018)
 *Feature: Added PGP encryption/decryption support in batches
 *BugFix : Fixed neutering of xml request and responses
 
