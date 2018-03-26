@@ -2,18 +2,9 @@ package com.litle.sdk;
 
 import static org.junit.Assert.assertEquals;
 
+import com.litle.sdk.generate.*;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import com.litle.sdk.generate.ApplepayHeaderType;
-import com.litle.sdk.generate.ApplepayType;
-import com.litle.sdk.generate.CardTokenType;
-import com.litle.sdk.generate.CardType;
-import com.litle.sdk.generate.MethodOfPaymentTypeEnum;
-import com.litle.sdk.generate.OrderSourceType;
-import com.litle.sdk.generate.PayPal;
-import com.litle.sdk.generate.Sale;
-import com.litle.sdk.generate.SaleResponse;
 
 public class TestSale {
 
@@ -38,7 +29,7 @@ public class TestSale {
 		sale.setCard(card);
 		sale.setId("id");
 		SaleResponse response = litle.sale(sale);
-		assertEquals("Approved", response.getMessage());
+		assertEquals("Transaction Received", response.getMessage());
 	}
 	
 	@Test
@@ -55,7 +46,7 @@ public class TestSale {
 		sale.setPaypal(paypal);
 	    sale.setId("id");
 		SaleResponse response = litle.sale(sale);
-		assertEquals("Approved", response.getMessage());
+		assertEquals("Transaction Received", response.getMessage());
 	}
 	
 	@Test
@@ -99,6 +90,60 @@ public class TestSale {
 		sale.setToken(token);
 	    sale.setId("id");
 		SaleResponse response = litle.sale(sale);
-		assertEquals("Approved", response.getMessage());
+		assertEquals("Transaction Received", response.getMessage());
+	}
+
+	@Test
+	public void testSaleWithProcessingTypeCOF() throws Exception{
+		Sale sale = new Sale();
+		sale.setAmount(106L);
+		sale.setLitleTxnId(123456L);
+		sale.setOrderId("12344");
+		sale.setOrderSource(OrderSourceType.ECOMMERCE);
+		CardType card = new CardType();
+		card.setType(MethodOfPaymentTypeEnum.VI);
+		card.setNumber("4100000000000000");
+		card.setExpDate("1210");
+		sale.setCard(card);
+		sale.setId("id");
+		sale.setProcessingType(ProcessingTypeEnum.INITIAL_COF);
+		SaleResponse response = litle.sale(sale);
+		assertEquals("Transaction Received", response.getMessage());
+	}
+
+	@Test
+	public void testSaleWithProcessingTypeCOF1() throws Exception{
+		Sale sale = new Sale();
+		sale.setAmount(106L);
+		sale.setLitleTxnId(123456L);
+		sale.setOrderId("12344");
+		sale.setOrderSource(OrderSourceType.ECOMMERCE);
+		CardType card = new CardType();
+		card.setType(MethodOfPaymentTypeEnum.VI);
+		card.setNumber("4100000000000000");
+		card.setExpDate("1210");
+		sale.setCard(card);
+		sale.setId("id");
+		sale.setProcessingType(ProcessingTypeEnum.MERCHANT_INITIATED_COF);
+		SaleResponse response = litle.sale(sale);
+		assertEquals("Transaction Received", response.getMessage());
+	}
+
+	@Test
+	public void testSaleWithProcessingTypeCOF2() throws Exception{
+		Sale sale = new Sale();
+		sale.setAmount(106L);
+		sale.setLitleTxnId(123456L);
+		sale.setOrderId("12344");
+		sale.setOrderSource(OrderSourceType.ECOMMERCE);
+		CardType card = new CardType();
+		card.setType(MethodOfPaymentTypeEnum.VI);
+		card.setNumber("4100000000000000");
+		card.setExpDate("1210");
+		sale.setCard(card);
+		sale.setId("id");
+		sale.setProcessingType(ProcessingTypeEnum.CARDHOLDER_INITIATED_COF);
+		SaleResponse response = litle.sale(sale);
+		assertEquals("Transaction Received", response.getMessage());
 	}
 }
