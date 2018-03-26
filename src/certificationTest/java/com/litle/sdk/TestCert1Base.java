@@ -22,13 +22,20 @@ import com.litle.sdk.generate.Sale;
 import com.litle.sdk.generate.SaleResponse;
 import com.litle.sdk.generate.VoidResponse;
 
+import java.io.FileInputStream;
+import java.util.Properties;
+
 public class TestCert1Base {
 
 	private static LitleOnline litle;
 
 	@BeforeClass
 	public static void beforeClass() throws Exception {
-		litle = new LitleOnline();
+		Properties config = new Properties();
+		FileInputStream fileInputStream = new FileInputStream((new Configuration()).location());
+		config.load(fileInputStream);
+		config.setProperty("url", "https://payments.vantivprelive.com/vap/communicator/online");
+		litle = new LitleOnline(config);
 	}
 	
 	@Test

@@ -17,13 +17,20 @@ import com.litle.sdk.generate.EcheckVerification;
 import com.litle.sdk.generate.EcheckVerificationResponse;
 import com.litle.sdk.generate.OrderSourceType;
 
+import java.io.FileInputStream;
+import java.util.Properties;
+
 public class TestCert4Echeck {
 
 	private static LitleOnline litle;
 
 	@BeforeClass
 	public static void beforeClass() throws Exception {
-		litle = new LitleOnline();
+		Properties config = new Properties();
+		FileInputStream fileInputStream = new FileInputStream((new Configuration()).location());
+		config.load(fileInputStream);
+		config.setProperty("url", "https://payments.vantivprelive.com/vap/communicator/online");
+		litle = new LitleOnline(config);
 	}
 	
 	@Test

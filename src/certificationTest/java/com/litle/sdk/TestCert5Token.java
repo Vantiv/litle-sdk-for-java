@@ -21,13 +21,20 @@ import com.litle.sdk.generate.OrderSourceType;
 import com.litle.sdk.generate.RegisterTokenRequestType;
 import com.litle.sdk.generate.RegisterTokenResponse;
 
+import java.io.FileInputStream;
+import java.util.Properties;
+
 public class TestCert5Token {
 
 	private static LitleOnline litle;
 
 	@BeforeClass
 	public static void beforeClass() throws Exception {
-		litle = new LitleOnline();
+		Properties config = new Properties();
+		FileInputStream fileInputStream = new FileInputStream((new Configuration()).location());
+		config.load(fileInputStream);
+		config.setProperty("url", "https://payments.vantivprelive.com/vap/communicator/online");
+		litle = new LitleOnline(config);
 	}
 	
 	@Test
