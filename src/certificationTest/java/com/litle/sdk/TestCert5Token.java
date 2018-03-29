@@ -2,6 +2,7 @@ package com.litle.sdk;
 
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -33,7 +34,7 @@ public class TestCert5Token {
 		Properties config = new Properties();
 		FileInputStream fileInputStream = new FileInputStream((new Configuration()).location());
 		config.load(fileInputStream);
-		config.setProperty("url", "https://payments.vantivprelive.com/vap/communicator/online");
+		config.setProperty("url", "https://prelive.litle.com/vap/communicator/online");
 		litle = new LitleOnline(config);
 	}
 	
@@ -72,7 +73,7 @@ public class TestCert5Token {
 		assertEquals(response.getMessage(), "445711", response.getBin());
 		assertEquals(response.getMessage(), MethodOfPaymentTypeEnum.VI, response.getType());
 		assertEquals(response.getMessage(), "802", response.getResponse());
-		assertEquals(response.getMessage(), "1111222233330123", response.getLitleToken());
+		assertTrue(response.getMessage(), response.getLitleToken().endsWith("0123"));
 		assertEquals(response.getMessage(), "Account number was previously registered", response.getMessage());
 	}
 	
@@ -82,7 +83,7 @@ public class TestCert5Token {
 		request.setOrderId("53");
 		EcheckForTokenType echeck = new EcheckForTokenType();
 		echeck.setAccNum("1099999998");
-		echeck.setRoutingNum("114567895");
+		echeck.setRoutingNum("011100012");
 		request.setEcheckForToken(echeck);
 		
 		RegisterTokenResponse response = litle.registerToken(request);
@@ -115,7 +116,7 @@ public class TestCert5Token {
 		auth.setOrderSource(OrderSourceType.ECOMMERCE);
 		CardType card = new CardType();
 		card.setNumber("5435101234510196");
-		card.setExpDate("1112");
+		card.setExpDate("1121");
 		card.setCardValidationNum("987");
 		card.setType(MethodOfPaymentTypeEnum.MC);
 		auth.setCard(card);
@@ -176,8 +177,8 @@ public class TestCert5Token {
 		auth.setAmount(15000L);
 		auth.setOrderSource(OrderSourceType.ECOMMERCE);
 		CardTokenType token = new CardTokenType();
-		token.setLitleToken("1712990000040196");
-		token.setExpDate("1112");
+		token.setLitleToken("1111000100092332");
+		token.setExpDate("1121");
 		auth.setToken(token);
 		
 		AuthorizationResponse response = litle.authorize(auth);
@@ -192,8 +193,8 @@ public class TestCert5Token {
 		auth.setAmount(15000L);
 		auth.setOrderSource(OrderSourceType.ECOMMERCE);
 		CardTokenType token = new CardTokenType();
-		token.setLitleToken("1712999999999999");
-		token.setExpDate("1112");
+		token.setLitleToken("1112000100000085");
+		token.setExpDate("1121");
 		auth.setToken(token);
 		
 		AuthorizationResponse response = litle.authorize(auth);
@@ -214,7 +215,7 @@ public class TestCert5Token {
 		EcheckType echeck = new EcheckType();
 		echeck.setAccType(EcheckAccountTypeEnum.CHECKING);
 		echeck.setAccNum("1099999003");
-		echeck.setRoutingNum("114567895");
+		echeck.setRoutingNum("011100012");
 		sale.setEcheck(echeck);
 		
 		EcheckSalesResponse response = litle.echeckSale(sale);
@@ -237,7 +238,7 @@ public class TestCert5Token {
 		EcheckType echeck = new EcheckType();
 		echeck.setAccType(EcheckAccountTypeEnum.CHECKING);
 		echeck.setAccNum("1099999999");
-		echeck.setRoutingNum("114567895");
+		echeck.setRoutingNum("011100012");
 		sale.setEcheck(echeck);
 		
 		EcheckSalesResponse response = litle.echeckSale(sale);
@@ -261,7 +262,7 @@ public class TestCert5Token {
 		EcheckType echeck = new EcheckType();
 		echeck.setAccType(EcheckAccountTypeEnum.CHECKING);
 		echeck.setAccNum("1099999999");
-		echeck.setRoutingNum("214567892");
+		echeck.setRoutingNum("011100012");
 		sale.setEcheck(echeck);
 		
 		EcheckSalesResponse response = litle.echeckSale(sale);
@@ -269,7 +270,30 @@ public class TestCert5Token {
 		assertEquals(response.getMessage(), "Account number was successfully registered", response.getTokenResponse().getTokenMessage());
 		assertEquals(response.getMessage(), MethodOfPaymentTypeEnum.EC, response.getTokenResponse().getType());
 		assertEquals(response.getMessage(), "999", response.getTokenResponse().getECheckAccountSuffix());
-		assertEquals(response.getMessage(), "111922223333555999", response.getTokenResponse().getLitleToken());
+	}
+
+	@Test
+	public void test64() throws Exception {
+		EcheckSale sale = new EcheckSale();
+		sale.setOrderId("63");
+		sale.setAmount(15000L);
+		sale.setOrderSource(OrderSourceType.ECOMMERCE);
+		Contact billToAddress = new Contact();
+		billToAddress.setFirstName("Tom");
+		billToAddress.setLastName("Black");
+		sale.setBillToAddress(billToAddress);
+		EcheckType echeck = new EcheckType();
+		echeck.setAccType(EcheckAccountTypeEnum.CORPORATE);
+		echeck.setAccNum("6099999993");
+		echeck.setRoutingNum("211370545");
+		sale.setEcheck(echeck);
+
+		EcheckSalesResponse response = litle.echeckSale(sale);
+		assertEquals(response.getMessage(), "801", response.getTokenResponse().getTokenResponseCode());
+		assertEquals(response.getMessage(), "Account number was successfully registered", response.getTokenResponse().getTokenMessage());
+		assertEquals(response.getMessage(), MethodOfPaymentTypeEnum.EC, response.getTokenResponse().getType());
+		assertEquals(response.getMessage(), "999", response.getTokenResponse().getECheckAccountSuffix());
+//		assertEquals(response.getMessage(), "111922223333555999", response.getTokenResponse().getLitleToken());
 	}
 	
 }

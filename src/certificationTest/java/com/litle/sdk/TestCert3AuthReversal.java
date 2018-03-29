@@ -31,7 +31,7 @@ public class TestCert3AuthReversal {
 		Properties config = new Properties();
 		FileInputStream fileInputStream = new FileInputStream((new Configuration()).location());
 		config.load(fileInputStream);
-		config.setProperty("url", "https://payments.vantivprelive.com/vap/communicator/online");
+		config.setProperty("url", "https://prelive.litle.com/vap/communicator/online");
 		litle = new LitleOnline(config);
 	}
 	
@@ -65,7 +65,7 @@ public class TestCert3AuthReversal {
 		
 		Capture capture = new Capture();
 		capture.setLitleTxnId(authorizeResponse.getLitleTxnId());
-		capture.setAmount(5005L);
+		capture.setAmount(5050L);
 		CaptureResponse captureResponse = litle.capture(capture);
 		assertEquals(captureResponse.getMessage(), "000", captureResponse.getResponse());
 		assertEquals(captureResponse.getMessage(), "Approved", captureResponse.getMessage());
@@ -155,7 +155,7 @@ public class TestCert3AuthReversal {
 	public void test35() throws Exception {
 		Authorization auth = new Authorization();
 		auth.setOrderId("35");
-		auth.setAmount(40040L);
+		auth.setAmount(10100L);
 		auth.setOrderSource(OrderSourceType.ECOMMERCE);
 		Contact billToAddress = new Contact();
 		billToAddress.setName("Bob Black");
@@ -175,21 +175,21 @@ public class TestCert3AuthReversal {
 		assertEquals(authorizeResponse.getMessage(), "000", authorizeResponse.getResponse());
 		assertEquals(authorizeResponse.getMessage(), "Approved", authorizeResponse.getMessage());
 		assertEquals(authorizeResponse.getMessage(), "44444 ", authorizeResponse.getAuthCode());
-		assertEquals(authorizeResponse.getMessage(), "12", authorizeResponse.getFraudResult().getAvsResult());
+		assertEquals(authorizeResponse.getMessage(), "13", authorizeResponse.getFraudResult().getAvsResult());
 		
 		Capture capture = new Capture();
 		capture.setLitleTxnId(authorizeResponse.getLitleTxnId());
-		capture.setAmount(20020L);
+		capture.setAmount(5050L);
 		CaptureResponse captureResponse = litle.capture(capture);
 		assertEquals(captureResponse.getMessage(), "000", captureResponse.getResponse());
 		assertEquals(captureResponse.getMessage(), "Approved", captureResponse.getMessage());
 		
 		AuthReversal reversal = new AuthReversal();
 		reversal.setLitleTxnId(authorizeResponse.getLitleTxnId());
-		reversal.setAmount(20020L);
+		reversal.setAmount(5050L);
 		AuthReversalResponse reversalResponse = litle.authReversal(reversal);
-		assertEquals(reversalResponse.getMessage(), "000", reversalResponse.getResponse());
-		assertEquals(reversalResponse.getMessage(), "Approved", reversalResponse.getMessage());
+		assertEquals(reversalResponse.getMessage(), "336", reversalResponse.getResponse());
+		assertEquals(reversalResponse.getMessage(), "Reversal amount does not match authorization amount", reversalResponse.getMessage());
 	}
 	
 	@Test
@@ -213,7 +213,7 @@ public class TestCert3AuthReversal {
 		reversal.setAmount(10000L);
 		AuthReversalResponse reversalResponse = litle.authReversal(reversal);
 		assertEquals(reversalResponse.getMessage(), "336", reversalResponse.getResponse());
-		assertEquals(reversalResponse.getMessage(), "Reversal Amount does not match Authorization amount", reversalResponse.getMessage());
+		assertEquals(reversalResponse.getMessage(), "Reversal amount does not match authorization amount", reversalResponse.getMessage());
 	}
 
 }

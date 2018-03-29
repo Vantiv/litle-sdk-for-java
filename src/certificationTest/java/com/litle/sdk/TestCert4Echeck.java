@@ -29,7 +29,7 @@ public class TestCert4Echeck {
 		Properties config = new Properties();
 		FileInputStream fileInputStream = new FileInputStream((new Configuration()).location());
 		config.load(fileInputStream);
-		config.setProperty("url", "https://payments.vantivprelive.com/vap/communicator/online");
+		config.setProperty("url", "https://prelive.litle.com/vap/communicator/online");
 		litle = new LitleOnline(config);
 	}
 	
@@ -277,7 +277,7 @@ public class TestCert4Echeck {
 	@Test
 	public void test48() throws Exception {
 		EcheckCredit credit = new EcheckCredit();
-		credit.setLitleTxnId(430000000000000001L);
+		credit.setLitleTxnId(82922833356145265L);
 		
 		EcheckCreditResponse response = litle.echeckCredit(credit);
 		assertEquals(response.getMessage(),"000", response.getResponse());
