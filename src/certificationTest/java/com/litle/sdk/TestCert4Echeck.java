@@ -30,8 +30,6 @@ public class TestCert4Echeck {
 		FileInputStream fileInputStream = new FileInputStream((new Configuration()).location());
 		config.load(fileInputStream);
 		config.setProperty("url", "https://prelive.litle.com/vap/communicator/online");
-		config.setProperty("proxyHost", "");
-		config.setProperty("proxyPort", "");
 		litle = new LitleOnline(config);
 	}
 	
@@ -279,7 +277,7 @@ public class TestCert4Echeck {
 	@Test
 	public void test48() throws Exception {
 		EcheckCredit credit = new EcheckCredit();
-		credit.setLitleTxnId(430000000000000001L);
+		credit.setLitleTxnId(82922833570038031L);
 		
 		EcheckCreditResponse response = litle.echeckCredit(credit);
 		assertEquals(response.getMessage(),"000", response.getResponse());

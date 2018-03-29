@@ -35,8 +35,6 @@ public class TestCert1Base {
 		FileInputStream fileInputStream = new FileInputStream((new Configuration()).location());
 		config.load(fileInputStream);
 		config.setProperty("url", "https://prelive.litle.com/vap/communicator/online");
-		config.setProperty("proxyHost", "");
-		config.setProperty("proxyPort", "");
 		litle = new LitleOnline(config);
 	}
 	
@@ -186,7 +184,7 @@ public class TestCert1Base {
 		AuthorizationResponse response = litle.authorize(authorization);
 		assertEquals(response.getMessage(), "000",response.getResponse());
 		assertEquals(response.getMessage(), "Approved",response.getMessage());
-		assertEquals(response.getMessage(), "22222",response.getAuthCode());
+		assertEquals(response.getMessage(), "22222 ",response.getAuthCode());
 		assertEquals(response.getMessage(), "10",response.getFraudResult().getAvsResult());
 		assertEquals(response.getMessage(), "M",response.getFraudResult().getCardValidationResult());
 		
@@ -237,7 +235,7 @@ public class TestCert1Base {
 		AuthorizationResponse response = litle.authorize(authorization);
 		assertEquals(response.getMessage(), "000",response.getResponse());
 		assertEquals(response.getMessage(), "Approved",response.getMessage());
-		assertEquals(response.getMessage(), "22222",response.getAuthCode());
+		assertEquals(response.getMessage(), "22222 ",response.getAuthCode());
 		assertEquals(response.getMessage(), "10",response.getFraudResult().getAvsResult());
 		assertEquals(response.getMessage(), "M",response.getFraudResult().getCardValidationResult());
 		
@@ -271,7 +269,7 @@ public class TestCert1Base {
 		SaleResponse response = litle.sale(sale);
 		assertEquals(response.getMessage(), "000",response.getResponse());
 		assertEquals(response.getMessage(), "Approved",response.getMessage());
-		assertEquals(response.getMessage(), "22222",response.getAuthCode());
+		assertEquals(response.getMessage(), "22222 ",response.getAuthCode());
 		assertEquals(response.getMessage(), "10",response.getFraudResult().getAvsResult());
 		assertEquals(response.getMessage(), "M",response.getFraudResult().getCardValidationResult());
 		
@@ -312,7 +310,7 @@ public class TestCert1Base {
 		AuthorizationResponse response = litle.authorize(authorization);
 		assertEquals(response.getMessage(), "000",response.getResponse());
 		assertEquals(response.getMessage(), "Approved",response.getMessage());
-		assertEquals(response.getMessage(), "33333",response.getAuthCode());
+		assertEquals(response.getMessage(), "33333 ",response.getAuthCode());
 		assertEquals(response.getMessage(), "10",response.getFraudResult().getAvsResult());
 		assertEquals(response.getMessage(), "M",response.getFraudResult().getCardValidationResult());
 		
@@ -359,7 +357,7 @@ public class TestCert1Base {
 		AuthorizationResponse response = litle.authorize(authorization);
 		assertEquals(response.getMessage(), "000",response.getResponse());
 		assertEquals(response.getMessage(), "Approved",response.getMessage());
-		assertEquals(response.getMessage(), "33333",response.getAuthCode());
+		assertEquals(response.getMessage(), "33333 ",response.getAuthCode());
 		assertEquals(response.getMessage(), "10",response.getFraudResult().getAvsResult());
 		assertEquals(response.getMessage(), "M",response.getFraudResult().getCardValidationResult());
 		
@@ -389,7 +387,7 @@ public class TestCert1Base {
 		SaleResponse response = litle.sale(sale);
 		assertEquals(response.getMessage(), "000",response.getResponse());
 		assertEquals(response.getMessage(), "Approved",response.getMessage());
-		assertEquals(response.getMessage(), "33333",response.getAuthCode());
+		assertEquals(response.getMessage(), "33333 ",response.getAuthCode());
 		assertEquals(response.getMessage(), "10",response.getFraudResult().getAvsResult());
 		assertEquals(response.getMessage(), "M",response.getFraudResult().getCardValidationResult());
 		
@@ -410,7 +408,7 @@ public class TestCert1Base {
 	public void test4Auth() throws Exception {
 		Authorization authorization = new Authorization();
 		authorization.setOrderId("4");
-		authorization.setAmount(40040L);
+		authorization.setAmount(10100L);
 		authorization.setOrderSource(OrderSourceType.ECOMMERCE);
 		Contact contact = new Contact();
 		contact.setName("Bob Black");
@@ -423,15 +421,15 @@ public class TestCert1Base {
 		CardType card = new CardType();
 		card.setType(MethodOfPaymentTypeEnum.AX);
 		card.setNumber("375001000000005");
-		card.setExpDate("0412");
-		card.setCardValidationNum("758");
+		card.setExpDate("0421");
+//		card.setCardValidationNum("758");
 		authorization.setCard(card);
 		
 		AuthorizationResponse response = litle.authorize(authorization);
 		assertEquals(response.getMessage(), "000",response.getResponse());
 		assertEquals(response.getMessage(), "Approved",response.getMessage());
-		assertEquals(response.getMessage(), "44444",response.getAuthCode());
-		assertEquals(response.getMessage(), "12",response.getFraudResult().getAvsResult());
+		assertEquals(response.getMessage(), "44444 ",response.getAuthCode());
+		assertEquals(response.getMessage(), "13",response.getFraudResult().getAvsResult());
 		
 		Capture capture = new Capture();
 		capture.setLitleTxnId(response.getLitleTxnId());
@@ -456,7 +454,7 @@ public class TestCert1Base {
 	public void test4AVS() throws Exception {
 		Authorization authorization = new Authorization();
 		authorization.setOrderId("4");
-		authorization.setAmount(000L);
+		authorization.setAmount(10100L);
 		authorization.setOrderSource(OrderSourceType.ECOMMERCE);
 		Contact contact = new Contact();
 		contact.setName("Bob Black");
@@ -469,15 +467,15 @@ public class TestCert1Base {
 		CardType card = new CardType();
 		card.setType(MethodOfPaymentTypeEnum.AX);
 		card.setNumber("375001000000005");
-		card.setExpDate("0412");
-		card.setCardValidationNum("758");
+		card.setExpDate("0421");
+//		card.setCardValidationNum("758");
 		authorization.setCard(card);
 		
 		AuthorizationResponse response = litle.authorize(authorization);
 		assertEquals(response.getMessage(), "000",response.getResponse());
 		assertEquals(response.getMessage(), "Approved",response.getMessage());
-		assertEquals(response.getMessage(), "44444",response.getAuthCode());
-		assertEquals(response.getMessage(), "12",response.getFraudResult().getAvsResult());
+		assertEquals(response.getMessage(), "44444 ",response.getAuthCode());
+		assertEquals(response.getMessage(), "13",response.getFraudResult().getAvsResult());
 		
 	}
 	
@@ -485,7 +483,7 @@ public class TestCert1Base {
 	public void test4Sale() throws Exception {
 		Sale sale = new Sale();
 		sale.setOrderId("4");
-		sale.setAmount(40040L);
+		sale.setAmount(10100L);
 		sale.setOrderSource(OrderSourceType.ECOMMERCE);
 		Contact contact = new Contact();
 		contact.setName("Bob Black");
@@ -499,14 +497,14 @@ public class TestCert1Base {
 		card.setType(MethodOfPaymentTypeEnum.AX);
 		card.setNumber("375001000000005");
 		card.setExpDate("0412");
-		card.setCardValidationNum("758");
+//		card.setCardValidationNum("758");
 		sale.setCard(card);
 		
 		SaleResponse response = litle.sale(sale);
 		assertEquals(response.getMessage(), "000",response.getResponse());
 		assertEquals(response.getMessage(), "Approved",response.getMessage());
-		assertEquals(response.getMessage(), "44444",response.getAuthCode());
-		assertEquals(response.getMessage(), "12",response.getFraudResult().getAvsResult());
+		assertEquals(response.getMessage(), "44444 ",response.getAuthCode());
+		assertEquals(response.getMessage(), "13",response.getFraudResult().getAvsResult());
 		
 		Credit credit = new Credit();
 		credit.setLitleTxnId(response.getLitleTxnId());
@@ -542,7 +540,7 @@ public class TestCert1Base {
 		assertEquals(response.getMessage(), "Approved",response.getMessage());
 		assertEquals(response.getMessage(), "55555 ",response.getAuthCode());
 		assertEquals(response.getMessage(), "32",response.getFraudResult().getAvsResult());
-		assertEquals(response.getMessage(), "N",response.getFraudResult().getCardValidationResult());
+		assertEquals(response.getMessage(), "M",response.getFraudResult().getCardValidationResult());
 		
 		Capture capture = new Capture();
 		capture.setLitleTxnId(response.getLitleTxnId());
@@ -584,7 +582,7 @@ public class TestCert1Base {
 		assertEquals(response.getMessage(), "Approved",response.getMessage());
 		assertEquals(response.getMessage(), "55555 ",response.getAuthCode());
 		assertEquals(response.getMessage(), "32",response.getFraudResult().getAvsResult());
-		assertEquals(response.getMessage(), "N",response.getFraudResult().getCardValidationResult());
+		assertEquals(response.getMessage(), "M",response.getFraudResult().getCardValidationResult());
 		
 	}
 	
@@ -609,7 +607,7 @@ public class TestCert1Base {
 		assertEquals(response.getMessage(), "Approved",response.getMessage());
 		assertEquals(response.getMessage(), "55555 ",response.getAuthCode());
 		assertEquals(response.getMessage(), "32",response.getFraudResult().getAvsResult());
-		assertEquals(response.getMessage(), "N",response.getFraudResult().getCardValidationResult());
+		assertEquals(response.getMessage(), "M",response.getFraudResult().getCardValidationResult());
 		
 		Credit credit = new Credit();
 		credit.setLitleTxnId(response.getLitleTxnId());
@@ -684,7 +682,7 @@ public class TestCert1Base {
 		newvoid.setLitleTxnId(response.getLitleTxnId());
 		VoidResponse voidresponse = litle.dovoid(newvoid);
 		assertEquals(voidresponse.getMessage(), "360",voidresponse.getResponse());
-		assertEquals(voidresponse.getMessage(), "No transaction found with specified litleTxnId",voidresponse.getMessage());
+		assertEquals(voidresponse.getMessage(), "No transaction found with specified transaction Id",voidresponse.getMessage());
 	}
 	
 	@Test

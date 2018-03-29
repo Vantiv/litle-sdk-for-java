@@ -7,11 +7,7 @@ group = 'com.litle'
 version = JAR_VERSION
 
 repositories {
-    // mavenCentral()
-    // added due to peer authenticated issue getting to mavenCentral
-    // remove after testing
-    maven { url "http://jcenter.bintray.com/"}
-    jcenter()
+    mavenCentral()
 }
 
 configurations {

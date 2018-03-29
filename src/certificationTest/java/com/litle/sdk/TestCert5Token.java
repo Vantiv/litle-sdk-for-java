@@ -2,6 +2,7 @@ package com.litle.sdk;
 
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -34,8 +35,6 @@ public class TestCert5Token {
 		FileInputStream fileInputStream = new FileInputStream((new Configuration()).location());
 		config.load(fileInputStream);
 		config.setProperty("url", "https://prelive.litle.com/vap/communicator/online");
-		config.setProperty("proxyHost", "");
-		config.setProperty("proxyPort", "");
 		litle = new LitleOnline(config);
 	}
 	
@@ -74,7 +73,7 @@ public class TestCert5Token {
 		assertEquals(response.getMessage(), "445711", response.getBin());
 		assertEquals(response.getMessage(), MethodOfPaymentTypeEnum.VI, response.getType());
 		assertEquals(response.getMessage(), "802", response.getResponse());
-		assertEquals(response.getMessage(), "1111222233330123", response.getLitleToken());
+		assertTrue(response.getMessage(), response.getLitleToken().endsWith("0123"));
 		assertEquals(response.getMessage(), "Account number was previously registered", response.getMessage());
 	}
 	
@@ -178,8 +177,8 @@ public class TestCert5Token {
 		auth.setAmount(15000L);
 		auth.setOrderSource(OrderSourceType.ECOMMERCE);
 		CardTokenType token = new CardTokenType();
-		token.setLitleToken("1712990000040196");
-		token.setExpDate("1112");
+		token.setLitleToken("1111000100092332");
+		token.setExpDate("1121");
 		auth.setToken(token);
 		
 		AuthorizationResponse response = litle.authorize(auth);
@@ -194,8 +193,8 @@ public class TestCert5Token {
 		auth.setAmount(15000L);
 		auth.setOrderSource(OrderSourceType.ECOMMERCE);
 		CardTokenType token = new CardTokenType();
-		token.setLitleToken("1712999999999999");
-		token.setExpDate("1112");
+		token.setLitleToken("1112000100000085");
+		token.setExpDate("1121");
 		auth.setToken(token);
 		
 		AuthorizationResponse response = litle.authorize(auth);
