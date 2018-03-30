@@ -1,5 +1,9 @@
 = LitleOnline CHANGELOG
 
+==Version 9.14.0 (March 30, 2018)
+*Feature : Upgraded xml version
+*Feature : Added support for Visa card on file transactions
+
 ==Version 9.12.4 (March 16, 2017)
 *BugFix : Fixed neutering of xml request and responses
 
