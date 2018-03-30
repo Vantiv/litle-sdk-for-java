@@ -879,140 +879,140 @@ public class TestBatchFile {
         assertEquals(transactionCount, txns);
     }
     
-    @Test
-    public void testPFIFInstructionTxn() {
-        String requestFileName = "litleSdk-testBatchFile-PFIF.xml";
-        LitleBatchFileRequest request = new LitleBatchFileRequest(
-                requestFileName);
-
-        Properties configFromFile = request.getConfig();
-
-
-        // pre-assert the config file has required param values
-        assertEquals("prelive.litle.com",
-                configFromFile.getProperty("batchHost"));
-        assertEquals("15000", configFromFile.getProperty("batchPort"));
-
-        LitleBatchRequest batch = request.createBatch(configFromFile.getProperty("merchantId"));
-
-        // echeck
-        EcheckType echeck = new EcheckType();
-        echeck.setAccNum("1092969901");
-        echeck.setAccType(EcheckAccountTypeEnum.CORPORATE);
-        echeck.setRoutingNum("011075150");
-        echeck.setCheckNum("123455");
-
-        // billto address
-        Contact contact = new Contact();
-        contact.setName("Bob");
-        contact.setCity("Lowell");
-        contact.setState("MA");
-        contact.setEmail("Bob@litle.com");
-
-        SubmerchantCredit submerchantCredit = new SubmerchantCredit();
-        submerchantCredit.setReportGroup("Planets");
-        submerchantCredit.setFundingSubmerchantId("12345");
-        submerchantCredit.setSubmerchantName("submerchant co.");
-        submerchantCredit.setFundsTransferId("000");
-        submerchantCredit.setAmount(1000L);
-        submerchantCredit.setAccountInfo(echeck);
-        submerchantCredit.setId("ID");
-        batch.addTransaction(submerchantCredit);
-        
-        PayFacCredit payFacCredit = new PayFacCredit();
-        payFacCredit.setReportGroup("Planets");
-        payFacCredit.setFundingSubmerchantId("12346");
-        payFacCredit.setFundsTransferId("000");
-        payFacCredit.setAmount(1000L);
-        payFacCredit.setId("ID");
-        batch.addTransaction(payFacCredit);
-        
-        VendorCredit vendorCredit = new VendorCredit();
-        vendorCredit.setReportGroup("Planets");
-        vendorCredit.setFundingSubmerchantId("12347");
-        vendorCredit.setVendorName("vendor co.");
-        vendorCredit.setFundsTransferId("000");
-        vendorCredit.setAmount(1000L);
-        vendorCredit.setAccountInfo(echeck);
-        vendorCredit.setId("ID");
-        batch.addTransaction(vendorCredit);
-        
-        ReserveCredit reserveCredit = new ReserveCredit();
-        reserveCredit.setReportGroup("Planets");
-        reserveCredit.setFundingSubmerchantId("12348");
-        reserveCredit.setFundsTransferId("000");
-        reserveCredit.setAmount(1000L);
-        reserveCredit.setId("ID");
-        batch.addTransaction(reserveCredit);
-        
-        PhysicalCheckCredit physicalCheckCredit = new PhysicalCheckCredit();
-        physicalCheckCredit.setReportGroup("Planets");
-        physicalCheckCredit.setFundingSubmerchantId("12349");
-        physicalCheckCredit.setFundsTransferId("000");
-        physicalCheckCredit.setAmount(1000L);
-        physicalCheckCredit.setId("ID");
-        batch.addTransaction(physicalCheckCredit);
-        
-        SubmerchantDebit submerchantDebit = new SubmerchantDebit();
-        submerchantDebit.setReportGroup("Planets");
-        submerchantDebit.setFundingSubmerchantId("12345");
-        submerchantDebit.setSubmerchantName("submerchant co.");
-        submerchantDebit.setFundsTransferId("000");
-        submerchantDebit.setAmount(1000L);
-        submerchantDebit.setAccountInfo(echeck);
-        submerchantDebit.setId("ID");
-        batch.addTransaction(submerchantDebit);
-        
-        PayFacDebit payFacDebit = new PayFacDebit();
-        payFacDebit.setReportGroup("Planets");
-        payFacDebit.setFundingSubmerchantId("12346");
-        payFacDebit.setFundsTransferId("000");
-        payFacDebit.setAmount(1000L);
-        payFacDebit.setId("ID");
-        batch.addTransaction(payFacDebit);
-        
-        VendorDebit vendorDebit = new VendorDebit();
-        vendorDebit.setReportGroup("Planets");
-        vendorDebit.setFundingSubmerchantId("12347");
-        vendorDebit.setVendorName("vendor co.");
-        vendorDebit.setFundsTransferId("000");
-        vendorDebit.setAmount(1000L);
-        vendorDebit.setAccountInfo(echeck);
-        vendorDebit.setId("ID");
-        batch.addTransaction(vendorDebit);
-        
-        ReserveDebit reserveDebit = new ReserveDebit();
-        reserveDebit.setReportGroup("Planets");
-        reserveDebit.setFundingSubmerchantId("12348");
-        reserveDebit.setFundsTransferId("000");
-        reserveDebit.setAmount(1000L);
-        reserveDebit.setId("ID");
-        batch.addTransaction(reserveDebit);
-        
-        PhysicalCheckDebit physicalCheckDebit = new PhysicalCheckDebit();
-        physicalCheckDebit.setReportGroup("Planets");
-        physicalCheckDebit.setFundingSubmerchantId("12349");
-        physicalCheckDebit.setFundsTransferId("000");
-        physicalCheckDebit.setAmount(1000L);
-        physicalCheckDebit.setId("ID");
-        batch.addTransaction(physicalCheckDebit);
-
-        int transactionCount = batch.getNumberOfTransactions();
-
-        LitleBatchFileResponse fileResponse = request.sendToLitle();
-        LitleBatchResponse batchResponse = fileResponse
-                .getNextLitleBatchResponse();
-        int txns = 0;
-
-        ResponseValidatorProcessor processor = new ResponseValidatorProcessor();
-
-        while (batchResponse.processNextTransaction(processor)) {
-            txns++;
-        }
-
-        assertEquals(transactionCount, txns);
-        assertEquals(transactionCount, processor.responseCount);
-    }
+//    @Test
+//    public void testPFIFInstructionTxn() {
+//        String requestFileName = "litleSdk-testBatchFile-PFIF.xml";
+//        LitleBatchFileRequest request = new LitleBatchFileRequest(
+//                requestFileName);
+//
+//        Properties configFromFile = request.getConfig();
+//
+//
+//        // pre-assert the config file has required param values
+//        assertEquals("prelive.litle.com",
+//                configFromFile.getProperty("batchHost"));
+//        assertEquals("15000", configFromFile.getProperty("batchPort"));
+//
+//        LitleBatchRequest batch = request.createBatch(configFromFile.getProperty("merchantId"));
+//
+//        // echeck
+//        EcheckType echeck = new EcheckType();
+//        echeck.setAccNum("1092969901");
+//        echeck.setAccType(EcheckAccountTypeEnum.CORPORATE);
+//        echeck.setRoutingNum("011075150");
+//        echeck.setCheckNum("123455");
+//
+//        // billto address
+//        Contact contact = new Contact();
+//        contact.setName("Bob");
+//        contact.setCity("Lowell");
+//        contact.setState("MA");
+//        contact.setEmail("Bob@litle.com");
+//
+//        SubmerchantCredit submerchantCredit = new SubmerchantCredit();
+//        submerchantCredit.setReportGroup("Planets");
+//        submerchantCredit.setFundingSubmerchantId("12345");
+//        submerchantCredit.setSubmerchantName("submerchant co.");
+//        submerchantCredit.setFundsTransferId("000");
+//        submerchantCredit.setAmount(1000L);
+//        submerchantCredit.setAccountInfo(echeck);
+//        submerchantCredit.setId("ID");
+//        batch.addTransaction(submerchantCredit);
+//
+//        PayFacCredit payFacCredit = new PayFacCredit();
+//        payFacCredit.setReportGroup("Planets");
+//        payFacCredit.setFundingSubmerchantId("12346");
+//        payFacCredit.setFundsTransferId("000");
+//        payFacCredit.setAmount(1000L);
+//        payFacCredit.setId("ID");
+//        batch.addTransaction(payFacCredit);
+//
+//        VendorCredit vendorCredit = new VendorCredit();
+//        vendorCredit.setReportGroup("Planets");
+//        vendorCredit.setFundingSubmerchantId("12347");
+//        vendorCredit.setVendorName("vendor co.");
+//        vendorCredit.setFundsTransferId("000");
+//        vendorCredit.setAmount(1000L);
+//        vendorCredit.setAccountInfo(echeck);
+//        vendorCredit.setId("ID");
+//        batch.addTransaction(vendorCredit);
+//
+//        ReserveCredit reserveCredit = new ReserveCredit();
+//        reserveCredit.setReportGroup("Planets");
+//        reserveCredit.setFundingSubmerchantId("12348");
+//        reserveCredit.setFundsTransferId("000");
+//        reserveCredit.setAmount(1000L);
+//        reserveCredit.setId("ID");
+//        batch.addTransaction(reserveCredit);
+//
+//        PhysicalCheckCredit physicalCheckCredit = new PhysicalCheckCredit();
+//        physicalCheckCredit.setReportGroup("Planets");
+//        physicalCheckCredit.setFundingSubmerchantId("12349");
+//        physicalCheckCredit.setFundsTransferId("000");
+//        physicalCheckCredit.setAmount(1000L);
+//        physicalCheckCredit.setId("ID");
+//        batch.addTransaction(physicalCheckCredit);
+//
+//        SubmerchantDebit submerchantDebit = new SubmerchantDebit();
+//        submerchantDebit.setReportGroup("Planets");
+//        submerchantDebit.setFundingSubmerchantId("12345");
+//        submerchantDebit.setSubmerchantName("submerchant co.");
+//        submerchantDebit.setFundsTransferId("000");
+//        submerchantDebit.setAmount(1000L);
+//        submerchantDebit.setAccountInfo(echeck);
+//        submerchantDebit.setId("ID");
+//        batch.addTransaction(submerchantDebit);
+//
+//        PayFacDebit payFacDebit = new PayFacDebit();
+//        payFacDebit.setReportGroup("Planets");
+//        payFacDebit.setFundingSubmerchantId("12346");
+//        payFacDebit.setFundsTransferId("000");
+//        payFacDebit.setAmount(1000L);
+//        payFacDebit.setId("ID");
+//        batch.addTransaction(payFacDebit);
+//
+//        VendorDebit vendorDebit = new VendorDebit();
+//        vendorDebit.setReportGroup("Planets");
+//        vendorDebit.setFundingSubmerchantId("12347");
+//        vendorDebit.setVendorName("vendor co.");
+//        vendorDebit.setFundsTransferId("000");
+//        vendorDebit.setAmount(1000L);
+//        vendorDebit.setAccountInfo(echeck);
+//        vendorDebit.setId("ID");
+//        batch.addTransaction(vendorDebit);
+//
+//        ReserveDebit reserveDebit = new ReserveDebit();
+//        reserveDebit.setReportGroup("Planets");
+//        reserveDebit.setFundingSubmerchantId("12348");
+//        reserveDebit.setFundsTransferId("000");
+//        reserveDebit.setAmount(1000L);
+//        reserveDebit.setId("ID");
+//        batch.addTransaction(reserveDebit);
+//
+//        PhysicalCheckDebit physicalCheckDebit = new PhysicalCheckDebit();
+//        physicalCheckDebit.setReportGroup("Planets");
+//        physicalCheckDebit.setFundingSubmerchantId("12349");
+//        physicalCheckDebit.setFundsTransferId("000");
+//        physicalCheckDebit.setAmount(1000L);
+//        physicalCheckDebit.setId("ID");
+//        batch.addTransaction(physicalCheckDebit);
+//
+//        int transactionCount = batch.getNumberOfTransactions();
+//
+//        LitleBatchFileResponse fileResponse = request.sendToLitle();
+//        LitleBatchResponse batchResponse = fileResponse
+//                .getNextLitleBatchResponse();
+//        int txns = 0;
+//
+//        ResponseValidatorProcessor processor = new ResponseValidatorProcessor();
+//
+//        while (batchResponse.processNextTransaction(processor)) {
+//            txns++;
+//        }
+//
+//        assertEquals(transactionCount, txns);
+//        assertEquals(transactionCount, processor.responseCount);
+//    }
 
     @Test
     public void testGiftCardTransactions() {
