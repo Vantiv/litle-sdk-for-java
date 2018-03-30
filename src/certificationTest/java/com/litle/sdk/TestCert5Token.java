@@ -1,6 +1,7 @@
 package com.litle.sdk;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.FileInputStream;
 import java.util.Properties;
@@ -33,8 +34,6 @@ public class TestCert5Token {
         FileInputStream fileInputStream = new FileInputStream((new Configuration()).location());
         config.load(fileInputStream);
         config.setProperty("url", "https://prelive.litle.com/vap/communicator/online");
-        config.setProperty("proxyHost", "");
-        config.setProperty("proxyPort", "");
         litle = new LitleOnline(config);
     }
 
@@ -46,15 +45,11 @@ public class TestCert5Token {
         request.setId("id");
 
         RegisterTokenResponse response = litle.registerToken(request);
-        // TODO Merchant is not authorized for tokens
-        // assertEquals(response.getMessage(), "445711", response.getBin());
-        // assertEquals(response.getMessage(), MethodOfPaymentTypeEnum.VI,
-        // response.getType());
-        // assertEquals(response.getMessage(), "801", response.getResponse());
-        // assertEquals(response.getMessage(), "1111222233330123",
-        // response.getLitleToken());
-        // assertEquals(response.getMessage(), "Account number was successfully
-        // registered", response.getMessage());
+         assertEquals(response.getMessage(), "445711", response.getBin());
+         assertEquals(response.getMessage(), MethodOfPaymentTypeEnum.VI, response.getType());
+        assertTrue(response.getMessage(), response.getLitleToken().endsWith("0123"));
+//        assertEquals(response.getMessage(), "801", response.getResponse());
+//         assertEquals(response.getMessage(), "Account number was successfully registered", response.getMessage());
     }
 
     @Test
@@ -65,10 +60,8 @@ public class TestCert5Token {
         request.setId("id");
 
         RegisterTokenResponse response = litle.registerToken(request);
-        // TODO Merchant is not authorized for tokens
-        // assertEquals(response.getMessage(), "820", response.getResponse());
-        // assertEquals(response.getMessage(), "Credit card number was invalid",
-        // response.getMessage());
+         assertEquals(response.getMessage(), "820", response.getResponse());
+         assertEquals(response.getMessage(), "Credit card number was invalid", response.getMessage());
     }
 
     @Test
@@ -79,15 +72,11 @@ public class TestCert5Token {
         request.setId("id");
 
         RegisterTokenResponse response = litle.registerToken(request);
-        // TODO Merchant is not authorized for tokens
-        // assertEquals(response.getMessage(), "445711", response.getBin());
-        // assertEquals(response.getMessage(), MethodOfPaymentTypeEnum.VI,
-        // response.getType());
-        // assertEquals(response.getMessage(), "802", response.getResponse());
-        // assertEquals(response.getMessage(), "1111222233330123",
-        // response.getLitleToken());
-        // assertEquals(response.getMessage(), "Account number was previously
-        // registered", response.getMessage());
+         assertEquals(response.getMessage(), "445711", response.getBin());
+         assertEquals(response.getMessage(), MethodOfPaymentTypeEnum.VI, response.getType());
+        assertTrue(response.getMessage(), response.getLitleToken().endsWith("0123"));
+        assertEquals(response.getMessage(), "802", response.getResponse());
+         assertEquals(response.getMessage(), "Account number was previously registered", response.getMessage());
     }
 
     @Test
@@ -96,21 +85,16 @@ public class TestCert5Token {
         request.setOrderId("53");
         EcheckForTokenType echeck = new EcheckForTokenType();
         echeck.setAccNum("1099999998");
-        echeck.setRoutingNum("114567895");
+        echeck.setRoutingNum("011100012");
         request.setEcheckForToken(echeck);
         request.setId("id");
 
         RegisterTokenResponse response = litle.registerToken(request);
-        // TODO Merchant is not authorized for tokens
-        // assertEquals(response.getMessage(), MethodOfPaymentTypeEnum.EC,
-        // response.getType());
-        // assertEquals(response.getMessage(), "998",
-        // response.getECheckAccountSuffix());
-        // assertEquals(response.getMessage(), "801", response.getResponse());
-        // assertEquals(response.getMessage(), "Account number was successfully
-        // registered", response.getMessage());
-        // assertEquals(response.getMessage(), "111922223333000998",
-        // response.getLitleToken());
+//         assertEquals(response.getMessage(), MethodOfPaymentTypeEnum.EC, response.getType());
+//         assertEquals(response.getMessage(), "998", response.getECheckAccountSuffix());
+//         assertEquals(response.getMessage(), "801", response.getResponse());
+//         assertEquals(response.getMessage(), "Account number was successfully registered", response.getMessage());
+//         assertEquals(response.getMessage(), "111922223333000998", response.getLitleToken());
     }
 
     @Test
@@ -145,16 +129,10 @@ public class TestCert5Token {
         AuthorizationResponse response = litle.authorize(auth);
         assertEquals(response.getMessage(), "000", response.getResponse());
         assertEquals(response.getMessage(), "Approved", response.getMessage());
-        // TODO no getTokenResponse
-        // assertEquals(response.getMessage(), "801",
-        // response.getTokenResponse().getTokenResponseCode());
-        // assertEquals(response.getMessage(), "Account number was successfully
-        // registered",
-        // response.getTokenResponse().getTokenMessage());
-        // assertEquals(response.getMessage(), MethodOfPaymentTypeEnum.MC,
-        // response.getTokenResponse().getType());
-        // assertEquals(response.getMessage(), "543510",
-        // response.getTokenResponse().getBin());
+        assertEquals(response.getMessage(), MethodOfPaymentTypeEnum.MC, response.getTokenResponse().getType());
+        assertEquals(response.getMessage(), "543510", response.getTokenResponse().getBin());
+//        assertEquals(response.getMessage(), "801", response.getTokenResponse().getTokenResponseCode());
+//        assertEquals(response.getMessage(), "Account number was successfully registered", response.getTokenResponse().getTokenMessage());
     }
 
     @Test
@@ -193,16 +171,10 @@ public class TestCert5Token {
         AuthorizationResponse response = litle.authorize(auth);
         assertEquals(response.getMessage(), "000", response.getResponse());
         assertEquals(response.getMessage(), "Approved", response.getMessage());
-        // TODO no getTokenResponse
-        // assertEquals(response.getMessage(), "802",
-        // response.getTokenResponse().getTokenResponseCode());
-        // assertEquals(response.getMessage(), "Account number was previously
-        // registered",
-        // response.getTokenResponse().getTokenMessage());
-        // assertEquals(response.getMessage(), MethodOfPaymentTypeEnum.MC,
-        // response.getTokenResponse().getType());
-        // assertEquals(response.getMessage(), "543510",
-        // response.getTokenResponse().getBin());
+         assertEquals(response.getMessage(), "802", response.getTokenResponse().getTokenResponseCode());
+         assertEquals(response.getMessage(), "Account number was previously registered", response.getTokenResponse().getTokenMessage());
+         assertEquals(response.getMessage(), MethodOfPaymentTypeEnum.MC, response.getTokenResponse().getType());
+         assertEquals(response.getMessage(), "543510", response.getTokenResponse().getBin());
     }
 
     @Test
@@ -212,16 +184,15 @@ public class TestCert5Token {
         auth.setAmount(15000L);
         auth.setOrderSource(OrderSourceType.ECOMMERCE);
         CardTokenType token = new CardTokenType();
-        token.setLitleToken("1712990000040196");
-        token.setExpDate("1112");
+        token.setLitleToken("1111000100092332");
+        token.setExpDate("1121");
         auth.setToken(token);
         auth.setId("id");
 
         AuthorizationResponse response = litle.authorize(auth);
-        // TODO Merchant is not authorized for tokens
-        // assertEquals(response.getMessage(), "822", response.getResponse());
-        // assertEquals(response.getMessage(), "Token was not found",
-        // response.getMessage());
+         assertEquals(response.getMessage(), "822", response.getResponse());
+         assertEquals(response.getMessage(), "Token was not found",
+         response.getMessage());
     }
 
     @Test
@@ -231,16 +202,15 @@ public class TestCert5Token {
         auth.setAmount(15000L);
         auth.setOrderSource(OrderSourceType.ECOMMERCE);
         CardTokenType token = new CardTokenType();
-        token.setLitleToken("1712999999999999");
-        token.setExpDate("1112");
+        token.setLitleToken("1112000100000085");
+        token.setExpDate("1121");
         auth.setToken(token);
         auth.setId("id");
 
         AuthorizationResponse response = litle.authorize(auth);
-        // TODO Merchant is not authorized for tokens
-        // assertEquals(response.getMessage(), "823", response.getResponse());
-        // assertEquals(response.getMessage(), "Token was invalid",
-        // response.getMessage());
+         assertEquals(response.getMessage(), "823", response.getResponse());
+         assertEquals(response.getMessage(), "Token was invalid",
+         response.getMessage());
     }
 
     @Test
@@ -261,16 +231,10 @@ public class TestCert5Token {
         sale.setId("id");
 
         EcheckSalesResponse response = litle.echeckSale(sale);
-        // TODO no tokenResponse
-        // assertEquals(response.getMessage(), "801",
-        // response.getTokenResponse().getTokenResponseCode());
-        // assertEquals(response.getMessage(), "Account number was successfully
-        // registered",
-        // response.getTokenResponse().getTokenMessage());
-        // assertEquals(response.getMessage(), MethodOfPaymentTypeEnum.EC,
-        // response.getTokenResponse().getType());
-        // assertEquals(response.getMessage(), "111922223333444003",
-        // response.getTokenResponse().getLitleToken());
+//         assertEquals(response.getMessage(), "801", response.getTokenResponse().getTokenResponseCode());
+//         assertEquals(response.getMessage(), "Account number was successfully registered", response.getTokenResponse().getTokenMessage());
+//         assertEquals(response.getMessage(), MethodOfPaymentTypeEnum.EC, response.getTokenResponse().getType());
+//         assertEquals(response.getMessage(), "111922223333444003", response.getTokenResponse().getLitleToken());
     }
 
     @Test
@@ -291,18 +255,11 @@ public class TestCert5Token {
         sale.setId("id");
 
         EcheckSalesResponse response = litle.echeckSale(sale);
-        // TODO no tokenResponse
-        // assertEquals(response.getMessage(), "801",
-        // response.getTokenResponse().getTokenResponseCode());
-        // assertEquals(response.getMessage(), "Account number was successfully
-        // registered",
-        // response.getTokenResponse().getTokenMessage());
-        // assertEquals(response.getMessage(), MethodOfPaymentTypeEnum.EC,
-        // response.getTokenResponse().getType());
-        // assertEquals(response.getMessage(), "999",
-        // response.getTokenResponse().getECheckAccountSuffix());
-        // assertEquals(response.getMessage(), "111922223333444999",
-        // response.getTokenResponse().getLitleToken());
+//         assertEquals(response.getMessage(), "801", response.getTokenResponse().getTokenResponseCode());
+//         assertEquals(response.getMessage(), "Account number was successfully registered", response.getTokenResponse().getTokenMessage());
+//         assertEquals(response.getMessage(), MethodOfPaymentTypeEnum.EC, response.getTokenResponse().getType());
+//         assertEquals(response.getMessage(), "999", response.getTokenResponse().getECheckAccountSuffix());
+//         assertEquals(response.getMessage(), "111922223333444999", response.getTokenResponse().getLitleToken());
     }
 
     @Test
@@ -323,18 +280,16 @@ public class TestCert5Token {
         sale.setId("id");
 
         EcheckSalesResponse response = litle.echeckSale(sale);
-        // TODO no tokenResponse
-        // assertEquals(response.getMessage(), "801",
-        // response.getTokenResponse().getTokenResponseCode());
-        // assertEquals(response.getMessage(), "Account number was successfully
-        // registered",
-        // response.getTokenResponse().getTokenMessage());
-        // assertEquals(response.getMessage(), MethodOfPaymentTypeEnum.EC,
-        // response.getTokenResponse().getType());
-        // assertEquals(response.getMessage(), "999",
-        // response.getTokenResponse().getECheckAccountSuffix());
-        // assertEquals(response.getMessage(), "111922223333555999",
-        // response.getTokenResponse().getLitleToken());
+//         assertEquals(response.getMessage(), "801",
+//         response.getTokenResponse().getTokenResponseCode());
+//         assertEquals(response.getMessage(), "Account number was successfully registered",
+//         response.getTokenResponse().getTokenMessage());
+//         assertEquals(response.getMessage(), MethodOfPaymentTypeEnum.EC,
+//         response.getTokenResponse().getType());
+//         assertEquals(response.getMessage(), "999",
+//         response.getTokenResponse().getECheckAccountSuffix());
+//         assertEquals(response.getMessage(), "111922223333555999",
+//         response.getTokenResponse().getLitleToken());
     }
 
 }

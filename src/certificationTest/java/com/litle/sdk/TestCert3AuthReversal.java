@@ -32,8 +32,6 @@ public class TestCert3AuthReversal {
         FileInputStream fileInputStream = new FileInputStream((new Configuration()).location());
         config.load(fileInputStream);
         config.setProperty("url", "https://prelive.litle.com/vap/communicator/online");
-        config.setProperty("proxyHost", "");
-        config.setProperty("proxyPort", "");
         litle = new LitleOnline(config);
 	}
 
@@ -105,7 +103,6 @@ public class TestCert3AuthReversal {
 		auth.setCard(card);
 		FraudCheckType fraud = new FraudCheckType();
 		fraud.setAuthenticationValue("BwABBJQ1AgAAAAAgJDUCAAAAAAA=");
-		//TODO 3-D Secure transaction not supported by merchant
 		//auth.setCardholderAuthentication(fraud);
 		auth.setId("id");
 
@@ -183,11 +180,10 @@ public class TestCert3AuthReversal {
 		auth.setId("id");
 
 		AuthorizationResponse authorizeResponse = litle.authorize(auth);
-		//TODO Processing Network Unavailable
-		//assertEquals(authorizeResponse.getMessage(), "000", authorizeResponse.getResponse());
-		//assertEquals(authorizeResponse.getMessage(), "Approved", authorizeResponse.getMessage());
-		//assertEquals(authorizeResponse.getMessage(), "44444 ", authorizeResponse.getAuthCode());
-		//assertEquals(authorizeResponse.getMessage(), "12", authorizeResponse.getFraudResult().getAvsResult());
+		assertEquals(authorizeResponse.getMessage(), "000", authorizeResponse.getResponse());
+		assertEquals(authorizeResponse.getMessage(), "Approved", authorizeResponse.getMessage());
+		assertEquals(authorizeResponse.getMessage(), "44444 ", authorizeResponse.getAuthCode());
+		assertEquals(authorizeResponse.getMessage(), "13", authorizeResponse.getFraudResult().getAvsResult());
 
 		Capture capture = new Capture();
 		capture.setLitleTxnId(authorizeResponse.getLitleTxnId());
@@ -220,9 +216,8 @@ public class TestCert3AuthReversal {
 		auth.setId("id");
 
 		AuthorizationResponse authorizeResponse = litle.authorize(auth);
-		//TODO Processing Network Unavailable
-		//assertEquals(authorizeResponse.getMessage(), "000", authorizeResponse.getResponse());
-		//assertEquals(authorizeResponse.getMessage(), "Approved", authorizeResponse.getMessage());
+		assertEquals(authorizeResponse.getMessage(), "000", authorizeResponse.getResponse());
+		assertEquals(authorizeResponse.getMessage(), "Approved", authorizeResponse.getMessage());
 
 		AuthReversal reversal = new AuthReversal();
 		reversal.setLitleTxnId(authorizeResponse.getLitleTxnId());

@@ -30,8 +30,6 @@ public class TestCert4Echeck {
         FileInputStream fileInputStream = new FileInputStream((new Configuration()).location());
         config.load(fileInputStream);
         config.setProperty("url", "https://prelive.litle.com/vap/communicator/online");
-        config.setProperty("proxyHost", "");
-        config.setProperty("proxyPort", "");
         litle = new LitleOnline(config);
 	}
 
@@ -239,9 +237,8 @@ public class TestCert4Echeck {
 		credit.setId("id");
 
 		EcheckCreditResponse response = litle.echeckCredit(credit);
-		//TODO response is wrong.
-		//assertEquals(response.getMessage(),"301", response.getResponse());
-		//assertEquals(response.getMessage(),"Invalid Account Number", response.getMessage());
+		assertEquals(response.getMessage(),"301", response.getResponse());
+		assertEquals(response.getMessage(),"Invalid Account Number", response.getMessage());
 	}
 
 	@Test
