@@ -35,6 +35,8 @@ public class TestCert1Base {
 		FileInputStream fileInputStream = new FileInputStream((new Configuration()).location());
 		config.load(fileInputStream);
 		config.setProperty("url", "https://prelive.litle.com/vap/communicator/online");
+		config.setProperty("proxyHost", "");
+		config.setProperty("proxyPort", "");
 		litle = new LitleOnline(config);
 	}
 	
