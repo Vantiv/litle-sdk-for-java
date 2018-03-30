@@ -7,7 +7,7 @@ public class VoidExample {
         com.litle.sdk.generate.Void theVoid = new com.litle.sdk.generate.Void();
         theVoid.setId("id");
         //litleTxnId contains the Litle Transaction Id returned on the deposit
-        theVoid.setLitleTxnId(100000000000000011L);
+        theVoid.setLitleTxnId(100000000000000001L);
         VoidResponse response = new LitleOnline().dovoid(theVoid);
         //Display Results
         System.out.println("Response: " + response.getResponse());
