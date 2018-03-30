@@ -29,7 +29,7 @@ public class TestCert4Echeck {
 		Properties config = new Properties();
 		FileInputStream fileInputStream = new FileInputStream((new Configuration()).location());
 		config.load(fileInputStream);
-		config.setProperty("url", "https://payments.vantivprelive.com/vap/communicator/online");
+		config.setProperty("url", "https://prelive.litle.com/vap/communicator/online");
 		litle = new LitleOnline(config);
 	}
 	
@@ -100,7 +100,7 @@ public class TestCert4Echeck {
 		
 		EcheckVerificationResponse response = litle.echeckVerification(verification);
 		assertEquals(response.getMessage(),"950", response.getResponse());
-		assertEquals(response.getMessage(),"Declined - Negative Information on File", response.getMessage());
+		assertEquals(response.getMessage(),"Decline - Negative Information on File", response.getMessage());
 	}
 	
 	@Test
@@ -237,8 +237,8 @@ public class TestCert4Echeck {
 		credit.setId("id");
 		
 		EcheckCreditResponse response = litle.echeckCredit(credit);
-		assertEquals(response.getMessage(),"001", response.getResponse());
-		assertEquals(response.getMessage(),"Transaction Received", response.getMessage());
+		assertEquals(response.getMessage(),"301", response.getResponse());
+		assertEquals(response.getMessage(),"Invalid Account Number", response.getMessage());
 	}
 	
 	@Test

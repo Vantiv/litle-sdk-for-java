@@ -31,7 +31,7 @@ public class TestCert3AuthReversal {
 		Properties config = new Properties();
 		FileInputStream fileInputStream = new FileInputStream((new Configuration()).location());
 		config.load(fileInputStream);
-		config.setProperty("url", "https://payments.vantivprelive.com/vap/communicator/online");
+		config.setProperty("url", "https://prelive.litle.com/vap/communicator/online");
 		litle = new LitleOnline(config);
 	}
 	
@@ -109,7 +109,7 @@ public class TestCert3AuthReversal {
 		AuthorizationResponse authorizeResponse = litle.authorize(auth);
 		assertEquals(authorizeResponse.getMessage(), "000", authorizeResponse.getResponse());
 		assertEquals(authorizeResponse.getMessage(), "Approved", authorizeResponse.getMessage());
-		assertEquals(authorizeResponse.getMessage(), "22222", authorizeResponse.getAuthCode());
+		assertEquals(authorizeResponse.getMessage(), "22222 ", authorizeResponse.getAuthCode());
 		assertEquals(authorizeResponse.getMessage(), "10", authorizeResponse.getFraudResult().getAvsResult());
 		assertEquals(authorizeResponse.getMessage(), "M", authorizeResponse.getFraudResult().getCardValidationResult());
 		
@@ -146,7 +146,7 @@ public class TestCert3AuthReversal {
 		AuthorizationResponse authorizeResponse = litle.authorize(auth);
 		assertEquals(authorizeResponse.getMessage(), "000", authorizeResponse.getResponse());
 		assertEquals(authorizeResponse.getMessage(), "Approved", authorizeResponse.getMessage());
-		assertEquals(authorizeResponse.getMessage(), "33333", authorizeResponse.getAuthCode());
+		assertEquals(authorizeResponse.getMessage(), "33333 ", authorizeResponse.getAuthCode());
 		assertEquals(authorizeResponse.getMessage(), "10", authorizeResponse.getFraudResult().getAvsResult());
 		assertEquals(authorizeResponse.getMessage(), "M", authorizeResponse.getFraudResult().getCardValidationResult());
 		
@@ -182,8 +182,8 @@ public class TestCert3AuthReversal {
 		AuthorizationResponse authorizeResponse = litle.authorize(auth);
 		assertEquals(authorizeResponse.getMessage(), "000", authorizeResponse.getResponse());
 		assertEquals(authorizeResponse.getMessage(), "Approved", authorizeResponse.getMessage());
-		assertEquals(authorizeResponse.getMessage(), "44444", authorizeResponse.getAuthCode());
-		assertEquals(authorizeResponse.getMessage(), "12", authorizeResponse.getFraudResult().getAvsResult());
+		assertEquals(authorizeResponse.getMessage(), "44444 ", authorizeResponse.getAuthCode());
+		assertEquals(authorizeResponse.getMessage(), "13", authorizeResponse.getFraudResult().getAvsResult());
 		
 		Capture capture = new Capture();
 		capture.setLitleTxnId(authorizeResponse.getLitleTxnId());
