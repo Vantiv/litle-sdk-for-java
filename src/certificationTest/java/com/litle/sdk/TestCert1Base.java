@@ -6,24 +6,9 @@ import static org.junit.Assert.assertEquals;
 import java.io.FileInputStream;
 import java.util.Properties;
 
+import com.litle.sdk.generate.*;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import com.litle.sdk.generate.Authorization;
-import com.litle.sdk.generate.AuthorizationResponse;
-import com.litle.sdk.generate.Capture;
-import com.litle.sdk.generate.CaptureResponse;
-import com.litle.sdk.generate.CardType;
-import com.litle.sdk.generate.Contact;
-import com.litle.sdk.generate.CountryTypeEnum;
-import com.litle.sdk.generate.Credit;
-import com.litle.sdk.generate.CreditResponse;
-import com.litle.sdk.generate.FraudCheckType;
-import com.litle.sdk.generate.MethodOfPaymentTypeEnum;
-import com.litle.sdk.generate.OrderSourceType;
-import com.litle.sdk.generate.Sale;
-import com.litle.sdk.generate.SaleResponse;
-import com.litle.sdk.generate.VoidResponse;
 
 public class TestCert1Base {
 
@@ -1087,6 +1072,132 @@ public class TestCert1Base {
 	}
 
 
+	@Test
+	public void testp1_idealSale() throws Exception {
+		Sale sale = new Sale();
+		sale.setOrderId("p1_idealSale");
+		sale.setAmount(10011L);
+		sale.setOrderSource(OrderSourceType.ECOMMERCE);
+		Contact contact = new Contact();
+		contact.setName("David Berman");
+		contact.setCountry(CountryTypeEnum.NL);
+		sale.setBillToAddress(contact);
+		sale.setId("id");
+
+		IdealType ideal = new IdealType();
+		sale.setIdeal(ideal);
+
+		SaleResponse response = litle.sale(sale);
+//		assertEquals(response.getMessage(), "000",response.getResponse());
+//		assertEquals(response.getMessage(), "Approved", response.getMessage());
+//		assertEquals(response.getMessage(), "Cert bank page", response.getGiropayResponse().getRedirectUrl());
+//		assertEquals(response.getMessage(), "Dynamically Generated", response.getGiropayResponse().getRedirectToken());
+
+	}
+
+	@Test
+	public void testn10_idealSale() throws Exception {
+		Sale sale = new Sale();
+		sale.setOrderId("n10_idealSale");
+		sale.setAmount(20100L);
+		sale.setOrderSource(OrderSourceType.ECOMMERCE);
+		Contact contact = new Contact();
+		contact.setName("David Berman");
+		contact.setCountry(CountryTypeEnum.US);
+		sale.setBillToAddress(contact);
+		sale.setId("id");
+
+		IdealType ideal = new IdealType();
+		sale.setIdeal(ideal);
+
+		SaleResponse response = litle.sale(sale);
+		assertEquals(response.getMessage(), "917",response.getResponse());
+		assertEquals(response.getMessage(), "Invalid billing country code", response.getMessage());
+	}
+
+	@Test
+	public void testp1_giropaySale() throws Exception {
+		Sale sale = new Sale();
+		sale.setOrderId("p1_giropaySale");
+		sale.setAmount(10011L);
+		sale.setOrderSource(OrderSourceType.ECOMMERCE);
+		Contact contact = new Contact();
+		contact.setName("David Berman");
+		contact.setCountry(CountryTypeEnum.DE);
+		sale.setBillToAddress(contact);
+		sale.setId("id");
+
+		GiropayType giropay = new GiropayType();
+		sale.setGiropay(giropay);
+
+		SaleResponse response = litle.sale(sale);
+//		assertEquals(response.getMessage(), "000",response.getResponse());
+//		assertEquals(response.getMessage(), "Approved", response.getMessage());
+//		assertEquals(response.getMessage(), "Cert bank page", response.getGiropayResponse().getRedirectUrl());
+//		assertEquals(response.getMessage(), "Dynamically Generated", response.getGiropayResponse().getRedirectToken());
+	}
+
+	@Test
+	public void testn10_giropaySale() throws Exception {
+		Sale sale = new Sale();
+		sale.setOrderId("n10_giropaySale");
+		sale.setAmount(20100L);
+		sale.setOrderSource(OrderSourceType.ECOMMERCE);
+		Contact contact = new Contact();
+		contact.setName("David Berman");
+		contact.setCountry(CountryTypeEnum.US);
+		sale.setBillToAddress(contact);
+		sale.setId("id");
+
+		GiropayType giropay = new GiropayType();
+		sale.setGiropay(giropay);
+
+		SaleResponse response = litle.sale(sale);
+		assertEquals(response.getMessage(), "917",response.getResponse());
+		assertEquals(response.getMessage(), "Invalid billing country code", response.getMessage());
+	}
+
+	@Test
+	public void testp1_sofortSale() throws Exception {
+		Sale sale = new Sale();
+		sale.setOrderId("p1_sofortSale");
+		sale.setAmount(10011L);
+		sale.setOrderSource(OrderSourceType.ECOMMERCE);
+		Contact contact = new Contact();
+		contact.setName("David Berman");
+		contact.setCountry(CountryTypeEnum.NL);
+		sale.setBillToAddress(contact);
+		sale.setId("id");
+
+		SofortType sofort = new SofortType();
+		sale.setSofort(sofort);
+
+		SaleResponse response = litle.sale(sale);
+//		assertEquals(response.getMessage(), "000",response.getResponse());
+//		assertEquals(response.getMessage(), "Approved", response.getMessage());
+//		assertEquals(response.getMessage(), "Cert bank page", response.getGiropayResponse().getRedirectUrl());
+//		assertEquals(response.getMessage(), "Dynamically Generated", response.getGiropayResponse().getRedirectToken());
+	}
+
+	@Test
+	public void testn10_sofortSale() throws Exception {
+		Sale sale = new Sale();
+		sale.setOrderId("n10_sofortySale");
+		sale.setAmount(20100L);
+		sale.setOrderSource(OrderSourceType.ECOMMERCE);
+		Contact contact = new Contact();
+		contact.setName("David Berman");
+		contact.setCountry(CountryTypeEnum.US);
+		sale.setBillToAddress(contact);
+		sale.setId("id");
+
+		SofortType sofort = new SofortType();
+		sale.setSofort(sofort);
+
+		SaleResponse response = litle.sale(sale);
+		assertEquals(response.getMessage(), "917",response.getResponse());
+		assertEquals(response.getMessage(), "Invalid billing country code", response.getMessage());
+	}
 }
 
 
