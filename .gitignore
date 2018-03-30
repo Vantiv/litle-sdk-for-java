@@ -14,3 +14,4 @@ samples/token/src/main/main8.iml
 src/certificationTest/certificationTest.iml
 src/functionalTest/functionalTest.iml
 src/main/main1.iml
+*.iml
