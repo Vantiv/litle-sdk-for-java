@@ -21,7 +21,7 @@ public class SaleWithTokenExample {
         System.out.println("Response: " + response.getResponse());
         System.out.println("Message: " + response.getMessage());
         System.out.println("Litle Transaction ID: " + response.getLitleTxnId());
-        if(!response.getMessage().equals("Approved"))
+        if(!response.getMessage().equals("Transaction Received"))
         throw new RuntimeException(" The SaleWithTokenExample does not give the right response");
     }
 }
