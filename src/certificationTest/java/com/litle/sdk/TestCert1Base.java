@@ -410,8 +410,8 @@ public class TestCert1Base {
 		sale.setId("id");
 		
 		SaleResponse response = litle.sale(sale);
-		assertEquals(response.getMessage(), "000",response.getResponse());
-		assertEquals(response.getMessage(), "Approved",response.getMessage());
+		assertEquals(response.getMessage(), "001",response.getResponse());
+		assertEquals(response.getMessage(), "Transaction Received",response.getMessage());
 		assertEquals(response.getMessage(), "33333 ",response.getAuthCode());
 		assertEquals(response.getMessage(), "10",response.getFraudResult().getAvsResult());
 		assertEquals(response.getMessage(), "M",response.getFraudResult().getCardValidationResult());
@@ -645,8 +645,8 @@ public class TestCert1Base {
 		sale.setId("id");
 		
 		SaleResponse response = litle.sale(sale);
-		assertEquals(response.getMessage(), "000",response.getResponse());
-		assertEquals(response.getMessage(), "Approved",response.getMessage());
+		assertEquals(response.getMessage(), "001",response.getResponse());
+		assertEquals(response.getMessage(), "Transaction Received",response.getMessage());
 		assertEquals(response.getMessage(), "55555 ",response.getAuthCode());
 		assertEquals(response.getMessage(), "32",response.getFraudResult().getAvsResult());
 		assertEquals(response.getMessage(), "M",response.getFraudResult().getCardValidationResult());
