@@ -2,20 +2,9 @@ package com.litle.sdk;
 
 import static org.junit.Assert.assertEquals;
 
+import com.litle.sdk.generate.*;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import com.litle.sdk.generate.ApplepayHeaderType;
-import com.litle.sdk.generate.ApplepayType;
-import com.litle.sdk.generate.CardTokenType;
-import com.litle.sdk.generate.CardType;
-import com.litle.sdk.generate.MethodOfPaymentTypeEnum;
-import com.litle.sdk.generate.OrderSourceType;
-import com.litle.sdk.generate.PayPal;
-import com.litle.sdk.generate.ProcessingTypeEnum;
-import com.litle.sdk.generate.Sale;
-import com.litle.sdk.generate.SaleResponse;
-import com.litle.sdk.generate.SepaDirectDebitType;
 
 public class TestSale {
 
@@ -166,6 +155,59 @@ public class TestSale {
 
 		sale.setProcessingType(ProcessingTypeEnum.CARDHOLDER_INITIATED_COF);
 		response = litle.sale(sale);
+		assertEquals("Approved", response.getMessage());
+	}
+
+	@Test
+	public void testSaleWithIdeal() throws Exception{
+		Sale sale = new Sale();
+		sale.setAmount(106L);
+		sale.setLitleTxnId(123456L);
+		sale.setOrderId("12344");
+		sale.setOrderSource(OrderSourceType.ECOMMERCE);
+
+		IdealType ideal = new IdealType();
+		ideal.setPreferredLanguage(CountryTypeEnum.AD);
+		sale.setIdeal(ideal);
+
+		SaleResponse response = litle.sale(sale);
+
+		assertEquals("Approved", response.getMessage());
+		assertEquals("http://redirect.url.vantiv.com", response.getIdealResponse().getRedirectUrl());
+		assertEquals("jj2d1d372osmmt7tb8epm0a99q", response.getIdealResponse().getRedirectToken());
+	}
+
+	@Test
+	public void testSaleWithGiropay() throws Exception{
+		Sale sale = new Sale();
+		sale.setAmount(106L);
+		sale.setLitleTxnId(123456L);
+		sale.setOrderId("12344");
+		sale.setOrderSource(OrderSourceType.ECOMMERCE);
+
+		GiropayType giropay = new GiropayType();
+		giropay.setPreferredLanguage(CountryTypeEnum.US);
+		sale.setGiropay(giropay);
+
+		SaleResponse response = litle.sale(sale);
+
+		assertEquals("Approved", response.getMessage());
+	}
+
+	@Test
+	public void testSaleWithSofort() throws Exception{
+		Sale sale = new Sale();
+		sale.setAmount(106L);
+		sale.setLitleTxnId(123456L);
+		sale.setOrderId("12344");
+		sale.setOrderSource(OrderSourceType.ECOMMERCE);
+
+		SofortType sofort = new SofortType();
+		sofort.setPreferredLanguage(CountryTypeEnum.US);
+		sale.setSofort(sofort);
+
+		SaleResponse response = litle.sale(sale);
+
 		assertEquals("Approved", response.getMessage());
 	}
 }
