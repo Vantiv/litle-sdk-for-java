@@ -248,6 +248,34 @@ public class TestAuth {
 	}
 
 	@Test
+	public void simpleAuthWithProcessngTypeCOF() throws Exception {
+		Authorization authorization = new Authorization();
+		authorization.setReportGroup("Planets");
+		authorization.setOrderId("12344");
+		authorization.setAmount(106L);
+		authorization.setOrderSource(OrderSourceType.ECOMMERCE);
+		authorization.setId("id");
+		authorization.setProcessingType(ProcessingTypeEnum.INITIAL_COF);
+		CardType card = new CardType();
+		card.setType(MethodOfPaymentTypeEnum.VI);
+		card.setNumber("4100000000000000");
+		card.setExpDate("1210");
+		authorization.setCard(card);
+
+		AuthorizationResponse response = litle.authorize(authorization);
+		assertEquals(response.getMessage(), "000",response.getResponse());
+
+		authorization.setProcessingType(ProcessingTypeEnum.MERCHANT_INITIATED_COF);
+		response = litle.authorize(authorization);
+		assertEquals(response.getMessage(), "000",response.getResponse());
+
+		authorization.setProcessingType(ProcessingTypeEnum.CARDHOLDER_INITIATED_COF);
+		response = litle.authorize(authorization);
+		assertEquals(response.getMessage(), "000",response.getResponse());
+
+	}
+
+	@Test
 	public void testAuthWithWallet() throws Exception {
 		Authorization authorization = new Authorization();
 	    authorization.setId("12345");
