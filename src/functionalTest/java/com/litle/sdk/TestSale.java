@@ -165,6 +165,7 @@ public class TestSale {
 		sale.setLitleTxnId(123456L);
 		sale.setOrderId("12344");
 		sale.setOrderSource(OrderSourceType.ECOMMERCE);
+		sale.setId("id");
 
 		IdealType ideal = new IdealType();
 		ideal.setPreferredLanguage(CountryTypeEnum.AD);
@@ -184,6 +185,7 @@ public class TestSale {
 		sale.setLitleTxnId(123456L);
 		sale.setOrderId("12344");
 		sale.setOrderSource(OrderSourceType.ECOMMERCE);
+		sale.setId("id");
 
 		GiropayType giropay = new GiropayType();
 		giropay.setPreferredLanguage(CountryTypeEnum.US);
@@ -201,6 +203,7 @@ public class TestSale {
 		sale.setLitleTxnId(123456L);
 		sale.setOrderId("12344");
 		sale.setOrderSource(OrderSourceType.ECOMMERCE);
+		sale.setId("id");
 
 		SofortType sofort = new SofortType();
 		sofort.setPreferredLanguage(CountryTypeEnum.US);
