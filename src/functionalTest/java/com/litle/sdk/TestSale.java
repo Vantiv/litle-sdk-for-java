@@ -110,7 +110,7 @@ public class TestSale {
 		sale.setOriginalNetworkTransactionId("1029384756");
 		sale.setOriginalTransactionAmount(4242l);
 		SaleResponse response = litle.sale(sale);
-		assertEquals("Approved", response.getMessage());
+		assertEquals("Transaction Received", response.getMessage());
 	}
 
 	@Test
@@ -128,14 +128,14 @@ public class TestSale {
 		sale.setId("id");
 		sale.setProcessingType(ProcessingTypeEnum.INITIAL_COF);
 		SaleResponse response = litle.sale(sale);
-		assertEquals("Approved", response.getMessage());
+		assertEquals("Transaction Received", response.getMessage());
 
 		sale.setProcessingType(ProcessingTypeEnum.MERCHANT_INITIATED_COF);
 		response = litle.sale(sale);
-		assertEquals("Approved", response.getMessage());
+		assertEquals("Transaction Received", response.getMessage());
 
 		sale.setProcessingType(ProcessingTypeEnum.CARDHOLDER_INITIATED_COF);
 		response = litle.sale(sale);
-		assertEquals("Approved", response.getMessage());
+		assertEquals("Transaction Received", response.getMessage());
 	}
 }
