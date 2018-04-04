@@ -94,6 +94,26 @@ public class TestSale {
 	}
 
 	@Test
+	public void testSaleWithProcessingTypeAndOrigTxnIdAndAmount() throws Exception{
+		Sale sale = new Sale();
+		sale.setAmount(106L);
+		sale.setLitleTxnId(123456L);
+		sale.setOrderId("12344");
+		sale.setOrderSource(OrderSourceType.ECOMMERCE);
+		CardType card = new CardType();
+		card.setType(MethodOfPaymentTypeEnum.VI);
+		card.setNumber("4100000000000000");
+		card.setExpDate("1210");
+		sale.setCard(card);
+		sale.setId("id");
+		sale.setProcessingType(ProcessingTypeEnum.INITIAL_INSTALLMENT);
+		sale.setOriginalNetworkTransactionId("1029384756");
+		sale.setOriginalTransactionAmount(4242l);
+		SaleResponse response = litle.sale(sale);
+		assertEquals("Approved", response.getMessage());
+	}
+
+	@Test
 	public void testSaleWithProcessingTypeCOF() throws Exception{
 		Sale sale = new Sale();
 		sale.setAmount(106L);
@@ -108,42 +128,14 @@ public class TestSale {
 		sale.setId("id");
 		sale.setProcessingType(ProcessingTypeEnum.INITIAL_COF);
 		SaleResponse response = litle.sale(sale);
-		assertEquals("Transaction Received", response.getMessage());
-	}
+		assertEquals("Approved", response.getMessage());
 
-	@Test
-	public void testSaleWithProcessingTypeCOF1() throws Exception{
-		Sale sale = new Sale();
-		sale.setAmount(106L);
-		sale.setLitleTxnId(123456L);
-		sale.setOrderId("12344");
-		sale.setOrderSource(OrderSourceType.ECOMMERCE);
-		CardType card = new CardType();
-		card.setType(MethodOfPaymentTypeEnum.VI);
-		card.setNumber("4100000000000000");
-		card.setExpDate("1210");
-		sale.setCard(card);
-		sale.setId("id");
 		sale.setProcessingType(ProcessingTypeEnum.MERCHANT_INITIATED_COF);
-		SaleResponse response = litle.sale(sale);
-		assertEquals("Transaction Received", response.getMessage());
-	}
+		response = litle.sale(sale);
+		assertEquals("Approved", response.getMessage());
 
-	@Test
-	public void testSaleWithProcessingTypeCOF2() throws Exception{
-		Sale sale = new Sale();
-		sale.setAmount(106L);
-		sale.setLitleTxnId(123456L);
-		sale.setOrderId("12344");
-		sale.setOrderSource(OrderSourceType.ECOMMERCE);
-		CardType card = new CardType();
-		card.setType(MethodOfPaymentTypeEnum.VI);
-		card.setNumber("4100000000000000");
-		card.setExpDate("1210");
-		sale.setCard(card);
-		sale.setId("id");
 		sale.setProcessingType(ProcessingTypeEnum.CARDHOLDER_INITIATED_COF);
-		SaleResponse response = litle.sale(sale);
-		assertEquals("Transaction Received", response.getMessage());
+		response = litle.sale(sale);
+		assertEquals("Approved", response.getMessage());
 	}
 }

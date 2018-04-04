@@ -4,26 +4,9 @@ import static org.junit.Assert.*;
 
 import java.math.BigInteger;
 
+import com.litle.sdk.generate.*;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import com.litle.sdk.generate.ApplepayHeaderType;
-import com.litle.sdk.generate.ApplepayType;
-import com.litle.sdk.generate.Authorization;
-import com.litle.sdk.generate.AuthorizationResponse;
-import com.litle.sdk.generate.CardType;
-import com.litle.sdk.generate.Contact;
-import com.litle.sdk.generate.DetailTax;
-import com.litle.sdk.generate.EnhancedData;
-import com.litle.sdk.generate.MethodOfPaymentTypeEnum;
-import com.litle.sdk.generate.NetworkFieldNameEnumType;
-import com.litle.sdk.generate.NetworkResponse;
-import com.litle.sdk.generate.OrderSourceType;
-import com.litle.sdk.generate.PayPal;
-import com.litle.sdk.generate.Pos;
-import com.litle.sdk.generate.PosCapabilityTypeEnum;
-import com.litle.sdk.generate.PosCardholderIdTypeEnum;
-import com.litle.sdk.generate.PosEntryModeTypeEnum;
 
 public class TestAuth {
 
@@ -209,4 +192,51 @@ public class TestAuth {
         assertEquals(NetworkFieldNameEnumType.TRANSACTION_AMOUNT, net.getNetworkFields().get(0).getFieldName());
         assertTrue(new BigInteger("4").equals(net.getNetworkFields().get(0).getFieldNumber()));
     }
+
+	@Test
+	public void simpleAuthWithProcessngType() throws Exception {
+		Authorization authorization = new Authorization();
+		authorization.setReportGroup("Planets");
+		authorization.setOrderId("12344");
+		authorization.setAmount(106L);
+		authorization.setOrderSource(OrderSourceType.ECOMMERCE);
+		authorization.setId("id");
+		authorization.setProcessingType(ProcessingTypeEnum.ACCOUNT_FUNDING);
+		CardType card = new CardType();
+		card.setType(MethodOfPaymentTypeEnum.VI);
+		card.setNumber("4100000000000000");
+		card.setExpDate("1210");
+		authorization.setCard(card);
+
+		AuthorizationResponse response = litle.authorize(authorization);
+		assertEquals(response.getMessage(), "000",response.getResponse());
+	}
+
+	@Test
+	public void simpleAuthWithProcessngTypeCOF() throws Exception {
+		Authorization authorization = new Authorization();
+		authorization.setReportGroup("Planets");
+		authorization.setOrderId("12344");
+		authorization.setAmount(106L);
+		authorization.setOrderSource(OrderSourceType.ECOMMERCE);
+		authorization.setId("id");
+		authorization.setProcessingType(ProcessingTypeEnum.INITIAL_COF);
+		CardType card = new CardType();
+		card.setType(MethodOfPaymentTypeEnum.VI);
+		card.setNumber("4100000000000000");
+		card.setExpDate("1210");
+		authorization.setCard(card);
+
+		AuthorizationResponse response = litle.authorize(authorization);
+		assertEquals(response.getMessage(), "000",response.getResponse());
+
+		authorization.setProcessingType(ProcessingTypeEnum.MERCHANT_INITIATED_COF);
+		response = litle.authorize(authorization);
+		assertEquals(response.getMessage(), "000",response.getResponse());
+
+		authorization.setProcessingType(ProcessingTypeEnum.CARDHOLDER_INITIATED_COF);
+		response = litle.authorize(authorization);
+		assertEquals(response.getMessage(), "000",response.getResponse());
+
+	}
 }
