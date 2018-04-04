@@ -179,10 +179,11 @@ public class TestCaptureGivenAuth {
 	}
 
 	@Test
-	public void testCaptureGivenAuthWithProcessingTypeCardOnFile() throws Exception{
+	public void testCaptureGivenAuthWithProcessingTypeCOF() throws Exception{
 		CaptureGivenAuth capturegivenauth = new CaptureGivenAuth();
 		capturegivenauth.setAmount(106L);
 		capturegivenauth.setOrderId("12344");
+		capturegivenauth.setProcessingType(ProcessingTypeEnum.INITIAL_COF);
 		AuthInformation authInfo = new AuthInformation();
 		Calendar authDate = Calendar.getInstance();
 		authDate.set(2002, Calendar.OCTOBER, 9);
@@ -191,13 +192,21 @@ public class TestCaptureGivenAuth {
 		authInfo.setAuthAmount(12345L);
 		capturegivenauth.setAuthInformation(authInfo);
 		capturegivenauth.setOrderSource(OrderSourceType.ECOMMERCE);
-		capturegivenauth.setProcessingType(ProcessingTypeEnum.INITIAL_COF);
 		CardType card = new CardType();
 		card.setType(MethodOfPaymentTypeEnum.VI);
 		card.setNumber("4100000000000000");
 		card.setExpDate("1210");
 		capturegivenauth.setCard(card);
+		capturegivenauth.setId("id");
 		CaptureGivenAuthResponse response = litle.captureGivenAuth(capturegivenauth);
+		assertEquals("Approved", response.getMessage());
+
+		capturegivenauth.setProcessingType(ProcessingTypeEnum.MERCHANT_INITIATED_COF);
+		response = litle.captureGivenAuth(capturegivenauth);
+		assertEquals("Approved", response.getMessage());
+
+		capturegivenauth.setProcessingType(ProcessingTypeEnum.CARDHOLDER_INITIATED_COF);
+		response = litle.captureGivenAuth(capturegivenauth);
 		assertEquals("Approved", response.getMessage());
 	}
 	
