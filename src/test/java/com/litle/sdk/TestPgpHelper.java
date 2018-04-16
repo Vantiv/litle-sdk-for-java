@@ -33,11 +33,11 @@ public class TestPgpHelper {
         BufferedWriter out = new BufferedWriter(new FileWriter(requestFilename));
         out.write(input);
         encryptedRequestFilename = direct + File.separator + "test.asc";
-        publicKey = System.getenv("testPublicKeyID");
         responseFilename = direct + File.separator + "test.asc";
         decryptedResponseFilename = direct + File.separator + "test2.txt";
         Properties properties = new Properties();
         properties.load(new FileInputStream(new Configuration().location()));
+        publicKey = properties.getProperty("testPublicKeyID");
         passphrase = properties.getProperty("gpgPassphrase");
     }
 

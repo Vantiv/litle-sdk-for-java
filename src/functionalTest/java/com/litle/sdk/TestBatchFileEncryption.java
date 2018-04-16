@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
@@ -17,13 +18,14 @@ public class TestBatchFileEncryption {
     private Properties config;
 
     @Before
-    public void setup() {
-        String encUsername = System.getenv("encUsername");
-        String encPassword = System.getenv("encPassword");
-        String encSftpUsername = System.getenv("encSftpUsername");
-        String encSftpPassword = System.getenv("encSftpPassword");
-        String encMerchantId = System.getenv("encMerchantId");
-
+    public void setup() throws IOException {
+        Properties properties = new Properties();
+        properties.load(new FileInputStream(new Configuration().location()));
+        String encUsername = properties.getProperty("encUsername");
+        String encPassword = properties.getProperty("encPassword");
+        String encSftpUsername = properties.getProperty("encSftpUsername");
+        String encSftpPassword = properties.getProperty("encSftpPassword");
+        String encMerchantId = properties.getProperty("encMerchantId");
         config = new Properties();
         config.setProperty("username", encUsername);
         config.setProperty("password", encPassword);
