@@ -42,6 +42,7 @@ import com.jcraft.jsch.SftpException;
 public class Communication {
 
     private static final String[] SUPPORTED_PROTOCOLS = new String[]{"TLSv1.2", "TLSv1.1"};
+    public static final String CONTENT_TYPE_TEXT_XML_UTF8 = "text/xml; charset=UTF-8";
     private String protocol;
     private CloseableHttpClient httpClient;
     private StreamData streamData;
@@ -121,7 +122,7 @@ public class Communication {
         }
 
         HttpPost post = new HttpPost(configuration.getProperty("url"));
-        post.setHeader("Content-Type", "application/xml;charset=\"UTF-8\"");
+        post.setHeader("Content-Type", CONTENT_TYPE_TEXT_XML_UTF8);
         if(!httpKeepAlive) {
             post.setHeader("Connection", "close");
         }
