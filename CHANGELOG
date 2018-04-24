@@ -1,5 +1,6 @@
 = LitleOnline CHANGELOG
 
+==Version 11.4.1 (April 24, 2018)
 * BugFix: Set content type to text/xml; charset=UTF-8
 
 ==Version 11.4.0 (March 26, 2018)
