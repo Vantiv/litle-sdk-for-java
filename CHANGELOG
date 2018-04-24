@@ -1,5 +1,7 @@
 = LitleOnline CHANGELOG
 
+* BugFix: Set content-type to text/xml; charset=UTF-8
+
 == Version 8.31.0 (March 16, 2018)
 * Feature: Upgraded XML version to 8.31
 * Feature: Added support for Card on File transactions
