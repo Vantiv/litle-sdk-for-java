@@ -43,6 +43,7 @@ public class Communication {
 	private static Communication instance = null;
 
     private static final String[] SUPPORTED_PROTOCOLS = new String[] {"TLSv1.2", "TLSv1.1"};
+    public static final String CONTENT_TYPE_TEXT_XML_UTF8 = "text/xml; charset=UTF-8";
 
     private CloseableHttpClient httpclient;
     private StreamData streamData;
@@ -183,7 +184,7 @@ public class Communication {
         }
 
 		HttpPost post = new HttpPost(configuration.getProperty("url"));
-		post.setHeader("Content-Type", "text/xml");
+		post.setHeader("Content-Type", CONTENT_TYPE_TEXT_XML_UTF8);
         if (httpKeepAlive) {
             // we want to leave this connection open for reuse
             post.setHeader("Connection","keep-alive");

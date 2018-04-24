@@ -1,5 +1,7 @@
 = LitleOnline CHANGELOG
 
+* BugFix: Set content-type to text/xml; charset=UTF-8
+
 ==Version 10.8.0 (March 26, 2018)
 *Feature: Upgraded xml version to 10.8
 *Feature: Added support for Visa card on file transactions
