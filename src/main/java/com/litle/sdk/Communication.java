@@ -49,6 +49,7 @@ public class Communication {
 	private CloseableHttpClient httpClient;
 	private StreamData streamData;
 	private final int KEEP_ALIVE_DURATION = 8000;
+	public static final String CONTENT_TYPE_TEXT_XML_UTF8 = "text/xml; charset=UTF-8";
 
 	public Communication() {
 		try {
@@ -124,7 +125,7 @@ public class Communication {
 		}
 
 		HttpPost post = new HttpPost(configuration.getProperty("url"));
-		post.setHeader("Content-Type", "application/xml;charset=\"UTF-8\"");
+		post.setHeader("Content-Type", CONTENT_TYPE_TEXT_XML_UTF8);
 		if(!httpKeepAlive) {
 			post.setHeader("Connection", "close");
 		}
