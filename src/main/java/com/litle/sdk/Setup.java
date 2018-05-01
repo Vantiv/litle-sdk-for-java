@@ -143,7 +143,7 @@ public class Setup {
             lastUserInput = stdin.readLine();
             if("true".equals(lastUserInput) || "yes".equals(lastUserInput) || "y".equals(lastUserInput)) {
                 System.out.print("Please input path to Vantiv's public key (for encryption of batch requests) : ");
-                String publicKey = PgpHelper.importKey(stdin.readLine());
+                String publicKey = PgpHelper1.importKey(stdin.readLine());
                 config.put("vantivPublicKeyID", publicKey);
             }
             else{

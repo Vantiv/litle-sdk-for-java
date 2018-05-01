@@ -18,6 +18,7 @@ import javax.xml.bind.Marshaller;
 
 import com.litle.sdk.generate.Authentication;
 import com.litle.sdk.generate.LitleRequest;
+import org.bouncycastle.openpgp.PGPException;
 
 public class LitleBatchFileRequest{
 
@@ -226,7 +227,7 @@ public class LitleBatchFileRequest{
 					"batchTcpTimeout", "batchUseSSL",
 					"maxAllowedTransactionsPerFile", "maxTransactionsPerBatch",
 					"batchRequestFolder", "batchResponseFolder", "sftpUsername", "sftpPassword", "sftpTimeout",
-					"merchantId", "printxml", "useEncryption", "vantivPublicKeyID", "gpgPassphrase", "deleteBatchFiles"};
+					"merchantId", "printxml", "useEncryption", "vantivPublicKeyID", "privateKey", "gpgPassphrase", "deleteBatchFiles"};
 
 			for (String prop : allProperties) {
 				// if the value of a property is not set,
@@ -364,10 +365,16 @@ public class LitleBatchFileRequest{
         }
     }
 
-	private File encryptRequestFile(){
+	private File encryptRequestFile() {
 		String encRequestFilename = requestFile.getAbsolutePath() + ".encrypted";
 		String publicKey = properties.getProperty("vantivPublicKeyID");
-		PgpHelper.encrypt(requestFile.getAbsolutePath(), encRequestFilename, publicKey);
+		try {
+			PgpHelper.encrypt(requestFile.getAbsolutePath(), encRequestFilename, publicKey);
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (PGPException e) {
+			e.printStackTrace();
+		}
 		File encRequestFile = new File(encRequestFilename);
 		return encRequestFile;
 	}
@@ -420,7 +427,12 @@ public class LitleBatchFileRequest{
 	private void decryptResponseFile(){
 		String encResponseFilename = responseFile.getAbsolutePath() + ".encrypted";
 		String passwd = properties.getProperty("gpgPassphrase");
-		PgpHelper.decrypt(encResponseFilename, responseFile.getAbsolutePath(), passwd);
+		String privateKeyPath = properties.getProperty("privateKey");
+		try {
+			PgpHelper.decrypt(encResponseFilename, responseFile.getAbsolutePath(), privateKeyPath, passwd);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void checkDeleteBatchResponseFiles(File fileToBeDeleted){
