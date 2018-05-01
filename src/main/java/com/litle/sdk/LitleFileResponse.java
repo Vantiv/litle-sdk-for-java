@@ -2,6 +2,7 @@ package com.litle.sdk;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.StringReader;
 
 import javax.xml.bind.JAXBContext;
@@ -12,8 +13,8 @@ import com.litle.sdk.generate.LitleResponse;
 
 /**
  * Provides abstraction over Litle Requests containing  batch requests and Litle Requests containing RFR requests
- * @author ahammond
  *
+ * @author ahammond
  */
 
 abstract class LitleFileResponse {
@@ -24,12 +25,29 @@ abstract class LitleFileResponse {
     protected File xmlFile;
     ResponseFileParser responseFileParser;
 
-    public LitleFileResponse(File xmlFile) throws LitleBatchException{
+    public LitleFileResponse(File xmlFile) throws LitleBatchException {
         // convert from xml to objects
 
         try {
             this.xmlFile = xmlFile;
             responseFileParser = new ResponseFileParser(xmlFile);
+            String litleResponseXml = responseFileParser.getNextTag("litleResponse");
+
+            jc = JAXBContext.newInstance("com.litle.sdk.generate");
+            unmarshaller = jc.createUnmarshaller();
+            litleResponse = (LitleResponse) unmarshaller.unmarshal(new StringReader(litleResponseXml));
+        } catch (JAXBException e) {
+            throw new LitleBatchException("There was an exception while unmarshalling the response file. Check your JAXB dependencies.", e);
+        } catch (Exception e) {
+            throw new LitleBatchException("There was an exception while reading the Litle response file. The response file might not have been generated. Try re-sending the request file or contact us.", e);
+        }
+    }
+
+    public LitleFileResponse(InputStream xmlIs) throws LitleBatchException {
+        // convert from xml to objects
+
+        try {
+            responseFileParser = new ResponseFileParser(xmlIs);
             String litleResponseXml = responseFileParser.getNextTag("litleResponse");
 
             jc = JAXBContext.newInstance("com.litle.sdk.generate");
@@ -77,7 +95,7 @@ abstract class LitleFileResponse {
         this.responseFileParser = responseFileParser;
     }
 
-    public void closeResources() throws IOException{
+    public void closeResources() throws IOException {
         this.responseFileParser.closeResources();
     }
 }
