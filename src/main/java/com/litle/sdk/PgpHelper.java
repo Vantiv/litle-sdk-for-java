@@ -1,44 +1,48 @@
 package com.litle.sdk;
 
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
-import org.bouncycastle.openpgp.*;
-import org.bouncycastle.openpgp.PGPUtil;
-import org.bouncycastle.openpgp.operator.PBESecretKeyDecryptor;
-import org.bouncycastle.openpgp.operator.PublicKeyDataDecryptorFactory;
-import org.bouncycastle.openpgp.operator.jcajce.*;
-
 import java.io.*;
+import java.security.NoSuchProviderException;
 import java.security.SecureRandom;
 import java.security.Security;
+import java.util.Date;
 import java.util.Iterator;
+
+import org.bouncycastle.bcpg.ArmoredOutputStream;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
+import org.bouncycastle.openpgp.*;
+import org.bouncycastle.openpgp.jcajce.JcaPGPObjectFactory;
+import org.bouncycastle.openpgp.operator.PBESecretKeyDecryptor;
+import org.bouncycastle.openpgp.operator.jcajce.*;
 
 public class PgpHelper {
 
     public static PGPPublicKey readPublicKey(InputStream in) throws IOException, PGPException {
-        in = PGPUtil.getDecoderStream(in);
-        PGPPublicKeyRingCollection pgpPub = new PGPPublicKeyRingCollection(in);
-        PGPPublicKey key = null;
+        InputStream decoderStream = PGPUtil.getDecoderStream(in);
+        PGPPublicKeyRingCollection pgpPub = new PGPPublicKeyRingCollection(decoderStream, new JcaKeyFingerprintCalculator());
+        PGPPublicKey pgpPublicKey = null;
 
-        Iterator<PGPPublicKeyRing> rIt = pgpPub.getKeyRings();
+        Iterator<PGPPublicKeyRing> pgpPublicKeyRingIterator = pgpPub.getKeyRings();
 
-        while (key == null && rIt.hasNext()) {
-            PGPPublicKeyRing kRing = rIt.next();
-            Iterator<PGPPublicKey> kIt = kRing.getPublicKeys();
-            while (key == null && kIt.hasNext()) {
-                PGPPublicKey k = kIt.next();
+        while (pgpPublicKey == null && pgpPublicKeyRingIterator.hasNext()) {
+            PGPPublicKeyRing kRing = pgpPublicKeyRingIterator.next();
+            Iterator<PGPPublicKey> publicKeys = kRing.getPublicKeys();
+            while (pgpPublicKey == null && publicKeys.hasNext()) {
+                PGPPublicKey publicKey = publicKeys.next();
 
-                if (k.isEncryptionKey()) {
-                    key = k;
+                if (publicKey.isEncryptionKey()) {
+                    pgpPublicKey = publicKey;
                 }
             }
         }
+        decoderStream.close();
 
-        if (key == null) {
+        if (pgpPublicKey == null) {
             throw new IllegalArgumentException("Can't find encryption key in key ring.");
         }
 
-        return key;
+        return pgpPublicKey;
     }
+
 
     /**
      * Load a secret key ring collection from keyIn and find the secret key corresponding to
@@ -53,18 +57,18 @@ public class PgpHelper {
      */
     public static PGPPrivateKey findSecretKey(InputStream keyIn, long keyID, char[] pass)
             throws IOException, PGPException {
-        PGPSecretKeyRingCollection pgpSec = new PGPSecretKeyRingCollection(PGPUtil.getDecoderStream(keyIn));
+        PGPSecretKeyRingCollection pgpSecretKeyRingCollection = new PGPSecretKeyRingCollection(PGPUtil.getDecoderStream(keyIn), new JcaKeyFingerprintCalculator());
 
-        PGPSecretKey pgpSecKey = pgpSec.getSecretKey(keyID);
+        PGPSecretKey pgpSecretKeyKey = pgpSecretKeyRingCollection.getSecretKey(keyID);
 
-        if (pgpSecKey == null) {
+        if (pgpSecretKeyKey == null) {
             return null;
         }
 
 
-        PBESecretKeyDecryptor a = new JcePBESecretKeyDecryptorBuilder(new JcaPGPDigestCalculatorProviderBuilder().setProvider("BC").build()).setProvider("BC").build(pass);
+        PBESecretKeyDecryptor secretKeyDecryptor = new JcePBESecretKeyDecryptorBuilder(new JcaPGPDigestCalculatorProviderBuilder().setProvider("BC").build()).setProvider("BC").build(pass);
 
-        return pgpSecKey.extractPrivateKey(a);
+        return pgpSecretKeyKey.extractPrivateKey(secretKeyDecryptor);
     }
 
     /**
@@ -72,104 +76,247 @@ public class PgpHelper {
      *  String passphrase
      */
     public static void decrypt(String inputFilepath, String decryptedOutputFilepath, String privateKeyPath, String passphrase)
-            throws Exception {
-
-        InputStream in = new FileInputStream(inputFilepath);
-        OutputStream out = new FileOutputStream(decryptedOutputFilepath);
+            throws IOException, PGPException {
+        InputStream fileInputStream = new FileInputStream(inputFilepath);
+        OutputStream fileOutputStream = new FileOutputStream(decryptedOutputFilepath);
         Security.addProvider(new BouncyCastleProvider());
-        in = PGPUtil.getDecoderStream(in);
-        PGPObjectFactory pgpF = new PGPObjectFactory(in);
-        PGPEncryptedDataList enc;
-        Object o = pgpF.nextObject();
+        fileInputStream = PGPUtil.getDecoderStream(fileInputStream);
+        JcaPGPObjectFactory jcaPGPObjectFactory = new JcaPGPObjectFactory(fileInputStream);
+        PGPEncryptedDataList encryptedDataList;
+        Object obj = jcaPGPObjectFactory.nextObject();
 
-        if (o instanceof PGPEncryptedDataList) {
-            enc = (PGPEncryptedDataList) o;
+        if (obj instanceof PGPEncryptedDataList) {
+            encryptedDataList = (PGPEncryptedDataList) obj;
         } else {
-            enc = (PGPEncryptedDataList) pgpF.nextObject();
+            encryptedDataList = (PGPEncryptedDataList) jcaPGPObjectFactory.nextObject();
         }
 
-        Iterator<PGPPublicKeyEncryptedData> it = enc.getEncryptedDataObjects();
-        PGPPrivateKey sKey = null;
-        PGPPublicKeyEncryptedData pbe = null;
+        Iterator<PGPPublicKeyEncryptedData> pgpPublicKeyEncryptedDataIterator = encryptedDataList.getEncryptedDataObjects();
+        PGPPrivateKey pgpPrivateKey = null;
+        PGPPublicKeyEncryptedData pgpPublicKeyEncryptedData = null;
 
-        while (sKey == null && it.hasNext()) {
-            pbe = it.next();
-            sKey = findSecretKey(new FileInputStream(privateKeyPath), pbe.getKeyID(), passphrase.toCharArray());
+        while (pgpPrivateKey == null && pgpPublicKeyEncryptedDataIterator.hasNext()) {
+            pgpPublicKeyEncryptedData = pgpPublicKeyEncryptedDataIterator.next();
+            pgpPrivateKey = findSecretKey(new FileInputStream(privateKeyPath), pgpPublicKeyEncryptedData.getKeyID(), passphrase.toCharArray());
         }
 
-        if (sKey == null) {
+        if (pgpPrivateKey == null) {
             throw new IllegalArgumentException("Secret key for message not found.");
         }
 
-        PublicKeyDataDecryptorFactory b = new JcePublicKeyDataDecryptorFactoryBuilder().setProvider("BC").setContentProvider("BC").build(sKey);
+        InputStream clear = pgpPublicKeyEncryptedData.getDataStream(new JcePublicKeyDataDecryptorFactoryBuilder().setProvider("BC").build(pgpPrivateKey));
 
-        InputStream clear = pbe.getDataStream(b);
-
-        PGPObjectFactory plainFact = new PGPObjectFactory(clear);
+        JcaPGPObjectFactory plainFact = new JcaPGPObjectFactory(clear);
 
         Object message = plainFact.nextObject();
 
         if (message instanceof PGPCompressedData) {
-            PGPCompressedData cData = (PGPCompressedData) message;
-            PGPObjectFactory pgpFact = new PGPObjectFactory(cData.getDataStream());
+            PGPCompressedData compressedData = (PGPCompressedData) message;
+            JcaPGPObjectFactory pgpFact = new JcaPGPObjectFactory(compressedData.getDataStream());
 
             message = pgpFact.nextObject();
         }
 
         if (message instanceof PGPLiteralData) {
-            PGPLiteralData ld = (PGPLiteralData) message;
-            InputStream unc = ld.getInputStream();
-            int ch;
-            while ((ch = unc.read()) >= 0) {
-                out.write(ch);
+            PGPLiteralData literalData = (PGPLiteralData) message;
+            InputStream literalDataInputStream = literalData.getInputStream();
+            byte[] clearData = new byte[2097152];
+            int len;
+            while ((len = literalDataInputStream.read(clearData)) > 0) {
+                fileOutputStream.write(clearData, 0, len);
             }
-        } else if (message instanceof PGPOnePassSignatureList) {
-            throw new PGPException("Encrypted message contains a signed message - not literal data.");
+            literalDataInputStream.close();
+        }
+        fileInputStream.close();
+        clear.close();
+        fileOutputStream.close();
+    }
+
+
+    public static InputStream decryptionStream(String inputFilepath,  String privateKeyPath, String passphrase)
+            throws IOException, PGPException {
+        InputStream fileInputStream = new FileInputStream(inputFilepath);
+        Security.addProvider(new BouncyCastleProvider());
+        fileInputStream = PGPUtil.getDecoderStream(fileInputStream);
+        JcaPGPObjectFactory jcaPGPObjectFactory = new JcaPGPObjectFactory(fileInputStream);
+        PGPEncryptedDataList encryptedDataList;
+        Object obj = jcaPGPObjectFactory.nextObject();
+
+        if (obj instanceof PGPEncryptedDataList) {
+            encryptedDataList = (PGPEncryptedDataList) obj;
         } else {
-            throw new PGPException("Message is not a simple encrypted file - type unknown.");
+            encryptedDataList = (PGPEncryptedDataList) jcaPGPObjectFactory.nextObject();
         }
 
-        if (pbe.isIntegrityProtected()) {
-            if (!pbe.verify()) {
-                throw new PGPException("Message failed integrity check");
-            }
+        Iterator<PGPPublicKeyEncryptedData> pgpPublicKeyEncryptedDataIterator = encryptedDataList.getEncryptedDataObjects();
+        PGPPrivateKey pgpPrivateKey = null;
+        PGPPublicKeyEncryptedData pgpPublicKeyEncryptedData = null;
+
+        while (pgpPrivateKey == null && pgpPublicKeyEncryptedDataIterator.hasNext()) {
+            pgpPublicKeyEncryptedData = pgpPublicKeyEncryptedDataIterator.next();
+            pgpPrivateKey = findSecretKey(new FileInputStream(privateKeyPath), pgpPublicKeyEncryptedData.getKeyID(), passphrase.toCharArray());
+        }
+
+        if (pgpPrivateKey == null) {
+            throw new IllegalArgumentException("Secret key for message not found.");
+        }
+
+        InputStream clear = pgpPublicKeyEncryptedData.getDataStream(new JcePublicKeyDataDecryptorFactoryBuilder().setProvider("BC").build(pgpPrivateKey));
+
+        JcaPGPObjectFactory plainFact = new JcaPGPObjectFactory(clear);
+
+        Object message = plainFact.nextObject();
+
+        if (message instanceof PGPCompressedData) {
+            PGPCompressedData compressedData = (PGPCompressedData) message;
+            JcaPGPObjectFactory pgpFact = new JcaPGPObjectFactory(compressedData.getDataStream());
+
+            message = pgpFact.nextObject();
+        }
+
+        if (message instanceof PGPLiteralData){
+            PGPLiteralData literalData = (PGPLiteralData) message;
+            InputStream literalDataInputStream = literalData.getInputStream();
+        }
+
+        if (message instanceof PGPLiteralData) {
+            PGPLiteralData literalData = (PGPLiteralData) message;
+            InputStream literalDataInputStream = literalData.getInputStream();
+            return new DecryptedInputStream(literalDataInputStream, fileInputStream, clear);
+        }
+        else if (message instanceof PGPOnePassSignatureList) {
+            throw new PGPException("Encrypted message contains a signed message - not literal data.");
+        }
+        else {
+            throw new PGPException("Message is not a simple encrypted file - type unknown.");
         }
     }
 
     public static void encrypt(String inputFilePath, String encryptedOutputFilepath, String publicKeyPath)
             throws IOException, PGPException {
-        FileOutputStream out = new FileOutputStream(encryptedOutputFilepath);
-        PGPPublicKey encKey = readPublicKey(new FileInputStream(publicKeyPath));
+        OutputStream fileOutputStream = new FileOutputStream(encryptedOutputFilepath);
+        fileOutputStream = new ArmoredOutputStream(fileOutputStream);
+        PGPPublicKey pgpPublicKey = readPublicKey(new FileInputStream(publicKeyPath));
         Security.addProvider(new BouncyCastleProvider());
 
         ByteArrayOutputStream bOut = new ByteArrayOutputStream();
 
-        PGPCompressedDataGenerator comData = new PGPCompressedDataGenerator(
+        PGPCompressedDataGenerator compressedDataGenerator = new PGPCompressedDataGenerator(
                 PGPCompressedData.ZIP);
 
         File inputFile = new File(inputFilePath);
 
-        org.bouncycastle.openpgp.PGPUtil.writeFileToLiteralData(comData.open(bOut),
+        org.bouncycastle.openpgp.PGPUtil.writeFileToLiteralData(compressedDataGenerator.open(bOut),
                 PGPLiteralData.BINARY, inputFile);
 
-        comData.close();
+        compressedDataGenerator.close();
 
         JcePGPDataEncryptorBuilder c = new JcePGPDataEncryptorBuilder(PGPEncryptedData.CAST5).setSecureRandom(new SecureRandom()).setProvider("BC");
 
         PGPEncryptedDataGenerator cPk = new PGPEncryptedDataGenerator(c);
 
-        JcePublicKeyKeyEncryptionMethodGenerator d = new JcePublicKeyKeyEncryptionMethodGenerator(encKey).setProvider(new BouncyCastleProvider()).setSecureRandom(new SecureRandom());
+        JcePublicKeyKeyEncryptionMethodGenerator d = new JcePublicKeyKeyEncryptionMethodGenerator(pgpPublicKey).setProvider(new BouncyCastleProvider()).setSecureRandom(new SecureRandom());
 
         cPk.addMethod(d);
 
         byte[] bytes = bOut.toByteArray();
 
-        OutputStream cOut = cPk.open(out, bytes.length);
+        OutputStream cOut = cPk.open(fileOutputStream, bytes.length);
 
         cOut.write(bytes);
 
         cOut.close();
 
+        fileOutputStream.close();
+    }
+
+
+    public static OutputStream encryptionStream (String encryptedOutputFilepath, String publicKeyPath)
+            throws IOException, PGPException {
+        OutputStream fileOutputStream = new FileOutputStream(encryptedOutputFilepath);
+        fileOutputStream = new ArmoredOutputStream(fileOutputStream);
+        PGPPublicKey pgpPublicKey = readPublicKey(new FileInputStream(publicKeyPath));
+        Security.addProvider(new BouncyCastleProvider());
+
+        JcePGPDataEncryptorBuilder c = new JcePGPDataEncryptorBuilder(PGPEncryptedData.CAST5).setSecureRandom(new SecureRandom()).setProvider("BC");
+
+        PGPEncryptedDataGenerator cPk = new PGPEncryptedDataGenerator(c);
+
+        JcePublicKeyKeyEncryptionMethodGenerator d = new JcePublicKeyKeyEncryptionMethodGenerator(pgpPublicKey).setProvider(new BouncyCastleProvider()).setSecureRandom(new SecureRandom());
+
+        cPk.addMethod(d);
+
+        OutputStream encOut = cPk.open(fileOutputStream, new byte[2097152]);
+
+        PGPLiteralDataGenerator lData = new PGPLiteralDataGenerator();
+
+        OutputStream pOut = lData.open(encOut, // the compressed output stream
+                PGPLiteralData.BINARY,
+                "iway",  // "filename" to store // length of clear data
+                new Date(),  // current time
+                new byte[2097152]
+        );
+
+        return new EncryptedOutputStream(encOut, fileOutputStream, pOut);
+    }
+}
+
+
+class EncryptedOutputStream extends OutputStream {
+    private OutputStream encOut;
+    private OutputStream out;
+    private OutputStream pOut;
+
+
+    public EncryptedOutputStream(OutputStream encOut, OutputStream out, OutputStream pOut) {
+        this.encOut = encOut;
+        this.out = out;
+        this.pOut = pOut;
+    }
+
+
+    public void write(byte[] clearData) throws IOException {
+        pOut.write(clearData);
+    }
+
+    public void write(int i){
+
+    }
+
+    public void close()throws IOException{
+        pOut.close();
+        encOut.close();
         out.close();
+    }
+
+    public void flush()throws IOException{
+        pOut.flush();
+    }
+}
+
+
+class DecryptedInputStream extends InputStream {
+    private InputStream literalDataInputStream;
+    private InputStream fileInputStream;
+    private InputStream clearStream;
+
+    public DecryptedInputStream(InputStream literalDataInputStream, InputStream fileInputStream, InputStream clearStream){
+        this.literalDataInputStream = literalDataInputStream;
+        this.fileInputStream = fileInputStream;
+        this.clearStream = clearStream;
+    }
+
+    public int read() throws IOException {
+        return literalDataInputStream.read();
+    }
+
+    public int read(byte[] buffer) throws IOException{
+        return literalDataInputStream.read(buffer);
+    }
+
+    public void close() throws IOException{
+        literalDataInputStream.close();
+        fileInputStream.close();
+        clearStream.close();
     }
 }

@@ -8,6 +8,7 @@ import java.io.OutputStream;
 import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.Properties;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
@@ -54,6 +55,7 @@ import com.litle.sdk.generate.UpdatePlan;
 import com.litle.sdk.generate.UpdateSubscription;
 import com.litle.sdk.generate.VendorCredit;
 import com.litle.sdk.generate.VendorDebit;
+import org.bouncycastle.openpgp.PGPException;
 
 public class LitleBatchRequest {
 	private BatchRequest batchRequest;
@@ -64,6 +66,7 @@ public class LitleBatchRequest {
 	TransactionType txn;
 	String filePath;
 	OutputStream osWrttxn;
+
 
 	int numOfTxn;
 
@@ -122,11 +125,25 @@ public class LitleBatchRequest {
 	 */
 	public TransactionCodeEnum addTransaction(LitleTransactionInterface transactionType) throws LitleBatchException, LitleBatchFileFullException, LitleBatchBatchFullException {
 		if (numOfTxn == 0) {
+            Properties properties = lbfr.getConfig();
             this.file = new File(filePath);
             try {
-                osWrttxn = new FileOutputStream(file.getAbsolutePath());
+                if ("true".equalsIgnoreCase(properties.getProperty("useEncryption"))){
+                    osWrttxn = PgpHelper.encryptionStream(filePath, properties.getProperty("MerchantPublicKeyPath"));
+                }
+                else{
+                    osWrttxn = new FileOutputStream(file.getAbsolutePath());
+                }
             } catch (FileNotFoundException e) {
-                throw new LitleBatchException("There was an exception while trying to create a Request file. Please check if the folder: " + lbfr.getConfig().getProperty("batchRequestFolder") +" has read and write access. ");
+                throw new LitleBatchException("There was an exception while trying to create a Request file. Please check if the folder: " + properties.getProperty("batchRequestFolder") +" has read and write access. ");
+            }
+            catch (IOException ioe){
+                throw new LitleBatchException("Could not read merchant public key at " + properties.getProperty("MerchantPublicKeyPath") +
+                        "\nMake sure that the provided public key path is correct" + ioe);
+            }
+            catch (PGPException pgpe){
+                throw new LitleBatchException("There was an error while trying to read merchant public key at " + properties.getProperty("MerchantPublicKeyPath") +
+                        "\nMake sure that the provided public key path contains a valid public key" + pgpe);
             }
         }
 
