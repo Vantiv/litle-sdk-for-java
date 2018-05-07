@@ -2,7 +2,6 @@ package com.litle.sdk;
 
 import java.io.*;
 import java.math.BigInteger;
-import java.security.NoSuchProviderException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -194,21 +193,6 @@ public class LitleBatchFileRequest {
         }
     }
 
-    private String buildLitleRequestXml() {
-        LitleRequest litleRequest = buildLitleRequest();
-
-        // Code to write to the file directly
-        StringWriter sw = new StringWriter();
-        Marshaller marshaller;
-        try {
-            marshaller = jc.createMarshaller();
-            marshaller.marshal(litleRequest, sw);
-        } catch (JAXBException e) {
-            throw new LitleBatchException("Unable to load jaxb dependencies.  Perhaps a classpath issue?");
-        }
-        return sw.toString();
-    }
-
 
     public File getFile() {
         return requestFile;
@@ -363,19 +347,6 @@ public class LitleBatchFileRequest {
         }
     }
 
-    private File encryptRequestFile() {
-        String encRequestFilename = requestFile.getAbsolutePath() + ".encrypted";
-        String publicKey = properties.getProperty("vantivPublicKeyID");
-        try {
-            PgpHelper.encrypt(requestFile.getAbsolutePath(), encRequestFilename, publicKey);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (PGPException e) {
-            e.printStackTrace();
-        }
-        File encRequestFile = new File(encRequestFilename);
-        return encRequestFile;
-    }
 
     private void checkDeleteBatchRequestFiles() {
         boolean deleteBatchFiles = "true".equalsIgnoreCase(properties.getProperty("deleteBatchFiles"));
@@ -425,17 +396,22 @@ public class LitleBatchFileRequest {
     private void decryptResponseFile() {
         String encResponseFilename = responseFile.getAbsolutePath() + ".encrypted";
         String passwd = properties.getProperty("gpgPassphrase");
-        String privateKeyPath = properties.getProperty("privateKey");
+        String privateKeyPath = properties.getProperty("PrivateKeyPath");
         try {
             PgpHelper.decrypt(encResponseFilename, responseFile.getAbsolutePath(), privateKeyPath, passwd);
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (PGPException pgpe) {
+            throw new LitleBatchException("Error while decrypting response file. Check if " + privateKeyPath + " contains correct private key." +
+                    "and that the gpgPassphrase provided in config file is correct.", pgpe);
+        } catch (IOException ioe) {
+            throw new LitleBatchException("Error in decrypting response file. Check to see if the current user has permission to read and write to" +
+                    this.properties.getProperty("batchRequestFolder") + "." +
+                    "Also check if " + privateKeyPath + " contains the private key.");
         }
     }
 
+
     private void checkDeleteBatchResponseFiles(File fileToBeDeleted) {
         boolean deleteBatchFiles = "true".equalsIgnoreCase(properties.getProperty("deleteBatchFiles"));
-
         if (deleteBatchFiles) {
             responseFile.delete();
             fileToBeDeleted.delete();
@@ -443,12 +419,13 @@ public class LitleBatchFileRequest {
     }
 
     /**
-     * Prepare the batch file to be submitted and generate it in the request folder.
+     * Prepare final batch request file to be submitted in batch request folder.
      */
     public void prepareForDelivery() {
         if ("true".equalsIgnoreCase(properties.getProperty("useEncryption"))) {
             prepareForEncryptedDelivery();
-        } else {
+        }
+        else {
             try {
                 String writeFolderPath = this.properties.getProperty("batchRequestFolder");
 
@@ -482,22 +459,31 @@ public class LitleBatchFileRequest {
                 if (tmpFile.exists()) {
                     tmpFile.delete();
                 }
-            } catch (IOException e) {
+            }
+            catch (IOException ioe) {
                 throw new LitleBatchException(
                         "There was an exception while creating the Litle Request file. " +
                                 "Check to see if the current user has permission to read and write to " +
-                                this.properties.getProperty("batchRequestFolder"), e);
+                                this.properties.getProperty("batchRequestFolder"), ioe);
             }
         }
     }
 
 
+    /**
+     * Prepare final encrypted batch request file to be submitted in batch request folder.
+     */
     private void prepareForEncryptedDelivery() {
+
+        String privateKeyPath = properties.getProperty("PrivateKeyPath");
+        String gpgPassphrase = properties.getProperty("gpgPassphrase");
+        String vantivPubKeyPath = properties.getProperty("VantivPublicKeyPath");
+        String litleRequestXml = buildLitleRequestXml();
         try {
-            String litleRequestXml = buildLitleRequestXml();
             litleRequestXml = litleRequestXml.replace("</litleRequest>", " ");
-            OutputStream encryptedLitleRequestWriter = PgpHelper.encryptionStream(requestFileName, properties.getProperty("VantivPublicKeyPath"));
+            OutputStream encryptedLitleRequestWriter = PgpHelper.encryptionStream(requestFile.getAbsolutePath(), vantivPubKeyPath);
             encryptedLitleRequestWriter.write(litleRequestXml.getBytes());
+
             byte[] clearData = new byte[2097152];
             for (LitleBatchRequest batchReq : litleBatchRequestList) {
                 batchReq.closeFile();
@@ -505,9 +491,8 @@ public class LitleBatchFileRequest {
                 batchRequestXml = batchRequestXml.replaceFirst("/>", ">");
                 encryptedLitleRequestWriter.write(batchRequestXml.getBytes());
                 InputStream decryptionStream = PgpHelper.decryptionStream(batchReq.getFile().getAbsolutePath(),
-                        properties.getProperty("PrivateKeyPath"),
-                        properties.getProperty("gpgPassphrase"));
-
+                        privateKeyPath,
+                        gpgPassphrase);
                 int len;
                 while ((len = decryptionStream.read(clearData)) > 0) {
                     encryptedLitleRequestWriter.write(clearData, 0, len);
@@ -518,18 +503,26 @@ public class LitleBatchFileRequest {
             }
             encryptedLitleRequestWriter.write(("</litleRequest>\n").getBytes());
             encryptedLitleRequestWriter.close();
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             throw new LitleBatchException(
                     "There was an exception while creating the Litle Request file. " +
                             "Check to see if the current user has permission to read and write to " +
                             this.properties.getProperty("batchRequestFolder"), e);
-        } catch (PGPException pgpe) {
-            throw new LitleBatchException("There was an error while trying to read merchant public key at " + properties.getProperty("MerchantPublicKeyPath") +
-                    "\nMake sure that the provided public key path contains a valid public key" + pgpe);
+        }
+        catch (PGPException pgpe) {
+            throw new LitleBatchException("Error in creating encrypted request file. Check if " + privateKeyPath + " contains correct private key." +
+                    "and that the gpgPassphrase provided in config file is correct." +
+                    "\nAlso check if " + vantivPubKeyPath + " contains correct public key.");
         }
     }
 
 
+    /**
+     *
+     * @param batchRequest
+     * @return BatchRequest header xml containing the summary of the transactions within the  given batch request.
+     */
     private String buildBatchRequestXml(LitleBatchRequest batchRequest) {
         try {
             StringWriter sw = new StringWriter();
@@ -548,6 +541,28 @@ public class LitleBatchFileRequest {
     void setId(String id) {
         this.requestId = id;
     }
+
+
+    /**
+     *
+     * @return LitleRequest xml header containing authentication information for the presenter.
+     */
+    private String buildLitleRequestXml() {
+        LitleRequest litleRequest = buildLitleRequest();
+
+        // Code to write to the file directly
+        StringWriter sw = new StringWriter();
+        Marshaller marshaller;
+        try {
+            marshaller = jc.createMarshaller();
+            marshaller.marshal(litleRequest, sw);
+        } catch (JAXBException e) {
+            throw new LitleBatchException("Unable to load jaxb dependencies.  Perhaps a classpath issue?");
+        }
+        return sw.toString();
+    }
+
+
 
     /**
      * This method initializes the high level properties for the XML(ex:

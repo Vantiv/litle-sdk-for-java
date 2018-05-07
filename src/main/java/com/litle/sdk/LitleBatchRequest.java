@@ -134,7 +134,8 @@ public class LitleBatchRequest {
                 else{
                     osWrttxn = new FileOutputStream(file.getAbsolutePath());
                 }
-            } catch (FileNotFoundException e) {
+            }
+            catch (FileNotFoundException e) {
                 throw new LitleBatchException("There was an exception while trying to create a Request file. Please check if the folder: " + properties.getProperty("batchRequestFolder") +" has read and write access. ");
             }
             catch (IOException ioe){
