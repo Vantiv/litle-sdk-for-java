@@ -140,11 +140,11 @@ public class LitleBatchRequest {
             }
             catch (IOException ioe){
                 throw new LitleBatchException("Could not read merchant public key at " + properties.getProperty("MerchantPublicKeyPath") +
-                        "\nMake sure that the provided public key path is correct" + ioe);
+                        "\nMake sure that the provided public key path is correct",  ioe);
             }
             catch (PGPException pgpe){
                 throw new LitleBatchException("There was an error while trying to read merchant public key at " + properties.getProperty("MerchantPublicKeyPath") +
-                        "\nMake sure that the provided public key path contains a valid public key" + pgpe);
+                        "\nMake sure that the provided public key path contains a valid public key", pgpe);
             }
         }
 

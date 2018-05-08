@@ -137,7 +137,11 @@ public class Setup {
 
             System.out.print("Please input path to Vantiv's public key (for encryption of batch requests) : ");
             lastUserInput = stdin.readLine();
-            config.put("PublicKeyPath", lastUserInput);
+            config.put("VantivPublicKeyPath", lastUserInput);
+
+            System.out.print("Please input path to your merchant public key (To keep temp file encrypted) : ");
+            lastUserInput = stdin.readLine();
+            config.put("MerchantPublicKeyPath", lastUserInput);
 
             System.out.print("Please input path to your merchant private key (for decryption of batch responses) : ");
             lastUserInput = stdin.readLine();

@@ -513,7 +513,7 @@ public class LitleBatchFileRequest {
         catch (PGPException pgpe) {
             throw new LitleBatchException("Error in creating encrypted request file. Check if " + privateKeyPath + " contains correct private key." +
                     "and that the gpgPassphrase provided in config file is correct." +
-                    "\nAlso check if " + vantivPubKeyPath + " contains correct public key.");
+                    "\nAlso check if " + vantivPubKeyPath + " contains correct public key.", pgpe);
         }
     }
 
