@@ -1,7 +1,7 @@
 apply plugin : 'java'
 apply plugin : 'eclipse'
 repositories {
-    mavenCentral()
+    url "http://repo1.maven.org/maven2"
 }
    dependencies{
         compile rootProject
