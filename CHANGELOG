@@ -1,5 +1,9 @@
 = LitleOnline CHANGELOG
 
+==Version 10.8.2 (May 10, 2018)
+* Feature: Using BouncyCastle for PGP
+* Feature: Storing encrypted temp files for encrypted presenter
+
 ==Version 10.8.1 (April 24, 2018)
 * BugFix: Set content-type to text/xml; charset=UTF-8
 
