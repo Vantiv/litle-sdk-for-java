@@ -91,7 +91,7 @@ public class TestGiftCardTransactions {
         
         GiftCardCreditResponse response = litle.giftCardCredit(gcCredit);
         assertEquals("Approved", response.getMessage());
-        assertEquals("12", response.getGiftCardResponse().getSequenceNumber());
+        assertEquals("123456", response.getGiftCardResponse().getSequenceNumber());
 	}
 	
 	@Test

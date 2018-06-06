@@ -54,7 +54,7 @@ public class TestQueryTransaction {
         assertEquals("customerId", queryTransactionResponse.getCustomerId());
         assertEquals("150", queryTransactionResponse.getResponse());
         assertEquals("Original transaction found",queryTransactionResponse.getMessage());
-        assertEquals(1, queryTransactionResponse.getResultsMax10().getTransactionResponses().size());
+        assertEquals(2, queryTransactionResponse.getResultsMax10().getTransactionResponses().size());
     }
 	
 	@Test
