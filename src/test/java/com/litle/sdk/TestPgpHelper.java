@@ -1,5 +1,6 @@
 package com.litle.sdk;
 
+import org.bouncycastle.openpgp.PGPException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,7 +17,8 @@ public class TestPgpHelper {
     private String direct;
     private String requestFilename;
     private String encryptedRequestFilename;
-    private String publicKey;
+    private String publicKeyPath;
+    private String privateKeyPath;
     private String responseFilename;
     private String decryptedResponseFilename;
     private String passphrase;
@@ -29,7 +31,7 @@ public class TestPgpHelper {
         fRequestDir.mkdirs();
 
         requestFilename = direct + File.separator + "test.txt";
-        String input = "This is the text to be encrypted. PHP SDK V11";
+        String input = "This is the text to be encrypted. Java SDK V11";
         BufferedWriter out = new BufferedWriter(new FileWriter(requestFilename));
         out.write(input);
         encryptedRequestFilename = direct + File.separator + "test.asc";
@@ -37,22 +39,24 @@ public class TestPgpHelper {
         decryptedResponseFilename = direct + File.separator + "test2.txt";
         Properties properties = new Properties();
         properties.load(new FileInputStream(new Configuration().location()));
-        publicKey = properties.getProperty("testPublicKeyID");
+        publicKeyPath = properties.getProperty("MerchantPublicKeyPath");
+        privateKeyPath = properties.getProperty("PrivateKeyPath");
         passphrase = properties.getProperty("gpgPassphrase");
     }
 
     @Test
     public void testEncryptDecrypt() {
 
-        PgpHelper.encrypt(requestFilename, encryptedRequestFilename, publicKey);
-        assertTrue(new File(encryptedRequestFilename).exists());
-        PgpHelper.decrypt(responseFilename, decryptedResponseFilename, passphrase);
-        assertTrue(new File(decryptedResponseFilename).exists());
         try {
+            PgpHelper.encrypt(requestFilename, encryptedRequestFilename, publicKeyPath);
+            assertTrue(new File(encryptedRequestFilename).exists());
+            PgpHelper.decrypt(responseFilename, decryptedResponseFilename, privateKeyPath,passphrase);
+            assertTrue(new File(decryptedResponseFilename).exists());
+
             String input = new String(Files.readAllBytes(Paths.get(requestFilename)));
             String output = new String(Files.readAllBytes(Paths.get(decryptedResponseFilename)));
             assertEquals(input, output);
-        } catch (IOException e) {
+        } catch (IOException | PGPException e) {
             e.printStackTrace();
         }
     }

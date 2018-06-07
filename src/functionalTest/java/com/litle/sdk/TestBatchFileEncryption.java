@@ -26,6 +26,7 @@ public class TestBatchFileEncryption {
         String encSftpUsername = properties.getProperty("encSftpUsername");
         String encSftpPassword = properties.getProperty("encSftpPassword");
         String encMerchantId = properties.getProperty("encMerchantId");
+
         config = new Properties();
         config.setProperty("username", encUsername);
         config.setProperty("password", encPassword);

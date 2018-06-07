@@ -1,5 +1,8 @@
 = LitleOnline CHANGELOG
 
+==Version 11.4.2 (June 7, 2018)
+* Feature: Using BouncyCastle for PGP
+
 ==Version 11.4.1 (April 24, 2018)
 * BugFix: Set content type to text/xml; charset=UTF-8
 

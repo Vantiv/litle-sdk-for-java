@@ -48,7 +48,7 @@ public class TestLitleBatchFileRequest {
         litleBatchFileRequest = new LitleBatchFileRequest("testFile.xml", property);
     }
 
-    @Test
+/*    @Test
     public void testInitializeMembers() throws Exception {
         Properties configToPass = new Properties();
 
@@ -59,7 +59,7 @@ public class TestLitleBatchFileRequest {
 
         assertEquals(litleBatchFileRequest.getConfig().getProperty("username"), "usr1");
         assertEquals(litleBatchFileRequest.getConfig().getProperty("password"), "pass");
-    }
+    }*/
 
     @Test
     public void testCreateBatchAndGetNumberOfBatches() throws FileNotFoundException, JAXBException {
