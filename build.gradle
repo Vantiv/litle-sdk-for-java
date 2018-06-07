@@ -7,7 +7,9 @@ group = 'com.litle'
 version = JAR_VERSION
 
 repositories {
-    mavenCentral()
+    maven  {
+        url "http://repo1.maven.org/maven2"
+    }
 }
 
 configurations {
@@ -91,21 +93,7 @@ task processXsd (type: Copy) {
     from ('src/main/xsd') {
         include '*.xsd'
     }
-    /*    @Test
-    public void testEncryptDecrypt() {
 
-        PgpHelper.encrypt(requestFilename, encryptedRequestFilename, publicKey);
-        assertTrue(new File(encryptedRequestFilename).exists());
-        PgpHelper.decrypt(responseFilename, decryptedResponseFilename, passphrase);
-        assertTrue(new File(decryptedResponseFilename).exists());
-        try {
-            String input = new String(Files.readAllBytes(Paths.get(requestFilename)));
-            String output = new String(Files.readAllBytes(Paths.get(decryptedResponseFilename)));
-            assertEquals(input, output);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }*/
     into xsdOutput
     
     doFirst {
@@ -218,7 +206,7 @@ task copyLibsToKit(type:Copy, dependsOn:check){
         include '**/httpclient*'
         include '**/httpcore*'
         include '**/httpmime*'
-    include '**/jsch*'
+        include '**/jsch*'
     }
 
     into KIT_DEPENDENCIES_DIR
