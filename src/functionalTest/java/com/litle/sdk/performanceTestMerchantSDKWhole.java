@@ -59,7 +59,7 @@ public class performanceTestMerchantSDKWhole {
     	    sale.setCustomerInfo(ci);
     	    sale.setAllowPartialAuth(true);
 
-    	    
+
 
     	    ct.setAddressLine1("aaaaaAAAAABBBBBGGGGGGGGGGKKKKKKKKKK");
     	    ct.setAddressLine2("aaaaaAAAAABBBBBGGGGGGGGGGKKKKKKKKKK");
