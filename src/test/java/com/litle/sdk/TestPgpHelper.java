@@ -50,7 +50,7 @@ public class TestPgpHelper {
         try {
             PgpHelper.encrypt(requestFilename, encryptedRequestFilename, publicKeyPath);
             assertTrue(new File(encryptedRequestFilename).exists());
-            PgpHelper.decrypt(responseFilename, decryptedResponseFilename, privateKeyPath,passphrase);
+            PgpHelper.decrypt(responseFilename, decryptedResponseFilename, privateKeyPath, passphrase);
             assertTrue(new File(decryptedResponseFilename).exists());
 
             String input = new String(Files.readAllBytes(Paths.get(requestFilename)));
