@@ -187,6 +187,14 @@ public class TestCert4Echeck {
 		EcheckSalesResponse response = litle.echeckSale(sale);
 		assertEquals(response.getMessage(),"000", response.getResponse());
 		assertEquals(response.getMessage(),"Approved", response.getMessage());
+
+		// Test 48
+		EcheckCredit credit = new EcheckCredit();
+		credit.setLitleTxnId(response.getLitleTxnId());
+
+		EcheckCreditResponse creditResponse = litle.echeckCredit(credit);
+		assertEquals(creditResponse.getMessage(),"000", creditResponse.getResponse());
+		assertEquals(creditResponse.getMessage(),"Approved", creditResponse.getMessage());
 	}
 	
 	@Test
@@ -276,7 +284,7 @@ public class TestCert4Echeck {
 		assertEquals(response.getMessage(),"Approved", response.getMessage());
 	}
 	
-	@Test
+	/*@Test
 	public void test48() throws Exception {
 		EcheckCredit credit = new EcheckCredit();
 		credit.setLitleTxnId(82922833570038031L);
@@ -284,7 +292,7 @@ public class TestCert4Echeck {
 		EcheckCreditResponse response = litle.echeckCredit(credit);
 		assertEquals(response.getMessage(),"000", response.getResponse());
 		assertEquals(response.getMessage(),"Approved", response.getMessage());
-	}
+	}*/
 	
 	@Test
 	public void test49() throws Exception {
