@@ -187,6 +187,14 @@ public class TestCert4Echeck {
 		EcheckSalesResponse response = litle.echeckSale(sale);
 		assertEquals(response.getMessage(),"000", response.getResponse());
 		assertEquals(response.getMessage(),"Approved", response.getMessage());
+
+		// Test 49
+		EcheckCredit credit = new EcheckCredit();
+		credit.setLitleTxnId(response.getLitleTxnId());
+
+		EcheckCreditResponse creditResponse = litle.echeckCredit(credit);
+		assertEquals(creditResponse.getMessage(),"000", creditResponse.getResponse());
+		assertEquals(creditResponse.getMessage(),"Approved", creditResponse.getMessage());
 	}
 	
 	@Test
@@ -270,16 +278,6 @@ public class TestCert4Echeck {
 		echeck.setAccType(EcheckAccountTypeEnum.CORPORATE);
 		echeck.setRoutingNum("211370545");
 		credit.setEcheck(echeck);
-		
-		EcheckCreditResponse response = litle.echeckCredit(credit);
-		assertEquals(response.getMessage(),"000", response.getResponse());
-		assertEquals(response.getMessage(),"Approved", response.getMessage());
-	}
-	
-	@Test
-	public void test48() throws Exception {
-		EcheckCredit credit = new EcheckCredit();
-		credit.setLitleTxnId(82922833356145265L);
 		
 		EcheckCreditResponse response = litle.echeckCredit(credit);
 		assertEquals(response.getMessage(),"000", response.getResponse());
