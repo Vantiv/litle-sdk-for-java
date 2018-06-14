@@ -134,7 +134,7 @@ public class TestBatchFile {
         prepDir(workingDirResponses);
 
         Properties configOverrides = new Properties();
-        configOverrides.setProperty("batchHost", "prelive.litle.com"); 
+        configOverrides.setProperty("batchHost", "prelive.litle.com");
         configOverrides.setProperty("batchPort", "15000");
 
         configOverrides.setProperty("batchRequestFolder", workingDirRequests);
@@ -323,7 +323,7 @@ public class TestBatchFile {
         prepDir(workingDirResponses);
 
         Properties configOverrides = new Properties();
-        configOverrides.setProperty("batchHost", "prelive.litle.com"); 
+        configOverrides.setProperty("batchHost", "prelive.litle.com");
         configOverrides.setProperty("sftpTimeout", "720000");
 
         configOverrides.setProperty("batchRequestFolder", workingDirRequests);
@@ -349,7 +349,7 @@ public class TestBatchFile {
 
     private void prepareTestRequest(LitleBatchFileRequest request)
             throws FileNotFoundException, JAXBException {
-        
+
         Properties configFromFile = request.getConfig();
 
         LitleBatchRequest batchRequest1 = request.createBatch(configFromFile.getProperty("merchantId"));
@@ -559,7 +559,7 @@ public class TestBatchFile {
         echeckSuccess.setAccType(EcheckAccountTypeEnum.CORPORATE);
         echeckSuccess.setRoutingNum("011075150");
         echeckSuccess.setCheckNum("123455");
-        
+
 
         EcheckType echeckAccErr = new EcheckType();
         echeckAccErr.setAccNum("10@2969901");
@@ -788,7 +788,7 @@ public class TestBatchFile {
 
                     public void processFundingInstructionVoidResponse(
                             FundingInstructionVoidResponse fundingInstructionVoidResponse) {
-                        
+
                     }
                 })) {
 
@@ -797,7 +797,7 @@ public class TestBatchFile {
 
         assertEquals(transactionCount, txns);
     }
-    
+
 //    @Test
 //    public void testPFIFInstructionTxn() {
 //        String requestFileName = "litleSdk-testBatchFile-PFIF.xml";
@@ -1743,7 +1743,7 @@ public class TestBatchFile {
                 FundingInstructionVoidResponse fundingInstructionVoidResponse) {
         	assertNotNull(fundingInstructionVoidResponse.getLitleTxnId());
             responseCount++;
-            
+
         }
     }
 

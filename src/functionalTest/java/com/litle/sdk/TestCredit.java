@@ -37,7 +37,7 @@ public class TestCredit {
         credit.setCard(card);
         credit.setId("id");
         CreditResponse response = litle.credit(credit);
-        assertEquals("Transaction Received", response.getMessage());
+        assertEquals("Approved", response.getMessage());
     }
 
     @Test
@@ -51,7 +51,7 @@ public class TestCredit {
         credit.setPaypal(paypal);
         credit.setId("id");
         CreditResponse response = litle.credit(credit);
-        assertEquals("Transaction Received", response.getMessage());
+        assertEquals("Approved", response.getMessage());
     }
 
     @Test
@@ -68,7 +68,7 @@ public class TestCredit {
         credit.setCard(card);
         credit.setId("id");
         CreditResponse response = litle.credit(credit);
-        assertEquals("Transaction Received", response.getMessage());
+        assertEquals("Approved", response.getMessage());
     }
 
     @Test
@@ -112,7 +112,7 @@ public class TestCredit {
         credit.setCard(card);
         credit.setId("id");
         CreditResponse response = litle.credit(credit);
-        assertEquals("Transaction Received", response.getMessage());
+        assertEquals("Approved", response.getMessage());
     }
 
     @Test
@@ -131,7 +131,7 @@ public class TestCredit {
         credit.setCard(card);
         credit.setId("id");
         CreditResponse response = litle.credit(credit);
-        assertEquals("Transaction Received", response.getMessage());
+        assertEquals("Approved", response.getMessage());
     }
     
     @Test
@@ -158,7 +158,7 @@ public class TestCredit {
     		litle.credit(credit);
     		fail("Shoule throw exception!");
     	} catch (LitleOnlineException lole) {
-    		String exception = "Error validating xml data against the schema :[error] cvc-maxLength-valid: Value 'cannot have order and txn Id' with length = '28' is not facet-valid with respect to maxLength '25' for type 'string25Type'. (1:364),[error] cvc-type.3.1.3: The value 'cannot have order and txn Id' of element 'orderId' is not valid. (1:364),[error] cvc-complex-type.2.4.a: Invalid content was found starting with element 'litleTxnId'. One of '{\"http://www.litle.com/schema\":amount}' is expected. (1:376)";
+    		String exception = "Error validating xml data against the schema: cvc-maxLength-valid: Value 'cannot have order and txn Id' with length = '28' is not facet-valid with respect to maxLength '25' for type 'string25Type'.";
     		assertEquals(exception, lole.getMessage());
     	}
     	

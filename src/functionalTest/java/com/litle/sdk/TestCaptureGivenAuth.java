@@ -38,7 +38,7 @@ public class TestCaptureGivenAuth {
 		capturegivenauth.setCard(card);
 		capturegivenauth.setId("id");
 		CaptureGivenAuthResponse response = litle.captureGivenAuth(capturegivenauth);
-		assertEquals("Transaction Received", response.getMessage());
+		assertEquals("Approved", response.getMessage());
 	}
 	
 	@Test
@@ -62,7 +62,7 @@ public class TestCaptureGivenAuth {
 		capturegivenauth.setToken(cardtoken);
 		capturegivenauth.setId("id");
 		CaptureGivenAuthResponse response = litle.captureGivenAuth(capturegivenauth);
-		assertEquals("Transaction Received", response.getMessage());
+		assertEquals("Approved", response.getMessage());
 	}
 	
 	@Test
@@ -95,7 +95,7 @@ public class TestCaptureGivenAuth {
 		capturegivenauth.setCard(card);
 		capturegivenauth.setId("id");
 		CaptureGivenAuthResponse response = litle.captureGivenAuth(capturegivenauth);
-		assertEquals("Transaction Received", response.getMessage());
+		assertEquals("Approved", response.getMessage());
 	}
 	@Test
 	public void authInfo() throws Exception{
@@ -123,7 +123,7 @@ public class TestCaptureGivenAuth {
 		capturegivenauth.setCard(card);
 		capturegivenauth.setId("id");
 		CaptureGivenAuthResponse response = litle.captureGivenAuth(capturegivenauth);
-		assertEquals("Transaction Received", response.getMessage());
+		assertEquals("Approved", response.getMessage());
 	}
 
 	@Test
@@ -147,7 +147,7 @@ public class TestCaptureGivenAuth {
 		capturegivenauth.setCard(card);
 		capturegivenauth.setId("id");
 		CaptureGivenAuthResponse response = litle.captureGivenAuth(capturegivenauth);
-		assertEquals("Transaction Received", response.getMessage());
+		assertEquals("Approved", response.getMessage());
 	}
 
 	@Test
@@ -171,15 +171,15 @@ public class TestCaptureGivenAuth {
 		capturegivenauth.setCard(card);
 		capturegivenauth.setId("id");
 		CaptureGivenAuthResponse response = litle.captureGivenAuth(capturegivenauth);
-		assertEquals("Transaction Received", response.getMessage());
+		assertEquals("Approved", response.getMessage());
 
 		capturegivenauth.setProcessingType(ProcessingTypeEnum.MERCHANT_INITIATED_COF);
 		response = litle.captureGivenAuth(capturegivenauth);
-		assertEquals("Transaction Received", response.getMessage());
+		assertEquals("Approved", response.getMessage());
 
 		capturegivenauth.setProcessingType(ProcessingTypeEnum.CARDHOLDER_INITIATED_COF);
 		response = litle.captureGivenAuth(capturegivenauth);
-		assertEquals("Transaction Received", response.getMessage());
+		assertEquals("Approved", response.getMessage());
 	}
 
 }

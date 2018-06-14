@@ -180,7 +180,7 @@ public class TestAuth {
         authorization.setId("test");
         CardType card = new CardType();
         card.setType(MethodOfPaymentTypeEnum.VI);
-        card.setNumber("4100800000000000");
+        card.setNumber("4100322311199000");
         card.setExpDate("1210");
         authorization.setCard(card);
 

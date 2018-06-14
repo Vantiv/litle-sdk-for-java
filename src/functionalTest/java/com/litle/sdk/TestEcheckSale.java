@@ -148,7 +148,7 @@ public class TestEcheckSale {
 		echecksale.setAmount(12L);
 		echecksale.setId("id");
 		EcheckSalesResponse response = litle.echeckSale(echecksale);
-		assertEquals("Approved", response.getMessage());
+		assertEquals("Transaction Received", response.getMessage());
 	}
 	
 	@Test

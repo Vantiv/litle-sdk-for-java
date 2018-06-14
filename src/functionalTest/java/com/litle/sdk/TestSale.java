@@ -72,7 +72,7 @@ public class TestSale {
         sale.setApplepay(applepayType);
         sale.setId("id");
         SaleResponse response = litle.sale(sale);
-        assertEquals("Insufficient Funds", response.getMessage());
+        assertEquals("Transaction Received", response.getMessage());
         assertEquals(new Long(110),response.getApplepayResponse().getTransactionAmount());
     }
 	
@@ -90,7 +90,7 @@ public class TestSale {
 		sale.setToken(token);
 	    sale.setId("id");
 		SaleResponse response = litle.sale(sale);
-		assertEquals("Transaction Received", response.getMessage());
+		assertEquals("Approved", response.getMessage());
 	}
 
 	@Test
