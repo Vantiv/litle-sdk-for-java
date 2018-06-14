@@ -80,4 +80,8 @@ abstract class LitleFileResponse {
     public void closeResources() throws IOException{
         this.responseFileParser.closeResources();
     }
+
+    public LitleResponse getLitleResponse() {
+        return this.litleResponse;
+    }
 }
