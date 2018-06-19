@@ -1,5 +1,8 @@
 = LitleOnline CHANGELOG
 
+==Version 11.4.3 (Jun 6, 2018)
+* BugFix : Added ability to get batch response from RFR Requests.
+
 ==Version 11.4.2 (June 7, 2018)
 * Feature: Using BouncyCastle for PGP
 

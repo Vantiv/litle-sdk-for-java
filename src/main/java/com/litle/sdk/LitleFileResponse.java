@@ -84,4 +84,14 @@ abstract class LitleFileResponse {
     public LitleResponse getLitleResponse() {
         return this.litleResponse;
     }
+
+    /**
+     * Retrieves the response object for the next batch in the response file
+     * @return
+     */
+    public LitleBatchResponse getNextLitleBatchResponse(){
+        LitleBatchResponse retObj = null;
+        retObj = new LitleBatchResponse(responseFileParser);
+        return retObj;
+    }
 }

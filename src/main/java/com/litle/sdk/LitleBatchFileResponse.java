@@ -18,13 +18,4 @@ public class LitleBatchFileResponse extends LitleFileResponse{
 		super(xmlFile);
 	}
 
-	/**
-	 * Retrieves the response object for the next batch in the response file
-	 * @return
-	 */
-	public LitleBatchResponse getNextLitleBatchResponse(){
-		LitleBatchResponse retObj = null;
-		retObj = new LitleBatchResponse(super.responseFileParser);
-		return retObj;
-	}
 }
