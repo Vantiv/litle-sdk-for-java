@@ -71,4 +71,4 @@ public class SampleLitleTxn {
 }
 ```
 
-More examples can be found here [Java Gists](https://gist.github.com/litleSDK)
+More examples can be found here [Java Gists](https://gist.github.com/vantivSDK)
