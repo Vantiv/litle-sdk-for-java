@@ -395,6 +395,7 @@ public class TestCert2AuthEnhanced {
 		assertEquals(response.getMessage(), "Invalid healthcare amounts",response.getMessage());
 	}
 	
+	/*
 	@Test
 	public void test30() throws Exception {
 		Authorization authorization = new Authorization();
@@ -451,6 +452,6 @@ public class TestCert2AuthEnhanced {
 		assertEquals(response.getMessage(), "Partially Approved",response.getMessage());
 		assertEquals(response.getMessage(), 18699L,response.getApprovedAmount().longValue());
 	}
-	
+	*/
 
 }
