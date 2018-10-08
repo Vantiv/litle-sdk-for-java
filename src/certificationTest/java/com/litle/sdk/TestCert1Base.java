@@ -487,7 +487,6 @@ public class TestCert1Base {
 		card.setType(MethodOfPaymentTypeEnum.AX);
 		card.setNumber("375001000000005");
 		card.setExpDate("0412");
-		card.setCardValidationNum("758");
 		authorization.setCard(card);
 		authorization.setId("id");
 
