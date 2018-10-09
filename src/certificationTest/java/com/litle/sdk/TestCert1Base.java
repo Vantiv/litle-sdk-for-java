@@ -129,7 +129,6 @@ public class TestCert1Base {
 		card.setExpDate("0112");
 		card.setCardValidationNum("349");
 		sale.setCard(card);
-		sale.setId("id");
 
 		SaleResponse response = litle.sale(sale);
 		assertEquals(response.getMessage(), "000",response.getResponse());
