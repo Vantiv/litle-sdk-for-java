@@ -167,7 +167,6 @@ public class TestCert1Base {
 		FraudCheckType authenticationvalue = new FraudCheckType();
 		authenticationvalue.setAuthenticationValue("BwABBJQ1AgAAAAAgJDUCAAAAAAA=");
 		authorization.setCardholderAuthentication(authenticationvalue);
-		authorization.setId("id");
 
 		AuthorizationResponse response = litle.authorize(authorization);
 		assertEquals(response.getMessage(), "000",response.getResponse());
@@ -178,14 +177,12 @@ public class TestCert1Base {
 
 		Capture capture = new Capture();
 		capture.setLitleTxnId(response.getLitleTxnId());
-		capture.setId("id");
 		CaptureResponse captureresponse = litle.capture(capture);
 		assertEquals(captureresponse.getMessage(), "000",captureresponse.getResponse());
 		assertEquals(captureresponse.getMessage(), "Approved",captureresponse.getMessage());
 
 		Credit credit = new Credit();
 		credit.setLitleTxnId(captureresponse.getLitleTxnId());
-		credit.setId("id");
 		CreditResponse creditresponse = litle.credit(credit);
 		assertEquals(creditresponse.getMessage(), "000",creditresponse.getResponse());
 		assertEquals(creditresponse.getMessage(), "Approved",creditresponse.getMessage());
