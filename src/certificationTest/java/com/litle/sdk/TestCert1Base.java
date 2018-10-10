@@ -145,6 +145,7 @@ public class TestCert1Base {
 
 		com.litle.sdk.generate.Void newvoid = new com.litle.sdk.generate.Void();
 		newVoid.setLitleTxnId(creditresponse.getLitleTxnId());
+		newvoid.setId("id");
 		VoidResponse voidresponse = litle.dovoid(newVoid);
 		assertEquals(voidresponse.getMessage(), "000",voidresponse.getResponse());
 		assertEquals(voidresponse.getMessage(), "Approved",voidresponse.getMessage());
