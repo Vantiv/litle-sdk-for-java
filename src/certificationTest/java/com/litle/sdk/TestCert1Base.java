@@ -139,14 +139,12 @@ public class TestCert1Base {
 
 		Credit credit = new Credit();
 		credit.setLitleTxnId(response.getLitleTxnId());
-		credit.setId(response.getId());
 		CreditResponse creditresponse = litle.credit(credit);
 		assertEquals(creditresponse.getMessage(), "000",creditresponse.getResponse());
 		assertEquals(creditresponse.getMessage(), "Approved",creditresponse.getMessage());
 
 		Void newVoid = new Void();
 		newVoid.setLitleTxnId(creditresponse.getLitleTxnId());
-		newVoid.setId(creditresponse.getId());
 		VoidResponse voidresponse = litle.dovoid(newVoid);
 		assertEquals(voidresponse.getMessage(), "000",voidresponse.getResponse());
 		assertEquals(voidresponse.getMessage(), "Approved",voidresponse.getMessage());
