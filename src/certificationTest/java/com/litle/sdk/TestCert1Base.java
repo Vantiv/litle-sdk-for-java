@@ -143,9 +143,9 @@ public class TestCert1Base {
 		assertEquals(creditresponse.getMessage(), "000",creditresponse.getResponse());
 		assertEquals(creditresponse.getMessage(), "Approved",creditresponse.getMessage());
 
-		Void newvoid = new Void();
+		Void newVoid = new Void();
 		newVoid.setLitleTxnId(creditresponse.getLitleTxnId());
-		newvoid.setId("id");
+		newVoid.setId("id");
 		VoidResponse voidresponse = litle.dovoid(newVoid);
 		assertEquals(voidresponse.getMessage(), "000",voidresponse.getResponse());
 		assertEquals(voidresponse.getMessage(), "Approved",voidresponse.getMessage());
