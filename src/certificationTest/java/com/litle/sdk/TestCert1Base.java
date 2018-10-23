@@ -139,6 +139,7 @@ public class TestCert1Base {
 		assertEquals(response.getMessage(), "M",response.getFraudResult().getCardValidationResult());
 
 		Credit credit = new Credit();
+		credit.setId("id");
 		credit.setLitleTxnId(response.getLitleTxnId());
 		CreditResponse creditresponse = litle.credit(credit);
 		assertEquals(creditresponse.getMessage(), "000",creditresponse.getResponse());
