@@ -9,3 +9,4 @@ build/
 litle-sdk-for-java.iml
 out/
 sample.xml
+*.iml
