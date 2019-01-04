@@ -58,7 +58,7 @@ dependencies{
 }
 
 ////////// PLUGIN CONFIGURATION ////////// 
-sourceCompatibility=1.5
+sourceCompatibility=1.7
 
 clean {
     // temporary, we need to change the tests to generate output inside build folder
