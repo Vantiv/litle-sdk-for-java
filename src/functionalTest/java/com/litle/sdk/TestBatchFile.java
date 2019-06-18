@@ -33,7 +33,7 @@ public class TestBatchFile {
         Properties configFromFile = request.getConfig();
 
         // pre-assert the config file has required param values
-        assertEquals("prelive.litle.com",
+        assertEquals("payments.vantivprelive.com",
                 configFromFile.getProperty("batchHost"));
         assertEquals("15000", configFromFile.getProperty("batchPort"));
 
@@ -71,7 +71,7 @@ public class TestBatchFile {
         prepDir(workingDirResponses);
 
         Properties configOverrides = new Properties();
-        configOverrides.setProperty("batchHost", "prelive.litle.com");
+        configOverrides.setProperty("batchHost", "payments.vantivprelive.com");
         configOverrides.setProperty("batchPort", "15000");
 
         configOverrides.setProperty("batchRequestFolder", workingDirRequests);
@@ -112,7 +112,7 @@ public class TestBatchFile {
         Properties configFromFile = request.getConfig();
 
         // pre-assert the config file has required param values
-        assertEquals("prelive.litle.com",
+        assertEquals("payments.vantivprelive.com",
                 configFromFile.getProperty("batchHost"));
         assertEquals("15000", configFromFile.getProperty("batchPort"));
 
@@ -161,7 +161,7 @@ public class TestBatchFile {
         Properties configFromFile = request1.getConfig();
 
         // pre-assert the config file has required param values
-        assertEquals("prelive.litle.com",
+        assertEquals("payments.vantivprelive.com",
                 configFromFile.getProperty("batchHost"));
         assertEquals("15000", configFromFile.getProperty("batchPort"));
 
@@ -222,7 +222,7 @@ public class TestBatchFile {
         Properties configFromFile = request.getConfig();
 
         // pre-assert the config file has required param values
-        assertEquals("prelive.litle.com",
+        assertEquals("payments.vantivprelive.com",
                 configFromFile.getProperty("batchHost"));
         assertEquals("15000", configFromFile.getProperty("batchPort"));
 
@@ -260,7 +260,7 @@ public class TestBatchFile {
         prepDir(workingDirResponses);
 
         Properties configOverrides = new Properties();
-        configOverrides.setProperty("batchHost", "prelive.litle.com");
+        configOverrides.setProperty("batchHost", "payments.vantivprelive.com");
         configOverrides.setProperty("sftpTimeout", "720000");
 
         configOverrides.setProperty("batchRequestFolder", workingDirRequests);
@@ -316,7 +316,7 @@ public class TestBatchFile {
         Properties configFromFile = request.getConfig();
 
         // pre-assert the config file has required param values
-        assertEquals("prelive.litle.com",
+        assertEquals("payments.vantivprelive.com",
                 configFromFile.getProperty("batchHost"));
         assertEquals("15000", configFromFile.getProperty("batchPort"));
 
@@ -485,7 +485,7 @@ public class TestBatchFile {
         Properties configFromFile = request.getConfig();
 
         // pre-assert the config file has required param values
-        assertEquals("prelive.litle.com",
+        assertEquals("payments.vantivprelive.com",
                 configFromFile.getProperty("batchHost"));
         assertEquals("15000", configFromFile.getProperty("batchPort"));
 
@@ -892,7 +892,7 @@ public class TestBatchFile {
         Properties configFromFile = request.getConfig();
 
         // pre-assert the config file has required param values
-        assertEquals("prelive.litle.com",
+        assertEquals("payments.vantivprelive.com",
                 configFromFile.getProperty("batchHost"));
         assertEquals("15000", configFromFile.getProperty("batchPort"));
 
@@ -1197,7 +1197,7 @@ public class TestBatchFile {
         Properties configFromFile = request.getConfig();
 
         // pre-assert the config file has required param values
-        assertEquals("prelive.litle.com",
+        assertEquals("payments.vantivprelive.com",
                 configFromFile.getProperty("batchHost"));
         assertEquals("15000", configFromFile.getProperty("batchPort"));
 
@@ -1272,7 +1272,7 @@ public class TestBatchFile {
         Properties configFromFile = request.getConfig();
 
         // pre-assert the config file has required param values
-        assertEquals("prelive.litle.com",
+        assertEquals("payments.vantivprelive.com",
                 configFromFile.getProperty("batchHost"));
         assertEquals("15000", configFromFile.getProperty("batchPort"));
 
