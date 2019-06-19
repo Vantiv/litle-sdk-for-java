@@ -319,6 +319,10 @@ public class Communication {
             }
             boolean success = true;
             try{
+				System.out.println("Inbound\n");
+            	sftp.ls("inbound/");
+				System.out.println("Outbound\n");
+				sftp.ls("outbound/");
                 sftp.get("outbound/" + requestFile.getName() + ".asc", responseFile.getAbsolutePath());
             }
             catch(SftpException e){

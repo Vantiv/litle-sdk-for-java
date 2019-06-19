@@ -136,9 +136,13 @@ public class TestBatchFileEncryption {
                 requestFile2.getName(), configForRequest2);
         request2.sendOnlyToLitleSFTP(true);
 
+        System.out.println("File2 Name" + requestFile2.getName());
+
         // --- Retrieve response ---
         LitleBatchFileRequest request3 = new LitleBatchFileRequest(
                 requestFile2.getName(), configForRequest2);
+
+
         LitleBatchFileResponse response = request3.retrieveOnlyFromLitleSFTP();
 
         // Assert response matches what was requested
