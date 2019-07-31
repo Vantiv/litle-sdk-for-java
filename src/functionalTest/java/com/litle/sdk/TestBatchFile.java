@@ -66,6 +66,8 @@ public class TestBatchFile {
 
     @Test
     public void testSendToLitle_WithConfigOverrides() throws Exception {
+        Assume.assumeFalse(preliveStatus.equalsIgnoreCase("down"));
+        
         String workingDir = System.getProperty("java.io.tmpdir");
 
         String workingDirRequests = workingDir + File.separator
