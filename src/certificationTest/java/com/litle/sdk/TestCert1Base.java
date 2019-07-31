@@ -11,10 +11,13 @@ import com.litle.sdk.generate.Void;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.Assume;
 
 public class TestCert1Base {
 
 	private static LitleOnline litle;
+	
+	private String preliveStatus = System.getenv("preliveStatus");
 
 	@BeforeClass
 	public static void beforeClass() throws Exception {
@@ -29,6 +32,7 @@ public class TestCert1Base {
 
 	@Test
 	public void test1Auth() throws Exception {
+		Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
 		Authorization authorization = new Authorization();
 		authorization.setOrderId("1");
 		authorization.setAmount(10010L);
@@ -80,6 +84,7 @@ public class TestCert1Base {
 
 	@Test
 	public void test1AVS() throws Exception {
+		Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
 		Authorization authorization = new Authorization();
 		authorization.setOrderId("1");
 		authorization.setAmount(000L);
@@ -111,6 +116,7 @@ public class TestCert1Base {
 
 	@Test
 	public void test1Sale() throws Exception {
+		Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
 		Sale sale = new Sale();
 		sale.setOrderId("1");
 		sale.setAmount(10010L);
@@ -155,6 +161,7 @@ public class TestCert1Base {
 
 	@Test
 	public void test2Auth() throws Exception {
+		Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
 		Authorization authorization = new Authorization();
 		authorization.setOrderId("2");
 		authorization.setAmount(20020L);
@@ -211,6 +218,7 @@ public class TestCert1Base {
 
 	@Test
 	public void test2AVS() throws Exception {
+		Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
 		Authorization authorization = new Authorization();
 		authorization.setOrderId("2");
 		authorization.setAmount(000L);
@@ -247,6 +255,7 @@ public class TestCert1Base {
 
 	@Test
 	public void test2Sale() throws Exception {
+		Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
 		Sale sale = new Sale();
 		sale.setOrderId("2");
 		sale.setAmount(20020L);
@@ -295,6 +304,7 @@ public class TestCert1Base {
 
 	@Test
 	public void test3Auth() throws Exception {
+		Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
 		Authorization authorization = new Authorization();
 		authorization.setOrderId("3");
 		authorization.setAmount(30030L);
@@ -346,6 +356,7 @@ public class TestCert1Base {
 
 	@Test
 	public void test3AVS() throws Exception {
+		Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
 		Authorization authorization = new Authorization();
 		authorization.setOrderId("3");
 		authorization.setAmount(000L);
@@ -377,6 +388,7 @@ public class TestCert1Base {
 
 	@Test
 	public void test3Sale() throws Exception {
+		Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
 		Sale sale = new Sale();
 		sale.setOrderId("3");
 		sale.setAmount(30030L);
@@ -421,6 +433,7 @@ public class TestCert1Base {
 
 	@Test
 	public void test4Auth() throws Exception {
+		Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
 		Authorization authorization = new Authorization();
 		authorization.setOrderId("4");
 		authorization.setAmount(10100L);
@@ -471,6 +484,7 @@ public class TestCert1Base {
 
 	@Test
 	public void test4AVS() throws Exception {
+		Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
 		Authorization authorization = new Authorization();
 		authorization.setOrderId("4");
 		authorization.setAmount(000L);
@@ -500,6 +514,7 @@ public class TestCert1Base {
 
 	@Test
 	public void test4Sale() throws Exception {
+		Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
 		Sale sale = new Sale();
 		sale.setOrderId("4");
 		sale.setAmount(40040L);
@@ -543,6 +558,7 @@ public class TestCert1Base {
 
 	@Test
 	public void test5Auth() throws Exception {
+		Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
 		Authorization authorization = new Authorization();
 		authorization.setOrderId("5");
 		authorization.setAmount(50050L);
@@ -590,6 +606,7 @@ public class TestCert1Base {
 
 	@Test
 	public void test5AVS() throws Exception {
+		Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
 		Authorization authorization = new Authorization();
 		authorization.setOrderId("5");
 		authorization.setAmount(000L);
@@ -617,6 +634,7 @@ public class TestCert1Base {
 
 	@Test
 	public void test5Sale() throws Exception {
+		Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
 		Sale sale = new Sale();
 		sale.setOrderId("5");
 		sale.setAmount(50050L);
@@ -657,6 +675,7 @@ public class TestCert1Base {
 
 	@Test
 	public void test6Auth() throws Exception {
+		Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
 		Authorization authorization = new Authorization();
 		authorization.setOrderId("6");
 		authorization.setAmount(60060L);
@@ -687,6 +706,7 @@ public class TestCert1Base {
 
 	@Test
 	public void test6Sale() throws Exception {
+		Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
 		Sale sale = new Sale();
 		sale.setOrderId("6");
 		sale.setAmount(60060L);
@@ -723,6 +743,7 @@ public class TestCert1Base {
 
 	@Test
 	public void test7Auth() throws Exception {
+		Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
 		Authorization authorization = new Authorization();
 		authorization.setOrderId("7");
 		authorization.setAmount(70070L);
@@ -753,6 +774,7 @@ public class TestCert1Base {
 
 	@Test
 	public void test7AVS() throws Exception {
+		Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
 		Authorization authorization = new Authorization();
 		authorization.setOrderId("7");
 		authorization.setAmount(000L);
@@ -783,6 +805,7 @@ public class TestCert1Base {
 
 	@Test
 	public void test7Sale() throws Exception {
+		Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
 		Sale sale = new Sale();
 		sale.setOrderId("7");
 		sale.setAmount(70070L);
@@ -813,6 +836,7 @@ public class TestCert1Base {
 
 	@Test
 	public void test8Auth() throws Exception {
+		Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
 		Authorization authorization = new Authorization();
 		authorization.setOrderId("8");
 		authorization.setAmount(80080L);
@@ -843,6 +867,7 @@ public class TestCert1Base {
 
 	@Test
 	public void test8AVS() throws Exception {
+		Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
 		Authorization authorization = new Authorization();
 		authorization.setOrderId("8");
 		authorization.setAmount(000L);
@@ -873,6 +898,7 @@ public class TestCert1Base {
 
 	@Test
 	public void test8Sale() throws Exception {
+		Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
 		Sale sale = new Sale();
 		sale.setOrderId("8");
 		sale.setAmount(80080L);
@@ -903,6 +929,7 @@ public class TestCert1Base {
 
 	@Test
 	public void test9Auth() throws Exception {
+		Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
 		Authorization authorization = new Authorization();
 		authorization.setOrderId("9");
 		authorization.setAmount(90090L);
@@ -932,6 +959,7 @@ public class TestCert1Base {
 
 	@Test
 	public void test9AVS() throws Exception {
+		Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
 		Authorization authorization = new Authorization();
 		authorization.setOrderId("9");
 		authorization.setAmount(000L);
@@ -961,6 +989,7 @@ public class TestCert1Base {
 
 	@Test
 	public void test9Sale() throws Exception {
+		Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
 		Sale sale = new Sale();
 		sale.setOrderId("9");
 		sale.setAmount(90090L);
@@ -990,6 +1019,7 @@ public class TestCert1Base {
 
 	@Test
 	public void test10() throws Exception {
+		Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
 		Authorization authorization = new Authorization();
 		authorization.setOrderId("10");
 		authorization.setAmount(40000L);
@@ -1011,6 +1041,7 @@ public class TestCert1Base {
 
 	@Test
 	public void test11() throws Exception {
+		Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
 		Authorization authorization = new Authorization();
 		authorization.setOrderId("11");
 		authorization.setAmount(60000L);
@@ -1032,6 +1063,7 @@ public class TestCert1Base {
 
 	@Test
 	public void test12() throws Exception {
+		Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
 		Authorization authorization = new Authorization();
 		authorization.setOrderId("12");
 		authorization.setAmount(50000L);
@@ -1053,6 +1085,7 @@ public class TestCert1Base {
 
 	@Test
 	public void test13() throws Exception {
+		Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
 		Authorization authorization = new Authorization();
 		authorization.setOrderId("13");
 		authorization.setAmount(15000L);
@@ -1075,6 +1108,7 @@ public class TestCert1Base {
 
 	@Test
 	public void testp1_idealSale() throws Exception {
+		Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
 		Sale sale = new Sale();
 		sale.setOrderId("p1_idealSale");
 		sale.setAmount(10011L);
@@ -1098,6 +1132,7 @@ public class TestCert1Base {
 
 	@Test
 	public void testn10_idealSale() throws Exception {
+		Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
 		Sale sale = new Sale();
 		sale.setOrderId("n10_idealSale");
 		sale.setAmount(20100L);
@@ -1118,6 +1153,7 @@ public class TestCert1Base {
 
 	@Test
 	public void testp1_giropaySale() throws Exception {
+		Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
 		Sale sale = new Sale();
 		sale.setOrderId("p1_giropaySale");
 		sale.setAmount(10011L);
@@ -1140,6 +1176,7 @@ public class TestCert1Base {
 
 	@Test
 	public void testn10_giropaySale() throws Exception {
+		Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
 		Sale sale = new Sale();
 		sale.setOrderId("n10_giropaySale");
 		sale.setAmount(20100L);
@@ -1160,6 +1197,7 @@ public class TestCert1Base {
 
 	@Test
 	public void testp1_sofortSale() throws Exception {
+		Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
 		Sale sale = new Sale();
 		sale.setOrderId("p1_sofortSale");
 		sale.setAmount(10011L);
@@ -1182,6 +1220,7 @@ public class TestCert1Base {
 
 	@Test
 	public void testn10_sofortSale() throws Exception {
+		Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
 		Sale sale = new Sale();
 		sale.setOrderId("n10_sofortySale");
 		sale.setAmount(20100L);
