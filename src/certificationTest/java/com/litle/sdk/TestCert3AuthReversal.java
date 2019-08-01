@@ -8,6 +8,7 @@ import java.util.Properties;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.Assume;
 
 import com.litle.sdk.generate.AuthReversal;
 import com.litle.sdk.generate.AuthReversalResponse;
