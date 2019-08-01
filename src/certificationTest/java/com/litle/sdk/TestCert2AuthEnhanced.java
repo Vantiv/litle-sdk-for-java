@@ -19,7 +19,6 @@ public class TestCert2AuthEnhanced {
 
 	@BeforeClass
 	public static void beforeClass() throws Exception {
-		Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
         Properties config = new Properties();
         FileInputStream fileInputStream = new FileInputStream((new Configuration()).location());
         config.load(fileInputStream);
