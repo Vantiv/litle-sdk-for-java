@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.Assume;
 
 import com.litle.sdk.generate.Authorization;
 import com.litle.sdk.generate.AuthorizationResponse;
