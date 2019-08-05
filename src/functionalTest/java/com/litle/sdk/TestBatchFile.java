@@ -20,6 +20,7 @@ import org.junit.Test;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
+import org.junit.Assume;
 
 import com.litle.sdk.generate.AccountUpdate;
 import com.litle.sdk.generate.AccountUpdateResponse;
@@ -81,6 +82,8 @@ import com.litle.sdk.generate.UpdateSubscriptionResponse;
 public class TestBatchFile {
 
     String merchantId = "0180";
+    
+    private String preliveStatus = System.getenv("preliveStatus");
     
     public static class FailedRule implements TestRule
     {       
@@ -158,10 +161,11 @@ public class TestBatchFile {
     public static RetryRule retry = new RetryRule(3);
 
     @Rule
-    public FailedRule onFailed = new FailedRule();
+    public FailedRule onFailed = new FailedRule();throws Exception {
 
     @Test
-	public void testSendToLitle_WithFileConfig() throws Exception {
+	public void testSendToLitle_WithFileConfig() throws Exception { 
+		Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
 		String requestFileName = "litleSdk-testBatchFile-fileConfig.xml";
 		LitleBatchFileRequest request = new LitleBatchFileRequest(requestFileName);
 
@@ -193,7 +197,8 @@ public class TestBatchFile {
 	}
 
 	@Test
-	public void testSendToLitle_WithConfigOverrides() throws Exception {
+	public void testSendToLitle_WithConfigOverrides() throws Exception { 
+		Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
 		String workingDir = System.getProperty("java.io.tmpdir");
 
 		String workingDirRequests = workingDir + File.separator + "litleSdkTestBatchRequests";
@@ -232,7 +237,8 @@ public class TestBatchFile {
 	}
 
 	@Test
-	public void testSendToLitleSFTP_WithPreviouslyCreatedFile() throws Exception {
+	public void testSendToLitleSFTP_WithPreviouslyCreatedFile() throws Exception { 
+		Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
 	    String requestFileName = "litleSdk-testBatchFile-fileConfigSFTP.xml";
         LitleBatchFileRequest request = new LitleBatchFileRequest(requestFileName);
 
@@ -273,7 +279,8 @@ public class TestBatchFile {
 	}
 
 	@Test
-    public void testSendOnlyToLitleSFTP_WithPreviouslyCreatedFile() throws Exception {
+    public void testSendOnlyToLitleSFTP_WithPreviouslyCreatedFile() throws Exception { 
+		Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
 	    // --- Prepare the batch file ---
         String requestFileName = "litleSdk-testBatchFile-fileConfigSFTP.xml";
         LitleBatchFileRequest request1 = new LitleBatchFileRequest(requestFileName);
@@ -327,7 +334,8 @@ public class TestBatchFile {
     }
 
 	@Test
-    public void testSendToLitleSFTP_WithFileConfig() throws Exception {
+    public void testSendToLitleSFTP_WithFileConfig() throws Exception { 
+		Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
         String requestFileName = "litleSdk-testBatchFile-fileConfigSFTP.xml";
         LitleBatchFileRequest request = new LitleBatchFileRequest(requestFileName);
 
@@ -359,7 +367,8 @@ public class TestBatchFile {
     }
 
     @Test
-    public void testSendToLitleSFTP_WithConfigOverrides() throws Exception {
+    public void testSendToLitleSFTP_WithConfigOverrides() throws Exception { 
+		Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
         String workingDir = System.getProperty("java.io.tmpdir");
 
         String workingDirRequests = workingDir + File.separator + "litleSdkTestBatchRequests";
