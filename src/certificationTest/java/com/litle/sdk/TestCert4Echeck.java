@@ -25,7 +25,7 @@ public class TestCert4Echeck {
 
 	private static LitleOnline litle;
 	
-	private String preliveStatus = System,getenv("preliveStatus");
+	private String preliveStatus = System.getenv("preliveStatus");
 
 	@BeforeClass
 	public static void beforeClass() throws Exception {
