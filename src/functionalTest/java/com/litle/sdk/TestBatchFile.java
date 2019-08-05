@@ -161,7 +161,7 @@ public class TestBatchFile {
     public static RetryRule retry = new RetryRule(3);
 
     @Rule
-    public FailedRule onFailed = new FailedRule();throws Exception {
+    public FailedRule onFailed = new FailedRule();
 
     @Test
 	public void testSendToLitle_WithFileConfig() throws Exception { 
