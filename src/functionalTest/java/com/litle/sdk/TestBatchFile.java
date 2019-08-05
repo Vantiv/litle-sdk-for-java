@@ -420,6 +420,7 @@ public class TestBatchFile {
 	}
 	@Test
 	public void testMechaBatchAndProcess(){
+        Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
 	    String requestFileName = "litleSdk-testBatchFile-MECHA.xml";
         LitleBatchFileRequest request = new LitleBatchFileRequest(requestFileName);
 
@@ -574,6 +575,7 @@ public class TestBatchFile {
 
 	   @Test
 	    public void testGiftCardTransactions(){
+            Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
 	        String requestFileName = "litleSdk-testBatchFile-RECURRING.xml";
 	        LitleBatchFileRequest request = new LitleBatchFileRequest(requestFileName);
 
@@ -714,6 +716,7 @@ public class TestBatchFile {
 
 	   @Test
 	    public void testMechaBatchAndProcess_RecurringDemonstratesUseOfProcessorAdapter(){
+            Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
 	        String requestFileName = "litleSdk-testBatchFile-RECURRING.xml";
 	        LitleBatchFileRequest request = new LitleBatchFileRequest(requestFileName);
 
@@ -777,6 +780,7 @@ public class TestBatchFile {
 
 	@Test
     public void testBatch_AU(){
+        Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
         String requestFileName = "litleSdk-testBatchFile_AU.xml";
         LitleBatchFileRequest request = new LitleBatchFileRequest(requestFileName);
 
