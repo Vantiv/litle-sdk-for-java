@@ -270,18 +270,6 @@ task zipKit(type:Zip, dependsOn:[copyJarToKit, copyLibsToKit]){
     from "$buildDir/kit/java15"
 }
 
-task kit(dependsOn:[tarKit, zipKit]){
-if (JavaVersion.current().isJava8Compatible()) {
-    allprojects {
-      tasks.withType(Javadoc) {
-        options.addStringOption('Xdoclint:none', '-quiet')
-      }
-    }
-  }
-    build.dependsOn it
-    dependsOn javadoc
-}
-
 task writeNewPom(type:Copy) {
     build.dependsOn it
     pom {
@@ -301,4 +289,16 @@ task sourceJar(type:Jar) {
     classifier = 'sources'
     from "src/main/java"
     from generateJaxbClasses.generatedDir
+}
+
+task kit(dependsOn:[tarKit, zipKit, writeNewPom, sourceJar]){
+    if (JavaVersion.current().isJava8Compatible()) {
+        allprojects {
+            tasks.withType(Javadoc) {
+                options.addStringOption('Xdoclint:none', '-quiet')
+            }
+        }
+    }
+    build.dependsOn it
+    dependsOn javadoc
 }
