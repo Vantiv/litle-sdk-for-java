@@ -28,6 +28,8 @@ import java.util.Properties;
 public class TestCert5Token {
 
 	private static LitleOnline litle;
+	
+	private static String preliveStatus = System.getenv("preliveStatus");
 
 	@BeforeClass
 	public static void beforeClass() throws Exception {
@@ -41,7 +43,8 @@ public class TestCert5Token {
 	}
 	
 	@Test
-	public void test50() throws Exception {
+	public void test50() throws Exception { 
+		Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
 		RegisterTokenRequestType request = new RegisterTokenRequestType();
 		request.setOrderId("50");
 		request.setAccountNumber("4457119922390123");
@@ -55,7 +58,8 @@ public class TestCert5Token {
 	}
 	
 	@Test
-	public void test51() throws Exception {
+	public void test51() throws Exception { 
+		Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
 		RegisterTokenRequestType request = new RegisterTokenRequestType();
 		request.setOrderId("51");
 		request.setAccountNumber("4457119999999999");
@@ -66,7 +70,8 @@ public class TestCert5Token {
 	}
 
 	@Test
-	public void test52() throws Exception {
+	public void test52() throws Exception { 
+		Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
 		RegisterTokenRequestType request = new RegisterTokenRequestType();
 		request.setOrderId("52");
 		request.setAccountNumber("4457119922390123");
@@ -80,7 +85,8 @@ public class TestCert5Token {
 	}
 	
 	@Test
-	public void test53() throws Exception {
+	public void test53() throws Exception { 
+		Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
 		RegisterTokenRequestType request = new RegisterTokenRequestType();
 		request.setOrderId("53");
 		EcheckForTokenType echeck = new EcheckForTokenType();
@@ -97,7 +103,8 @@ public class TestCert5Token {
 	}
 	
 	@Test
-	public void test54() throws Exception {
+	public void test54() throws Exception { 
+		Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
 		RegisterTokenRequestType request = new RegisterTokenRequestType();
 		request.setOrderId("54");
 		EcheckForTokenType echeck = new EcheckForTokenType();
@@ -111,7 +118,8 @@ public class TestCert5Token {
 	}
 	
 	@Test
-	public void test55() throws Exception {
+	public void test55() throws Exception { 
+		Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
 		Authorization auth = new Authorization();
 		auth.setOrderId("55");
 		auth.setAmount(15000L);
@@ -134,7 +142,8 @@ public class TestCert5Token {
 	}
 	
 	@Test
-	public void test56() throws Exception {
+	public void test56() throws Exception { 
+		Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
 		Authorization auth = new Authorization();
 		auth.setOrderId("56");
 		auth.setAmount(15000L);
@@ -152,7 +161,8 @@ public class TestCert5Token {
 	}
 	
 	@Test
-	public void test57() throws Exception {
+	public void test57() throws Exception { 
+		Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
 		Authorization auth = new Authorization();
 		auth.setOrderId("57");
 		auth.setAmount(15000L);
@@ -174,7 +184,8 @@ public class TestCert5Token {
 	}
 	
 	@Test
-	public void test59() throws Exception {
+	public void test59() throws Exception { 
+		Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
 		Authorization auth = new Authorization();
 		auth.setOrderId("59");
 		auth.setAmount(15000L);
@@ -190,7 +201,8 @@ public class TestCert5Token {
 	}
 	
 	@Test
-	public void test60() throws Exception {
+	public void test60() throws Exception { 
+		Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
 		Authorization auth = new Authorization();
 		auth.setOrderId("60");
 		auth.setAmount(15000L);
@@ -206,7 +218,8 @@ public class TestCert5Token {
 	}
 	
 	@Test
-	public void test61() throws Exception {
+	public void test61() throws Exception { 
+		Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
 		EcheckSale sale = new EcheckSale();
 		sale.setOrderId("61");
 		sale.setAmount(15000L);
@@ -229,7 +242,8 @@ public class TestCert5Token {
 	}
 	
 	@Test
-	public void test62() throws Exception {
+	public void test62() throws Exception { 
+		Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
 		EcheckSale sale = new EcheckSale();
 		sale.setOrderId("62");
 		sale.setAmount(15000L);
@@ -252,7 +266,8 @@ public class TestCert5Token {
 	}
 	
 	@Test
-	public void test63() throws Exception {
+	public void test63() throws Exception { 
+		Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
 		EcheckSale sale = new EcheckSale();
 		sale.setOrderId("63");
 		sale.setAmount(15000L);
@@ -275,7 +290,8 @@ public class TestCert5Token {
 	}
 
 	@Test
-	public void test64() throws Exception {
+	public void test64() throws Exception { 
+		Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
 		EcheckSale sale = new EcheckSale();
 		sale.setOrderId("63");
 		sale.setAmount(15000L);

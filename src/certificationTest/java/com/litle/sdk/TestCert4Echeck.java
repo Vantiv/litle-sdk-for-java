@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.Assume;
 
 import com.litle.sdk.generate.Contact;
 import com.litle.sdk.generate.EcheckAccountTypeEnum;
@@ -23,6 +24,8 @@ import java.util.Properties;
 public class TestCert4Echeck {
 
 	private static LitleOnline litle;
+	
+	private String preliveStatus = System.getenv("preliveStatus");
 
 	@BeforeClass
 	public static void beforeClass() throws Exception {
@@ -36,7 +39,8 @@ public class TestCert4Echeck {
 	}
 	
 	@Test
-	public void test37() throws Exception {
+	public void test37() throws Exception { 
+		Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
 		EcheckVerification verification = new EcheckVerification();
 		verification.setOrderId("37");
 		verification.setAmount(3001L);
@@ -57,7 +61,8 @@ public class TestCert4Echeck {
 	}
 	
 	@Test
-	public void test38() throws Exception {
+	public void test38() throws Exception { 
+		Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
 		EcheckVerification verification = new EcheckVerification();
 		verification.setOrderId("38");
 		verification.setAmount(3002L);
@@ -79,7 +84,8 @@ public class TestCert4Echeck {
 	}
 	
 	@Test
-	public void test39() throws Exception {
+	public void test39() throws Exception { 
+		Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
 		EcheckVerification verification = new EcheckVerification();
 		verification.setOrderId("39");
 		verification.setAmount(3003L);
@@ -102,7 +108,8 @@ public class TestCert4Echeck {
 	}
 	
 	@Test
-	public void test40() throws Exception {
+	public void test40() throws Exception { 
+		Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
 		EcheckVerification verification = new EcheckVerification();
 		verification.setOrderId("40");
 		verification.setAmount(3004L);
@@ -125,7 +132,8 @@ public class TestCert4Echeck {
 	}
 	
 	@Test
-	public void test41() throws Exception {
+	public void test41() throws Exception { 
+		Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
 		EcheckSale sale = new EcheckSale();
 		sale.setOrderId("41");
 		sale.setAmount(2008L);
@@ -147,7 +155,8 @@ public class TestCert4Echeck {
 	}
 	
 	@Test
-	public void test42() throws Exception {
+	public void test42() throws Exception { 
+		Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
 		EcheckSale sale = new EcheckSale();
 		sale.setOrderId("42");
 		sale.setAmount(2004L);
@@ -168,7 +177,8 @@ public class TestCert4Echeck {
 	}
 	
 	@Test
-	public void test43() throws Exception {
+	public void test43() throws Exception { 
+		Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
 		EcheckSale sale = new EcheckSale();
 		sale.setOrderId("43");
 		sale.setAmount(2007L);
@@ -198,7 +208,8 @@ public class TestCert4Echeck {
 	}
 	
 	@Test
-	public void test44() throws Exception {
+	public void test44() throws Exception { 
+		Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
 		EcheckSale sale = new EcheckSale();
 		sale.setOrderId("44");
 		sale.setAmount(2009L);
@@ -220,7 +231,8 @@ public class TestCert4Echeck {
 	}
 	
 	@Test
-	public void test45() throws Exception {
+	public void test45() throws Exception { 
+		Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
 		EcheckCredit credit = new EcheckCredit();
 		credit.setOrderId("45");
 		credit.setAmount(1001L);
@@ -241,7 +253,8 @@ public class TestCert4Echeck {
 	}
 	
 	@Test
-	public void test46() throws Exception {
+	public void test46() throws Exception { 
+		Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
 		EcheckCredit credit = new EcheckCredit();
 		credit.setOrderId("46");
 		credit.setAmount(1003L);
@@ -263,7 +276,8 @@ public class TestCert4Echeck {
 	}
 	
 	@Test
-	public void test47() throws Exception {
+	public void test47() throws Exception { 
+		Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
 		EcheckCredit credit = new EcheckCredit();
 		credit.setOrderId("47");
 		credit.setAmount(1007L);
@@ -285,7 +299,8 @@ public class TestCert4Echeck {
 	}
 	
 	@Test
-	public void test49() throws Exception {
+	public void test49() throws Exception { 
+		Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
 		EcheckCredit credit = new EcheckCredit();
 		credit.setLitleTxnId(2L);
 		

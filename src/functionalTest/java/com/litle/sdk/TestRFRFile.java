@@ -8,6 +8,7 @@ import java.util.Calendar;
 import java.util.Properties;
 
 import org.junit.Test;
+import org.junit.Assume;
 
 import com.litle.sdk.generate.AccountUpdateFileRequestData;
 import com.litle.sdk.generate.RFRRequest;
@@ -15,9 +16,12 @@ import com.litle.sdk.generate.RFRRequest;
 public class TestRFRFile {
 
     String merchantId = "0180";
+    
+    private String preliveStatus = System.getenv("preliveStatus");
 
 	@Test
-    public void testSendToLitleSFTP() throws Exception {
+    public void testSendToLitleSFTP() throws Exception { 
+		Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
         String requestFileName = "litleSdk-testRFRFile-fileConfigSFTP.xml";
         RFRRequest rfrRequest = new RFRRequest();
         AccountUpdateFileRequestData data = new AccountUpdateFileRequestData();
@@ -53,7 +57,8 @@ public class TestRFRFile {
     }
 
 	@Test
-    public void testSendToLitleStream() throws Exception {
+    public void testSendToLitleStream() throws Exception { 
+		Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
         String requestFileName = "litleSdk-testRFRFile-fileConfig.xml";
         RFRRequest rfrRequest = new RFRRequest();
         AccountUpdateFileRequestData data = new AccountUpdateFileRequestData();
