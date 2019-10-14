@@ -1,7 +1,8 @@
 apply plugin : 'java'
 apply plugin : 'eclipse'
 repositories {
-    mavenCentral()
+    maven { url "http://jcenter.bintray.com/"}
+    jcenter()
 }
    dependencies{
         compile rootProject
