@@ -7,11 +7,9 @@ group = 'com.litle'
 version = JAR_VERSION
 
 repositories {
-    // mavenCentral()
-    // added due to peer authenticated issue getting to mavenCentral
-    // remove after testing
-    maven { url "http://jcenter.bintray.com/"}
-    jcenter()
+    maven  {
+        url "http://repo1.maven.org/maven2"
+    }
 }
 
 configurations {
@@ -62,7 +60,7 @@ dependencies{
 }
 
 ////////// PLUGIN CONFIGURATION ////////// 
-sourceCompatibility=1.7
+sourceCompatibility=1.5
 
 clean {
     // temporary, we need to change the tests to generate output inside build folder
@@ -270,6 +268,18 @@ task zipKit(type:Zip, dependsOn:[copyJarToKit, copyLibsToKit]){
     from "$buildDir/kit/java15"
 }
 
+task kit(dependsOn:[tarKit, zipKit]){
+if (JavaVersion.current().isJava8Compatible()) {
+    allprojects {
+      tasks.withType(Javadoc) {
+        options.addStringOption('Xdoclint:none', '-quiet')
+      }
+    }
+  }
+    build.dependsOn it
+    dependsOn javadoc
+}
+
 task writeNewPom(type:Copy) {
     build.dependsOn it
     pom {
@@ -289,16 +299,4 @@ task sourceJar(type:Jar) {
     classifier = 'sources'
     from "src/main/java"
     from generateJaxbClasses.generatedDir
-}
-
-task kit(dependsOn:[tarKit, zipKit, writeNewPom, sourceJar]){
-    if (JavaVersion.current().isJava8Compatible()) {
-        allprojects {
-            tasks.withType(Javadoc) {
-                options.addStringOption('Xdoclint:none', '-quiet')
-            }
-        }
-    }
-    build.dependsOn it
-    dependsOn javadoc
 }
