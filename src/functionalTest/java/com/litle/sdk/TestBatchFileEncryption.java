@@ -3,6 +3,7 @@ package com.litle.sdk;
 import com.litle.sdk.generate.*;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.Assume;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -16,6 +17,7 @@ import static org.junit.Assert.*;
 public class TestBatchFileEncryption {
 
     private Properties config;
+    private String preliveStatus;
 
     @Before
     public void setup() throws IOException {
@@ -34,12 +36,15 @@ public class TestBatchFileEncryption {
         config.setProperty("sftpPassword", encSftpPassword);
         config.setProperty("useEncryption", "true");
         config.setProperty("merchantId", encMerchantId);
+        
+        preliveStatus = System.getenv("preliveStatus");
     }
 
     @Test
     public void testSendToLitleSFTP_WithPreviouslyCreatedFile()
             throws Exception {
 
+        Assume.assumeFalse(preliveStatus.equalsIgnoreCase("down"));
 
         String requestFileName = "litleSdk-testBatchFile-fileConfigSFTP.xml";
         LitleBatchFileRequest request = new LitleBatchFileRequest(
@@ -89,6 +94,9 @@ public class TestBatchFileEncryption {
     @Test
     public void testSendOnlyToLitleSFTP_WithPreviouslyCreatedFile()
             throws Exception {
+
+        Assume.assumeFalse(preliveStatus.equalsIgnoreCase("down"));
+        
         // --- Prepare the batch file ---
         String requestFileName = "litleSdk-testBatchFile-fileConfigSFTP.xml";
         LitleBatchFileRequest request1 = new LitleBatchFileRequest(
@@ -151,6 +159,8 @@ public class TestBatchFileEncryption {
 
     @Test
     public void testSendToLitleSFTP_WithFileConfig() throws Exception {
+        Assume.assumeFalse(preliveStatus.equalsIgnoreCase("down"));
+        
         String requestFileName = "litleSdk-testBatchFile-fileConfigSFTP.xml";
         LitleBatchFileRequest request = new LitleBatchFileRequest(
                 requestFileName, config);
