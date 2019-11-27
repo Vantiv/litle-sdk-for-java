@@ -20,6 +20,7 @@ import org.junit.Test;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
+import org.junit.Assume;
 
 import com.litle.sdk.generate.AccountUpdate;
 import com.litle.sdk.generate.AccountUpdateResponse;
@@ -106,6 +107,8 @@ public class TestBatchFile {
 
     private final long TIME_STAMP = System.currentTimeMillis();
     String merchantId = "0180";
+    
+    private String preliveStatus = System.getenv("preliveStatus");
 
     public static class FailedRule implements TestRule {
         public Statement apply(final Statement base,
@@ -171,7 +174,8 @@ public class TestBatchFile {
     public FailedRule onFailed = new FailedRule();
 
     @Test
-    public void testSendToLitle_WithFileConfig() throws Exception {
+    public void testSendToLitle_WithFileConfig() throws Exception { 
+		Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
         String requestFileName = "litleSdk-testBatchFile-fileConfig-" + TIME_STAMP + ".xml";
         LitleBatchFileRequest request = new LitleBatchFileRequest(
                 requestFileName);
@@ -208,7 +212,8 @@ public class TestBatchFile {
     }
 
     @Test
-    public void testSendToLitle_WithConfigOverrides() throws Exception {
+    public void testSendToLitle_WithConfigOverrides() throws Exception { 
+		Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
         String workingDir = System.getProperty("java.io.tmpdir");
 
         String workingDirRequests = workingDir + File.separator
@@ -250,7 +255,8 @@ public class TestBatchFile {
 
     @Test
     public void testSendToLitleSFTP_WithPreviouslyCreatedFile()
-            throws Exception {
+            throws Exception { 
+		Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
         String requestFileName = "litleSdk-testBatchFile-fileConfigSFTP-" + TIME_STAMP + ".xml";
         LitleBatchFileRequest request = new LitleBatchFileRequest(
                 requestFileName);
@@ -298,7 +304,8 @@ public class TestBatchFile {
 
     @Test
     public void testSendOnlyToLitleSFTP_WithPreviouslyCreatedFile()
-            throws Exception {
+            throws Exception { 
+		Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
         // --- Prepare the batch file ---
         String requestFileName = "litleSdk-testBatchFile-fileConfigSFTP-" + TIME_STAMP + ".xml";
         LitleBatchFileRequest request1 = new LitleBatchFileRequest(
@@ -360,7 +367,8 @@ public class TestBatchFile {
     }
 
     @Test
-    public void testSendToLitleSFTP_WithFileConfig() throws Exception {
+    public void testSendToLitleSFTP_WithFileConfig() throws Exception { 
+		Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
         String requestFileName = "litleSdk-testBatchFile-fileConfigSFTP-" + TIME_STAMP + ".xml";
         LitleBatchFileRequest request = new LitleBatchFileRequest(
                 requestFileName);
@@ -397,7 +405,8 @@ public class TestBatchFile {
     }
 
     @Test
-    public void testSendToLitleSFTP_WithConfigOverrides() throws Exception {
+    public void testSendToLitleSFTP_WithConfigOverrides() throws Exception { 
+		Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
         String workingDir = System.getProperty("java.io.tmpdir");
 
         String workingDirRequests = workingDir + File.separator
@@ -453,6 +462,7 @@ public class TestBatchFile {
 
     @Test
     public void testMechaBatchAndProcess() {
+        Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
         String requestFileName = "litleSdk-testBatchFile-MECHA-" + TIME_STAMP + ".xml";
         LitleBatchFileRequest request = new LitleBatchFileRequest(
                 requestFileName);
@@ -609,6 +619,7 @@ public class TestBatchFile {
 
     @Test
     public void testEcheckPreNoteAll() {
+        Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
         String requestFileName = "litleSdk-testBatchFile-EcheckPreNoteAll-" + TIME_STAMP + ".xml";
         LitleBatchFileRequest request = new LitleBatchFileRequest(
                 requestFileName);
@@ -986,6 +997,7 @@ public class TestBatchFile {
 
     @Test
     public void testGiftCardTransactions() {
+        Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
         String requestFileName = "litleSdk-testBatchFile-RECURRING-" + TIME_STAMP + ".xml";
         LitleBatchFileRequest request = new LitleBatchFileRequest(
                 requestFileName);
@@ -1225,6 +1237,7 @@ public class TestBatchFile {
 
     @Test
     public void testMechaBatchAndProcess_RecurringDemonstratesUseOfProcessorAdapter() {
+        Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
         String requestFileName = "litleSdk-testBatchFile-RECURRING-" + TIME_STAMP + ".xml";
         LitleBatchFileRequest request = new LitleBatchFileRequest(
                 requestFileName);
@@ -1300,6 +1313,7 @@ public class TestBatchFile {
 
     @Test
     public void testBatch_AU() {
+        Assume.assumeFalse(this.preliveStatus.equalsIgnoreCase("down"));
         String requestFileName = "litleSdk-testBatchFile_AU-" + TIME_STAMP + ".xml";
         LitleBatchFileRequest request = new LitleBatchFileRequest(
                 requestFileName);
