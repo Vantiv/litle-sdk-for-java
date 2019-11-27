@@ -30,7 +30,7 @@ public class MultiCurrencyExample {
         cdnProps.setProperty("url","https://www.testvantivcnp.com/sandbox/communicator/online");
         cdnProps.setProperty("username","username");
         cdnProps.setProperty("password","topsecret"); 
-        cdnProps.setProperty("proxyHost","websenseproxy");  
+        cdnProps.setProperty("proxyHost","inetproxy.infoftps.com");
          cdnProps.setProperty("proxyPort","8080");      
         cdnProps.setProperty("version","8.10");
         cdnProps.setProperty("timeout","5000");
@@ -47,7 +47,7 @@ public class MultiCurrencyExample {
         yenProps.setProperty("url","https://www.testvantivcnp.com/sandbox/communicator/online");
         yenProps.setProperty("username","username");
         yenProps.setProperty("password","topsecret");    
-        yenProps.setProperty("proxyHost","websenseproxy");  
+        yenProps.setProperty("proxyHost","inetproxy.infoftps.com");
         yenProps.setProperty("proxyPort","8080");     
         yenProps.setProperty("version","8.10");
         yenProps.setProperty("timeout","5000");
