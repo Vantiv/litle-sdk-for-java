@@ -1,5 +1,8 @@
 = LitleOnline CHANGELOG
 
+==Version 11.4.4 (March 23, 2020)
+* Feature : Added neutering for cardValidationNum
+
 ==Version 11.4.3 (Jun 6, 2018)
 * BugFix : Added ability to get batch response from RFR Requests.
 
