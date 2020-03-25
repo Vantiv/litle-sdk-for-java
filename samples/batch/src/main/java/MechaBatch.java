@@ -8,7 +8,13 @@ import java.util.Properties;
 An example of the batch functionality of Litle Java SDK. We create one of each transaction type, add them to a batch, and then deliver the batch over sFTP to Litle. Note the use of an anonymous class to process responses.
  */
 public class MechaBatch {
-    public static void main(String[] args) {    	
+    public static void main(String[] args) {
+    	String preliveStatus = System.getenv("preliveStatus");
+
+    	if(preliveStatus != null && preliveStatus.equalsIgnoreCase("down")){
+    		return;
+		}
+
     	String requestFileName = "litleSdk-testBatchFile-MECHA.xml";
 	LitleBatchFileRequest request = new LitleBatchFileRequest(requestFileName);
 	String merchantId = "0180";
