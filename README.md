@@ -1,5 +1,12 @@
 Vantiv eCommerce Java SDK
 =====================
+##Version
+
+11.4.3
+
+##Note
+
+Worldpay provides SDK updates for releases in the latest major version stream. We do not provide SDK updates to older releases, unless mandated by the card brands. All SKDs are open source, allowing you to update older versions as needed.
 
 About Vantiv eCommerce
 ------------
@@ -75,11 +82,3 @@ public class SampleLitleTxn {
 ```
 
 More examples can be found here [Java Gists](https://gist.github.com/vantivSDK)
-
-##Version
-
-11.4.3
-
-##Note
-
-Worldpay provides SDK updates for releases in the latest major version stream. We do not provide SDK updates to older releases, unless mandated by the card brands. All SKDs are open source, allowing you to update older versions as needed.
