@@ -1,9 +1,12 @@
 Vantiv eCommerce Java SDK
 =====================
 
-Important Support Notice
-------------
-Worldpay provides SDK updates for releases in the latest major version stream. We do not provide SDK updates to older releases, unless mandated by the card brands. All SDKs are open source, allowing you to update older versions as needed.
+<span style="color:red">
+
+### Important Support Note
+</span>
+
+***Worldpay provides SDK updates for releases in the latest major version stream. We do not provide SDK updates to older releases, unless mandated by the card brands. All SDKs are open source, allowing you to update older versions as needed.***
 
 About Vantiv eCommerce
 ------------
