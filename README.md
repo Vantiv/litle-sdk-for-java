@@ -1,5 +1,12 @@
 Vantiv eCommerce Java SDK
 =====================
+<span style="color:red">
+
+### Important Support Note
+</span>
+
+***Worldpay provides SDK updates for releases in the latest major version stream. We do not provide SDK updates to older releases, unless mandated by the card brands. All SDKs are open source, allowing you to update older versions as needed.***
+
 #### Warning:
 #### All version changes require recertification to the new version. Once certified for the use of a new version, Vantiv modifies your Merchant Profile, allowing you to submit transaction to the Production Environment using the new version. Updating your code without recertification and modification of your Merchant Profile will result in transaction declines. Please consult you Implementation Analyst for additional information about this process.
 About Vantiv eCommerce
@@ -11,13 +18,13 @@ About this SDK
 --------------
 The Vantiv eCommerce Java SDK is a Java implementation of the [Vantiv eCommerce](https://developer.vantiv.com/community/ecommerce) XML API. This SDK was created to make it as easy as possible to process your payments with Vantiv eCommerce. This SDK utilizes the HTTPS protocol to securely connect to Vantiv eCommerce. Using the SDK requires coordination with the Vantiv eCommerce team in order to be provided with credentials for accessing our systems.
 
-Each Java SDK release supports all of the functionality present in the associated Vantiv eCommerce XML version (e.g., SDK v9.3.2 supports Vantiv eCommerce XML v9.3). Please see the online copy of our XSD for Vantiv eCommerce XML to get more details on what the Vantiv eCommerce payments engine supports.
+Each Java SDK release supports all the functionality present in the associated Vantiv eCommerce XML version (e.g., SDK v9.3.2 supports Vantiv eCommerce XML v9.3). Please see the online copy of our XSD for Vantiv eCommerce XML to get more details on what the Vantiv eCommerce payments engine supports.
 
 This SDK was implemented to support the Java programming language and was created by Vantiv eCommerce. Its intended use is for online and batch transaction processing utilizing your account on the Vantiv eCommerce payments engine.
 
 See LICENSE file for details on using this software.
 
-Please contact [Vantiv eCommerce](https://developer.vantiv.com/community/ecommerce) to receive valid merchant credentials in order to run tests successfully or if you require assistance in any way.  We are reachable at sdksupport@Vantiv.com
+Please contact [Vantiv eCommerce](https://developer.vantiv.com/community/ecommerce) to receive valid merchant credentials in order to run tests successfully or if you require assistance in any way.  We are reachable at sdksupport@fisglobal.com
 
 Setup
 -----
@@ -47,7 +54,7 @@ Setup
 
 ```java
 import com.litle.sdk.*;
-import com.litle.sdk.generated.*
+import com.litle.sdk.generated.*;
 
 public class SampleLitleTxn {
 
