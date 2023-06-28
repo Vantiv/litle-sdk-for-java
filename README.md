@@ -1,5 +1,12 @@
 Vantiv eCommerce Java SDK
 =====================
+<span style="color:red">
+
+### Important Support Note
+</span>
+
+***Worldpay provides SDK updates for releases in the latest major version stream. We do not provide SDK updates to older releases, unless mandated by the card brands. All SDKs are open source, allowing you to update older versions as needed.***
+
 #### Warning:
 #### All version changes require recertification to the new version. Once certified for the use of a new version, Vantiv modifies your Merchant Profile, allowing you to submit transaction to the Production Environment using the new version. Updating your code without recertification and modification of your Merchant Profile will result in transaction declines. Please consult you Implementation Analyst for additional information about this process.
 About Vantiv eCommerce
@@ -13,7 +20,7 @@ The Vantiv eCommerce Java SDK is a Java implementation of the [Vantiv eCommerce]
 
 See LICENSE file for details on using this software.
 
-Please contact [Vantiv eCommerce](https://developer.vantiv.com/community/ecommerce) to receive valid merchant credentials in order to run tests successfully or if you require assistance in any way.  We are reachable at sdksupport@Vantiv.com
+Please contact [Vantiv eCommerce](https://developer.vantiv.com/community/ecommerce) to receive valid merchant credentials in order to run tests successfully or if you require assistance in any way.  We are reachable at sdksupport@fisglobal.com
 
 Setup
 -----
@@ -43,7 +50,7 @@ Setup
 
 ```java
 import com.litle.sdk.*;
-import com.litle.sdk.generated.*
+import com.litle.sdk.generated.*;
 
 public class SampleLitleTxn {
 
