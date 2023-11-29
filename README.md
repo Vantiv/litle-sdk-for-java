@@ -49,8 +49,8 @@ Setup
 4. Use it:
 
 ```java
-import com.litle.sdk.*;
-import com.litle.sdk.generated.*;
+import io.github.vantiv.sdk.*;
+import io.github.vantiv.sdk.generated.*;
 
 public class SampleLitleTxn {
 

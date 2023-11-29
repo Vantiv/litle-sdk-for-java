@@ -12,7 +12,7 @@ repositories {
  }
   task execSaleExample(type:JavaExec){
 	check.dependsOn it
-        main='com.litle.sdk.samples.SaleExample'
+        main='io.github.vantiv.sdk.samples.SaleExample'
         classpath = sourceSets.main.runtimeClasspath	
 
      

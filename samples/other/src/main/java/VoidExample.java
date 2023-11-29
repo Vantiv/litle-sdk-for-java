@@ -1,10 +1,11 @@
-package com.litle.sdk.samples;
-import com.litle.sdk.*;
-import com.litle.sdk.generate.*;
- 
+package io.github.vantiv.sdk.samples;
+import io.github.vantiv.sdk.*;
+import io.github.vantiv.sdk.generate.Void;
+import io.github.vantiv.sdk.generate.VoidResponse;
+
 public class VoidExample {
     public static void main(String[] args) {
-        com.litle.sdk.generate.Void theVoid = new com.litle.sdk.generate.Void();
+        Void theVoid = new Void();
         //litleTxnId contains the Litle Transaction Id returned on the deposit
         theVoid.setLitleTxnId(100000000000000000L);
         VoidResponse response = new LitleOnline().dovoid(theVoid);

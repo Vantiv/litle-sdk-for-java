@@ -12,7 +12,7 @@ repositories {
  }
   task execPaypageRegistrationIdToTokenExample (type:JavaExec){
 	check.dependsOn it
-        main='com.litle.sdk.samples.PaypageRegistrationIdToTokenExample'
+        main='io.github.vantiv.sdk.samples.PaypageRegistrationIdToTokenExample'
         classpath = sourceSets.main.runtimeClasspath	   
 }
 
