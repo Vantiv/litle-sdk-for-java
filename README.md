@@ -36,7 +36,7 @@ Setup
     1. For Maven:
         ```xml
             <dependency>
-                <groupId>com.litle</groupId>
+                <groupId>io.github.vantiv</groupId>
                 <artifactId>litle-sdk-for-java</artifactId>
                 <version>8.25.4</version>
             </dependency>
@@ -44,7 +44,7 @@ Setup
 
     2. For Gradle:
         ```groovy
-            compile(group: 'com.litle', name: 'litle-sdk-for-java', version: '8.25.4')
+            compile(group: 'io.github.vantiv', name: 'litle-sdk-for-java', version: '8.25.4')
         ```
         
 3. Create your configuration file with one of the following
@@ -53,8 +53,8 @@ Setup
 4. Use it:
 
 ```java
-import com.litle.sdk.*;
-import com.litle.sdk.generated.*;
+import io.github.vantiv.sdk.*;
+import io.github.vantiv.sdk.generated.*;
 
 public class SampleLitleTxn {
 

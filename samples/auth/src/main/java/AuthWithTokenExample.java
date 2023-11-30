@@ -1,7 +1,7 @@
-package com.litle.sdk.samples;
+package io.github.vantiv.sdk.samples;
 
-import com.litle.sdk.*;
-import com.litle.sdk.generate.*;
+import io.github.vantiv.sdk.*;
+import io.github.vantiv.sdk.generate.*;
 
 public class AuthWithTokenExample {
 	public static void main(String[] args) {

@@ -9,23 +9,23 @@ repositories {
  }
   task execEcheckCreditExample(type:JavaExec){
 	check.dependsOn it
-        main='com.litle.sdk.samples.EcheckCreditExample'
+        main='io.github.vantiv.sdk.samples.EcheckCreditExample'
         classpath = sourceSets.main.runtimeClasspath	   
 }
   task execEcheckRedepositExample(type:JavaExec){
 	check.dependsOn it
-        main='com.litle.sdk.samples.EcheckRedepositExample'
+        main='io.github.vantiv.sdk.samples.EcheckRedepositExample'
         classpath = sourceSets.main.runtimeClasspath	   
 }
   task execEcheckSaleExample(type:JavaExec){
 	check.dependsOn it
-        main='com.litle.sdk.samples.EcheckSaleExample'
+        main='io.github.vantiv.sdk.samples.EcheckSaleExample'
         classpath = sourceSets.main.runtimeClasspath	   
 }
 
   task execEcheckVerificationExample(type:JavaExec){
 	check.dependsOn it
-        main='com.litle.sdk.samples.EcheckVerificationExample'
+        main='io.github.vantiv.sdk.samples.EcheckVerificationExample'
         classpath = sourceSets.main.runtimeClasspath	   
 }
 

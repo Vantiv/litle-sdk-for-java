@@ -3,7 +3,7 @@ apply plugin : 'java'
 apply plugin : 'jacoco'
 apply plugin : 'maven'
 
-group = 'com.litle'
+group = 'io.github.vantiv'
 version = JAR_VERSION
 
 repositories {
@@ -73,7 +73,7 @@ jacocoTestReport {
 
 jar{
     manifest {
-        attributes("Implementation-Title":"Litle SDK For Java 1.5 and greater", "Implementation-Version":"${JAR_VERSION}","Implementation-Vendor":"Litle&Co","Main-Class":"com.litle.sdk.Setup")
+        attributes("Implementation-Title":"Litle SDK For Java 1.5 and greater", "Implementation-Version":"${JAR_VERSION}","Implementation-Vendor":"Litle&Co","Main-Class":"io.github.vantiv.sdk.Setup")
     }
     destinationDir = file("${DIST_DIR_15}/lib")
     archiveName = "litle-sdk-for-java-${JAR_VERSION}.jar"
@@ -207,7 +207,7 @@ task generateJaxbClasses(dependsOn: processXsd) {
      
     doLast {
         ant.taskdef(name: "xjc", classname:"com.sun.tools.xjc.XJCTask", classpath:configurations.generateJAXB.asPath)
-        ant.xjc(destdir:"${generatedDir}", package: "com.litle.sdk.generate", binding:bindingsFile, extension:'true'){
+        ant.xjc(destdir:"${generatedDir}", package: "io.github.vantiv.sdk.generate", binding:bindingsFile, extension:'true'){
             schema(dir:"${processXsd.xsdOutput}", includes:"litleOnline_v${SCHEMA_VERSION}.xsd,litleBatch_v${SCHEMA_VERSION}.xsd")
         }
     }
@@ -285,7 +285,7 @@ task writeNewPom(type:Copy) {
     pom {
         project {
             modelVersion '4.0.0'
-            groupId 'com.litle'
+            groupId 'io.github.vantiv'
             artifactId 'litle-sdk-for-java'
             version "${JAR_VERSION}"
         }

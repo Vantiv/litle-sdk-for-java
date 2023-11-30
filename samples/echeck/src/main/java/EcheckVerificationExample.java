@@ -1,7 +1,7 @@
-package com.litle.sdk.samples;
-import com.litle.sdk.*;
-import com.litle.sdk.generate.*;
- 
+package io.github.vantiv.sdk.samples;
+import io.github.vantiv.sdk.*;
+import io.github.vantiv.sdk.generate.*;
+
 public class EcheckVerificationExample {
     public static void main(String[] args) {
         EcheckVerification echeckVerification = new EcheckVerification();

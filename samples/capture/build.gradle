@@ -9,23 +9,23 @@ repositories {
  }
   task execCaptureExample(type:JavaExec){
 	check.dependsOn it
-        main='com.litle.sdk.samples.CaptureExample'
+        main='io.github.vantiv.sdk.samples.CaptureExample'
         classpath = sourceSets.main.runtimeClasspath	   
 }
 
   task execCaptureGivenAuthExample(type:JavaExec){
 	check.dependsOn it
-        main='com.litle.sdk.samples.CaptureGivenAuthExample'
+        main='io.github.vantiv.sdk.samples.CaptureGivenAuthExample'
         classpath = sourceSets.main.runtimeClasspath	    
 }
 task execCapturePartialExample(type:JavaExec){
 	check.dependsOn it
-        main='com.litle.sdk.samples.CapturePartialExample'
+        main='io.github.vantiv.sdk.samples.CapturePartialExample'
         classpath = sourceSets.main.runtimeClasspath	    
 }
   task execForceCaptureExample(type:JavaExec){
 	check.dependsOn it
-        main='com.litle.sdk.samples.ForceCaptureExample'
+        main='io.github.vantiv.sdk.samples.ForceCaptureExample'
         classpath = sourceSets.main.runtimeClasspath	     
 }
   
