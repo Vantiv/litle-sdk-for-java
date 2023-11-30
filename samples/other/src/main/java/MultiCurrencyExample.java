@@ -1,9 +1,8 @@
-package com.litle.sdk.samples;
-import com.litle.sdk.*;
-import com.litle.sdk.generate.*;
- 
+package io.github.vantiv.sdk.samples;
+import io.github.vantiv.sdk.*;
 import java.util.Properties;
- 
+import io.github.vantiv.sdk.generate.*;
+
 public class MultiCurrencyExample {
     public static void main(String[] args) {
         LitleOnline usdCurrency = new LitleOnline(); //This will use the default merchant setup in .litle_SDK_config.properties supporting purchases in USD

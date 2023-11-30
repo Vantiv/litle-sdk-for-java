@@ -10,38 +10,38 @@ repositories {
  }
   task execMultiCurrencyExample2(type:JavaExec){
 	check.dependsOn it
-        main='com.litle.sdk.samples.MultiCurrencyExample2'
+        main='io.github.vantiv.sdk.samples.MultiCurrencyExample2'
         classpath = sourceSets.main.runtimeClasspath	   
 }
   task execAvsOnlyExample(type:JavaExec){
 	check.dependsOn it
-        main='com.litle.sdk.samples.AvsOnlyExample'
+        main='io.github.vantiv.sdk.samples.AvsOnlyExample'
         classpath = sourceSets.main.runtimeClasspath	   
 }
   task execMultiCurrencyExample(type:JavaExec){
 	check.dependsOn it
-        main='com.litle.sdk.samples.MultiCurrencyExample'
+        main='io.github.vantiv.sdk.samples.MultiCurrencyExample'
         classpath = sourceSets.main.runtimeClasspath	   
 }
   task execMultiCurrencyMultiReportGroupSale(type:JavaExec){
 	check.dependsOn it
-        main='com.litle.sdk.samples.MultiCurrencyMultiReportGroupSale'
+        main='io.github.vantiv.sdk.samples.MultiCurrencyMultiReportGroupSale'
         classpath = sourceSets.main.runtimeClasspath	   
 }
   task execOrphanedRefundExample(type:JavaExec){
 	check.dependsOn it
-        main='com.litle.sdk.samples.OrphanedRefundExample'
+        main='io.github.vantiv.sdk.samples.OrphanedRefundExample'
         classpath = sourceSets.main.runtimeClasspath	   
 }
 
   task execVoidExample(type:JavaExec){
 	check.dependsOn it
-        main='com.litle.sdk.samples.VoidExample'
+        main='io.github.vantiv.sdk.samples.VoidExample'
         classpath = sourceSets.main.runtimeClasspath	   
 }
   task execRfrExample(type:JavaExec){
       check.dependsOn it
-          main='com.litle.sdk.samples.RfrLitleExample'
+          main='io.github.vantiv.sdk.samples.RfrLitleExample'
           classpath = sourceSets.main.runtimeClasspath
   }
 
