@@ -1,7 +1,7 @@
-package com.litle.sdk.samples;
-import com.litle.sdk.*;
-import com.litle.sdk.generate.*;
- 
+package io.github.vantiv.sdk.samples;
+import io.github.vantiv.sdk.*;
+import io.github.vantiv.sdk.generate.*;
+
 /*
  * This example assumes the following prerequisite set up in Litle's system.
  * MerchantId: 1 is configured for USD

@@ -10,7 +10,7 @@ repositories {
  }
   task execSamples(type:JavaExec){
 	check.dependsOn it
-        main='com.litle.sdk.samples.MechaBatch'
+        main='io.github.vantiv.sdk.samples.MechaBatch'
         classpath = sourceSets.main.runtimeClasspath	
 
      

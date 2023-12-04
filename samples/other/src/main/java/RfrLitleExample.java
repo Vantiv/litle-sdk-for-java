@@ -1,8 +1,8 @@
-package com.litle.sdk.samples;
-import com.litle.sdk.*;
-import com.litle.sdk.generate.AccountUpdateFileRequestData;
-import com.litle.sdk.generate.RFRRequest;
+package io.github.vantiv.sdk.samples;
+import io.github.vantiv.sdk.*;
+import io.github.vantiv.sdk.generate.*;
 import java.util.Calendar;
+
 public class RfrLitleExample {
     public static void main(String[] args) {
         String preliveStatus = System.getenv("preliveStatus");
@@ -19,7 +19,7 @@ public class RfrLitleExample {
         data.setPostDay(Calendar.getInstance());
         rfrRequest.setAccountUpdateFileRequestData(data);
          
-        LitleRFRFileRequest request = new LitleRFRFileRequest(requestFileName, rfrRequest); 
+        LitleRFRFileRequest request = new LitleRFRFileRequest(requestFileName, rfrRequest);
         try{
             LitleRFRFileResponse response = request.sendToLitleSFTP();
             String message=response.getLitleRFRResponse().getRFRResponseMessage();

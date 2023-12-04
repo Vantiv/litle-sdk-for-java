@@ -10,12 +10,12 @@ repositories {
  }
   task execRegisterTokenExample (type:JavaExec){
 	check.dependsOn it
-        main='com.litle.sdk.samples.RegisterTokenExample'
+        main='io.github.vantiv.sdk.samples.RegisterTokenExample'
         classpath = sourceSets.main.runtimeClasspath	   
 }
  task execSaleWithTokenExample (type:JavaExec){
 	check.dependsOn it
-        main='com.litle.sdk.samples.SaleWithTokenExample'
+        main='io.github.vantiv.sdk.samples.SaleWithTokenExample'
         classpath = sourceSets.main.runtimeClasspath	   
 }
 

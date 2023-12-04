@@ -5,11 +5,11 @@
 
  	<jaxb:globalBindings generateElementProperty="false">
  		<jaxb:javaType name="java.util.Calendar" xmlType="xs:date"
- 			parseMethod="com.litle.sdk.JAXBConverters.parseDate" printMethod="com.litle.sdk.JAXBConverters.printDate" />
+                       parseMethod="io.github.vantiv.sdk.JAXBConverters.parseDate" printMethod="io.github.vantiv.sdk.JAXBConverters.printDate" />
  		<jaxb:javaType name="java.lang.Long" xmlType="xp:transactionAmountType"
- 			parseMethod="com.litle.sdk.JAXBConverters.parseLong" printMethod="com.litle.sdk.JAXBConverters.printLong" />
+                       parseMethod="io.github.vantiv.sdk.JAXBConverters.parseLong" printMethod="io.github.vantiv.sdk.JAXBConverters.printLong" />
  		<jaxb:javaType name="java.lang.String" xmlType="xs:base64Binary"
- 			parseMethod="com.litle.sdk.JAXBConverters.parseString" printMethod="com.litle.sdk.JAXBConverters.printString" />
+                       parseMethod="io.github.vantiv.sdk.JAXBConverters.parseString" printMethod="io.github.vantiv.sdk.JAXBConverters.printString" />
  		<xjc:simple />
  	</jaxb:globalBindings>
     
