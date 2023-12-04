@@ -1,9 +1,9 @@
-package com.litle.sdk.samples;
-import com.litle.sdk.*;
-import com.litle.sdk.generate.*;
+package io.github.vantiv.sdk.samples;
+import io.github.vantiv.sdk.*;
+import io.github.vantiv.sdk.generate.*;
 import java.util.Calendar;
 import java.util.Properties;
- 
+
 /*
 An example of the batch functionality of Litle Java SDK. We create one of each transaction type, add them to a batch, and then deliver the batch over sFTP to Litle. Note the use of an anonymous class to process responses.
  */

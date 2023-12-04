@@ -9,7 +9,7 @@ repositories {
  }
   task execCreditExample(type:JavaExec){
 	check.dependsOn it
-        main='com.litle.sdk.samples.CreditExample'
+        main='io.github.vantiv.sdk.samples.CreditExample'
         classpath = sourceSets.main.runtimeClasspath	   
 }
 
