@@ -1,8 +1,8 @@
 <xs:schema targetNamespace="http://www.litle.com/schema" xmlns:xp="http://www.litle.com/schema"
     xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
     
-    <xs:include schemaLocation="litleCommon_v8.31.xsd"/>
-    <xs:include schemaLocation="litleRecurring_v8.31.xsd"/>
+    <xs:include schemaLocation="litleCommon_v8.33.xsd"/>
+    <xs:include schemaLocation="litleRecurring_v8.33.xsd"/>
 
     <xs:element name="transaction" type="xp:transactionType" abstract="true"/>
 
@@ -199,6 +199,8 @@
                     <xs:choice>
                         <xs:sequence>
                             <xs:element name="litleTxnId" type="xp:litleIdType" />
+                            <xs:element name="amount" type="xp:transactionAmountType"/>
+                            <xs:element name="authIndicator" type="xp:authIndicatorEnum"/>
                         </xs:sequence>
                         <xs:sequence>
                             <xs:element name="orderId" type="xp:string25Type" />
@@ -209,6 +211,8 @@
                             <xs:element ref="xp:customerInfo" minOccurs="0" />
                             <xs:element ref="xp:billToAddress" minOccurs="0" />
                             <xs:element ref="xp:shipToAddress" minOccurs="0" />
+                            <xs:element ref="xp:retailerAddress" minOccurs="0" />
+                            <xs:element ref="xp:additionalCOFData" minOccurs="0" />
                             <xs:choice>
                                 <xs:element name="mpos" type="xp:mposType" />
                                 <xs:element name="card" type="xp:cardType" />
@@ -238,6 +242,10 @@
                             <xs:element name="processingType" type="xp:processingTypeEnum" minOccurs="0" />
                             <xs:element name="originalNetworkTransactionId" type="xp:string30Type" minOccurs="0" />
                             <xs:element name="originalTransactionAmount" type="xp:transactionAmountType" minOccurs="0" />
+                            <xs:element name="merchantCategoryCode" type="xp:stringExactly4Type" minOccurs="0" />
+                            <xs:element name="businessIndicator" type="xp:businessIndicatorEnum" minOccurs="0" />
+                            <xs:element name="crypto" type="xs:boolean" minOccurs="0" />
+                            <xs:element name="authIndicator" type="xp:authIndicatorEnum" minOccurs="0"/>
                         </xs:sequence>
                     </xs:choice>
                 </xs:extension>
@@ -275,6 +283,7 @@
                         <xs:element name="payPalOrderComplete" type="xs:boolean" minOccurs="0" />
                         <xs:element name="payPalNotes" type="xp:payPalNotesType" minOccurs="0" />
                         <xs:element ref="xp:customBilling" minOccurs="0" />
+                        <xs:element name="foreignRetailerIndicator" type="xp:foreignRetailerIndicatorEnum" minOccurs="0"/>
                     </xs:all>
                 </xs:extension>
             </xs:complexContent>
@@ -307,6 +316,7 @@
                         <xs:element name="merchantData" type="xp:merchantDataType" minOccurs="0" />
                         <xs:element name="debtRepayment" type="xs:boolean" minOccurs="0" />
                         <xs:element name="processingType" type="xp:processingTypeEnum" minOccurs="0" />
+                        <xs:element name="foreignRetailerIndicator" type="xp:foreignRetailerIndicatorEnum" minOccurs="0"/>
                     </xs:sequence>
                 </xs:extension>
             </xs:complexContent>
@@ -326,6 +336,8 @@
                         <xs:element name="orderSource" type="xp:orderSourceType" />
                         <xs:element ref="xp:billToAddress" minOccurs="0" />
                         <xs:element ref="xp:shipToAddress" minOccurs="0" />
+                        <xs:element ref="xp:retailerAddress" minOccurs="0" />
+                        <xs:element ref="xp:additionalCOFData" minOccurs="0" />
                         <xs:choice>
                                 <xs:element name="mpos" type="xp:mposType" />
                                 <xs:element name="card" type="xp:cardType" />
@@ -344,6 +356,10 @@
                         <xs:element name="processingType" type="xp:processingTypeEnum" minOccurs="0" />
                         <xs:element name="originalNetworkTransactionId" type="xp:string30Type" minOccurs="0" />
                         <xs:element name="originalTransactionAmount" type="xp:transactionAmountType" minOccurs="0" />
+                        <xs:element name="merchantCategoryCode" type="xp:stringExactly4Type" minOccurs="0" />
+                        <xs:element name="businessIndicator" type="xp:businessIndicatorEnum" minOccurs="0" />
+                        <xs:element name="crypto" type="xs:boolean" minOccurs="0" />
+                        <xs:element name="foreignRetailerIndicator" type="xp:foreignRetailerIndicatorEnum" minOccurs="0"/>
                     </xs:sequence>
                 </xs:extension>
             </xs:complexContent>
@@ -365,6 +381,9 @@
                         <xs:element ref="xp:customerInfo" minOccurs="0" />
                         <xs:element ref="xp:billToAddress" minOccurs="0" />
                         <xs:element ref="xp:shipToAddress" minOccurs="0" />
+                        <xs:element ref="xp:retailerAddress" minOccurs="0" />
+                        <xs:element ref="xp:additionalCOFData" minOccurs="0" />
+
                         <xs:choice>
                             <xs:element name="mpos" type="xp:mposType" />
                             <xs:element name="card" type="xp:cardType" />
@@ -402,6 +421,10 @@
                         <xs:element name="processingType" type="xp:processingTypeEnum" minOccurs="0" />
                         <xs:element name="originalNetworkTransactionId" type="xp:string30Type" minOccurs="0" />
                         <xs:element name="originalTransactionAmount" type="xp:transactionAmountType" minOccurs="0" />
+                        <xs:element name="merchantCategoryCode" type="xp:stringExactly4Type" minOccurs="0" />
+                        <xs:element name="businessIndicator" type="xp:businessIndicatorEnum" minOccurs="0" />
+                        <xs:element name="crypto" type="xs:boolean" minOccurs="0" />
+                        <xs:element name="foreignRetailerIndicator" type="xp:foreignRetailerIndicatorEnum" minOccurs="0"/>
                     </xs:sequence>
                 </xs:extension>
             </xs:complexContent>
