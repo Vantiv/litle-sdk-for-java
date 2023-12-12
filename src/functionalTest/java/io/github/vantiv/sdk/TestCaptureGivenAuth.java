@@ -2,22 +2,12 @@ package io.github.vantiv.sdk;
 
 import static org.junit.Assert.assertEquals;
 
+import java.math.BigInteger;
 import java.util.Calendar;
 
+import io.github.vantiv.sdk.generate.*;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import io.github.vantiv.sdk.generate.AuthInformation;
-import io.github.vantiv.sdk.generate.CaptureGivenAuth;
-import io.github.vantiv.sdk.generate.CaptureGivenAuthResponse;
-import io.github.vantiv.sdk.generate.CardTokenType;
-import io.github.vantiv.sdk.generate.CardType;
-import io.github.vantiv.sdk.generate.Contact;
-import io.github.vantiv.sdk.generate.FraudResult;
-import io.github.vantiv.sdk.generate.MethodOfPaymentTypeEnum;
-import io.github.vantiv.sdk.generate.OrderSourceType;
-import io.github.vantiv.sdk.generate.ProcessingInstructions;
-import io.github.vantiv.sdk.generate.ProcessingTypeEnum;
 
 
 public class TestCaptureGivenAuth {
@@ -234,5 +224,96 @@ public class TestCaptureGivenAuth {
 		assertEquals("Approved", response.getMessage());
 	}
 
+	@Test
+	public  void simpleCaptureGivenAuthWithForeignRetailerIndicatorEnum() throws Exception{
+		CaptureGivenAuth capturegivenauth = new CaptureGivenAuth();
+		capturegivenauth.setAmount(106L);
+		capturegivenauth.setOrderId("12344");
+		AuthInformation authInfo = new AuthInformation();
+		Calendar authDate = Calendar.getInstance();
+		authDate.set(2002, Calendar.OCTOBER, 9);
+		authInfo.setAuthDate(authDate);
+		authInfo.setAuthCode("543216");
+		authInfo.setAuthAmount(12345L);
+		FraudResult fraudresult = new FraudResult();
+		fraudresult.setAvsResult("12");
+		fraudresult.setCardValidationResult("123");
+		fraudresult.setAuthenticationResult("1");
+		fraudresult.setAdvancedAVSResult("123");
+		authInfo.setFraudResult(fraudresult);
+		capturegivenauth.setAuthInformation(authInfo);
+		capturegivenauth.setOrderSource(OrderSourceType.ECOMMERCE);
+		CardType card = new CardType();
+		card.setType(MethodOfPaymentTypeEnum.VI);
+		card.setNumber("4100000000000000");
+		card.setExpDate("1210");
+		capturegivenauth.setCard(card);
+		capturegivenauth.setId("id");
+		capturegivenauth.setForeignRetailerIndicator(ForeignRetailerIndicatorEnum.F);
+		CaptureGivenAuthResponse response = litle.captureGivenAuth(capturegivenauth);
+		assertEquals("Approved", response.getMessage());
+	}
+
+	@Test
+	public void simpleCaptureGivenAuthWithRetailerAddressAndAdditionalCOFData() throws Exception {
+		Authorization authorization = new Authorization();
+		authorization.setReportGroup("Planets");
+		authorization.setOrderId("12344");
+		authorization.setAmount(106L);
+		authorization.setOrderSource(OrderSourceType.ECOMMERCE);
+		authorization.setId("id");
+		CardType card = new CardType();
+		card.setType(MethodOfPaymentTypeEnum.VI);
+		card.setNumber("4100000000000000");
+		card.setExpDate("1210");
+		authorization.setCard(card);
+		Contact contact = new Contact();
+		contact.setSellerId("12386576");
+		contact.setCompanyName("fis Global");
+		contact.setAddressLine1("Pune East");
+		contact.setAddressLine2("Pune west");
+		contact.setAddressLine3("Pune north");
+		contact.setCity("lowell");
+		contact.setState("MA");
+		contact.setZip("825320");
+		contact.setCountry(CountryTypeEnum.IN);
+		contact.setEmail("cnp.com");
+		contact.setPhone("8880129170");
+		contact.setUrl("www.lowel.com");
+		authorization.setRetailerAddress(contact);
+		AdditionalCOFData data = new AdditionalCOFData();
+		data.setUniqueId("56655678D");
+		data.setTotalPaymentCount("35");
+		data.setFrequencyOfMIT(FrequencyOfMITEnum.ANNUALLY);
+		data.setPaymentType(PaymentTypeEnum.FIXED_AMOUNT);
+		data.setValidationReference("asd123");
+		data.setSequenceIndicator(BigInteger.valueOf(12));
+		authorization.setAdditionalCOFData(data);
+		AuthorizationResponse response = litle.authorize(authorization);
+		assertEquals( "Approved",response.getMessage());
+	}
+	@Test
+	public void testCaptureGivenAuthWithMCCBuisenessIndicatorCrypto() throws Exception {
+		Authorization authorization = new Authorization();
+		authorization.setReportGroup("Planets");
+		authorization.setOrderId("12344");
+		authorization.setAmount(106L);
+		authorization.setOrderSource(OrderSourceType.ECOMMERCE);
+		authorization.setOriginalNetworkTransactionId("1345678900");
+		authorization.setOriginalTransactionAmount(1799l);
+		authorization.setMerchantCategoryCode("3535");
+		authorization.setBusinessIndicator(BusinessIndicatorEnum.WALLET_TRANSFER);
+		authorization.setCrypto(false);
+		CardType card = new CardType();
+		card.setType(MethodOfPaymentTypeEnum.VI);
+		card.setNumber("4100000000000000");
+		card.setExpDate("1210");
+		authorization.setCard(card);
+
+		AuthorizationResponse response = litle.authorize(authorization);
+		assertEquals(response.getMessage(), "000",response.getResponse());
+		assertEquals("63225578415568556365452427825", response.getNetworkTransactionId());
+		assertEquals("3535", authorization.getMerchantCategoryCode());
+	}
 }
 
