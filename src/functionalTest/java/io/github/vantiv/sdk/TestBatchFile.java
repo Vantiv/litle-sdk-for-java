@@ -9,11 +9,13 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.util.Calendar;
 import java.util.Properties;
 
 import javax.xml.bind.JAXBException;
 
+import io.github.vantiv.sdk.generate.*;
 import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
@@ -415,6 +417,30 @@ public class TestBatchFile {
 		card.setNumber("4457010000000009");
 		card.setExpDate("0114");
 		sale11.setCard(card);
+        Contact contact = new Contact();
+        contact.setSellerId("12386576");
+        contact.setCompanyName("fis Global");
+        contact.setAddressLine1("Pune East");
+        contact.setAddressLine2("Pune west");
+        contact.setAddressLine3("Pune north");
+        contact.setCity("lowell");
+        contact.setState("MA");
+        contact.setZip("825320");
+        contact.setCountry(CountryTypeEnum.IN);
+        contact.setEmail("litle.com");
+        contact.setPhone("8880129170");
+        contact.setUrl("www.lowel.com");
+        sale11.setRetailerAddress(contact);
+        AdditionalCOFData data = new AdditionalCOFData();
+        data.setUniqueId("56655678D");
+        data.setTotalPaymentCount("35");
+        data.setFrequencyOfMIT(FrequencyOfMITEnum.ANNUALLY);
+        data.setPaymentType(PaymentTypeEnum.FIXED_AMOUNT);
+        data.setValidationReference("asd123");
+        data.setSequenceIndicator(BigInteger.valueOf(12));
+        sale11.setAdditionalCOFData(data);
+        sale11.setBusinessIndicator(BusinessIndicatorEnum.WALLET_TRANSFER);
+        sale11.setCrypto(false);
 
 		batchRequest1.addTransaction(sale11);
 	}

@@ -2,19 +2,11 @@ package io.github.vantiv.sdk;
 
 import static org.junit.Assert.assertEquals;
 
+import io.github.vantiv.sdk.generate.*;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import io.github.vantiv.sdk.generate.ApplepayHeaderType;
-import io.github.vantiv.sdk.generate.ApplepayType;
-import io.github.vantiv.sdk.generate.CardTokenType;
-import io.github.vantiv.sdk.generate.CardType;
-import io.github.vantiv.sdk.generate.MethodOfPaymentTypeEnum;
-import io.github.vantiv.sdk.generate.OrderSourceType;
-import io.github.vantiv.sdk.generate.PayPal;
-import io.github.vantiv.sdk.generate.ProcessingTypeEnum;
-import io.github.vantiv.sdk.generate.Sale;
-import io.github.vantiv.sdk.generate.SaleResponse;
+import java.math.BigInteger;
 
 public class TestSale {
 
@@ -176,5 +168,51 @@ public class TestSale {
 		assertEquals("Approved", response.getMessage());
 		assertEquals("63225578415568556365452427825", response.getNetworkTransactionId());
 	}
-	
+	@Test
+	public void testSaleWithRetailerAddressAndAdditionalCOFData() throws Exception {
+		Sale sale = new Sale();
+		sale.setReportGroup("Planets");
+		sale.setOrderId("12344");
+		sale.setAmount(106L);
+		sale.setOrderSource(OrderSourceType.ECOMMERCE);
+		sale.setId("id");
+		CardType card = new CardType();
+		card.setType(MethodOfPaymentTypeEnum.VI);
+		card.setNumber("4100000000000000");
+		card.setExpDate("1210");
+		sale.setCard(card);
+		Contact contact = new Contact();
+		contact.setSellerId("12386576");
+		contact.setCompanyName("fis Global");
+		contact.setAddressLine1("Pune East");
+		contact.setAddressLine2("Pune west");
+		contact.setAddressLine3("Pune north");
+		contact.setCity("lowell");
+		contact.setState("MA");
+		contact.setZip("825320");
+		contact.setCountry(CountryTypeEnum.IN);
+		contact.setEmail("litle.com");
+		contact.setPhone("8880129170");
+		contact.setUrl("www.lowel.com");
+		sale.setRetailerAddress(contact);
+		AdditionalCOFData data = new AdditionalCOFData();
+		data.setUniqueId("56655678D");
+		data.setTotalPaymentCount("35");
+		data.setFrequencyOfMIT(FrequencyOfMITEnum.ANNUALLY);
+		data.setPaymentType(PaymentTypeEnum.FIXED_AMOUNT);
+		data.setValidationReference("asd123");
+		data.setSequenceIndicator(BigInteger.valueOf(12));
+		sale.setAdditionalCOFData(data);
+		sale.setAmount(106L);
+		sale.setOrderSource(OrderSourceType.ECOMMERCE);
+		sale.setOriginalNetworkTransactionId("1345678900");
+		sale.setOriginalTransactionAmount(1799l);
+		sale.setMerchantCategoryCode("3535");
+		sale.setBusinessIndicator(BusinessIndicatorEnum.WALLET_TRANSFER);
+		sale.setCrypto(false);
+		SaleResponse response = litle.sale(sale);
+		assertEquals(response.getMessage(), "000",response.getResponse());
+		assertEquals("Approved", response.getMessage());
+		assertEquals("3535", sale.getMerchantCategoryCode());
+	}
 }

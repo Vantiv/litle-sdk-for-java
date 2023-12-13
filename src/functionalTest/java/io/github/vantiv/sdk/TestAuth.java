@@ -4,25 +4,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import io.github.vantiv.sdk.generate.*;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import io.github.vantiv.sdk.generate.ApplepayHeaderType;
-import io.github.vantiv.sdk.generate.ApplepayType;
-import io.github.vantiv.sdk.generate.Authorization;
-import io.github.vantiv.sdk.generate.AuthorizationResponse;
-import io.github.vantiv.sdk.generate.CardType;
-import io.github.vantiv.sdk.generate.Contact;
-import io.github.vantiv.sdk.generate.DetailTax;
-import io.github.vantiv.sdk.generate.EnhancedData;
-import io.github.vantiv.sdk.generate.MethodOfPaymentTypeEnum;
-import io.github.vantiv.sdk.generate.OrderSourceType;
-import io.github.vantiv.sdk.generate.PayPal;
-import io.github.vantiv.sdk.generate.Pos;
-import io.github.vantiv.sdk.generate.PosCapabilityTypeEnum;
-import io.github.vantiv.sdk.generate.PosCardholderIdTypeEnum;
-import io.github.vantiv.sdk.generate.PosEntryModeTypeEnum;
-import io.github.vantiv.sdk.generate.ProcessingTypeEnum;
+import java.math.BigInteger;
 
 public class TestAuth {
 
@@ -272,6 +258,107 @@ public class TestAuth {
 		AuthorizationResponse response = litle.authorize(authorization);
 		assertEquals(response.getMessage(), "000",response.getResponse());
 		assertEquals("63225578415568556365452427825", response.getNetworkTransactionId());
+	}
+	@Test
+	public void testAuthIndicatorEnumEstimated() throws Exception {
+		Authorization authorization = new Authorization();
+		authorization.setId("12345");
+		authorization.setReportGroup("Default");
+		authorization.setOrderId("67890");
+		authorization.setAmount(10000L);
+		authorization.setOrderSource(OrderSourceType.ECOMMERCE);
+		CardType card = new CardType();
+		card.setNumber("4100000000000000");
+		card.setExpDate("1215");
+		card.setType(MethodOfPaymentTypeEnum.VI);
+		authorization.setCard(card);
+		EnhancedData enhanced = new EnhancedData();
+		enhanced.setCustomerReference("Cust Ref");
+		enhanced.setSalesTax(1000L);
+
+		authorization.setCrypto(false);
+		authorization.setAuthIndicator(AuthIndicatorEnum.ESTIMATED);
+
+		AuthorizationResponse response = litle.authorize(authorization);
+		assertEquals(response.getMessage(), "000",response.getResponse());
+
+
+	}
+	@Test
+	public void testAuthIndicatorEnumIncremental() throws Exception {
+		Authorization authorization = new Authorization();
+		authorization.setId("12345");
+		authorization.setCustomerId("Cust044");
+		authorization.setReportGroup("Default");
+		authorization.setLitleTxnId(34659348401L);
+		authorization.setAmount(106L);
+		authorization.setAuthIndicator(AuthIndicatorEnum.INCREMENTAL);
+
+		AuthorizationResponse response = litle.authorize(authorization);
+		assertEquals(response.getMessage(), "000",response.getResponse());
+
+
+	}
+	@Test
+	public void simpleAuthWithRetailerAddressAndAdditionalCOFData() throws Exception {
+		Authorization authorization = new Authorization();
+		authorization.setReportGroup("Planets");
+		authorization.setOrderId("12344");
+		authorization.setAmount(106L);
+		authorization.setOrderSource(OrderSourceType.ECOMMERCE);
+		authorization.setId("id");
+		CardType card = new CardType();
+		card.setType(MethodOfPaymentTypeEnum.VI);
+		card.setNumber("4100000000000000");
+		card.setExpDate("1210");
+		authorization.setCard(card);
+		Contact contact = new Contact();
+		contact.setSellerId("12386576");
+		contact.setCompanyName("fis Global");
+		contact.setAddressLine1("Pune East");
+		contact.setAddressLine2("Pune west");
+		contact.setAddressLine3("Pune north");
+		contact.setCity("lowell");
+		contact.setState("MA");
+		contact.setZip("825320");
+		contact.setCountry(CountryTypeEnum.IN);
+		contact.setEmail("litle.com");
+		contact.setPhone("8880129170");
+		contact.setUrl("www.lowel.com");
+		authorization.setRetailerAddress(contact);
+		AdditionalCOFData data = new AdditionalCOFData();
+		data.setUniqueId("56655678D");
+		data.setTotalPaymentCount("35");
+		data.setFrequencyOfMIT(FrequencyOfMITEnum.ANNUALLY);
+		data.setPaymentType(PaymentTypeEnum.FIXED_AMOUNT);
+		data.setValidationReference("asd123");
+		data.setSequenceIndicator(BigInteger.valueOf(12));
+		authorization.setAdditionalCOFData(data);
+		AuthorizationResponse response = litle.authorize(authorization);
+		assertEquals( "Approved",response.getMessage());
+	}
+	@Test
+	public void testAuthWithMCCBuisenessIndicatorCrypto() throws Exception {
+		Authorization authorization = new Authorization();
+		authorization.setReportGroup("Planets");
+		authorization.setOrderId("12344");
+		authorization.setAmount(106L);
+		authorization.setOrderSource(OrderSourceType.ECOMMERCE);
+		authorization.setOriginalNetworkTransactionId("1345678900");
+		authorization.setOriginalTransactionAmount(1799l);
+		authorization.setMerchantCategoryCode("3535");
+		authorization.setBusinessIndicator(BusinessIndicatorEnum.WALLET_TRANSFER);
+		authorization.setCrypto(false);
+		CardType card = new CardType();
+		card.setType(MethodOfPaymentTypeEnum.VI);
+		card.setNumber("4100000000000000");
+		card.setExpDate("1210");
+		authorization.setCard(card);
+
+		AuthorizationResponse response = litle.authorize(authorization);
+		assertEquals(response.getMessage(), "000",response.getResponse());
+		assertEquals("63225578415568556365452427825", response.getNetworkTransactionId());
+		assertEquals("3535", authorization.getMerchantCategoryCode());
 	}
 
 }

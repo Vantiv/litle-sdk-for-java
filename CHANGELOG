@@ -1,5 +1,26 @@
 = LitleOnline CHANGELOG
 
+== Change:(Dec 13,2023)
+ChangeLog for V8.32
+* Change : New element retailerAddress added of type contact in authorization , captureGivenAuth and sale Request.
+* Change : New element additionalCOFData added of type additionalCOFData in authorization , captureGivenAuth and sale
+request.
+* Change : New elements totalPaymentCount, paymentType, uniqueId,frequencyOfMIT,validationReference, sequenceIndicator are added for new element additionalCOFData
+* Change : Added new elements businessIndicator, merchantCategoryCode, crypto in authorization, captureGivenAuth and sale
+request.
+* Change : Added new subelements SellerId, URL in existing complex type Contact.
+* Change : Added New Enum businessIndicatorEnum with values consumerBillPayment, buyOnlinePickUpInStore,
+highRiskSecuritiesPurchase, fundTransfer, walletTransfer.
+* Change : Added New Enum paymentTypeEnum with values Fixed Amount, Variable Amount.
+* Change : Added New Enum frequencyOfMITEnum with values Daily, Weekly, BiWeekly, Monthly, Quarterly, BiAnnually,
+Annually, UNSCHEDULED.
+
+ChangeLog for v8.33
+* Change : Added New Enum -foreignRetailerIndicatorEnum with value F .
+* Change : Added New element foreignRetailerIndicator of type foreignRetailerIndicatorEnum in Capture, forceCapture,captureGivenAuth,sale request.
+* Change : Added New Enum -authIndicatorEnum with value Estimated, Incremental.
+* Change : Added new elements amount, authIndicator(of type authIndicatorEnum) in authorization.
+
 == Change:(Nov 29,2023)
 Group ID Change from 'com.litle' to 'io.github.vantiv' and Package structure change from 'com.litle.sdk' to 'io.github.vantiv.sdk'
 

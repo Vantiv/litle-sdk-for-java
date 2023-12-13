@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.math.BigInteger;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
@@ -74,8 +75,9 @@ public class LitleBatchRequest {
 		if(!tmpFile.exists()) {
 			tmpFile.mkdir();
 		}
-		java.util.Date date= new java.util.Date();
-		filePath = new String(lbfr.getConfig().getProperty("batchRequestFolder")+ "/tmp/Transactions" +merchantId + new Timestamp(date.getTime()));
+	// java.util.Date date= new java.util.Date();
+        String dateString = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss.SSS").format(new java.util.Date());
+		filePath = new String(lbfr.getConfig().getProperty("batchRequestFolder")+ "/tmp/Transactions" +merchantId + dateString);
 		numOfTxn = 0;
 		try {
 			this.jc = JAXBContext.newInstance("io.github.vantiv.sdk.generate");

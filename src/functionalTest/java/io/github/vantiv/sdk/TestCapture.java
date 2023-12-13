@@ -2,6 +2,7 @@ package io.github.vantiv.sdk;
 
 import static org.junit.Assert.assertEquals;
 
+import io.github.vantiv.sdk.generate.ForeignRetailerIndicatorEnum;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -55,6 +56,17 @@ public class TestCapture {
 		capture.setEnhancedData(enhancedData);
 		capture.setPayPalOrderComplete(true);
 
+		CaptureResponse response = litle.capture(capture);
+		assertEquals("Approved", response.getMessage());
+	}
+	@Test
+	public  void simpleCaptureWithForeignRetailerIndicatorEnum() throws Exception{
+		Capture capture = new Capture();
+		capture.setLitleTxnId(123456000L);
+		capture.setAmount(106L);
+		capture.setPayPalNotes("Notes");
+		capture.setId("id");
+		capture.setForeignRetailerIndicator(ForeignRetailerIndicatorEnum.F);
 		CaptureResponse response = litle.capture(capture);
 		assertEquals("Approved", response.getMessage());
 	}
