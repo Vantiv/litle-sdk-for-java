@@ -225,7 +225,7 @@ public class TestCaptureGivenAuth {
 	}
 
 	@Test
-	public  void simpleCaptureGivenAuthWithForeignRetailerIndicatorEnum() throws Exception{
+	public  void simpleCaptureGivenAuthWithRetailerAddressAndAdditionalCOFData() throws Exception{
 		CaptureGivenAuth capturegivenauth = new CaptureGivenAuth();
 		capturegivenauth.setAmount(106L);
 		capturegivenauth.setOrderId("12344");
@@ -242,31 +242,6 @@ public class TestCaptureGivenAuth {
 		fraudresult.setAdvancedAVSResult("123");
 		authInfo.setFraudResult(fraudresult);
 		capturegivenauth.setAuthInformation(authInfo);
-		capturegivenauth.setOrderSource(OrderSourceType.ECOMMERCE);
-		CardType card = new CardType();
-		card.setType(MethodOfPaymentTypeEnum.VI);
-		card.setNumber("4100000000000000");
-		card.setExpDate("1210");
-		capturegivenauth.setCard(card);
-		capturegivenauth.setId("id");
-		capturegivenauth.setForeignRetailerIndicator(ForeignRetailerIndicatorEnum.F);
-		CaptureGivenAuthResponse response = litle.captureGivenAuth(capturegivenauth);
-		assertEquals("Approved", response.getMessage());
-	}
-
-	@Test
-	public void simpleCaptureGivenAuthWithRetailerAddressAndAdditionalCOFData() throws Exception {
-		Authorization authorization = new Authorization();
-		authorization.setReportGroup("Planets");
-		authorization.setOrderId("12344");
-		authorization.setAmount(106L);
-		authorization.setOrderSource(OrderSourceType.ECOMMERCE);
-		authorization.setId("id");
-		CardType card = new CardType();
-		card.setType(MethodOfPaymentTypeEnum.VI);
-		card.setNumber("4100000000000000");
-		card.setExpDate("1210");
-		authorization.setCard(card);
 		Contact contact = new Contact();
 		contact.setSellerId("12386576");
 		contact.setCompanyName("fis Global");
@@ -280,7 +255,13 @@ public class TestCaptureGivenAuth {
 		contact.setEmail("cnp.com");
 		contact.setPhone("8880129170");
 		contact.setUrl("www.lowel.com");
-		authorization.setRetailerAddress(contact);
+		capturegivenauth.setRetailerAddress(contact);
+		capturegivenauth.setOrderSource(OrderSourceType.ECOMMERCE);
+		CardType card = new CardType();
+		card.setType(MethodOfPaymentTypeEnum.VI);
+		card.setNumber("4100000000000000");
+		card.setExpDate("1210");
+		capturegivenauth.setCard(card);
 		AdditionalCOFData data = new AdditionalCOFData();
 		data.setUniqueId("56655678D");
 		data.setTotalPaymentCount("35");
@@ -288,32 +269,14 @@ public class TestCaptureGivenAuth {
 		data.setPaymentType(PaymentTypeEnum.FIXED_AMOUNT);
 		data.setValidationReference("asd123");
 		data.setSequenceIndicator(BigInteger.valueOf(12));
-		authorization.setAdditionalCOFData(data);
-		AuthorizationResponse response = litle.authorize(authorization);
-		assertEquals( "Approved",response.getMessage());
-	}
-	@Test
-	public void testCaptureGivenAuthWithMCCBuisenessIndicatorCrypto() throws Exception {
-		Authorization authorization = new Authorization();
-		authorization.setReportGroup("Planets");
-		authorization.setOrderId("12344");
-		authorization.setAmount(106L);
-		authorization.setOrderSource(OrderSourceType.ECOMMERCE);
-		authorization.setOriginalNetworkTransactionId("1345678900");
-		authorization.setOriginalTransactionAmount(1799l);
-		authorization.setMerchantCategoryCode("3535");
-		authorization.setBusinessIndicator(BusinessIndicatorEnum.WALLET_TRANSFER);
-		authorization.setCrypto(false);
-		CardType card = new CardType();
-		card.setType(MethodOfPaymentTypeEnum.VI);
-		card.setNumber("4100000000000000");
-		card.setExpDate("1210");
-		authorization.setCard(card);
-
-		AuthorizationResponse response = litle.authorize(authorization);
-		assertEquals(response.getMessage(), "000",response.getResponse());
-		assertEquals("63225578415568556365452427825", response.getNetworkTransactionId());
-		assertEquals("3535", authorization.getMerchantCategoryCode());
+		capturegivenauth.setAdditionalCOFData(data);
+		capturegivenauth.setCrypto(false);
+		capturegivenauth.setMerchantCategoryCode("3235");
+		capturegivenauth.setBusinessIndicator(BusinessIndicatorEnum.WALLET_TRANSFER);
+		capturegivenauth.setId("id");
+		capturegivenauth.setForeignRetailerIndicator(ForeignRetailerIndicatorEnum.F);
+		CaptureGivenAuthResponse response = litle.captureGivenAuth(capturegivenauth);
+		assertEquals("Approved", response.getMessage());
 	}
 }
 

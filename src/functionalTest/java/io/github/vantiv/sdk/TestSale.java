@@ -170,17 +170,17 @@ public class TestSale {
 	}
 	@Test
 	public void testSaleWithRetailerAddressAndAdditionalCOFData() throws Exception {
-		Authorization authorization = new Authorization();
-		authorization.setReportGroup("Planets");
-		authorization.setOrderId("12344");
-		authorization.setAmount(106L);
-		authorization.setOrderSource(OrderSourceType.ECOMMERCE);
-		authorization.setId("id");
+		Sale sale = new Sale();
+		sale.setReportGroup("Planets");
+		sale.setOrderId("12344");
+		sale.setAmount(106L);
+		sale.setOrderSource(OrderSourceType.ECOMMERCE);
+		sale.setId("id");
 		CardType card = new CardType();
 		card.setType(MethodOfPaymentTypeEnum.VI);
 		card.setNumber("4100000000000000");
 		card.setExpDate("1210");
-		authorization.setCard(card);
+		sale.setCard(card);
 		Contact contact = new Contact();
 		contact.setSellerId("12386576");
 		contact.setCompanyName("fis Global");
@@ -194,7 +194,7 @@ public class TestSale {
 		contact.setEmail("litle.com");
 		contact.setPhone("8880129170");
 		contact.setUrl("www.lowel.com");
-		authorization.setRetailerAddress(contact);
+		sale.setRetailerAddress(contact);
 		AdditionalCOFData data = new AdditionalCOFData();
 		data.setUniqueId("56655678D");
 		data.setTotalPaymentCount("35");
@@ -202,31 +202,17 @@ public class TestSale {
 		data.setPaymentType(PaymentTypeEnum.FIXED_AMOUNT);
 		data.setValidationReference("asd123");
 		data.setSequenceIndicator(BigInteger.valueOf(12));
-		authorization.setAdditionalCOFData(data);
-		AuthorizationResponse response = litle.authorize(authorization);
-		assertEquals( "Approved",response.getMessage());
-	}
-	@Test
-	public void testSaleWithMCCBuisenessIndicatorCrypto() throws Exception {
-		Authorization authorization = new Authorization();
-		authorization.setReportGroup("Planets");
-		authorization.setOrderId("12344");
-		authorization.setAmount(106L);
-		authorization.setOrderSource(OrderSourceType.ECOMMERCE);
-		authorization.setOriginalNetworkTransactionId("1345678900");
-		authorization.setOriginalTransactionAmount(1799l);
-		authorization.setMerchantCategoryCode("3535");
-		authorization.setBusinessIndicator(BusinessIndicatorEnum.WALLET_TRANSFER);
-		authorization.setCrypto(false);
-		CardType card = new CardType();
-		card.setType(MethodOfPaymentTypeEnum.VI);
-		card.setNumber("4100000000000000");
-		card.setExpDate("1210");
-		authorization.setCard(card);
-
-		AuthorizationResponse response = litle.authorize(authorization);
+		sale.setAdditionalCOFData(data);
+		sale.setAmount(106L);
+		sale.setOrderSource(OrderSourceType.ECOMMERCE);
+		sale.setOriginalNetworkTransactionId("1345678900");
+		sale.setOriginalTransactionAmount(1799l);
+		sale.setMerchantCategoryCode("3535");
+		sale.setBusinessIndicator(BusinessIndicatorEnum.WALLET_TRANSFER);
+		sale.setCrypto(false);
+		SaleResponse response = litle.sale(sale);
 		assertEquals(response.getMessage(), "000",response.getResponse());
-		assertEquals("63225578415568556365452427825", response.getNetworkTransactionId());
-		assertEquals("3535", authorization.getMerchantCategoryCode());
+		assertEquals("Approved", response.getMessage());
+		assertEquals("3535", sale.getMerchantCategoryCode());
 	}
 }
